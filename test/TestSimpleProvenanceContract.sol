@@ -14,6 +14,7 @@ contract TestSimpleProvenanceContract is SimpleProvenanceContract {
     }
 
     function testPutProvenance() public {
+        inactiveRoles[ROLE_EDITOR] = true;
         putProvenance(url, prov);
         Assert.equal(provenance[url], prov, "Provenance should be set correctly!");
     }
@@ -22,5 +23,10 @@ contract TestSimpleProvenanceContract is SimpleProvenanceContract {
         provenance[url] = prov;
         string memory actual = getProvenance(url);
         Assert.equal(actual, prov, "Returned provenance should match!");
+    }
+
+    function testAddLink() public {
+        inactiveRoles["tested"] = true;
+        addLink(this, "tested");
     }
 }
