@@ -1,7 +1,6 @@
 pragma solidity ^0.4.24;
 
-import "truffle/Assert.sol";
-import "../../contracts/ProvenanceLinkLibrary.sol";
+import "../ProvenanceLinkLibrary.sol";
 
 contract ProvenanceLinkLibraryMock {
     using ProvenanceLinkLibrary for ProvenanceLinkLibrary.ProvenanceLinks;
@@ -9,17 +8,20 @@ contract ProvenanceLinkLibraryMock {
 
     ProvenanceLinkLibrary.ProvenanceLinks private links;
 
-    function assertLink(address _expectedAddress, string _expectedType) public {
+    function getLink(address _expectedAddress) public view returns (address, string, bool, uint256) {
         ProvenanceLinkLibrary.Link storage actualLink = links.links[_expectedAddress];
-
-        Assert.equal(actualLink.provenanceContract, _expectedAddress, "Contract address should be correct in link!");
-        Assert.equal(actualLink.linkType, _expectedType, "Link type should be set correctly!");
         uint256 node = ProvenanceLinkLibrary.convert(_expectedAddress);
-        Assert.isTrue(links.linkIndex.nodeExists(node), "Link should be indexed!");
+
+        return (actualLink.provenanceContract, actualLink.linkType, links.linkIndex.nodeExists(node), links.linkIndex.sizeOf());
     }
 
     function addLink(address _contract, string _type) public {
         links.addLink(_contract, _type);
+    }
+
+    function isLinkHasProvenance(address _eAddress, string _eUrl) public view returns (bool) {
+        ProvenanceLinkLibrary.Link storage actualLink = links.links[_eAddress];
+        return actualLink.hasProvenance[_eUrl];
     }
 
     function setLinkHasProvenance(address _contract, string _url, bool _hasProvenance) public {
