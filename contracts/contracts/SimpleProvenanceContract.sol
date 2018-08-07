@@ -1,9 +1,9 @@
 pragma solidity ^0.4.24;
 
-import "../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
-import "../node_modules/openzeppelin-solidity/contracts/ownership/rbac/RBAC.sol";
+import "../../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
+import "../../node_modules/openzeppelin-solidity/contracts/ownership/rbac/RBAC.sol";
 
-import "./ProvenanceLinkLibrary.sol";
+import "../libs/ProvenanceLinkLibrary.sol";
 
 contract SimpleProvenanceContract is Ownable, RBAC {
     using ProvenanceLinkLibrary for ProvenanceLinkLibrary.ProvenanceLinks;

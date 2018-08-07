@@ -10,7 +10,8 @@ contract TestProvenanceLinkLibrary {
     string testType = "test";
 
     function assertLink(ProvenanceLinkLibraryMock mock, address _expectedAddress, string _expectedType) private {
-        (address actualAddress, string memory actualType, bool indexExists, uint256 listSize) = mock.getLink(_expectedAddress);
+        (address actualAddress, string memory actualType, bool indexExists) = mock.getLink(_expectedAddress);
+        uint256 listSize = mock.getListSize();
 
         Assert.equal(actualAddress, _expectedAddress, "Contract address should be correct in link!");
         Assert.equal(actualType, _expectedType, "Link type should be set correctly!");

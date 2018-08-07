@@ -1,12 +1,18 @@
 pragma solidity ^0.4.24;
 
-import "../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
-import "../node_modules/ethereum-libraries-linked-list/contracts/LinkedListLib.sol";
+import "../../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
+import "../../node_modules/ethereum-libraries-linked-list/contracts/LinkedListLib.sol";
+import "./StringUtils.sol";
+import "./Uint256Utils.sol";
+import "./AddressUtils.sol";
 
 library ProvenanceLinkLibrary {
     using ProvenanceLinkLibrary for ProvenanceLinkLibrary.ProvenanceLinks;
     using LinkedListLib for LinkedListLib.LinkedList;
     using SafeMath for uint256;
+    using Uint256Utils for uint256;
+    using StringUtils for string;
+    using AddressUtils for address;
 
     struct Link {
         address provenanceContract;
@@ -21,14 +27,14 @@ library ProvenanceLinkLibrary {
 
     //todo-sv: read up on function modifiers in libraries; are there any security risks? will the access control in the contract function like expected?
     function addLink(ProvenanceLinks storage self, address _contract, string _type) internal {
-        uint256 index = convert(_contract);
+        uint256 index = _contract.toUint256();
         require(!self.linkIndex.nodeExists(index), "Link allready exists!");
         self.linkIndex.push(index, true);
         self.links[_contract] = Link(_contract, _type);
     }
 
     function setLinkHasProvenance(ProvenanceLinks storage self, address _contract, string _url, bool _hasProvenance) internal {
-        require(self.linkIndex.nodeExists(convert(_contract)), "Can not set hasProvenance since link does not exist.");
+        require(self.linkIndex.nodeExists(_contract.toUint256()), "Can not set hasProvenance since link does not exist.");
         self.links[_contract].hasProvenance[_url] = _hasProvenance;
     }
 
@@ -81,7 +87,7 @@ library ProvenanceLinkLibrary {
 
         (bool exists, uint256 pointer) = self.hasNextByType(0, _type);
         while(exists) {
-            links[count] = convert(pointer);
+            links[count] = pointer.toAddress();
             count = count.add(1);
             (exists,pointer) = self.hasNextByType(pointer, _type);
         }
@@ -110,7 +116,7 @@ library ProvenanceLinkLibrary {
     function hasNextByUrl(ProvenanceLinks storage self, uint256 _pointer, string _url) internal view returns (bool, uint256) {        
         (bool next, uint256 pointer) = self.hasNext(_pointer);
         while(next) {
-            Link storage link = self.getLinkFromUint256(pointer);
+            Link storage link = self.getLinkForUint256(pointer);
             
             if(link.hasProvenance[_url]) {
                 return (true, pointer);
@@ -124,9 +130,9 @@ library ProvenanceLinkLibrary {
     function hasNextByType(ProvenanceLinks storage self, uint256 _pointer, string _type) internal view returns (bool, uint256) {        
         (bool next, uint256 pointer) = self.hasNext(_pointer);
         while(next) {
-            Link storage link = self.getLinkFromUint256(pointer);
+            Link storage link = self.getLinkForUint256(pointer);
             
-            if(compareStrings(link.linkType, _type)) {
+            if(link.linkType.equalHashWithLengthCheck(_type)) {
                 return (true, pointer);
             }
 
@@ -135,24 +141,7 @@ library ProvenanceLinkLibrary {
         return (false, 0);
     }
 
-    function compareStrings(string _a, string _b) internal pure returns (bool) {
-        if(keccak256(abi.encodePacked(_a)) == keccak256(abi.encodePacked(_b))) {
-            return true;
-        }
-
-        return false;
-    }
-
-    function convert(address _address) internal pure returns (uint256) {
-        return uint256(_address);
-    }
-
-    function convert(uint256 _address) internal pure returns (address) {
-        return address(_address);
-    }
-
-    function getLinkFromUint256(ProvenanceLinks storage self, uint256 _pointer) internal view returns (Link storage) {
-        address linkAddress = convert(_pointer);
-        return self.links[linkAddress];
+    function getLinkForUint256(ProvenanceLinks storage self, uint256 _pointer) internal view returns (Link storage) {
+        return self.links[_pointer.toAddress()];
     }
 }

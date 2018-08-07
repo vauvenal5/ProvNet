@@ -1,33 +1,16 @@
-const ProvenanceLinkLibraryMock = artifacts.require("./ProvenanceLinkLibraryMock");
+const ProvenanceLinkLibraryMock = artifacts.require("./mocks/ProvenanceLinkLibraryMock");
+//const ProvenanceLinkLibraryMock = artifacts.require("./mocks/ProvenanceLinkLibraryMock2");
 
-assertLink = (async function(mock, expectedAddress, expectedType, expectedListSize) {
-        var link = await mock.getLink.call(expectedAddress);
-
-        assert.equal(link[0], expectedAddress, "Link address");
-        assert.equal(link[1], expectedType, "Link type");
-        assert.equal(link[2], true, "Link index exists");
-        assert.equal(link[3], expectedListSize, "Link list has the correct length");
-});
-
-assertLinkHasProvenance = (async (mock, expectedAddress, expectedUrl) => {
-    let hasProvenance = await mock.isLinkHasProvenance.call(expectedAddress, expectedUrl);
-    assert.isTrue(hasProvenance, "Link hasProvenance for url is set");
-});
-
-assertLinkHasNoProvenance = (async (mock, expectedAddress, expectedUrl) => {
-    let hasProvenance = await mock.isLinkHasProvenance.call(expectedAddress, expectedUrl);
-    assert.isFalse(hasProvenance, "Link hasProvenance for url is cleared");
-});
+const assertHelper = require("./AssertHelper.js");
 
 contract('ProvenanceLinkLibrary', async(accounts) => {
     it("should add link to list", async () => {
         let expectedAddress = accounts[0];
         let expectedType = "test";
         let mock = await ProvenanceLinkLibraryMock.new();
-
         await mock.addLink.sendTransaction(expectedAddress, expectedType);
         
-        assertLink(mock, expectedAddress, expectedType, 1);
+        await assertHelper.assertLink(mock, expectedAddress, expectedType, 1);
     });
 
     it("should set and clear link has provenance", async () => {
@@ -39,14 +22,73 @@ contract('ProvenanceLinkLibrary', async(accounts) => {
 
         await mock.addLink(expectedAddress, expectedType);
 
-        assertLink(mock, expectedAddress, expectedType, 1);
+        await assertHelper.assertLink(mock, expectedAddress, expectedType, 1);
 
         await mock.setLinkHasProvenance(expectedAddress, expectedUrl, true);
-
-        assertLinkHasProvenance(mock, expectedAddress, expectedUrl);
+        await assertHelper.assertLinkHasProvenance(mock, expectedAddress, expectedUrl);
 
         await mock.setLinkHasProvenance(expectedAddress, expectedUrl, false);
 
-        assertLinkHasNoProvenance(mock, expectedAddress, expectedUrl);
+        await assertHelper.assertLinkHasNoProvenance(mock, expectedAddress, expectedUrl);
+    });
+
+    it("should add link and set has provenance", async () => {
+        let expectedAddress = accounts[0];
+        let expectedType = "test";
+        let expectedUrl = "https://github.com/vauvenal5/ProvNet/commit/d463c219812aa8a4328abc1053afdbcc93317657";
+
+        let mock = await ProvenanceLinkLibraryMock.new();
+
+        await mock.addLinkWithProvenance(expectedAddress, expectedType, expectedUrl);
+
+        await assertHelper.assertLink(mock, expectedAddress, expectedType, 1);
+        await assertHelper.assertLinkHasProvenance(mock, expectedAddress, expectedUrl);
+    });
+
+    it("should return the correct amount of links by type", async () => {
+        let mock = await ProvenanceLinkLibraryMock.new();
+        await mock.addLink(accounts[0], "test");
+        await mock.addLink(accounts[1], "test1");
+        await mock.addLink(accounts[2], "test");
+        await mock.addLink(accounts[3], "test1");
+        await mock.addLink(accounts[4], "test");
+
+        await assertHelper.assertListSize(mock, 5);
+
+        assert.equal(await mock.getLinkCountForType.call("test"), 3, "Correct number of test-types exist");
+        assert.equal(await mock.getLinkCountForType.call("test1"), 2, "Correct number of test1-types exist");
+    });
+
+    it("should return the correct amount of links by url", async () => {
+        let expectedUrl = "https://github.com/vauvenal5/ProvNet/commit/d463c219812aa8a4328abc1053afdbcc93317657";
+
+        let mock = await ProvenanceLinkLibraryMock.new();
+        await mock.addLink(accounts[0], "test");
+        await mock.addLinkWithProvenance(accounts[1], "test1", expectedUrl);
+        await mock.addLinkWithProvenance(accounts[2], "test", expectedUrl);
+        await mock.addLink(accounts[3], "test1");
+        await mock.addLinkWithProvenance(accounts[4], "test", expectedUrl);
+
+        await assertHelper.assertListSize(mock, 5);
+
+        assert.equal(await mock.getLinkCountForUrl.call(expectedUrl), 3, "Correct number of has provenance is set");
+    });
+
+    it("should return the correct link addresses by type", async () => {
+
+        let mock = await ProvenanceLinkLibraryMock.new();
+        await mock.addLink(accounts[0], "test");
+        await mock.addLink(accounts[1], "test1");
+        await mock.addLink(accounts[2], "test");
+        await mock.addLink(accounts[3], "test1");
+        await mock.addLink(accounts[4], "test");
+
+        await assertHelper.assertListSize(mock, 5);
+
+        let addresses = await mock.getLinkListForType.call("test");
+
+        assert.include(addresses, accounts[0], "Could not find address in list");
+        assert.include(addresses, accounts[2], "Could not find address in list");
+        assert.include(addresses, accounts[4], "Could not find address in list");
     });
 })

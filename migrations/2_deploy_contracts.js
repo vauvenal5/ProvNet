@@ -1,6 +1,7 @@
-var SimpleProvenanceContract = artifacts.require("./SimpleProvenanceContract.sol");
-var ProvenanceLinkLibrary = artifacts.require("./ProvenanceLinkLibrary.sol");
+var SimpleProvenanceContract = artifacts.require("./contracts/SimpleProvenanceContract.sol");
+var ProvenanceLinkLibrary = artifacts.require("./libs/ProvenanceLinkLibrary.sol");
 var LinkedListLib = artifacts.require("ethereum-libraries-linked-list/contracts/LinkedListLib.sol");
+//var StringUtils
 
 //var ProvenanceLinkLibraryMock2 = artifacts.require("./mocks/ProvenanceLinkLibraryMock2.sol");
 
