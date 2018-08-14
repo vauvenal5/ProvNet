@@ -1,4 +1,4 @@
-const StringUtilsLibraryMock = artifacts.require("../contracts/mocks/StringUtilsLibraryMock.sol");
+const StringUtilsLibraryMock = artifacts.require("./mocks/StringUtilsLibraryMock.sol");
 
 contract('StringUtils', async(accounts) => {
     it("should compare equal strings correctly", async () => {

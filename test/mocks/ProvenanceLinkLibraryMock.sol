@@ -1,7 +1,7 @@
 pragma solidity ^0.4.24;
 
-import "../libs/ProvenanceLinkLibrary.sol";
-import "../libs/AddressUtils.sol";
+import "../../contracts/libs/ProvenanceLinkLibrary.sol";
+import "../../contracts/libs/AddressUtils.sol";
 
 contract ProvenanceLinkLibraryMock {
     using ProvenanceLinkLibrary for ProvenanceLinkLibrary.ProvenanceLinks;

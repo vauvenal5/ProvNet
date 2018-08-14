@@ -2,7 +2,7 @@ pragma solidity ^0.4.24;
 
 import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
-import "../contracts/mocks/ProvenanceLinkLibraryMock.sol";
+import "./mocks/ProvenanceLinkLibraryMock.sol";
 
 contract TestProvenanceLinkLibrary {
     address actualEthAddress = address(0x126bF276bA4C7111dbddbb542718CfF678C9b3Ce);

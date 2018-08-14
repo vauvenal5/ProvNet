@@ -1,5 +1,5 @@
-const AddressUtilsLibraryMock = artifacts.require("../contracts/mocks/AddressUtilsMock.sol");
-const Uint256UtilsMock = artifacts.require("../contracts/mocks/Uint256UtilsMock.sol");
+const AddressUtilsLibraryMock = artifacts.require("./mocks/AddressUtilsMock.sol");
+const Uint256UtilsMock = artifacts.require("./mocks/Uint256UtilsMock.sol");
 
 contract('AddressUtils/Uint256Utils conversion', async(accounts) => {
     it("should convert correctly", async () => {
