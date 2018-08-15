@@ -1,6 +1,6 @@
 pragma solidity ^0.4.24;
 
-import "../../contracts/libs/AddressUtils.sol";
+import "../libs/AddressUtils.sol";
 
 contract AddressUtilsMock {
     using AddressUtils for address;

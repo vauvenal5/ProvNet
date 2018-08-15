@@ -1,6 +1,6 @@
 pragma solidity ^0.4.24;
 
-import "../../contracts/libs/StringUtils.sol";
+import "../libs/StringUtils.sol";
 
 contract StringUtilsLibraryMock {
     using StringUtils for string;

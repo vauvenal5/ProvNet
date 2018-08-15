@@ -21,7 +21,9 @@
   },
   "homepage": "https://github.com/vauvenal5/ProvNet#readme",
   "dependencies": {
+    "chai": "^4.1.2",
     "ethereum-libraries-linked-list": "^1.1.1",
-    "openzeppelin-solidity": "1.11.0"
+    "mocha": "^5.2.0",
+    "openzeppelin-solidity": "^1.12.0"
   }
 }

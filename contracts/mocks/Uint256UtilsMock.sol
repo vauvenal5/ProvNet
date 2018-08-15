@@ -1,6 +1,6 @@
 pragma solidity ^0.4.24;
 
-import "../../contracts/libs/Uint256Utils.sol";
+import "../libs/Uint256Utils.sol";
 
 contract Uint256UtilsMock {
     using Uint256Utils for uint256;

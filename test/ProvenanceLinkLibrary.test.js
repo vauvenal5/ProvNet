@@ -1,7 +1,7 @@
 const ProvenanceLinkLibraryMock = artifacts.require("./mocks/ProvenanceLinkLibraryMock");
 //const ProvenanceLinkLibraryMock = artifacts.require("./mocks/ProvenanceLinkLibraryMock2");
 
-const assertHelper = require("./AssertHelper.js");
+const assertHelper = require("./helpers/AssertHelper.js");
 
 contract('ProvenanceLinkLibrary', async(accounts) => {
     it("should add link to list", async () => {

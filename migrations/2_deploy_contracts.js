@@ -1,6 +1,8 @@
 var SimpleProvenanceContract = artifacts.require("./contracts/SimpleProvenanceContract.sol");
 var ProvenanceLinkLibrary = artifacts.require("./libs/ProvenanceLinkLibrary.sol");
 var LinkedListLib = artifacts.require("ethereum-libraries-linked-list/contracts/LinkedListLib.sol");
+
+var SwitchableRBACWithSuperuser = artifacts.require("./contracts/SwitchableRBACWithSuperuser.sol");
 //var StringUtils
 
 //var ProvenanceLinkLibraryMock2 = artifacts.require("./mocks/ProvenanceLinkLibraryMock2.sol");
@@ -16,6 +18,8 @@ module.exports = function(deployer) {
   deployer.deploy(ProvenanceLinkLibrary);
   deployer.link(ProvenanceLinkLibrary, SimpleProvenanceContract);
   deployer.deploy(SimpleProvenanceContract);
+
+  deployer.deploy(SwitchableRBACWithSuperuser);
 
   //deployer.deploy(ProvenanceLinkLibraryMock2);
 

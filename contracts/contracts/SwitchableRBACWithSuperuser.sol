@@ -1,18 +1,16 @@
 pragma solidity ^0.4.24;
 
-import "../../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
 import "../../node_modules/openzeppelin-solidity/contracts/ownership/Superuser.sol";
-import "../../node_modules/openzeppelin-solidity/contracts/ownership/rbac/RBAC.sol";
 
 import "../libs/StringUtils.sol";
 
 contract SwitchableRBACWithSuperuser is Superuser {
     using StringUtils for string;
 
-    mapping (string => bool) inactiveRoles;
+    mapping (string => bool) openRoles;
     
-    modifier onlyActiveRole(string _role) {
-        require(inactiveRoles[_role] || hasRole(msg.sender, _role), "Role has to be inactive or user has to have role!");
+    modifier onlyRoleOrOpenRole(string _role) {
+        require(openRoles[_role] || hasRole(msg.sender, _role), "Role has to be inactive or user has to have role!");
         _;
     }
 
@@ -30,10 +28,10 @@ contract SwitchableRBACWithSuperuser is Superuser {
     }
 
     function setRoleOpen(string _role) public onlyOwnerOrSuperuser() roleIsNotSuperuser(_role) {
-        inactiveRoles[_role] = true;
+        openRoles[_role] = true;
     }
 
     function setRoleClosed(string _role) public onlyOwnerOrSuperuser() roleIsNotSuperuser(_role) {
-        inactiveRoles[_role] = false;
+        openRoles[_role] = false;
     }
 }

@@ -1,9 +1,5 @@
 pragma solidity ^0.4.24;
 
-import "../../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
-import "../../node_modules/openzeppelin-solidity/contracts/ownership/Superuser.sol";
-import "../../node_modules/openzeppelin-solidity/contracts/ownership/rbac/RBAC.sol";
-
 import "../libs/StringUtils.sol";
 
 import "../libs/ProvenanceLinkLibrary.sol";
@@ -22,7 +18,7 @@ contract SimpleProvenanceContract is SwitchableRBACWithSuperuser {
 
     ProvenanceLinkLibrary.ProvenanceLinks private links;
 
-    function putProvenance(string _url, string _provenance) public onlyActiveRole(ROLE_EDITOR) {
+    function putProvenance(string _url, string _provenance) public onlyRoleOrOpenRole(ROLE_EDITOR) {
         provenance[_url] = _provenance;
     }
 
@@ -30,7 +26,7 @@ contract SimpleProvenanceContract is SwitchableRBACWithSuperuser {
         return provenance[_url];
     }
 
-    function addHasProvenanceLink(string _url, address _contract) public onlyActiveRole(ROLE_PROV_LINKER) {
+    function addHasProvenanceLink(string _url, address _contract) public onlyRoleOrOpenRole(ROLE_PROV_LINKER) {
         links.setLinkHasProvenance(_contract, _url, true);
     }
 
@@ -40,7 +36,7 @@ contract SimpleProvenanceContract is SwitchableRBACWithSuperuser {
     }
 
     //admin basically first enables new list by creating new role :)
-    function addLink(address _contract, string _type) public onlyActiveRole(_type) {
+    function addLink(address _contract, string _type) public onlyRoleOrOpenRole(_type) {
         links.addLink(_contract, _type);
     }
 }
