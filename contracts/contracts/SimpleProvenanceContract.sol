@@ -7,7 +7,7 @@ import "../libs/ProvenanceLinkLibrary.sol";
 import "./SwitchableRBACWithSuperuser.sol";
 
 contract SimpleProvenanceContract is SwitchableRBACWithSuperuser {
-    using ProvenanceLinkLibrary for ProvenanceLinkLibrary.ProvenanceLinks;
+    using ProvenanceLinkLibrary for ProvenanceLinkLibrary.LinkList;
     using StringUtils for string;
 
     string constant ROLE_LINKER = "linker";
@@ -16,7 +16,7 @@ contract SimpleProvenanceContract is SwitchableRBACWithSuperuser {
     
     mapping (string => string) provenance;
 
-    ProvenanceLinkLibrary.ProvenanceLinks private links;
+    ProvenanceLinkLibrary.LinkList private links;
 
     function putProvenance(string _url, string _provenance) public onlyRoleOrOpenRole(ROLE_EDITOR) {
         provenance[_url] = _provenance;
@@ -31,12 +31,12 @@ contract SimpleProvenanceContract is SwitchableRBACWithSuperuser {
     }
 
     //todo-sv: should every contract contain a trusted list?
-    function addTrustLink(address _contract) public {
-        addLink(_contract, "trusted");
+    /*function addTrustLink(address _contract) public {
+        addLink(_contract, 1);
     }
 
     //admin basically first enables new list by creating new role :)
-    function addLink(address _contract, string _type) public onlyRoleOrOpenRole(_type) {
+    function addLink(address _contract, uint256 _type) public onlyRoleOrOpenRole(_type) {
         links.addLink(_contract, _type);
-    }
+    }*/
 }
