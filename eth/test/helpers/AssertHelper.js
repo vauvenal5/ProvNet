@@ -2,11 +2,11 @@ module.exports = {
     assertLink: (async function(mock, expectedAddress, expectedType, expectedListSize) {
         this.assertListSize(mock, expectedListSize);
         
-        let link = await mock.getLink.call(expectedAddress);
+        let link = await mock.getLink.call(expectedAddress, [expectedType]);
 
         assert.equal(link[0], expectedAddress, "Link address");
         assert.equal(link[1].length, 1, "Link types number");
-        assert.equal(link[1][0], 1, "Link type");
+        assert.equal(link[1][0], true, "Link type");
         assert.equal(link[2], true, "Link index exists");
     }),
     assertListSize: (async function(mock, expectedListSize) {

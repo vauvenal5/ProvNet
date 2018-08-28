@@ -1,25 +1,29 @@
 pragma solidity ^0.4.24;
 
-import "../libs/ProvenanceLinkLibrary.sol";
+import "../libs/ProvLink/ProvLinkLib.sol";
 import "../libs/AddressUtils.sol";
-import "../libs/ProvenanceLinkQueryLibrary.sol";
-import "../libs/TagLibrary.sol";
+import "../libs/ProvLink/ProvLinkQueryLib.sol";
+import "../libs/TagLib.sol";
 
 contract ProvenanceLinkLibraryMock {
-    using ProvenanceLinkLibrary for ProvenanceLinkLibrary.LinkList;
-    using ProvenanceLinkQueryLibrary for ProvenanceLinkLibrary.LinkList;
-    using TagLibrary for TagLibrary.TagList;
+    using ProvLinkLib for ProvLinkLib.LinkList;
+    using ProvLinkQueryLib for ProvLinkLib.LinkList;
+    using TagLib for TagLib.TagList;
     using LinkedListLib for LinkedListLib.LinkedList;
     using AddressUtils for address;
 
-    ProvenanceLinkLibrary.LinkList private links;
+    ProvLinkLib.LinkList private links;
 
-    function getLink(address _expectedAddress) public view returns (address, uint256[], bool) {
-        ProvenanceLinkLibrary.Link storage actualLink = links.links[_expectedAddress];
+    function getLink(address _expectedAddress, uint256[] types) public view returns (address, bool[], bool) {
+        ProvLinkLib.Link storage actualLink = links.links[_expectedAddress];
         uint256 node = _expectedAddress.toUint256();
-        uint256[] memory typeIds = actualLink.types.toReturnValue();
+        bool[] memory tagValues = new bool[](types.length);
+        
+        for(uint256 i = 0; i < types.length;i ++) {
+            tagValues[i] = actualLink.types[types[i]];
+        }
 
-        return (actualLink.provenanceContract, typeIds, links.linkIndex.nodeExists(node));
+        return (actualLink.provenanceContract, tagValues, links.linkIndex.nodeExists(node));
     }
 
     function getListSize() public view returns (uint256) {
@@ -28,15 +32,15 @@ contract ProvenanceLinkLibraryMock {
 
     //todo-sv: this has to be improved at some point
     function addLink(address _contract, uint256 _type) public {
-        links.addLink(_contract, TagLibrary.Tag(_type, "test"));
+        links.addLink(_contract, _type);
     }
 
     // function addLink(address _contract, uint256 _type, string _typeName) internal {
-    //     links.addLink(_contract, TagLibrary.Tag(_type, _typeName));
+    //     links.addLink(_contract, TagLib.Tag(_type, _typeName));
     // }
 
     function isLinkHasProvenance(address _eAddress, string _eUrl) public view returns (bool) {
-        ProvenanceLinkLibrary.Link storage actualLink = links.links[_eAddress];
+        ProvLinkLib.Link storage actualLink = links.links[_eAddress];
         return actualLink.hasProvenance[_eUrl];
     }
 
@@ -45,7 +49,7 @@ contract ProvenanceLinkLibraryMock {
     }
 
     function addLinkWithProvenance(address _contract, uint256 _type, string _url) public {
-        links.addLinkWithProvenance(_contract, TagLibrary.Tag(_type, "test"), _url);
+        links.addLink(_contract, _type, _url);
     }
 
     function getLinkCountForType(uint256 _type) public view returns (uint256) {

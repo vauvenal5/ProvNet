@@ -2,18 +2,24 @@ pragma solidity ^0.4.24;
 
 import "../../node_modules/ethereum-libraries-linked-list/contracts/LinkedListLib.sol";
 
-library TagLibrary {
-    using TagLibrary for TagLibrary.TagList;
+import "./LinkedList/LinkedListExtensionLib.sol";
+import "./LinkedList/LinkedListIteratorLib.sol";
+
+library TagLib {
+    using TagLib for TagLib.TagList;
     using LinkedListLib for LinkedListLib.LinkedList;
+    using LinkedListExtensionLib for LinkedListLib.LinkedList;
+    using LinkedListIteratorLib for LinkedListIteratorLib.Iterator;
+    
 
     struct Tag {
-        uint id;
+        uint256 id;
         string title;
     }
 
     struct TagList {
         LinkedListLib.LinkedList keys;
-        mapping (uint => Tag) tags;
+        mapping (uint256 => Tag) tags;
     }
 
     modifier tagExists(TagList storage self, uint256 tag) {
@@ -46,16 +52,27 @@ library TagLibrary {
         return self.keys.nodeExists(tagId);
     }
 
+    function getTag(TagList storage self, uint256 tagId) internal 
+    view 
+    tagExists(self, tagId)
+    returns(Tag) {
+        return self.tags[tagId];
+    }
+
+    // function getTag(TagList storage self, uint256 tagId) public view returns(uint256, string) {
+    //     return (4,"hall");
+    // }
+
     function toReturnValue(TagList storage self) public view returns(uint256[]){
         uint256[] memory tagIds = new uint256[](self.keys.sizeOf());
-        uint256 HEAD = 0;
         uint256 counter = 0;
-
-        (bool exists, uint256 node) = self.keys.getAdjacent(HEAD, false);
-        while(node != HEAD) {
-            tagIds[counter] = node;
+        LinkedListIteratorLib.Iterator memory iterator = self.keys.getIterator();
+        
+        (bool hasNext, uint256 next) = iterator.getNext(self.keys);
+        while(hasNext) {
+            tagIds[counter] = next;
             counter++;
-            (exists, node) = self.keys.getAdjacent(node, false);
+            (hasNext, next) = iterator.getNext(self.keys);
         }
 
         return tagIds;
