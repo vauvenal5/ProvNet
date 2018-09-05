@@ -25,6 +25,9 @@ contract SimpleProvenanceContract is SwitchableRBACWithSuperuser {
     
     mapping (string => string) provenance;
 
+    string private description;
+    string private logoUrl;
+
     ProvLinkLib.LinkList private links;
     TagLib.TagList private linkTypes;
 
@@ -51,6 +54,36 @@ contract SimpleProvenanceContract is SwitchableRBACWithSuperuser {
     modifier validLinkType(uint256 _type) {
         require(linkTypes.hasTag(_type), "Link type does not exist on this contract.");
         _;
+    }
+
+    /**
+        Other stuff
+    */
+
+    function getDescription()
+    public
+    view
+    returns (string) {
+        return description;
+    }
+
+    function setDescription(string _description)
+    public 
+    onlyOwnerOrSuperuser() {
+        description = _description;
+    }
+
+    function getLogoUrl()
+    public
+    view
+    returns (string) {
+        return logoUrl;
+    }
+
+    function setLogoUrl(string _logoUrl)
+    public 
+    onlyOwnerOrSuperuser() {
+        logoUrl = _logoUrl;
     }
 
     /**
@@ -109,5 +142,12 @@ contract SimpleProvenanceContract is SwitchableRBACWithSuperuser {
     view
     returns(string) {
         return linkTypes.getTag(_type).title;
+    }
+
+    function getLinkTypes()
+    public
+    view
+    returns(uint256[]) {
+        return linkTypes.toReturnValue();
     }
 }
