@@ -1,3 +1,4 @@
+import * as modelActions from "../modelActions";
 
 export const types = {
     topMenuSelect: "TOP_MENU_SELECT",
@@ -13,3 +14,5 @@ export const onSearchAddress = (address) => ({
     type: types.searchAddress,
     address: address,
 });
+
+export const onContractLoad = modelActions.onContractLoad;

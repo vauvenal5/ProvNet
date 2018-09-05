@@ -88,7 +88,8 @@ class TopMenu extends Component {
 //container part
 const mapStateToProps = (state) => {
     return {
-        activeItem: state["topMenu"].activeItem
+        activeItem: state["topMenu"].activeItem,
+        address: state["topMenu"].address,
     };
 }
 

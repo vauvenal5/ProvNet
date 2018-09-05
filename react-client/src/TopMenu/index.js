@@ -1,4 +1,4 @@
 import Component from "./TopMenu";
-import {reducer, selected, epic} from "./reducer";
+import {reducer, epic} from "./reducer";
 
-export default {Component, reducer, selected, epic};
+export default {Component, reducer, epic};
