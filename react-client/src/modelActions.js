@@ -5,6 +5,8 @@ export const types = {
     contractSelect: "CONTRACT_SELECT",
     contractTypesLoad: "CONTRACT_TYPES_LOAD",
     contractTypeLoaded: "CONTRACT_TYPE_LOADED",
+    contractLinksLoad: "CONTRACT_LINKS_LOAD",
+    contractLinkLoaded: "CONTRACT_LINK_LOADED",
 };
 
 export const onContractLoad = (address) => ({
@@ -31,4 +33,15 @@ export const onContractTypeLoaded = (address, tag) => ({
     type: types.contractTypeLoaded,
     address: address,
     tag: tag
+});
+
+export const onContractLinksLoad = (contract) => ({
+    type: types.contractLinksLoad,
+    contract: contract,
+});
+
+export const onContractLinkLoaded = (contractAddress, link) => ({
+    type: types.contractLinkLoaded,
+    contractAddress: contractAddress,
+    link: link,
 });

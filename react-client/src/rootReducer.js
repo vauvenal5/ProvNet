@@ -14,6 +14,7 @@ import SimpleProvenanceContract from "ProvNet/build/contracts/SimpleProvenanceCo
 
 import ProvContract from "./models/ProvContract";
 import Tag from "./models/Tag";
+import Link from "./models/Link";
 import DetailsView from "./DetailsView";
 
 const contractLoadEpic = (action$, state$) => action$.pipe(
@@ -34,7 +35,8 @@ const contractLoadEpic = (action$, state$) => action$.pipe(
     )),
     flatMap(contract => of(
         modelActions.onContractLoadSuccess(contract),
-        modelActions.onTypesLoad(contract)
+        modelActions.onTypesLoad(contract),
+        modelActions.onContractLinksLoad(contract),
     )),
 );
 
@@ -55,26 +57,58 @@ const contractTypesLoadEpic = (action$) => action$.pipe(
     ),
 );
 
+const contractLinksLoadEpic = (action$) => action$.pipe(
+    ofType(modelActions.types.contractLinksLoad),
+    flatMap(action => from(
+        action.contract.web3Instance.methods.getLinkList().call()
+    ).pipe(
+        switchAll(),
+        flatMap(linkAddress => from(
+            action.contract.web3Instance.methods.getLink(linkAddress).call()
+        ).pipe(
+            map((res) => {
+                return modelActions.onContractLinkLoaded(action.contract.address, new Link(res[0], res[1].filter(tag => tag != 0)));
+            })
+        ))
+    )),
+);
+
 export const rootEpic = combineEpics(
     Web3Loader.epic,
     TopMenu.epic,
     contractLoadEpic,
     contractTypesLoadEpic,
+    contractLinksLoadEpic,
 );
 
 
 export const contractReducer = (state = {}, action) => {
+    let contract;
     switch(action.type) {
         case modelActions.types.contractLoadSuccess:
             return Object.assign({}, state, {
                 [action.contract.address]: action.contract
             });
         case modelActions.types.contractTypeLoaded:
+            contract = state[action.address];
             return {
                 ...state,
-                [action.address] : {
-                    ...state[action.address],
-                    types: [...state[action.address].types, action.tag]
+                [action.address]: {
+                    ...contract,
+                    //types: [...contract.types, action.tag]
+                    types: {
+                        ...contract.types,
+                        [action.tag.id]: action.tag
+                    }
+                }
+            };
+        case modelActions.types.contractLinkLoaded:
+            contract = state[action.contractAddress];
+            return {
+                ...state,
+                [action.contractAddress]: {
+                    ...contract,
+                    links: [...contract.links, action.link]
                 }
             };
         // case modelActions.types.contractSelect:

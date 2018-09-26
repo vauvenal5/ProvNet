@@ -22,11 +22,22 @@ const colors = [
 
 export const TagsView = ({tags}) => {
     
-    let labels = tags.map((tag, index) => 
-        <Label color={colors[index%colors.length]}>
-            {_.capitalize(tag.title)}
-        </Label>
-    );
+    // let labels = tags.map((tag, index) => 
+    //     <Label color={colors[index%colors.length]}>
+    //         {_.capitalize(tag.title)}
+    //     </Label>
+    // );
+
+    let labels = [];
+
+    for(let key in tags) {
+        let tag = tags[key];
+        labels.push(
+            <Label color={colors[(key-1)%colors.length]}>
+                {_.capitalize(tag.title)}
+            </Label>
+        );
+    }
 
     return (
         <Segment>

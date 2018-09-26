@@ -1,18 +1,12 @@
 pragma solidity ^0.4.24;
 
-import "../../../node_modules/ethereum-libraries-linked-list/contracts/LinkedListLib.sol";
-import "../AddressUtils.sol";
 import "../TagLib.sol";
-import "../Uint256Utils.sol";
-import "../LinkedList/LinkedListExtensionLib.sol";
+import "../LinkedList/LinkedListIteratorLib.sol";
 
 library ProvLinkLib {
-    using ProvLinkLib for ProvLinkLib.LinkList;
-    using LinkedListLib for LinkedListLib.LinkedList;
-    using LinkedListExtensionLib for LinkedListLib.LinkedList;
+    using ProvLinkLib for ProvLinkLib.Link;
     using TagLib for TagLib.TagList;
-    using AddressUtils for address;
-    using Uint256Utils for uint256;
+    using LinkedListIteratorLib for LinkedListIteratorLib.Iterator;
 
     struct Link {
         address provenanceContract;
@@ -23,66 +17,43 @@ library ProvLinkLib {
         mapping (string => bool) hasProvenance;
     }
 
-    struct LinkList {
-        //todo-sv: rename to keys
-        LinkedListLib.LinkedList linkIndex;
-        mapping (address => Link) links;
-    }
+    // function toReturnValue(Link storage self, uint256[] contractTypes)
+    // public
+    // view
+    // returns(address, uint256[]) {
+    //     uint256[] memory types = new uint256[](contractTypes.length);
 
-    modifier linkExists(LinkList storage self, address index) {
-        require(self.linkIndex.nodeExists(index.toUint256()), "Link does not exist!");
-        _;
-    }
+    //     for(uint256 counter = 0; counter < contractTypes.length; counter++) {
+    //         uint256 contractType = contractTypes[counter];
+    //         if(self.types[contractType]) {
+    //             types[counter] = contractType;
+    //         }
+    //     }
 
-    modifier linkDoesNotExist(LinkList storage self, address index) {
-        require(!self.linkIndex.nodeExists(index.toUint256()), "Link allready exists!");
-        _;
-    }
+    //     return (self.provenanceContract, types);
+    // }
 
-    //todo-sv: read up on function modifiers in libraries; are there any security risks? will the access control in the contract function like expected?
-    function addLink(LinkList storage self, address _contract, uint256 _type) internal 
-    linkDoesNotExist(self, _contract) {
-        self.linkIndex.push(_contract.toUint256(), false);
-        
-        Link storage link = self.links[_contract];
-        link.provenanceContract = _contract;
-        link.types[_type] = true;
-    }
+    function toReturnValue(Link storage self, TagLib.TagList storage contractTypes)
+    public
+    view
+    returns(address, uint256[]) {
+        uint256[] memory types = new uint256[](contractTypes.sizeOf());
 
-    //todo-sv: check if modifiers get applied to this function
-    function addLink(LinkList storage self, address _contract, uint256 _type, string _url) internal {
-        self.addLink(_contract, _type);
-        self.setLinkHasProvenance(_contract, _url, true);
-    }
+        LinkedListIteratorLib.Iterator memory iterator = contractTypes.getIterator();
 
-    function removeLink(LinkList storage self, address _contract) internal 
-    linkExists(self, _contract) {
-        self.linkIndex.remove(_contract.toUint256());
-        //todo: value is only removed from index not from mapping... problem?
-    }
+        (bool hasNext, uint256 next) = iterator.getNext(contractTypes.getKeyList());
 
-    function setLinkHasProvenance(LinkList storage self, address _contract, string _url, bool _hasProvenance) internal 
-    linkExists(self, _contract){
-        self.links[_contract].hasProvenance[_url] = _hasProvenance;
-    }
+        uint256 counter = 0;
+        while(hasNext) {
+            //todo-sv: hide this behind getter
+            TagLib.Tag memory tag = contractTypes.getTag(next);
+            if(self.types[tag.id]) {
+                types[counter] = tag.id;
+                counter++;
+            }
+            (hasNext, next) = iterator.getNext(contractTypes.getKeyList());
+        }
 
-    function getLink(ProvLinkLib.LinkList storage self, uint256 _pointer) internal 
-    view 
-    returns (ProvLinkLib.Link storage) {
-        return self.getLink(_pointer.toAddress());
-    }
-
-    //todo-sv: check exists is missing
-    function getLink(ProvLinkLib.LinkList storage self, address _pointer) internal 
-    view 
-    returns (ProvLinkLib.Link storage) {
-        return self.links[_pointer];
-    }
-
-    function getIterator(ProvLinkLib.LinkList storage self) 
-    internal 
-    view 
-    returns(LinkedListIteratorLib.Iterator) {
-        return self.linkIndex.getIterator();
+        return (self.provenanceContract, types);
     }
 }

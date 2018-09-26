@@ -10,7 +10,6 @@ library TagLib {
     using LinkedListLib for LinkedListLib.LinkedList;
     using LinkedListExtensionLib for LinkedListLib.LinkedList;
     using LinkedListIteratorLib for LinkedListIteratorLib.Iterator;
-    
 
     struct Tag {
         uint256 id;
@@ -58,6 +57,28 @@ library TagLib {
     returns(Tag) {
         return self.tags[tagId];
     }
+
+    function sizeOf(TagList storage self) 
+    public 
+    view
+    returns(uint256) {
+        return self.keys.sizeOf();
+    }
+
+    function getIterator(TagList storage self)
+    internal
+    view
+    returns(LinkedListIteratorLib.Iterator) {
+        return self.keys.getIterator();
+    }
+
+    function getKeyList(TagList storage self)
+    internal
+    view
+    returns (LinkedListLib.LinkedList storage) {
+        return self.keys;
+    }
+
 
     // function getTag(TagList storage self, uint256 tagId) public view returns(uint256, string) {
     //     return (4,"hall");
