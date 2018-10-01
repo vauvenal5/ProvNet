@@ -1,7 +1,10 @@
 export default class ProvContract {
-    constructor(address, web3Instance = undefined) {
+    constructor(address) {
         this.address = address;
-        this.web3Instance = web3Instance;
+        this.details = {
+            logoUrl: "",
+            description: "",
+        };
         this.types = {};
         this.links = [];
     }

@@ -10,7 +10,7 @@ var LinkedListIteratorLib = artifacts.require("./libs/LinkedList/LinkedListItera
 
 var SwitchableRBACWithSuperuser = artifacts.require("./contracts/SwitchableRBACWithSuperuser.sol");
 
-const deploySimpleProvenanceContract = (deployer, description, logoUrl, accounts) => {
+const deploySimpleProvenanceContract = (deployer, title, description, logoUrl, accounts) => {
   let contract = {};
 
   deployer.deploy(SimpleProvenanceContract).then((instance) => {
@@ -18,6 +18,8 @@ const deploySimpleProvenanceContract = (deployer, description, logoUrl, accounts
   });
 
   deployer.then(() => {
+    return contract.instance.setTitle(title);
+  }).then(() => {
     return contract.instance.setDescription(description);
   }).then(() => {
     return contract.instance.setLogoUrl(logoUrl);
@@ -75,15 +77,15 @@ module.exports = function(deployer, network, accounts) {
   let tuwien;
   
   if(network === "develop") {
-    dsg = deploySimpleProvenanceContract(deployer, "This is a TU Wien DSG Mock contract used for development. It is not affiliated with the TU Wien!", "http://dsg.tuwien.ac.at/images/dsg-logo.jpg", accounts);
+    dsg = deploySimpleProvenanceContract(deployer, "DSG", "This is a TU Wien DSG Mock contract used for development. It is not affiliated with the TU Wien!", "http://dsg.tuwien.ac.at/images/dsg-logo.jpg", accounts);
 
-    infoSys = deploySimpleProvenanceContract(deployer, "This is a TU Wien InfoSys Mock contract used for development. It is not affiliated with the TU Wien!", "http://www.informatik.tuwien.ac.at/kontakt/INF_Logo_typo_grau_web_rgb.png", accounts);
+    infoSys = deploySimpleProvenanceContract(deployer, "InfoSys", "This is a TU Wien InfoSys Mock contract used for development. It is not affiliated with the TU Wien!", "http://www.informatik.tuwien.ac.at/kontakt/INF_Logo_typo_grau_web_rgb.png", accounts);
 
-    tuwien = deploySimpleProvenanceContract(deployer,"This is a TU Wien Mock contract used for development. It is not affiliated with the TU Wien!", "https://www.tuwien.ac.at/fileadmin/t/tuwien/downloads/cd/CD_NEU_2009/TU_Logos_2009/TUSignet.jpg", accounts);
+    tuwien = deploySimpleProvenanceContract(deployer, "TUWien", "This is a TU Wien Mock contract used for development. It is not affiliated with the TU Wien!", "https://www.tuwien.ac.at/fileadmin/t/tuwien/downloads/cd/CD_NEU_2009/TU_Logos_2009/TUSignet.jpg", accounts);
   }
 
   //this one is the last contract on purpose so that this contracts address is written into the SimpleProvenanceContract json file!
-  let svidenov = deploySimpleProvenanceContract(deployer, "This is the contract of the ProvNet developer.", "https://www.tuwien.ac.at/fileadmin/t/tuwien/downloads/cd/CD_NEU_2009/TU_Logos_2009/TUSignet.jpg", accounts);
+  let svidenov = deploySimpleProvenanceContract(deployer, "svidenov", "This is the contract of the ProvNet developer.", "https://www.tuwien.ac.at/fileadmin/t/tuwien/downloads/cd/CD_NEU_2009/TU_Logos_2009/TUSignet.jpg", accounts);
 
   if(network === "develop") {
     addLink(deployer, dsg, infoSys, 1);

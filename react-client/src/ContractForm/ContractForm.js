@@ -1,10 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-
-import { Form, Label, Segment, Image, Container, Item } from 'semantic-ui-react';
-
-//import * as actions from './actions';
+import { Item } from 'semantic-ui-react';
 
 //component part
 export const ContractForm = (props) => {
@@ -12,7 +7,6 @@ export const ContractForm = (props) => {
     if(url === undefined || url === "") {
         url = 'https://react.semantic-ui.com/images/wireframe/square-image.png';
     }
-    console.log(url);
 
     return (
         <Item.Group>

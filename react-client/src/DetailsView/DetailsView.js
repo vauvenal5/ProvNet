@@ -1,17 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { Grid, Header } from 'semantic-ui-react';
 
 import TagsView from '../TagsView';
 import ContractForm from "../ContractForm";
+import ProvContract from '../models/ProvContract';
 
-//import * as actions from './actions';
-
-export const DetailsView = ({selected, contract}) => {
-    console.log("RENDERING DETAILS");
-    
+export const DetailsView = ({selected, contract}) => {    
     return (
         <Grid padded>
             <Grid.Row>
@@ -26,7 +22,7 @@ export const DetailsView = ({selected, contract}) => {
             </Grid.Row>
             <Grid.Row columns={2}>
                 <Grid.Column stretched>
-                    <ContractForm.Component imageUrl={contract.logoUrl} description={contract.description}/>
+                    <ContractForm.Component imageUrl={contract.details.logoUrl} description={contract.details.description}/>
                 </Grid.Column>
                 <Grid.Column floated="right" width={5}>
                     <TagsView.Component tags={contract.types}/>
@@ -38,18 +34,18 @@ export const DetailsView = ({selected, contract}) => {
 
 const selectedContract = (contracts, selected) => {
     if(selected === undefined) {
-        return {types: []};
+        return new ProvContract(selected);
     }
     return contracts[selected];
 }
 
 //container part
 const mapStateToProps = (state) => {
-    console.log("DetailsView");
-    console.log(state);
+    let selected = state.contracts.selected[0];
+
     return {
-        selected: state["detailsView"].selected,
-        contract: selectedContract(state.contracts, state["detailsView"].selected),
+        selected: selected,
+        contract: selectedContract(state.contracts, selected),
     };
 }
 

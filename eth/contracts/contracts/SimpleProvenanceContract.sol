@@ -29,6 +29,7 @@ contract SimpleProvenanceContract is SwitchableRBACWithSuperuser {
 
     string private description;
     string private logoUrl;
+    string private title = "defaultTitle";
 
     ProvLinkListLib.LinkList private links;
     TagLib.TagList private linkTypes;
@@ -86,6 +87,19 @@ contract SimpleProvenanceContract is SwitchableRBACWithSuperuser {
     public 
     onlyOwnerOrSuperuser() {
         logoUrl = _logoUrl;
+    }
+
+    function getTitle()
+    public
+    view
+    returns (string) {
+        return title;
+    }
+
+    function setTitle(string _title)
+    public 
+    onlyOwnerOrSuperuser() {
+        title = _title;
     }
 
     /**
