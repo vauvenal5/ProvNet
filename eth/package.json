@@ -1,0 +1,32 @@
+{
+  "name": "ProvNet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vauvenal5/ProvNet.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vauvenal5/ProvNet/issues"
+  },
+  "homepage": "https://github.com/vauvenal5/ProvNet#readme",
+  "dependencies": {
+    "chai": "^4.1.2",
+    "ethereum-libraries-linked-list": "^1.1.1",
+    "mocha": "^5.2.0",
+    "openzeppelin-solidity": "^1.12.0"
+  },
+  "devDependencies": {
+    "solidity-coverage": "^0.5.7"
+  }
+}
