@@ -6,6 +6,7 @@ import "./LinkedListIteratorLib.sol";
 
 library LinkedListExtensionLib {
     using LinkedListLib for LinkedListLib.LinkedList;
+    using LinkedListExtensionLib for LinkedListLib.LinkedList;
 
     //fake constants: this way they are only stored on stack until constants issue gets fixed
     //https://github.com/ethereum/solidity/issues/1290

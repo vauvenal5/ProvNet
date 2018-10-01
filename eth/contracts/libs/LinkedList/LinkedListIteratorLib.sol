@@ -25,6 +25,8 @@ library LinkedListIteratorLib {
     // returns(uint256)
 
     struct Iterator {
+        //todo-sv: note: it is not possible to reference mappings in memory because memory is differently organised then storage
+        //see: https://ethereum.stackexchange.com/questions/36365/member-x-is-not-available-in-struct-y-memory-outside-of-storage
         uint256 pointer;
     }
 

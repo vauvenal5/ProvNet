@@ -1,18 +1,19 @@
 pragma solidity ^0.4.24;
 
 import "../libs/ProvLink/ProvLinkLib.sol";
+import "../libs/ProvLink/ProvLinkListLib.sol";
 import "../libs/AddressUtils.sol";
 import "../libs/ProvLink/ProvLinkQueryLib.sol";
 import "../libs/TagLib.sol";
 
 contract ProvenanceLinkLibraryMock {
-    using ProvLinkLib for ProvLinkLib.LinkList;
-    using ProvLinkQueryLib for ProvLinkLib.LinkList;
+    using ProvLinkListLib for ProvLinkListLib.LinkList;
+    using ProvLinkQueryLib for ProvLinkListLib.LinkList;
     using TagLib for TagLib.TagList;
     using LinkedListLib for LinkedListLib.LinkedList;
     using AddressUtils for address;
 
-    ProvLinkLib.LinkList private links;
+    ProvLinkListLib.LinkList private links;
 
     function getLink(address _expectedAddress, uint256[] types) public view returns (address, bool[], bool) {
         ProvLinkLib.Link storage actualLink = links.links[_expectedAddress];
@@ -23,11 +24,11 @@ contract ProvenanceLinkLibraryMock {
             tagValues[i] = actualLink.types[types[i]];
         }
 
-        return (actualLink.provenanceContract, tagValues, links.linkIndex.nodeExists(node));
+        return (actualLink.provenanceContract, tagValues, links.keys.nodeExists(node));
     }
 
     function getListSize() public view returns (uint256) {
-        return links.linkIndex.sizeOf();
+        return links.keys.sizeOf();
     }
 
     //todo-sv: this has to be improved at some point

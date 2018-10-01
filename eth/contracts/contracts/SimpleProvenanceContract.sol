@@ -2,12 +2,14 @@ pragma solidity ^0.4.24;
 
 import "../libs/StringUtils.sol";
 import "../libs/ProvLink/ProvLinkLib.sol";
+import "../libs/ProvLink/ProvLinkListLib.sol";
 import "../libs/TagLib.sol";
 
 import "./SwitchableRBACWithSuperuser.sol";
 
 contract SimpleProvenanceContract is SwitchableRBACWithSuperuser {
-    using ProvLinkLib for ProvLinkLib.LinkList;
+    using ProvLinkLib for ProvLinkLib.Link;
+    using ProvLinkListLib for ProvLinkListLib.LinkList;
     using StringUtils for string;
     using TagLib for TagLib.TagList;
 
@@ -27,8 +29,9 @@ contract SimpleProvenanceContract is SwitchableRBACWithSuperuser {
 
     string private description;
     string private logoUrl;
+    string private title = "defaultTitle";
 
-    ProvLinkLib.LinkList private links;
+    ProvLinkListLib.LinkList private links;
     TagLib.TagList private linkTypes;
 
     constructor() public {
@@ -86,6 +89,19 @@ contract SimpleProvenanceContract is SwitchableRBACWithSuperuser {
         logoUrl = _logoUrl;
     }
 
+    function getTitle()
+    public
+    view
+    returns (string) {
+        return title;
+    }
+
+    function setTitle(string _title)
+    public 
+    onlyOwnerOrSuperuser() {
+        title = _title;
+    }
+
     /**
         Provenance
     */
@@ -126,6 +142,20 @@ contract SimpleProvenanceContract is SwitchableRBACWithSuperuser {
         links.addLink(_contract, _type);
     }
 
+    function getLinkList()
+    public
+    view
+    returns(address[]) {
+        return links.toReturnValue();
+    }
+
+    function getLink(address link)
+    public
+    view
+    returns(address, uint256[]) {
+        return links.getLink(link).toReturnValue(linkTypes);
+    }
+
     /**
         Tags
     */
@@ -133,6 +163,7 @@ contract SimpleProvenanceContract is SwitchableRBACWithSuperuser {
     function addLinkType(uint256 _type, string title)
     public
     notReserved(_type)
+    //todo-sv: not existing check!!!
     onlyOwnerOrSuperuser() {
         linkTypes.addTag(_type, title);
     }

@@ -1,18 +1,19 @@
 import * as actions from "./actions";
 import * as modelActions from "../modelActions";
 import { ofType, combineEpics } from "redux-observable";
-import { map, withLatestFrom, mapTo, filter } from 'rxjs/operators';
-import Web3 from 'web3';
-import SimpleProvenanceContract from "ProvNet/build/contracts/SimpleProvenanceContract";
-//import contract from "truffle-contract";
+import { map, withLatestFrom, flatMap, filter } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 const searchAddressEpic = (action$) => action$.pipe(
     ofType(actions.types.searchAddress),
-    map(action => modelActions.onContractLoad(action.address)),
+    //todo-sv: check if contract exists
+    flatMap(action => of(
+        modelActions.onContractLoad(action.address)
+    )),
 );
 
 const contractLoadedEpic = (action$, state$) => action$.pipe(
-    ofType(modelActions.types.contractLoadSuccess),
+    ofType(modelActions.types.contractDetailsLoaded),
     withLatestFrom(state$),
     filter(([action, state]) => 
         action.contract.address === state.topMenu.address
@@ -39,12 +40,3 @@ export const reducer = (state={activeItem: ""}, action) => {
             return state;
     }
 }
-
-// export const selected = (state=null, action) => {
-//     switch(action.type) {
-//         case "SELECTED_CHANGED":
-//             return action.instance;
-//         default:
-//             return state;
-//     }
-// }

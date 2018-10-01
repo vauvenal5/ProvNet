@@ -1,15 +1,40 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { Grid, Header, Breadcrumb, Label, Table, Menu, Icon, Button } from 'semantic-ui-react';
+import { Grid, Header, Breadcrumb, Label, Table, Button } from 'semantic-ui-react';
 
-import TagsView from '../TagsView';
-import ContractForm from "../ContractForm";
+import ProvContract from "../models/ProvContract";
 
-//import * as actions from './actions';
+export const LinksView = ({selected, contract}) => {
+    
+    let links = contract.links.map((link, index) => {
+        let tags = link.tags.map((tagId, index) => 
+            <Label 
+                key={tagId} 
+                circular 
+                color={contract.types[tagId].getColor()}
+            >
+                {contract.types[tagId].getTitle()}
+            </Label>
+        );
 
-export const LinksView = (props) => {
+        return (
+            <Table.Row key={index}>
+                <Table.Cell>
+                    <Label as="a" ribbon>{link.address}</Label>
+                </Table.Cell>
+                <Table.Cell>{link.title}</Table.Cell>
+                <Table.Cell>
+                    {tags}
+                </Table.Cell>
+                <Table.Cell>
+                        <Button icon='info' content="Info" labelPosition='left'/>
+                        <Button icon='eye' content="Select" labelPosition='left'/>
+                </Table.Cell>
+            </Table.Row>
+        );
+    });
+
     return (
         <Grid padded>
             <Grid.Row>
@@ -42,41 +67,14 @@ export const LinksView = (props) => {
                         <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell>Address</Table.HeaderCell>
+                            <Table.HeaderCell>Title</Table.HeaderCell>
                             <Table.HeaderCell>Types</Table.HeaderCell>
                             <Table.HeaderCell>Actions</Table.HeaderCell>
                         </Table.Row>
                         </Table.Header>
 
                         <Table.Body>
-                        <Table.Row>
-                            <Table.Cell>
-                                <Label as="a" ribbon color="red">0x232489739826493264</Label>
-                            </Table.Cell>
-                            <Table.Cell>
-                                <Label circular color="red">
-                                    Trusted<Icon name='close' />
-                                </Label>
-                                <Label circular color="yellow">
-                                    Blablu<Icon name='close' />
-                                </Label>
-                            </Table.Cell>
-                            <Table.Cell>
-                                    <Button icon='info' content="Info" labelPosition='left'/>
-                                    <Button icon='eye' content="Select" labelPosition='left'/>
-                            </Table.Cell>
-                        </Table.Row>
-                        <Table.Row>
-                            <Table.Cell>
-                                <Label as="a" ribbon basic>0x232489739826493278</Label>
-                                </Table.Cell>
-                            <Table.Cell>Cell</Table.Cell>
-                            <Table.Cell>Cell</Table.Cell>
-                        </Table.Row>
-                        <Table.Row>
-                            <Table.Cell><Label as="a" ribbon>0x232489739826493278</Label></Table.Cell>
-                            <Table.Cell>Cell</Table.Cell>
-                            <Table.Cell>Cell</Table.Cell>
-                        </Table.Row>
+                            {links}
                         </Table.Body>
                     </Table>
                 </Grid.Column>
@@ -85,9 +83,20 @@ export const LinksView = (props) => {
     );
 }
 
+//todo-sv: this is the same code as in DetailsView... selected should maybe be elevated
+const selectedContract = (contracts, selected) => {
+    if(selected === undefined) {
+        return new ProvContract(selected);
+    }
+    return contracts[selected];
+}
+
 //container part
 const mapStateToProps = (state) => {
+    let selected = state.contracts.selected[0];
     return {
+        selected: selected,
+        contract: selectedContract(state.contracts, selected)
     };
 }
 

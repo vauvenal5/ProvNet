@@ -3,18 +3,19 @@ pragma solidity ^0.4.24;
 import "../../../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
 
 import "./ProvLinkLib.sol";
+import "./ProvLinkListLib.sol";
 import "../Uint256Utils.sol";
 import "../LinkedList/LinkedListIteratorLib.sol";
 import "./LinkListIteratorExtensionLib.sol";
 
 library ProvLinkQueryLib {
-    using ProvLinkLib for ProvLinkLib.LinkList;
-    using ProvLinkQueryLib for ProvLinkLib.LinkList;
+    using ProvLinkListLib for ProvLinkListLib.LinkList;
+    using ProvLinkQueryLib for ProvLinkListLib.LinkList;
     using SafeMath for uint256;
     using Uint256Utils for uint256;
     using LinkListIteratorExtensionLib for LinkedListIteratorLib.Iterator;
 
-    function getLinkCountForType(ProvLinkLib.LinkList storage self, uint256 _type) internal 
+    function getLinkCountForType(ProvLinkListLib.LinkList storage self, uint256 _type) internal 
     view 
     returns (uint256) {
         LinkedListIteratorLib.Iterator memory iterator = self.getIterator();
@@ -29,7 +30,7 @@ library ProvLinkQueryLib {
         return count;
     }
 
-    function getLinkCountForUrl(ProvLinkLib.LinkList storage self, string _url) internal 
+    function getLinkCountForUrl(ProvLinkListLib.LinkList storage self, string _url) internal 
     view 
     returns (uint256) {
         LinkedListIteratorLib.Iterator memory iterator = self.getIterator();
@@ -44,7 +45,7 @@ library ProvLinkQueryLib {
         return count;
     }
 
-    function getLinkCountForUrlAndType(ProvLinkLib.LinkList storage self, uint256 _type, string _url) internal 
+    function getLinkCountForUrlAndType(ProvLinkListLib.LinkList storage self, uint256 _type, string _url) internal 
     view 
     returns (uint256) {
         LinkedListIteratorLib.Iterator memory iterator = self.getIterator();
@@ -62,7 +63,7 @@ library ProvLinkQueryLib {
         return count;
     }
 
-    function getLinkListForType(ProvLinkLib.LinkList storage self, uint256 _type) public 
+    function getLinkListForType(ProvLinkListLib.LinkList storage self, uint256 _type) public 
     view 
     returns (address[]) {
         address[] memory links = new address[](self.getLinkCountForType(_type));
