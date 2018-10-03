@@ -1,13 +1,13 @@
 import ProvContract from "./models/ProvContract";
 import Tag from "./models/Tag";
+import Link from "./models/Link";
 
 export const types = {
     contractLoad: "CONTRACT_LOAD",
     contractDetailsLoaded: "CONTRACT_DETAILS_LOADED",
     
     contractSelect: "CONTRACT_SELECT",
-    
-    typesLoad: "TYPES_LOAD",
+  
     typeLoad: "TYPE_LOAD",
     typeLoaded: "TYPE_LOADED",
     
@@ -20,19 +20,19 @@ export const onContractLoad = (address) => ({
     address: address
 });
 
-export const onContractDetailsLoaded = (contract) => ({
+export const onContractDetailsLoaded = (address, title, description, logoUrl) => ({
     type: types.contractDetailsLoaded,
-    contract: contract
+    address: address,
+    details: {
+        title: title,
+        description: description,
+        logoUrl: logoUrl
+    }
 });
 
 export const onContractSelect = (address) => ({
     type: types.contractSelect,
     address: address
-});
-
-export const onTypesLoad = (contract) => ({
-    type: types.typesLoad,
-    contract: contract
 });
 
 export const onTypeLoad = (contractAddress, tagId) => ({
@@ -41,10 +41,10 @@ export const onTypeLoad = (contractAddress, tagId) => ({
     tag: new Tag(tagId, "")
 });
 
-export const onTypeLoaded = (address, tag) => ({
+export const onTypeLoaded = (address, tagId, tagName) => ({
     type: types.typeLoaded,
     address: address,
-    tag: tag
+    tag: new Tag(tagId, tagName)
 });
 
 export const onLinksLoad = (address) => ({
@@ -52,8 +52,8 @@ export const onLinksLoad = (address) => ({
     address: address,
 });
 
-export const onLinkLoaded = (contractAddress, link) => ({
+export const onLinkLoaded = (contractAddress, address, tags, title) => ({
     type: types.linkLoaded,
-    contractAddress: contractAddress,
-    link: link,
+    address: contractAddress,
+    link: new Link(address, tags, title),
 });

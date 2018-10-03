@@ -16,9 +16,9 @@ const contractLoadedEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.contractDetailsLoaded),
     withLatestFrom(state$),
     filter(([action, state]) => 
-        action.contract.address === state.topMenu.address
+        action.address === state.topMenu.address
     ),
-    map(([action]) => modelActions.onContractSelect(action.contract.address)),
+    map(([action]) => modelActions.onContractSelect(action.address)),
 )
 
 export const epic = combineEpics(

@@ -9,7 +9,7 @@ import {
     flatMap, 
     switchAll, 
     reduce } from "rxjs/operators";
-import { of, from, zip} from 'rxjs';
+import { of, from, zip, forkJoin} from 'rxjs';
 
 import SimpleProvenanceContract from "ProvNet/build/contracts/SimpleProvenanceContract";
 
@@ -18,28 +18,22 @@ import Tag from "./models/Tag";
 import Link from "./models/Link";
 import DetailsView from "./DetailsView";
 
-const contractDetailsLoadingEpic = (action$, state$) => action$.pipe(
+export const contractDetailsLoadingEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.contractLoad),
     withLatestFrom(state$),
     flatMap(([action, state]) => {
-        let contract = new ProvContract(action.address);
         let web3Instance = new state.web3.eth.Contract(SimpleProvenanceContract.abi, action.address);
-        return zip(
+        return forkJoin(
             web3Instance.methods.getDescription().call(),
             web3Instance.methods.getLogoUrl().call(),
-            (description, logoUrl) => {
-                contract.details.description = description;
-                contract.details.logoUrl = logoUrl;
-                return contract;
-            }
+            web3Instance.methods.getTitle().call(),
+        ).pipe(
+            map(([description, logoUrl, title]) => modelActions.onContractDetailsLoaded(action.address, title, description, logoUrl))
         );
     }),
-    flatMap(contract => of(
-        modelActions.onContractDetailsLoaded(contract),
-    )),
 );
 
-const contractTypesLoadEpic = (action$, state$) => action$.pipe(
+export const contractTypesLoadEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.contractLoad),
     withLatestFrom(state$),
     flatMap(([action, state]) => {
@@ -62,7 +56,7 @@ const contractTypesLoadEpic = (action$, state$) => action$.pipe(
     }),
 );
 
-const typeLoadEpic = (action$, state$) => action$.pipe(
+export const typeLoadEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.typeLoad),
     withLatestFrom(state$),
     flatMap(([action, state]) => {
@@ -71,13 +65,13 @@ const typeLoadEpic = (action$, state$) => action$.pipe(
             web3Instance.methods.getLinkType(action.tag.id).call()
         ).pipe(
             map(typeName => {
-                return modelActions.onTypeLoaded(action.address, new Tag(action.tag.id, typeName, true));
+                return modelActions.onTypeLoaded(action.address, action.tag.id, typeName);
             })
         );
     }),
 );
 
-const contractLinksLoadEpic = (action$, state$) => action$.pipe(
+export const contractLinksLoadEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.linksLoad),
     withLatestFrom(state$),
     map(([action, state]) => ({action: action, web3Instance: new state.web3.eth.Contract(SimpleProvenanceContract.abi, action.address)})
@@ -90,7 +84,7 @@ const contractLinksLoadEpic = (action$, state$) => action$.pipe(
             flatMap(([linkAddress, state]) => zip(
                 web3Instance.methods.getLink(linkAddress).call(),
                 (new state.web3.eth.Contract(SimpleProvenanceContract.abi, linkAddress)).methods.getTitle().call(),
-                (res, title) => modelActions.onLinkLoaded(action.address, new Link(res[0], res[1].filter(tag => tag != 0), title))
+                (res, title) => modelActions.onLinkLoaded(action.address, res[0], res[1].filter(tag => tag != 0), title)
             ))
         )
     ),
@@ -117,12 +111,12 @@ export const contractReducer = (state = {selected: []}, action) => {
                 [action.address]: new ProvContract(action.address)
             };
         case modelActions.types.contractDetailsLoaded:
-            contract = state[action.contract.address];
+            contract = state[action.address];
             return {
                 ...state,
-                [action.contract.address]: {
+                [action.address]: {
                     ...contract,
-                    details: action.contract.details
+                    details: action.details
                 }
             };
         case modelActions.types.typeLoad:
@@ -156,10 +150,10 @@ export const contractReducer = (state = {selected: []}, action) => {
         //         }
         //     };
         case modelActions.types.linkLoaded:
-            contract = state[action.contractAddress];
+            contract = state[action.address];
             return {
                 ...state,
-                [action.contractAddress]: {
+                [action.address]: {
                     ...contract,
                     links: [...contract.links, action.link]
                 }
