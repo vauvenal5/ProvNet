@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TagsView should render empty view 1`] = `
+"<Segment>
+  <LabelGroup circular={true}>
+    <Header as=\\"h2\\" dividing={true}>
+      Link Types:
+    </Header>
+  </LabelGroup>
+</Segment>"
+`;
+
+exports[`TagsView should render with tags 1`] = `
+"<Segment>
+  <LabelGroup circular={true}>
+    <Header as=\\"h2\\" dividing={true}>
+      Link Types:
+    </Header>
+    <Label color=\\"red\\">
+      Trusted
+    </Label>
+    <Label color=\\"orange\\">
+      Known
+    </Label>
+  </LabelGroup>
+</Segment>"
+`;

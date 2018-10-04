@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LinksView should render empty view 1`] = `
+"<Grid padded={true}>
+  <GridRow>
+    <GridColumn>
+      <Header as=\\"h2\\" dividing={true}>
+        Links
+      </Header>
+    </GridColumn>
+  </GridRow>
+  <GridRow>
+    <GridColumn>
+      <Breadcrumb>
+        <BreadcrumbSection>
+          <Label as=\\"a\\" color=\\"red\\">
+            Selected
+          </Label>
+        </BreadcrumbSection>
+        <BreadcrumbDivider icon=\\"right chevron\\" />
+        <BreadcrumbSection>
+          <Label as=\\"a\\" color=\\"blue\\">
+            InfoSys
+          </Label>
+        </BreadcrumbSection>
+        <BreadcrumbDivider icon=\\"right chevron\\" />
+        <BreadcrumbSection>
+          <Label as=\\"a\\" color=\\"green\\" active={true}>
+            Current
+          </Label>
+        </BreadcrumbSection>
+      </Breadcrumb>
+    </GridColumn>
+  </GridRow>
+  <GridRow>
+    <GridColumn>
+      <Table singleLine={true} selectable={true} as=\\"table\\">
+        <TableHeader as=\\"thead\\">
+          <TableRow as=\\"tr\\" cellAs=\\"td\\">
+            <TableHeaderCell as=\\"th\\">
+              Address
+            </TableHeaderCell>
+            <TableHeaderCell as=\\"th\\">
+              Title
+            </TableHeaderCell>
+            <TableHeaderCell as=\\"th\\">
+              Types
+            </TableHeaderCell>
+            <TableHeaderCell as=\\"th\\">
+              Actions
+            </TableHeaderCell>
+          </TableRow>
+        </TableHeader>
+        <TableBody as=\\"tbody\\" />
+      </Table>
+    </GridColumn>
+  </GridRow>
+</Grid>"
+`;
+
+exports[`LinksView should render with links 1`] = `
+"<Grid padded={true}>
+  <GridRow>
+    <GridColumn>
+      <Header as=\\"h2\\" dividing={true}>
+        Links
+      </Header>
+    </GridColumn>
+  </GridRow>
+  <GridRow>
+    <GridColumn>
+      <Breadcrumb>
+        <BreadcrumbSection>
+          <Label as=\\"a\\" color=\\"red\\">
+            Selected
+          </Label>
+        </BreadcrumbSection>
+        <BreadcrumbDivider icon=\\"right chevron\\" />
+        <BreadcrumbSection>
+          <Label as=\\"a\\" color=\\"blue\\">
+            InfoSys
+          </Label>
+        </BreadcrumbSection>
+        <BreadcrumbDivider icon=\\"right chevron\\" />
+        <BreadcrumbSection>
+          <Label as=\\"a\\" color=\\"green\\" active={true}>
+            Current
+          </Label>
+        </BreadcrumbSection>
+      </Breadcrumb>
+    </GridColumn>
+  </GridRow>
+  <GridRow>
+    <GridColumn>
+      <Table singleLine={true} selectable={true} as=\\"table\\">
+        <TableHeader as=\\"thead\\">
+          <TableRow as=\\"tr\\" cellAs=\\"td\\">
+            <TableHeaderCell as=\\"th\\">
+              Address
+            </TableHeaderCell>
+            <TableHeaderCell as=\\"th\\">
+              Title
+            </TableHeaderCell>
+            <TableHeaderCell as=\\"th\\">
+              Types
+            </TableHeaderCell>
+            <TableHeaderCell as=\\"th\\">
+              Actions
+            </TableHeaderCell>
+          </TableRow>
+        </TableHeader>
+        <TableBody as=\\"tbody\\">
+          <Component types={{...}} link={{...}} />
+          <Component types={{...}} link={{...}} />
+        </TableBody>
+      </Table>
+    </GridColumn>
+  </GridRow>
+</Grid>"
+`;

@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LinkRow should render 1`] = `
+"<TableRow as=\\"tr\\" cellAs=\\"td\\">
+  <TableCell as=\\"td\\">
+    <Label as=\\"a\\" ribbon={true}>
+      linkAddress
+    </Label>
+  </TableCell>
+  <TableCell as=\\"td\\">
+    tagTitle
+  </TableCell>
+  <TableCell as=\\"td\\">
+    <Label circular={true} color=\\"red\\">
+      Trusted
+    </Label>
+    <Label circular={true} color=\\"orange\\">
+      Known
+    </Label>
+  </TableCell>
+  <TableCell as=\\"td\\">
+    <Button icon=\\"info\\" content=\\"Info\\" labelPosition=\\"left\\" as=\\"button\\" role=\\"button\\" />
+    <Button icon=\\"eye\\" content=\\"Select\\" labelPosition=\\"left\\" as=\\"button\\" role=\\"button\\" />
+  </TableCell>
+</TableRow>"
+`;

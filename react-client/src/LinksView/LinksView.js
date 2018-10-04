@@ -1,37 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Grid, Header, Breadcrumb, Label, Table, Button } from 'semantic-ui-react';
+import { Grid, Header, Breadcrumb, Label, Table } from 'semantic-ui-react';
 
 import ProvContract from "../models/ProvContract";
+import LinkRow from '../LinkRow';
 
 export const LinksView = ({selected, contract}) => {
     
     let links = contract.links.map((link, index) => {
-        let tags = link.tags.map((tagId, index) => 
-            <Label 
-                key={tagId} 
-                circular 
-                color={contract.types[tagId].getColor()}
-            >
-                {contract.types[tagId].getTitle()}
-            </Label>
-        );
-
         return (
-            <Table.Row key={index}>
-                <Table.Cell>
-                    <Label as="a" ribbon>{link.address}</Label>
-                </Table.Cell>
-                <Table.Cell>{link.title}</Table.Cell>
-                <Table.Cell>
-                    {tags}
-                </Table.Cell>
-                <Table.Cell>
-                        <Button icon='info' content="Info" labelPosition='left'/>
-                        <Button icon='eye' content="Select" labelPosition='left'/>
-                </Table.Cell>
-            </Table.Row>
+            <LinkRow key={link.address} types={contract.types} link={link} />
         );
     });
 
