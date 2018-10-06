@@ -71,7 +71,7 @@ const selectedContract = (contracts, selected) => {
 }
 
 //container part
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
     let selected = state.contracts.selected[0];
     return {
         selected: selected,
@@ -79,9 +79,4 @@ const mapStateToProps = (state) => {
     };
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(LinksView);
+export default connect(mapStateToProps)(LinksView);

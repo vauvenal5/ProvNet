@@ -28,10 +28,6 @@ export const epic = combineEpics(
 
 export const reducer = (state={activeItem: ""}, action) => {
     switch(action.type) {
-        case "TOP_MENU_SELECT":
-            return Object.assign({}, state, {
-                activeItem: action.name,
-            });
         case actions.types.searchAddress:
             return Object.assign({}, state, {
                 address: action.address,

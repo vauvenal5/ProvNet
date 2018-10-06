@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DetailsView should render 1`] = `
+"<Grid padded={true}>
+  <GridRow>
+    <GridColumn>
+      <Header as=\\"h1\\" dividing={true}>
+        ProvContract
+        <HeaderSubheader>
+          Contract Address: 
+          testAddress
+        </HeaderSubheader>
+      </Header>
+    </GridColumn>
+  </GridRow>
+  <GridRow columns={2}>
+    <GridColumn stretched={true}>
+      <Component imageUrl=\\"http://This/is/a/test/url.com\\" description=\\"This is a test contract!\\" />
+    </GridColumn>
+    <GridColumn floated=\\"right\\" width={5}>
+      <Component tags={{...}} />
+    </GridColumn>
+  </GridRow>
+</Grid>"
+`;

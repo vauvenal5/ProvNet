@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContractForm should render empty URL 1`] = `
+"<ItemGroup>
+  <Item>
+    <ItemImage src=\\"https://react.semantic-ui.com/images/wireframe/square-image.png\\" size=\\"small\\" circular={true} />
+    <ItemContent>
+      <ItemHeader>
+        Description
+      </ItemHeader>
+      <ItemDescription>
+        This is a test contract!
+      </ItemDescription>
+    </ItemContent>
+  </Item>
+</ItemGroup>"
+`;
+
+exports[`ContractForm should render with custom URL 1`] = `
+"<ItemGroup>
+  <Item>
+    <ItemImage src=\\"https://react.semantic-ui.com/images/wireframe/square-image.png\\" size=\\"small\\" circular={true} />
+    <ItemContent>
+      <ItemHeader>
+        Description
+      </ItemHeader>
+      <ItemDescription>
+        This is a test contract!
+      </ItemDescription>
+    </ItemContent>
+  </Item>
+</ItemGroup>"
+`;

@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TopMenu should render empty view 1`] = `
+"<Menu stackable={true}>
+  <MenuItem>
+    <img src=\\"logo.svg\\" />
+  </MenuItem>
+  <MenuMenu position=\\"right\\">
+    <MenuItem>
+      <Form onSubmit={[Function: onSubmit]} as=\\"form\\">
+        <FormInput name=\\"address\\" onChange={[Function: handleChange]} icon={{...}} placeholder=\\"Contract Address...\\" as={[Function: FormField]} control={[Function: Input]} />
+      </Form>
+    </MenuItem>
+  </MenuMenu>
+</Menu>"
+`;

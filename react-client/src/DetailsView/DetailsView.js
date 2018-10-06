@@ -40,7 +40,7 @@ const selectedContract = (contracts, selected) => {
 }
 
 //container part
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
     let selected = state.contracts.selected[0];
 
     return {
@@ -49,9 +49,4 @@ const mapStateToProps = (state) => {
     };
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(DetailsView);
+export default connect(mapStateToProps)(DetailsView);
