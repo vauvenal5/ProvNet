@@ -11,25 +11,7 @@ exports[`LinksView should render empty view 1`] = `
   </GridRow>
   <GridRow>
     <GridColumn>
-      <Breadcrumb>
-        <BreadcrumbSection>
-          <Label as=\\"a\\" color=\\"red\\">
-            Selected
-          </Label>
-        </BreadcrumbSection>
-        <BreadcrumbDivider icon=\\"right chevron\\" />
-        <BreadcrumbSection>
-          <Label as=\\"a\\" color=\\"blue\\">
-            InfoSys
-          </Label>
-        </BreadcrumbSection>
-        <BreadcrumbDivider icon=\\"right chevron\\" />
-        <BreadcrumbSection>
-          <Label as=\\"a\\" color=\\"green\\" active={true}>
-            Current
-          </Label>
-        </BreadcrumbSection>
-      </Breadcrumb>
+      <Connect(Component) />
     </GridColumn>
   </GridRow>
   <GridRow>
@@ -69,25 +51,7 @@ exports[`LinksView should render with links 1`] = `
   </GridRow>
   <GridRow>
     <GridColumn>
-      <Breadcrumb>
-        <BreadcrumbSection>
-          <Label as=\\"a\\" color=\\"red\\">
-            Selected
-          </Label>
-        </BreadcrumbSection>
-        <BreadcrumbDivider icon=\\"right chevron\\" />
-        <BreadcrumbSection>
-          <Label as=\\"a\\" color=\\"blue\\">
-            InfoSys
-          </Label>
-        </BreadcrumbSection>
-        <BreadcrumbDivider icon=\\"right chevron\\" />
-        <BreadcrumbSection>
-          <Label as=\\"a\\" color=\\"green\\" active={true}>
-            Current
-          </Label>
-        </BreadcrumbSection>
-      </Breadcrumb>
+      <Connect(Component) />
     </GridColumn>
   </GridRow>
   <GridRow>
@@ -110,8 +74,8 @@ exports[`LinksView should render with links 1`] = `
           </TableRow>
         </TableHeader>
         <TableBody as=\\"tbody\\">
-          <Component types={{...}} link={{...}} />
-          <Component types={{...}} link={{...}} />
+          <Connect(Component) types={{...}} link={{...}} />
+          <Connect(Component) types={{...}} link={{...}} />
         </TableBody>
       </Table>
     </GridColumn>

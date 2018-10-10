@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Grid, Header, Table } from 'semantic-ui-react';
 
 import LinkRow from '../LinkRow';
+import LinkNav from '../LinkNav';
 import ProvContractList from "../models/ProvContractList";
 import ProvContract from "../models/ProvContract";
 import LinkList from "../models/LinkList";
@@ -29,19 +30,7 @@ export const LinksView = ({tags, links}) => {
             </Grid.Row>
             <Grid.Row>
                 <Grid.Column>
-                    <Breadcrumb>
-                        <Breadcrumb.Section>
-                            <Label as='a' color="red">Selected</Label>
-                        </Breadcrumb.Section>
-                        <Breadcrumb.Divider icon='right chevron' />
-                        <Breadcrumb.Section>
-                            <Label as='a' color="blue">InfoSys</Label>
-                        </Breadcrumb.Section>
-                        <Breadcrumb.Divider icon='right chevron' />
-                        <Breadcrumb.Section>
-                            <Label as='a' color="green" active>Current</Label>
-                        </Breadcrumb.Section>
-                    </Breadcrumb>
+                    <LinkNav/>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row>
@@ -68,7 +57,7 @@ export const LinksView = ({tags, links}) => {
 
 //container part
 export const mapStateToProps = (state) => {
-    let contract = state.contracts.getSelectedContract();
+    let contract = state.contracts.getLinkSelectedContract();
     return {
         tags: contract.getTags(),
         links: contract.getLinks().asArray()

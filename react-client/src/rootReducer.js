@@ -7,7 +7,7 @@ import {
     withLatestFrom, 
     map,  
     flatMap, 
-    switchAll, 
+    switchAll,
     reduce } from "rxjs/operators";
 import { of, from, zip, forkJoin} from 'rxjs';
 
@@ -93,6 +93,21 @@ export const contractLinksLoadEpic = (action$, state$) => action$.pipe(
     ),
 );
 
+export const linkSelectEpic = (action$, state$) => action$.pipe(
+    ofType(modelActions.types.linkSelect),
+    withLatestFrom(state$),
+    flatMap(([action, state]) => {
+        if(state.contracts.isLoaded(action.address)){
+            return of(modelActions.onLinkSelected(action.address));
+        }
+
+        return of(
+            modelActions.onContractLoad(action.address),
+            modelActions.onLinkSelected(action.address)
+        );
+    })
+);
+
 export const rootEpic = combineEpics(
     Web3Loader.epic,
     TopMenu.epic,
@@ -100,6 +115,7 @@ export const rootEpic = combineEpics(
     contractLinksLoadEpic,
     typeLoadEpic,
     contractDetailsLoadingEpic,
+    linkSelectEpic
 );
 
 
@@ -137,6 +153,8 @@ export const contractReducer = (state = new ProvContractList(), action) => {
             );
         case modelActions.types.contractSelect:
             return state.setSelected(action.address);
+        case modelActions.types.linkSelected:
+            return state.setLinkSelected(action.address);
         default:
             return state;
     }

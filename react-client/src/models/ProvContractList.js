@@ -5,12 +5,30 @@ export default class ProvContractList {
         this.selected = [];
     }
 
+    isLoaded(address) {
+        return (this[address] !== undefined);
+    }
+
     getContract(address) {
-        return this[address];
+        let contract = this[address];
+        if(contract === undefined) {
+            return new ProvContract();
+        }
+        return contract;
     }
 
     assignContract(contract) {
         return this.softClone({[contract.address]: contract});
+    }
+
+    setLinkSelected(address) {
+        let index = this.selected.indexOf(address);
+        if(index >= 0) {
+            return this.softClone({
+                selected: this.selected.slice(0, (index+1))
+            });
+        }
+        return this.softClone({selected: [...this.selected, address]});
     }
 
     setSelected(address) {
@@ -22,11 +40,12 @@ export default class ProvContractList {
     }
 
     getSelectedContract() {
-        let contract = this.getContract(this.getSelectedList()[0]);
-        if(contract === undefined) {
-            return new ProvContract();
-        }
-        return contract;
+        return this.getContract(this.getSelectedList()[0]);
+    }
+
+    getLinkSelectedContract() {
+        let list = this.getSelectedList();
+        return this.getContract(list[list.length-1]);
     }
 
     softClone(o) {

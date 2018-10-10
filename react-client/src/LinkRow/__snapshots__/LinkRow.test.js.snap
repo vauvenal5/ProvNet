@@ -3,7 +3,7 @@
 exports[`LinkRow should render 1`] = `
 "<TableRow as=\\"tr\\" cellAs=\\"td\\">
   <TableCell as=\\"td\\">
-    <Label as=\\"a\\" ribbon={true}>
+    <Label as=\\"a\\" ribbon={true} onClick={[Function: onClick]}>
       linkAddress
     </Label>
   </TableCell>
