@@ -8,8 +8,8 @@ Enzyme.configure({ adapter: new Adapter() });
 
 const setup = (propOverrides) => {
     const props = Object.assign({
-        types: testContract.types,
-        link: testContract.links[0]
+        types: testContract.getTags(),
+        link: testContract.getLinks().getLinkAt(0)
     }, propOverrides);
 
     const wrapper = shallow(<LinkRow {...props}/>);

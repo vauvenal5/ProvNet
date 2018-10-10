@@ -17,6 +17,9 @@ import ProvContract from "./models/ProvContract";
 import Tag from "./models/Tag";
 import Link from "./models/Link";
 import DetailsView from "./DetailsView";
+import ProvContractList from "./models/ProvContractList";
+import TagList from "./models/TagList";
+import LinkList from "./models/LinkList";
 
 export const contractDetailsLoadingEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.contractLoad),
@@ -100,69 +103,40 @@ export const rootEpic = combineEpics(
 );
 
 
-export const contractReducer = (state = {selected: []}, action) => {
+export const contractReducer = (state = new ProvContractList(), action) => {
     console.log(action.type);
-    //console.log(state);
+    console.log(state);
     let contract;
     switch(action.type) {
         case modelActions.types.contractLoad:
-            return {
-                ...state,
-                [action.address]: new ProvContract(action.address)
-            };
+            return state.assignContract(new ProvContract(action.address));
         case modelActions.types.contractDetailsLoaded:
-            contract = state[action.address];
-            return {
-                ...state,
-                [action.address]: {
-                    ...contract,
-                    details: action.details
-                }
-            };
+            return state.assignContract(
+                state.getContract(action.address).setDetails(action.details)
+            );
         case modelActions.types.typeLoad:
         case modelActions.types.typeLoaded:
-            contract = state[action.address];
-            return {
-                ...state,
-                [action.address]: {
-                    ...contract,
-                    types: {
-                        ...contract.types,
-                        [action.tag.id]: action.tag
-                    }
-                }
-            };
-        // case modelActions.types.contractTypeLoaded:
+            contract = state.getContract(action.address);
+            return state.assignContract(
+                contract.setTags(contract.getTags().addTag(action.tag))
+            );
+        //TODO-sv: clean up?
+        // case modelActions.types.linksLoad:
         //     contract = state[action.address];
-        //     let tag = contract.types[action.tag.id];
         //     return {
         //         ...state,
         //         [action.address]: {
         //             ...contract,
-        //             //types: [...contract.types, action.tag]
-        //             types: {
-        //                 ...contract.types,
-        //                 [action.tag.id]: {
-        //                     ...tag,
-        //                     title: action.tag.title
-        //                 }
-        //             }
+                    
         //         }
-        //     };
+        //     }
         case modelActions.types.linkLoaded:
-            contract = state[action.address];
-            return {
-                ...state,
-                [action.address]: {
-                    ...contract,
-                    links: [...contract.links, action.link]
-                }
-            };
+            contract = state.getContract(action.address);
+            return state.assignContract(
+                contract.setLinks(contract.getLinks().addLink(action.link))
+            );
         case modelActions.types.contractSelect:
-            return {
-                ...state,
-                selected: [action.address]
-            }
+            return state.setSelected(action.address);
         default:
             return state;
     }

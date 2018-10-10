@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Segment, Label, Header } from 'semantic-ui-react';
+import TagView from '../TagView';
 
 export const TagsView = ({tags}) => {
 
@@ -9,9 +10,7 @@ export const TagsView = ({tags}) => {
     for(let key in tags) {
         let tag = tags[key];
         labels.push(
-            <Label color={tag.getColor()} key={tag.id}>
-                {tag.getTitle()}
-            </Label>
+            <TagView key={tag.getId()} tag={tag}/>
         );
     }
 

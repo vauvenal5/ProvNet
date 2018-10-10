@@ -11,12 +11,8 @@ exports[`LinkRow should render 1`] = `
     tagTitle
   </TableCell>
   <TableCell as=\\"td\\">
-    <Label circular={true} color=\\"red\\">
-      Trusted
-    </Label>
-    <Label circular={true} color=\\"orange\\">
-      Known
-    </Label>
+    <Component tag={{...}} />
+    <Component tag={{...}} />
   </TableCell>
   <TableCell as=\\"td\\">
     <Button icon=\\"info\\" content=\\"Info\\" labelPosition=\\"left\\" as=\\"button\\" role=\\"button\\" />

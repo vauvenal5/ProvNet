@@ -1,16 +1,11 @@
 import React from 'react';
 import { Label, Table, Button } from 'semantic-ui-react';
+import TagView from '../TagView';
 
 export const LinkRow = ({types, link}) => {
     
-    let tags = link.tags.map((tagId) => 
-        <Label 
-            key={tagId} 
-            circular 
-            color={types[tagId].getColor()}
-        >
-            {types[tagId].getTitle()}
-        </Label>
+    let tags = link.tags.map(
+        (tagId) => <TagView key={tagId} tag={types[tagId]}/>
     );
 
     return (
