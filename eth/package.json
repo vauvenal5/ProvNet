@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/vauvenal5/ProvNet#readme",
   "dependencies": {
+    "truffle": "4.1.14",
     "chai": "^4.1.2",
     "ethereum-libraries-linked-list": "^1.1.1",
     "mocha": "^5.2.0",
