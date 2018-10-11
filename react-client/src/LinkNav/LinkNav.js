@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import { connect } from 'react-redux';
 import { Breadcrumb, Label } from 'semantic-ui-react';
 import * as actions from '../modelActions';
@@ -12,31 +12,18 @@ export const LinkNav = ({selection, contracts, linkSelect}) => {
         }
 
         return (
-            <div>
-            <Breadcrumb.Section key={selected}>
-                <Label as='a' color="red" 
-                    onClick={(e, data) => linkSelect(selected)}
-                >
-                    {contracts[selected].details.title}
-                </Label>
-            </Breadcrumb.Section>
-            {divider}
-            </div>
+            <Fragment key={index}>
+                <Breadcrumb.Section key={selected}>
+                    <Label as='a' color="grey" 
+                        onClick={(e, data) => linkSelect(selected)}
+                    >
+                        {contracts[selected].details.title}
+                    </Label>
+                </Breadcrumb.Section>
+                {divider}
+            </Fragment>
         );
     });
-
-    /*  */
-    /* <Breadcrumb.Section>
-        <Label as='a' color="red">Selected</Label>
-    </Breadcrumb.Section>
-    <Breadcrumb.Divider icon='right chevron' />
-    <Breadcrumb.Section>
-        <Label as='a' color="blue">InfoSys</Label>
-    </Breadcrumb.Section>
-    <Breadcrumb.Divider icon='right chevron' />
-    <Breadcrumb.Section>
-        <Label as='a' color="green" active>Current</Label>
-    </Breadcrumb.Section> */
 
     return (
         <Breadcrumb>
