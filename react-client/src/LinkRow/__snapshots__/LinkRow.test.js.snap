@@ -3,7 +3,7 @@
 exports[`LinkRow should render 1`] = `
 "<TableRow as=\\"tr\\" cellAs=\\"td\\">
   <TableCell as=\\"td\\">
-    <Label as=\\"a\\" ribbon={true}>
+    <Label as=\\"a\\" ribbon={true} onClick={[Function: onClick]}>
       linkAddress
     </Label>
   </TableCell>
@@ -11,16 +11,11 @@ exports[`LinkRow should render 1`] = `
     tagTitle
   </TableCell>
   <TableCell as=\\"td\\">
-    <Label circular={true} color=\\"red\\">
-      Trusted
-    </Label>
-    <Label circular={true} color=\\"orange\\">
-      Known
-    </Label>
+    <Component tag={{...}} />
+    <Component tag={{...}} />
   </TableCell>
   <TableCell as=\\"td\\">
-    <Button icon=\\"info\\" content=\\"Info\\" labelPosition=\\"left\\" as=\\"button\\" role=\\"button\\" />
-    <Button icon=\\"eye\\" content=\\"Select\\" labelPosition=\\"left\\" as=\\"button\\" role=\\"button\\" />
+    <Button onClick={[Function: onClick]} icon=\\"eye\\" content=\\"Select\\" labelPosition=\\"left\\" as=\\"button\\" role=\\"button\\" />
   </TableCell>
 </TableRow>"
 `;

@@ -11,6 +11,8 @@ import ProvContract from './models/ProvContract';
 import Tag from './models/Tag';
 import Link from './models/Link';
 import { fail } from 'assert';
+import ProvContractList from './models/ProvContractList';
+import ContractDetails from './models/ContractDetails';
 jest.mock('web3');
 
 const getScheduler = () => {
@@ -189,6 +191,12 @@ describe("Contract Epics", () => {
     });
 });
 
+const setupContractReducerState = () => {
+    const contract = new ProvContract("testAddress");
+    const initState = new ProvContractList().assignContract(contract);
+    return {initState, contract};
+};
+
 describe("Contract reducer", () => {
     it("should return the initial state", () => {
         expect(contractReducer(undefined, {}))
@@ -198,87 +206,75 @@ describe("Contract reducer", () => {
     });
 
     it("should correctly handle contract load action", () => {
-        expect(contractReducer({}, modelActions.onContractLoad("testAddress")))
-        .toEqual({
-            testAddress: new ProvContract("testAddress")
-        })
+        expect(contractReducer(undefined, modelActions.onContractLoad("testAddress")))
+        .toEqual(new ProvContractList()
+            .assignContract(new ProvContract("testAddress"))
+        )
     });
 
     it("should correctly handle contract details loaded action", () => {
-        expect(contractReducer({
-            testAddress: new ProvContract("testAddress")
-        }, modelActions.onContractDetailsLoaded("testAddress", "title", "desc", "logo")))
-        .toEqual({
-            testAddress: {
-                address: "testAddress",
-                details: {
-                    title: "title",
-                    description: "desc",
-                    logoUrl: "logo"
-                },
-                links: [],
-                types: {}
-            }
-        });
+        let {initState, contract} = setupContractReducerState();
+        let details = new ContractDetails("title", "desc", "logo");
+        let expectedContract = contract.setDetails(details);
+        let expectedState = initState.assignContract(expectedContract);
+            
+        expect(contractReducer(initState,            
+            modelActions.onContractDetailsLoaded(
+                contract.getAddress(),
+                details.getTitle(),
+                details.getDescription(),
+                details.getLogoUrl()
+            )
+        ))
+        .toEqual(expectedState);
     });
 
     it("should correctly handle type load action", () => {
-        expect(contractReducer({
-            testAddress: {
-                types: {}
-            }
-        }, modelActions.onTypeLoad("testAddress", 1)))
-        .toEqual({
-            testAddress: {
-                types: {
-                    1: {
-                        id: 1,
-                        title: ""
-                    }
-                }
-            }
-        });
+        let {initState, contract} = setupContractReducerState();
+        let tag = new Tag(1, "");
+        let expected = initState.assignContract(
+            contract.setTags(contract.getTags().addTag(tag))
+        );
+
+        expect(contractReducer(initState, 
+            modelActions.onTypeLoad(contract.getAddress(), tag.getId())
+        ))
+        .toEqual(expected);
     });
 
     it("should correctly handle type loaded action", () => {
-        expect(contractReducer({
-            testAddress: {
-                types: {}
-            }
-        }, modelActions.onTypeLoaded("testAddress", 1, "tag")))
-        .toEqual({
-            testAddress: {
-                types: {
-                    1: {
-                        id: 1,
-                        title: "tag"
-                    }
-                }
-            }
-        });
+        let {initState, contract} = setupContractReducerState();
+        let tag = new Tag(1, "tag");
+        let expected = initState.assignContract(
+            contract.setTags(contract.getTags().addTag(tag))
+        );
+
+        expect(contractReducer(initState, 
+            modelActions.onTypeLoaded(contract.getAddress(), tag.getId(), tag.getTitle())
+        ))
+        .toEqual(expected);
     });
 
     it("should correctly handle link loaded action", () => {
-        expect(contractReducer({
-            testAddress: {
-                links: []
-            }
-        }, modelActions.onLinkLoaded("testAddress", "linkAddress", [1], "link")))
-        .toEqual({
-            testAddress: {
-                links: [{
-                    address: "linkAddress",
-                    tags: [1],
-                    title: "link"
-                }]
-            }
-        });
+        let {initState, contract} = setupContractReducerState();
+        let link = new Link("linkAddress", [1], "link");
+        let expected = initState.assignContract(
+            contract.setLinks(contract.getLinks().addLink(link))
+        );
+
+        expect(contractReducer(initState, 
+            modelActions.onLinkLoaded(
+                contract.getAddress(), 
+                link.getAddress(), 
+                link.getTags(), 
+                link.getTitle()
+            )
+        ))
+        .toEqual(expected);
     });
 
     it("should correctly handle contract select action", () => {
-        expect(contractReducer({
-            selected: []
-        }, modelActions.onContractSelect("testAddress")))
+        expect(contractReducer(undefined, modelActions.onContractSelected("testAddress")))
         .toEqual({
             selected: ["testAddress"]
         });

@@ -7,7 +7,7 @@ import {
     withLatestFrom, 
     map,  
     flatMap, 
-    switchAll, 
+    switchAll,
     reduce } from "rxjs/operators";
 import { of, from, zip, forkJoin} from 'rxjs';
 
@@ -17,6 +17,10 @@ import ProvContract from "./models/ProvContract";
 import Tag from "./models/Tag";
 import Link from "./models/Link";
 import DetailsView from "./DetailsView";
+import ProvContractList from "./models/ProvContractList";
+import TagList from "./models/TagList";
+import LinkList from "./models/LinkList";
+import Select from "./SelectReducer";
 
 export const contractDetailsLoadingEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.contractLoad),
@@ -90,88 +94,77 @@ export const contractLinksLoadEpic = (action$, state$) => action$.pipe(
     ),
 );
 
-export const rootEpic = combineEpics(
-    Web3Loader.epic,
-    TopMenu.epic,
-    contractTypesLoadEpic,
-    contractLinksLoadEpic,
-    typeLoadEpic,
-    contractDetailsLoadingEpic,
+export const linkSelectEpic = (action$, state$) => action$.pipe(
+    ofType(modelActions.types.linkSelect),
+    withLatestFrom(state$),
+    flatMap(([action, state]) => {
+        if(state.contracts.isLoaded(action.address)){
+            return of(modelActions.onLinkSelected(action.address));
+        }
+
+        return of(
+            modelActions.onContractLoad(action.address),
+            modelActions.onLinkSelected(action.address)
+        );
+    })
 );
 
-
-export const contractReducer = (state = {selected: []}, action) => {
+export const contractReducer = (state = new ProvContractList(), action) => {
     console.log(action.type);
-    //console.log(state);
+    console.log(state);
     let contract;
     switch(action.type) {
         case modelActions.types.contractLoad:
-            return {
-                ...state,
-                [action.address]: new ProvContract(action.address)
-            };
+            return state.assignContract(new ProvContract(action.address));
         case modelActions.types.contractDetailsLoaded:
-            contract = state[action.address];
-            return {
-                ...state,
-                [action.address]: {
-                    ...contract,
-                    details: action.details
-                }
-            };
+            return state.assignContract(
+                state.getContract(action.address).setDetails(action.details)
+            );
         case modelActions.types.typeLoad:
         case modelActions.types.typeLoaded:
-            contract = state[action.address];
-            return {
-                ...state,
-                [action.address]: {
-                    ...contract,
-                    types: {
-                        ...contract.types,
-                        [action.tag.id]: action.tag
-                    }
-                }
-            };
-        // case modelActions.types.contractTypeLoaded:
+            contract = state.getContract(action.address);
+            return state.assignContract(
+                contract.setTags(contract.getTags().addTag(action.tag))
+            );
+        //TODO-sv: clean up?
+        // case modelActions.types.linksLoad:
         //     contract = state[action.address];
-        //     let tag = contract.types[action.tag.id];
         //     return {
         //         ...state,
         //         [action.address]: {
         //             ...contract,
-        //             //types: [...contract.types, action.tag]
-        //             types: {
-        //                 ...contract.types,
-        //                 [action.tag.id]: {
-        //                     ...tag,
-        //                     title: action.tag.title
-        //                 }
-        //             }
+                    
         //         }
-        //     };
+        //     }
         case modelActions.types.linkLoaded:
-            contract = state[action.address];
-            return {
-                ...state,
-                [action.address]: {
-                    ...contract,
-                    links: [...contract.links, action.link]
-                }
-            };
-        case modelActions.types.contractSelect:
-            return {
-                ...state,
-                selected: [action.address]
-            }
+            contract = state.getContract(action.address);
+            return state.assignContract(
+                contract.setLinks(contract.getLinks().addLink(action.link))
+            );
+        //todo-sv: this should probably move to the selectReducer now that it exists
+        case modelActions.types.contractSelected:
+            return state.setSelected(action.address);
+        case modelActions.types.linkSelected:
+            return state.setLinkSelected(action.address);
         default:
             return state;
     }
 }
 
+export const rootEpic = combineEpics(
+    Web3Loader.epic,
+    contractTypesLoadEpic,
+    contractLinksLoadEpic,
+    typeLoadEpic,
+    contractDetailsLoadingEpic,
+    linkSelectEpic,
+    Select.epic
+);
+
 export const rootReducer = combineReducers({
     contracts: contractReducer,
-    topMenu: TopMenu.reducer,
     web3Loader: Web3Loader.reducer,
     detailsView: DetailsView.reducer,
     web3: Web3Loader.web3,
+    select: Select.reducer
 });

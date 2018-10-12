@@ -1,18 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Grid, Header, Breadcrumb, Label, Table } from 'semantic-ui-react';
+import { Grid, Header, Table } from 'semantic-ui-react';
 
-import ProvContract from "../models/ProvContract";
 import LinkRow from '../LinkRow';
+import LinkNav from '../LinkNav';
+import ProvContractList from "../models/ProvContractList";
+import ProvContract from "../models/ProvContract";
+import LinkList from "../models/LinkList";
 
-export const LinksView = ({selected, contract}) => {
-    
-    let links = contract.links.map((link, index) => {
-        return (
-            <LinkRow key={link.address} types={contract.types} link={link} />
+export const LinksView = ({tags, links}) => {
+
+    let linkRows = [];
+    for(let key in links) {
+        let link = links[key];
+        linkRows.push(
+            <LinkRow key={link.address} types={tags} link={link} />
         );
-    });
+    }
 
     return (
         <Grid padded>
@@ -25,19 +30,7 @@ export const LinksView = ({selected, contract}) => {
             </Grid.Row>
             <Grid.Row>
                 <Grid.Column>
-                    <Breadcrumb>
-                        <Breadcrumb.Section>
-                            <Label as='a' color="red">Selected</Label>
-                        </Breadcrumb.Section>
-                        <Breadcrumb.Divider icon='right chevron' />
-                        <Breadcrumb.Section>
-                            <Label as='a' color="blue">InfoSys</Label>
-                        </Breadcrumb.Section>
-                        <Breadcrumb.Divider icon='right chevron' />
-                        <Breadcrumb.Section>
-                            <Label as='a' color="green" active>Current</Label>
-                        </Breadcrumb.Section>
-                    </Breadcrumb>
+                    <LinkNav/>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row>
@@ -53,7 +46,7 @@ export const LinksView = ({selected, contract}) => {
                         </Table.Header>
 
                         <Table.Body>
-                            {links}
+                            {linkRows}
                         </Table.Body>
                     </Table>
                 </Grid.Column>
@@ -62,20 +55,12 @@ export const LinksView = ({selected, contract}) => {
     );
 }
 
-//todo-sv: this is the same code as in DetailsView... selected should maybe be elevated
-const selectedContract = (contracts, selected) => {
-    if(selected === undefined) {
-        return new ProvContract(selected);
-    }
-    return contracts[selected];
-}
-
 //container part
 export const mapStateToProps = (state) => {
-    let selected = state.contracts.selected[0];
+    let contract = state.contracts.getLinkSelectedContract();
     return {
-        selected: selected,
-        contract: selectedContract(state.contracts, selected)
+        tags: contract.getTags(),
+        links: contract.getLinks().asArray()
     };
 }
 

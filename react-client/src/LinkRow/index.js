@@ -1,3 +1,3 @@
-import {LinkRow} from "./LinkRow";
+import Component from "./LinkRow";
 
-export default LinkRow;
+export default Component;

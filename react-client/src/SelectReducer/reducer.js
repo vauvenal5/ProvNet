@@ -1,12 +1,11 @@
-import * as actions from "./actions";
 import * as modelActions from "../modelActions";
 import { ofType, combineEpics } from "redux-observable";
 import { map, withLatestFrom, flatMap, filter } from 'rxjs/operators';
 import { of } from 'rxjs';
+import Select from "../models/Select";
 
-const searchAddressEpic = (action$) => action$.pipe(
-    ofType(actions.types.searchAddress),
-    //todo-sv: check if contract exists
+const selectContractEpic = (action$) => action$.pipe(
+    ofType(modelActions.types.contractSelect),
     flatMap(action => of(
         modelActions.onContractLoad(action.address)
     )),
@@ -16,22 +15,20 @@ const contractLoadedEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.contractDetailsLoaded),
     withLatestFrom(state$),
     filter(([action, state]) => 
-        action.address === state.topMenu.address
+        action.address === state.select.getSelected()
     ),
-    map(([action]) => modelActions.onContractSelect(action.address)),
+    map(([action]) => modelActions.onContractSelected(action.address)),
 )
 
 export const epic = combineEpics(
-    searchAddressEpic,
+    selectContractEpic,
     contractLoadedEpic,
 );
 
-export const reducer = (state={activeItem: ""}, action) => {
+export const reducer = (state=new Select(), action) => {
     switch(action.type) {
-        case actions.types.searchAddress:
-            return Object.assign({}, state, {
-                address: action.address,
-            });
+        case modelActions.types.contractSelect:
+            return state.setSelected(action.address);
         default:
             return state;
     }

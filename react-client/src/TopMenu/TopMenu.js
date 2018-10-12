@@ -3,12 +3,11 @@ import { connect } from 'react-redux';
 
 import { Menu, Icon, Form } from 'semantic-ui-react';
 
-import * as actions from './actions';
+import * as modelActions from '../modelActions';
 
 import logo from './logo.svg';
 
 export const TopMenu = ({address = "", searchSubmit}) => {
-
     const handleChange = (e, { name, value }) => {
         address = value;
     };
@@ -40,16 +39,10 @@ export const TopMenu = ({address = "", searchSubmit}) => {
 }
 
 //container part
-export const mapStateToProps = (state) => {
-    return {
-        address: state["topMenu"].address,
-    };
-}
-
 export const mapDispatchToProps = (dispatch) => {
     return {
-        searchSubmit: (address) => dispatch(actions.onSearchAddress(address)),
+        searchSubmit: (address) => dispatch(modelActions.onContractSelect(address)),
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TopMenu);
+export default connect(undefined, mapDispatchToProps)(TopMenu);
