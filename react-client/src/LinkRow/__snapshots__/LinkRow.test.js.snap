@@ -15,8 +15,7 @@ exports[`LinkRow should render 1`] = `
     <Component tag={{...}} />
   </TableCell>
   <TableCell as=\\"td\\">
-    <Button icon=\\"info\\" content=\\"Info\\" labelPosition=\\"left\\" as=\\"button\\" role=\\"button\\" />
-    <Button icon=\\"eye\\" content=\\"Select\\" labelPosition=\\"left\\" as=\\"button\\" role=\\"button\\" />
+    <Button onClick={[Function: onClick]} icon=\\"eye\\" content=\\"Select\\" labelPosition=\\"left\\" as=\\"button\\" role=\\"button\\" />
   </TableCell>
 </TableRow>"
 `;
