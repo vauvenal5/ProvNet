@@ -274,7 +274,7 @@ describe("Contract reducer", () => {
     });
 
     it("should correctly handle contract select action", () => {
-        expect(contractReducer(undefined, modelActions.onContractSelect("testAddress")))
+        expect(contractReducer(undefined, modelActions.onContractSelected("testAddress")))
         .toEqual({
             selected: ["testAddress"]
         });

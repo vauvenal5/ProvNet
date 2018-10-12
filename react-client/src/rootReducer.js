@@ -20,6 +20,7 @@ import DetailsView from "./DetailsView";
 import ProvContractList from "./models/ProvContractList";
 import TagList from "./models/TagList";
 import LinkList from "./models/LinkList";
+import Select from "./SelectReducer";
 
 export const contractDetailsLoadingEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.contractLoad),
@@ -108,17 +109,6 @@ export const linkSelectEpic = (action$, state$) => action$.pipe(
     })
 );
 
-export const rootEpic = combineEpics(
-    Web3Loader.epic,
-    TopMenu.epic,
-    contractTypesLoadEpic,
-    contractLinksLoadEpic,
-    typeLoadEpic,
-    contractDetailsLoadingEpic,
-    linkSelectEpic
-);
-
-
 export const contractReducer = (state = new ProvContractList(), action) => {
     console.log(action.type);
     console.log(state);
@@ -151,7 +141,8 @@ export const contractReducer = (state = new ProvContractList(), action) => {
             return state.assignContract(
                 contract.setLinks(contract.getLinks().addLink(action.link))
             );
-        case modelActions.types.contractSelect:
+        //todo-sv: this should probably move to the selectReducer now that it exists
+        case modelActions.types.contractSelected:
             return state.setSelected(action.address);
         case modelActions.types.linkSelected:
             return state.setLinkSelected(action.address);
@@ -160,10 +151,20 @@ export const contractReducer = (state = new ProvContractList(), action) => {
     }
 }
 
+export const rootEpic = combineEpics(
+    Web3Loader.epic,
+    contractTypesLoadEpic,
+    contractLinksLoadEpic,
+    typeLoadEpic,
+    contractDetailsLoadingEpic,
+    linkSelectEpic,
+    Select.epic
+);
+
 export const rootReducer = combineReducers({
     contracts: contractReducer,
-    topMenu: TopMenu.reducer,
     web3Loader: Web3Loader.reducer,
     detailsView: DetailsView.reducer,
     web3: Web3Loader.web3,
+    select: Select.reducer
 });

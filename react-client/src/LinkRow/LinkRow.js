@@ -34,10 +34,7 @@ export const LinkRow = ({types, link, linkSelect, contractSelect}) => {
 export const mapDispatchToProps = (dispatch) => {
     return {
         linkSelect: (address) => dispatch(actions.onLinkSelect(address)),
-        contractSelect: (address) => {
-            dispatch(actions.onContractLoad(address));
-            dispatch(actions.onContractSelect(address));
-        }
+        contractSelect: (address) => dispatch(actions.onContractSelect(address))
     }
 }
 
