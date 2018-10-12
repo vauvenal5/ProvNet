@@ -1,0 +1,47 @@
+{
+  "name": "provnet-node-client",
+  "version": "1.0.0",
+  "description": "A server side client for the ProvNet Ethereum contracts that can be used for automated provenance securing.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "nodemon src/index.js --exec babel-node",
+    "test": "jest",
+    "build": "babel src -d build",
+    "serve": "node build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vauvenal5/ProvNet.git"
+  },
+  "keywords": [
+    "data",
+    "provenance",
+    "ethereum",
+    "automation.",
+    "ProvNet"
+  ],
+  "author": "Svetoslav Videnov <vauvenal5@gmail.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/vauvenal5/ProvNet/issues"
+  },
+  "homepage": "https://github.com/vauvenal5/ProvNet#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "web3": "^1.0.0-beta.36"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/node": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/register": "^7.0.0",
+    "babel-core": "^7.0.0-bridge",
+    "babel-jest": "^23.6.0",
+    "jest": "^23.6.0",
+    "linklocal": "^2.8.2",
+    "nodemon": "^1.18.4",
+    "provnet": "file:../eth",
+    "regenerator-runtime": "^0.12.1"
+  }
+}
