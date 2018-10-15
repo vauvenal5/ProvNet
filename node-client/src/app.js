@@ -1,8 +1,11 @@
 import express from "express";
-import Web3 from "web3";
+import contracts from "./contracts";
 
 export const app = express();
 
+app.use("/contracts", contracts.router);
+
 app.get('/', function (req, res) {
-  res.json({text: 'Hello World2!'});
+  res.json({text: 'Hello from the ProvNet worker!'});
 });
+

@@ -28,6 +28,7 @@
   "homepage": "https://github.com/vauvenal5/ProvNet#readme",
   "dependencies": {
     "express": "^4.16.4",
+    "rxjs": "^6.3.3",
     "web3": "^1.0.0-beta.36"
   },
   "devDependencies": {
