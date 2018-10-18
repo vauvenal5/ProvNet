@@ -3,6 +3,7 @@ import TopMenu from './TopMenu';
 import Loader from "./Web3Loader";
 import DetailsView from "./DetailsView";
 import LinksView from "./LinksView";
+import DeployContract from "./DeployPopup";
 
 class App extends Component {
     render() {
@@ -12,6 +13,7 @@ class App extends Component {
 				<Loader.Component/>
 				<DetailsView.Component/>
 				<LinksView.Component/>
+				<DeployContract.Component/>
 			</div>
 		);
 	}

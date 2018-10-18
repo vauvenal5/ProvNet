@@ -9,7 +9,13 @@ import { Form, Icon } from 'semantic-ui-react';
 Enzyme.configure({ adapter: new Adapter() });
 
 const setup = (propOverrides) => {
-    const props = Object.assign({}, propOverrides);
+    const props = Object.assign({
+        deploy: {
+            loading: false,
+            success: false,
+            error: false
+        }
+    }, propOverrides);
 
     const wrapper = shallow(<TopMenu {...props}/>);
 

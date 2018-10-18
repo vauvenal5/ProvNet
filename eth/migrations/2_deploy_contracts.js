@@ -76,7 +76,7 @@ module.exports = function(deployer, network, accounts) {
   let infoSys;
   let tuwien;
   
-  if(network === "develop") {
+  if(network === "develop" || network === "ui") {
     dsg = deploySimpleProvenanceContract(deployer, "DSG", "This is a TU Wien DSG Mock contract used for development. It is not affiliated with the TU Wien!", "http://dsg.tuwien.ac.at/images/dsg-logo.jpg", accounts);
 
     infoSys = deploySimpleProvenanceContract(deployer, "InfoSys", "This is a TU Wien InfoSys Mock contract used for development. It is not affiliated with the TU Wien!", "http://www.informatik.tuwien.ac.at/kontakt/INF_Logo_typo_grau_web_rgb.png", accounts);
@@ -87,7 +87,7 @@ module.exports = function(deployer, network, accounts) {
   //this one is the last contract on purpose so that this contracts address is written into the SimpleProvenanceContract json file!
   let svidenov = deploySimpleProvenanceContract(deployer, "svidenov", "This is the contract of the ProvNet developer.", "https://www.tuwien.ac.at/fileadmin/t/tuwien/downloads/cd/CD_NEU_2009/TU_Logos_2009/TUSignet.jpg", accounts);
 
-  if(network === "develop") {
+  if(network === "develop" || network === "ui") {
     addLink(deployer, dsg, infoSys, 1);
     addLink(deployer, infoSys, dsg, 1);
     

@@ -1,14 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TopMenu should render empty view 1`] = `
-"<Menu stackable={true}>
+"<Menu stackable={true} icon={true}>
   <MenuItem>
     <img src=\\"logo.svg\\" />
   </MenuItem>
+  <MenuItem onClick={[Function: onClick]}>
+    <Dimmer active={false}>
+      <Loader />
+    </Dimmer>
+    <Dimmer active={false}>
+      <Icon name=\\"check\\" color=\\"green\\" size=\\"big\\" as=\\"i\\" />
+    </Dimmer>
+    <Dimmer active={false}>
+      <Icon name=\\"close\\" color=\\"red\\" size=\\"big\\" as=\\"i\\" />
+    </Dimmer>
+    <IconGroup size=\\"big\\" as=\\"i\\">
+      <Icon name=\\"file alternate outline\\" as=\\"i\\" />
+      <Icon name=\\"add\\" color=\\"olive\\" corner={true} as=\\"i\\" />
+    </IconGroup>
+  </MenuItem>
   <MenuMenu position=\\"right\\">
     <MenuItem>
-      <Form onSubmit={[Function: onSubmit]} as=\\"form\\">
-        <FormInput name=\\"address\\" onChange={[Function: handleChange]} icon={{...}} placeholder=\\"Contract Address...\\" as={[Function: FormField]} control={[Function: Input]} />
+      <Form onSubmit={[Function]} as=\\"form\\">
+        <FormInput name=\\"address\\" onChange={[Function]} icon={{...}} placeholder=\\"Contract Address...\\" as={[Function: FormField]} control={[Function: Input]} />
       </Form>
     </MenuItem>
   </MenuMenu>

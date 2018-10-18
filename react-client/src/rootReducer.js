@@ -8,10 +8,11 @@ import {
     map,  
     flatMap, 
     switchAll,
-    reduce } from "rxjs/operators";
+    reduce,
+    catchError } from "rxjs/operators";
 import { of, from, zip, forkJoin} from 'rxjs';
 
-import SimpleProvenanceContract from "ProvNet/build/contracts/SimpleProvenanceContract";
+import SimpleProvenanceContract from "ProvNet/build/linked/SimpleProvenanceContract";
 
 import ProvContract from "./models/ProvContract";
 import Tag from "./models/Tag";
@@ -21,12 +22,15 @@ import ProvContractList from "./models/ProvContractList";
 import TagList from "./models/TagList";
 import LinkList from "./models/LinkList";
 import Select from "./SelectReducer";
+import DeployContract from "./DeployPopup";
+
+//import contract from "truffle-contract";
 
 export const contractDetailsLoadingEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.contractLoad),
     withLatestFrom(state$),
     flatMap(([action, state]) => {
-        let web3Instance = new state.web3.eth.Contract(SimpleProvenanceContract.abi, action.address);
+        let web3Instance = new state.web3.eth.Contract(SimpleProvenanceContract.truffle.abi, action.address);
         return forkJoin(
             web3Instance.methods.getDescription().call(),
             web3Instance.methods.getLogoUrl().call(),
@@ -41,7 +45,7 @@ export const contractTypesLoadEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.contractLoad),
     withLatestFrom(state$),
     flatMap(([action, state]) => {
-        let web3Instance = new state.web3.eth.Contract(SimpleProvenanceContract.abi, action.address);
+        let web3Instance = new state.web3.eth.Contract(SimpleProvenanceContract.truffle.abi, action.address);
         return from(
             web3Instance.methods.getLinkTypes().call()
         ).pipe(
@@ -64,7 +68,7 @@ export const typeLoadEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.typeLoad),
     withLatestFrom(state$),
     flatMap(([action, state]) => {
-        let web3Instance = new state.web3.eth.Contract(SimpleProvenanceContract.abi, action.address);
+        let web3Instance = new state.web3.eth.Contract(SimpleProvenanceContract.truffle.abi, action.address);
         return from(
             web3Instance.methods.getLinkType(action.tag.id).call()
         ).pipe(
@@ -78,7 +82,7 @@ export const typeLoadEpic = (action$, state$) => action$.pipe(
 export const contractLinksLoadEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.linksLoad),
     withLatestFrom(state$),
-    map(([action, state]) => ({action: action, web3Instance: new state.web3.eth.Contract(SimpleProvenanceContract.abi, action.address)})
+    map(([action, state]) => ({action: action, web3Instance: new state.web3.eth.Contract(SimpleProvenanceContract.truffle.abi, action.address)})
     ),
     flatMap(({action, web3Instance}) => from(
             web3Instance.methods.getLinkList().call()
@@ -87,7 +91,7 @@ export const contractLinksLoadEpic = (action$, state$) => action$.pipe(
             withLatestFrom(state$),
             flatMap(([linkAddress, state]) => zip(
                 web3Instance.methods.getLink(linkAddress).call(),
-                (new state.web3.eth.Contract(SimpleProvenanceContract.abi, linkAddress)).methods.getTitle().call(),
+                (new state.web3.eth.Contract(SimpleProvenanceContract.truffle.abi, linkAddress)).methods.getTitle().call(),
                 (res, title) => modelActions.onLinkLoaded(action.address, res[0], res[1].filter(tag => tag != 0), title)
             ))
         )
@@ -107,6 +111,53 @@ export const linkSelectEpic = (action$, state$) => action$.pipe(
             modelActions.onLinkSelected(action.address)
         );
     })
+);
+
+export const deployContractEpic = (action$, state$) => action$.pipe(
+    ofType(modelActions.types.deployContract),
+    withLatestFrom(state$),
+    flatMap(([action, state]) => {
+        const promiseCallback = (resolve, reject) => (err, id) => {
+            if(err) {
+                reject(err);
+            }
+            console.log(id);
+            resolve(id);
+        };
+
+        let networkIdPromise = new Promise((resolve, reject) => {
+            state.web3.eth.net.getId(promiseCallback(resolve, reject))
+        });
+
+        let accountsPromise = new Promise((resolve, reject) => {
+            state.web3.eth.getAccounts(promiseCallback(resolve, reject))
+        });
+
+        return zip(
+            networkIdPromise, 
+            accountsPromise, 
+            (id, accounts) => ({
+                account: accounts[0],
+                web3Instance: new state.web3.eth.Contract(
+                    SimpleProvenanceContract.truffle.abi, 
+                    undefined, 
+                    //todo-sv: add some check if binary exists for this network
+                    {data: SimpleProvenanceContract.binary[id]}
+                )
+            })
+        );
+    }),
+    flatMap(({account, web3Instance}) => {
+        return from(
+            web3Instance.deploy().send({from: account})
+        ).pipe(
+            map(res => {console.log(res); return modelActions.onDeployedContract(res.options.address);}),
+            catchError(err => {
+                console.log(err);
+                return of(modelActions.onDeployContractFailed(err));
+            })
+        )
+    }),  
 );
 
 export const contractReducer = (state = new ProvContractList(), action) => {
@@ -158,7 +209,8 @@ export const rootEpic = combineEpics(
     typeLoadEpic,
     contractDetailsLoadingEpic,
     linkSelectEpic,
-    Select.epic
+    Select.epic,
+    deployContractEpic
 );
 
 export const rootReducer = combineReducers({
@@ -166,5 +218,6 @@ export const rootReducer = combineReducers({
     web3Loader: Web3Loader.reducer,
     detailsView: DetailsView.reducer,
     web3: Web3Loader.web3,
-    select: Select.reducer
+    select: Select.reducer,
+    deployment: DeployContract.reducer
 });
