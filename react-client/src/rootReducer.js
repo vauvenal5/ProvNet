@@ -22,7 +22,7 @@ import ProvContractList from "./models/ProvContractList";
 import TagList from "./models/TagList";
 import LinkList from "./models/LinkList";
 import Select from "./SelectReducer";
-import DeployContract from "./DeployPopup";
+import DeployContract from "./DeployContract";
 
 //import contract from "truffle-contract";
 
