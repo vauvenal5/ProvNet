@@ -43,6 +43,7 @@ export class DeployModal extends React.Component {
                 open={this.props.isOpen}
                 onClose={this.props.onClose}
                 closeIcon
+                size="small"
             >
                 <Modal.Header>
                     Deploy new Provenance Contract
@@ -52,7 +53,11 @@ export class DeployModal extends React.Component {
                         <Loader size="big" content="Deploying..."/>
                     </Dimmer>
                     
-                    <Form warning onValidSubmit={this.onSubmit.bind(this)}>
+                    <Form 
+                        warning 
+                        onValidSubmit={this.onSubmit.bind(this)}
+                        onValid={() => this.setState({valid: true})}
+                        onInvalid={() => this.setState({valid: false})}>
                         <Message
                             warning
                             icon="warning sign"
@@ -70,10 +75,13 @@ export class DeployModal extends React.Component {
                                 required
                                 value={this.state.title}
                             />
-                            <Button color="olive" type="submit">Deploy</Button>
+                            
                         </Form.Group>
                     </Form>
                 </Modal.Content>
+                <Modal.Actions>
+                    <Button color="olive" disabled={!this.state.valid} onClick={this.onSubmit.bind(this)}>Deploy</Button>
+                </Modal.Actions>
             </Modal>
             <Modal
                 basic

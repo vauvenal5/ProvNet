@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Grid, Header } from 'semantic-ui-react';
+import { Grid, Header, Label, Icon, Dimmer, Loader, Segment, Button } from 'semantic-ui-react';
 
 import TagsView from '../TagsView';
 import ContractForm from "../ContractForm";
@@ -14,6 +14,28 @@ export const DetailsView = ({selected, contract}) => {
                 <Grid.Column>
                     <Header as="h1" dividing>
                         ProvContract
+                        <Dimmer.Dimmable>
+                        <Label as="a" tag size="tiny">
+                            <Icon name="edit" fitted/>
+                            
+                            <Label.Detail><Dimmer active={true}>
+                                <Loader size="tiny"/>
+                            </Dimmer></Label.Detail>
+                        </Label>
+                        </Dimmer.Dimmable>
+                        {/* <Dimmer.Dimmable as={() => <Label as="a" size="tiny"><Icon name="edit" fitted/></Label>} dimmed={true}>
+                        
+                            
+                            <Dimmer active={true}>
+                                <Loader size="tiny"/>
+                            </Dimmer>
+                            </Dimmer.Dimmable> */}
+                        {/* <Button size="tiny">
+                            <Icon name="edit" fitted/>
+                            <Dimmer active={true}>
+                                <Loader size="tiny"/>
+                            </Dimmer>
+                        </Button> */}
                         <Header.Subheader>
                             Contract Address: {selected}
                         </Header.Subheader>

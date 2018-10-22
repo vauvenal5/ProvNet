@@ -8,6 +8,7 @@ import {
     Image,
     Message, 
     Grid,
+    Item,
     Loader, 
     Dimmer
 } from 'semantic-ui-react';
@@ -30,7 +31,7 @@ export class EditDetailsView extends React.Component {
         return(
         <Fragment>
             <Modal 
-                open={true}
+                open={false}
                 onClose={this.props.onClose}
                 closeIcon
                 size="small"
@@ -39,66 +40,64 @@ export class EditDetailsView extends React.Component {
                     Edit Contract Details
                 </Modal.Header>
 
+                <Dimmer active={false}>
+                    <Loader size="big" content="Sending..."/>
+                </Dimmer>
                 
-
-                <Modal.Content>
-                    <Dimmer active={this.props.loading}>
-                        <Loader size="big" content="Sending..."/>
-                    </Dimmer>
-
-                    <Image src='https://react.semantic-ui.com/images/wireframe/square-image.png' circular size='small' floated="right"/>
-
-                    <Grid>
-                    
-
-                    <Grid.Column >
-
-                    
-                    
-                    <Form>
-                        <Message 
-                            warning
-                            icon="warning sign"
-                            header="You are about to make on-chain changes to this contract!"
-                            content="This action will use one or more transactions to make changes to your contract."
-                        />
-                        
-                        <Form.Group widths="equal">
-                            <Form.Input
-                                label="Contract Title"
-                                name="title"
-                                placeholder="MyCompaniesTitle"
-                                required
-                                value={this.state.title}
+                <Modal.Content scrolling>
+                    <Message 
+                        warning
+                        icon="warning sign"
+                        header="You are about to make on-chain changes to this contract!"
+                        content="This action will use one or more transactions to make changes to your contract."
+                    />
+                
+                    <Grid stackable>
+                        <Grid.Column width="4" verticalAlign="middle">
+                            <Image src='https://react.semantic-ui.com/images/wireframe/square-image.png' centered circular size='small'/>
+                        </Grid.Column>
+                        <Grid.Column width="12">
+                            <Form>
+                                <Message 
+                                    warning
+                                    icon="warning sign"
+                                    header="You are about to make on-chain changes to this contract!"
+                                    content="This action will use one or more transactions to make changes to your contract."
+                                />
                                 
-                            />
-                        
-                            <Form.Input
-                                label="Contract Logo URL"
-                                name="link"
-                                placeholder="MyCompaniesImageURL"
-                                value={this.state.url}
-                            />
-                        </Form.Group>
-                        
-                        <Form.TextArea 
-                            label="Contract Description"
-                            name="desc"
-                            placeholder="Write here a short description of your contract."
-                            value={this.state.desc}
-                        />
-
-                        <Button color="olive" type="submit">Save</Button>
-                    </Form>
-                    {/* </Grid.Column>
-
-                     <Grid.Column verticalAlign="top" width="4">
-                    <Image src='https://react.semantic-ui.com/images/wireframe/square-image.png' circular size='small'/>*/}
-                    </Grid.Column> 
-
-                    </Grid> 
-                    
+                                <Form.Group widths="equal">
+                                    <Form.Input
+                                        label="Contract Title"
+                                        name="title"
+                                        placeholder="MyCompaniesTitle"
+                                        required
+                                        value={this.state.title}
+                                        
+                                    />
+                                
+                                    <Form.Input
+                                        label="Contract Logo URL"
+                                        name="link"
+                                        placeholder="MyCompaniesImageURL"
+                                        value={this.state.url}
+                                    />
+                                </Form.Group>
+                                
+                                <Form.TextArea 
+                                    label="Contract Description"
+                                    name="desc"
+                                    placeholder="Write here a short description of your contract."
+                                    value={this.state.desc}
+                                    style={{ minHeight: 90 }}
+                                />
+                            </Form>
+                        </Grid.Column> 
+                    </Grid>   
                 </Modal.Content>
+                <Modal.Actions>
+                    <Button color="olive" type="submit">Save</Button>
+                </Modal.Actions>
+                
             </Modal>
         </Fragment>
         );

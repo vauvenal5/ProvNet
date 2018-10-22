@@ -1,5 +1,5 @@
 import React from 'react';
-import { Item } from 'semantic-ui-react';
+import { Item, Button, Icon, Label, Dimmer, Loader, Segment } from 'semantic-ui-react';
 
 //component part
 export const ContractForm = (props) => {
@@ -9,18 +9,30 @@ export const ContractForm = (props) => {
     }
 
     return (
+        <Segment>
+            
         <Item.Group>
             <Item>
-                <Item.Image src={url} size='small' circular />
+                <Item.Image src={url} size='small' circular/>
 
                 <Item.Content>
-                    <Item.Header>Description</Item.Header>
+                
+                    <Item.Header>
+                        Description
+                        <Label as='a' >
+                <Icon name="edit" fitted/>
+                <Dimmer active={true}>
+                    <Loader size="tiny"/>
+                </Dimmer>
+            </Label>
+                    </Item.Header>
                     <Item.Description>
                         {props.description}
                     </Item.Description>
                 </Item.Content>
             </Item>
         </Item.Group>
+        </Segment>
     );
 }
 
