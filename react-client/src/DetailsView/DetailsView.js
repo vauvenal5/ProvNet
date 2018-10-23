@@ -6,7 +6,8 @@ import { Grid, Header, Label, Icon, Dimmer, Loader, Segment, Button } from 'sema
 import TagsView from '../TagsView';
 import ContractForm from "../ContractForm";
 import ProvContract from '../models/ProvContract';
-import TagsTableView from "../TagsTableView/TagsTableView"
+import TagsTableView from "../TagsTableView/TagsTableView";
+import TagsListView from "../TagsListView/TagsListView";
 
 export const DetailsView = ({selected, contract}) => {    
     return (
@@ -26,7 +27,7 @@ export const DetailsView = ({selected, contract}) => {
                     <ContractForm.Component imageUrl={contract.details.logoUrl} description={contract.details.description}/>
                 </Grid.Column>
                 <Grid.Column floated="right" width={5}>
-                    <TagsTableView/>
+                    <TagsListView/>
                     {/* <TagsView.Component 
                         tags={contract.getTags()}
                     /> */}
