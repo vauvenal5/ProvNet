@@ -42,6 +42,22 @@ export class TopMenu extends React.Component{
                     </Icon.Group>
                 </Menu.Item>
 
+                <Menu.Item onClick={() => this.props.onDeploy()}>
+                    {/* <Dimmer active={this.props.deploy.loading}>
+                        <Loader />
+                    </Dimmer>
+                    <Dimmer active={this.props.deploy.success}>
+                        <Icon name="check" color="green" size="big" />
+                    </Dimmer>
+                    <Dimmer active={this.props.deploy.error}>
+                        <Icon name="close" color="red" size="big" />
+                    </Dimmer> */}
+                    <Icon.Group size="big">
+                        <Icon name="file alternate outline"/>
+                        <Icon name="edit" color="blue" corner/>
+                    </Icon.Group>
+                </Menu.Item>
+
                 <Menu.Menu position="right">
                     <Menu.Item>
                         <Form onSubmit={this.onSubmit}>

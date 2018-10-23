@@ -22,7 +22,7 @@ export const TagView = ({tag}) => {
     const getColor = () => colors[(tag.getId()-1)%colors.length];
 
     return(
-        <Label color={getColor()} key={tag.getId()}>
+        <Label as="a" color={getColor()} key={tag.getId()}>
             {_.capitalize(tag.getTitle())}
         </Label>
     );

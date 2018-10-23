@@ -6,6 +6,7 @@ import { Grid, Header, Label, Icon, Dimmer, Loader, Segment, Button } from 'sema
 import TagsView from '../TagsView';
 import ContractForm from "../ContractForm";
 import ProvContract from '../models/ProvContract';
+import TagsTableView from "../TagsTableView/TagsTableView"
 
 export const DetailsView = ({selected, contract}) => {    
     return (
@@ -14,28 +15,6 @@ export const DetailsView = ({selected, contract}) => {
                 <Grid.Column>
                     <Header as="h1" dividing>
                         ProvContract
-                        <Dimmer.Dimmable>
-                        <Label as="a" tag size="tiny">
-                            <Icon name="edit" fitted/>
-                            
-                            <Label.Detail><Dimmer active={true}>
-                                <Loader size="tiny"/>
-                            </Dimmer></Label.Detail>
-                        </Label>
-                        </Dimmer.Dimmable>
-                        {/* <Dimmer.Dimmable as={() => <Label as="a" size="tiny"><Icon name="edit" fitted/></Label>} dimmed={true}>
-                        
-                            
-                            <Dimmer active={true}>
-                                <Loader size="tiny"/>
-                            </Dimmer>
-                            </Dimmer.Dimmable> */}
-                        {/* <Button size="tiny">
-                            <Icon name="edit" fitted/>
-                            <Dimmer active={true}>
-                                <Loader size="tiny"/>
-                            </Dimmer>
-                        </Button> */}
                         <Header.Subheader>
                             Contract Address: {selected}
                         </Header.Subheader>
@@ -47,9 +26,10 @@ export const DetailsView = ({selected, contract}) => {
                     <ContractForm.Component imageUrl={contract.details.logoUrl} description={contract.details.description}/>
                 </Grid.Column>
                 <Grid.Column floated="right" width={5}>
-                    <TagsView.Component 
+                    <TagsTableView/>
+                    {/* <TagsView.Component 
                         tags={contract.getTags()}
-                    />
+                    /> */}
                 </Grid.Column>
             </Grid.Row>
         </Grid>

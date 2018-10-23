@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Segment, Label, Header } from 'semantic-ui-react';
+import { Segment, Label, Header, Dimmer, Loader, Icon } from 'semantic-ui-react';
 import TagView from '../TagView';
 
 export const TagsView = ({tags}) => {
@@ -16,9 +16,25 @@ export const TagsView = ({tags}) => {
 
     return (
         <Segment>
-            <Label.Group circular>
-                <Header as="h2" dividing>Link Types:</Header>
-                {labels}
+            
+            <Header as="h2" dividing>
+            Link Types: 
+            
+            </Header>
+            
+            <Label attached="top right" as="a">
+            <Icon name="add square" fitted/>
+            </Label>
+
+            <Label.Group>
+            
+            <Label as="a" color="red">
+            Test
+            </Label>
+            <Label as="a" basic color="red">
+            Test
+            </Label>
+                {/* {labels} */}
             </Label.Group>
         </Segment>
     );
