@@ -1,4 +1,4 @@
-import ContractDetails from "../models/ContractDetails";
+import { ContractDetails } from "./imports";
 
 export const types = {
     editDetails: "EDIT_DETAILS",

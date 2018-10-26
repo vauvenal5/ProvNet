@@ -1,4 +1,4 @@
-import EditModalLeaf from "../EditModal/EditModalLeaf";
+import EditModalLeaf from "./imports";
 
 export default class EditDetails extends EditModalLeaf {
     constructor() {

@@ -10,13 +10,13 @@ import {
     Dimmer
 } from 'semantic-ui-react';
 import {Form} from "formsy-semantic-ui-react";
-import EditModal, {withFormValidation} from "../EditModal";
-import * as modelActions from '../modelActions';
+import {modelActions, EditModalWrapper, withFormValidation, withDefaultProps} from "./imports";
 
 export class DeployModal extends React.Component {
 
     constructor(props) {
         super(props);
+        console.log(props);
         this.state = {
             title: "",
         };
@@ -38,14 +38,12 @@ export class DeployModal extends React.Component {
     render() {
         return(
             <Fragment>
-            <EditModal 
+            <EditModalWrapper 
                 header="Deploy new Provenance Contract" 
-                isOpen={this.props.isOpen}
-                onClose={this.props.onClose}
-                commitValid={this.props.valid}
+                errorHeader="Contract deployment failed!"
+                errorMessage="We were not able to deploy your contract."
+                {...this.props.defaultProps}
                 onCommit={this.onSubmit.bind(this)}
-                
-                {...this.props.error}
                 onClearResult={this.onClearResult.bind(this)}
             >
                 <Message
@@ -54,26 +52,25 @@ export class DeployModal extends React.Component {
                     header='You are about to deploy a new contract!'
                     content="This action will deploy a new SimpleProvenanceContract to the chain your MetaMask is connected to!"
                 />
-                    <Form 
-                        onValidSubmit={this.onSubmit.bind(this)}
-                        onValid={this.props.onValid}
-                        onInvalid={this.props.onInvalid}>
+                <Form 
+                    onValidSubmit={this.onSubmit.bind(this)}
+                    {...this.props.formValidation}
+                >
+                    <Form.Group inline>
+                        <Form.Input 
+                            label="Contract Title"
+                            name="title" 
+                            onChange={(e, value) => 
+                                this.onTitleChange(value.value)
+                            }
+                            placeholder="MyCompaniesContract"
+                            required
+                            value={this.state.title}
+                        />
                         
-                        <Form.Group inline>
-                            <Form.Input 
-                                label="Contract Title"
-                                name="title" 
-                                onChange={(e, value) => 
-                                    this.onTitleChange(value.value)
-                                }
-                                placeholder="MyCompaniesContract"
-                                required
-                                value={this.state.title}
-                            />
-                            
-                        </Form.Group>
-                    </Form>
-            </EditModal>
+                    </Form.Group>
+                </Form>
+            </EditModalWrapper>
             <Modal
                 basic
                 size="small"
@@ -114,7 +111,7 @@ export class DeployModal extends React.Component {
     }
 }
 
-export const ValidatedDeployModal = withFormValidation(DeployModal);
+export const ValidatedDeployModal = withFormValidation(withDefaultProps(DeployModal));
 
 export const mapStateToProps = (state) => {
     return {
@@ -122,11 +119,7 @@ export const mapStateToProps = (state) => {
         success: state.deployment.isOpen() && state.deployment.isSuccess(),
         loading: state.deployment.isLoading(),
         address: state.deployment.getAddress(),
-        error: {
-            error: state.deployment.isOpen() && state.deployment.isError(),
-            errorHeader: "Contract deployment failed!",
-            errorMessage: "We were not able to deploy your contract.",
-        }
+        error: state.deployment.isOpen() && state.deployment.isError(),
     }
 }
 

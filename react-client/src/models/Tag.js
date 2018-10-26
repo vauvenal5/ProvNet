@@ -8,7 +8,15 @@ export default class Tag {
         return this.id;
     }
 
+    static getId(self) {
+        return self.getId();
+    }
+
     getTitle() {
         return this.title;
+    }
+
+    static getTitle(self) {
+        return self.getTitle();
     }
 }

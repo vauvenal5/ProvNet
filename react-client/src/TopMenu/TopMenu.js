@@ -7,7 +7,7 @@ import * as modelActions from '../modelActions';
 
 import logo from './logo.svg';
 import ProvContractList from '../models/ProvContractList';
-import EditModalList from "../EditModal/EditModalList";
+import {EditModalList, EditModalLeaf} from "../EditViews";
 
 export class TopMenu extends React.Component{
     
@@ -45,15 +45,15 @@ export class TopMenu extends React.Component{
                 </Menu.Item>
 
                 <Menu.Item onClick={() => this.props.onEdit()} disabled={!this.props.isContractSelected}>
-                    {/* <Dimmer active={this.props.deploy.loading}>
+                    <Dimmer active={this.props.edit.loading}>
                         <Loader />
                     </Dimmer>
-                    <Dimmer active={this.props.deploy.success}>
+                    {/* <Dimmer active={this.props.edit.success}>
                         <Icon name="check" color="green" size="big" />
-                    </Dimmer>
-                    <Dimmer active={this.props.deploy.error}>
-                        <Icon name="close" color="red" size="big" />
                     </Dimmer> */}
+                    <Dimmer active={this.props.edit.error}>
+                        <Icon name="close" color="red" size="big" />
+                    </Dimmer>
                     <Icon.Group size="big">
                         <Icon name="file alternate outline"/>
                         <Icon name="edit" color="blue" corner disabled={!this.props.isContractSelected}/>
@@ -98,6 +98,10 @@ export class TopMenu extends React.Component{
 //container part
 export const mapStateToProps = (state) => {
     let selected = ProvContractList.getSelectedContract(ProvContractList.getSelf(state));
+    let editModal = EditModalList.getModal(state.editDetails, selected.getAddress());
+    if(editModal === undefined) {
+        editModal = new EditModalLeaf();
+    }
     return {
         isContractSelected: ProvContractList.getSelf(state).isRootSelected(), 
         selectedContract: selected.getAddress(),
@@ -107,7 +111,7 @@ export const mapStateToProps = (state) => {
             error: state.deployment.isError()
         },
         edit: {
-            loading: EditModalList.getModal(state.editDetails, selected.getAddress())
+            loading: editModal.isLoading()
         }
     };
 }

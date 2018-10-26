@@ -22,9 +22,8 @@ import ProvContractList from "./models/ProvContractList";
 import TagList from "./models/TagList";
 import LinkList from "./models/LinkList";
 import Select from "./SelectReducer";
-import DeployContract from "./DeployContract";
-import EditDetailsView from "./EditDetailsView";
-import {reducer as editTagReducer} from './EditTagView';
+import {DeployContract} from "./EditViews";
+import {EditDetailsView, editTagReducer} from "./EditViews";
 
 //import contract from "truffle-contract";
 

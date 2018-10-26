@@ -9,9 +9,6 @@ import {
     Loader, 
     Dimmer
 } from 'semantic-ui-react';
-import {Form} from "formsy-semantic-ui-react";
-import {EditModal} from "../EditModal/Component";
-import * as modelActions from '../modelActions';
 
 export class EditErrorModal extends React.Component {
 

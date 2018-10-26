@@ -1,4 +1,4 @@
-import EditModalList from "../EditModal/EditModalList";
+import {EditModalList} from "./imports";
 
 export default class EditModalTagList extends EditModalList {
     constructor(id) {

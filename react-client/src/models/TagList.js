@@ -11,6 +11,10 @@ export default class TagList {
         return this[id];
     }
 
+    static getTag(self, id) {
+        return self.getTag(id);
+    }
+
     softClone(o) {
         return Object.assign(new TagList(), this, o);
     }

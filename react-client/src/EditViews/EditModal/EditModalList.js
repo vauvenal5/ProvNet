@@ -1,5 +1,4 @@
 import EditModal from "./EditModal";
-import EditModalLeaf from "./EditModalLeaf";
 
 export default class EditModalList extends EditModal {
     constructor(id) {
@@ -17,6 +16,19 @@ export default class EditModalList extends EditModal {
 
     static getModal(self, id) {
         return self.getModal(id);
+    }
+
+    setModal(modal) {
+        return this.softClone({
+            modals: {
+                ...this.modals,
+                [EditModal.getId(modal)]: modal
+            }
+        });
+    }
+
+    static setModal(self, modal) {
+        return self.setModal(modal);
     }
 
     putOnce(modal) {

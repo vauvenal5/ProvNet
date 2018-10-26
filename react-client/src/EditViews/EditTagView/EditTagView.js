@@ -1,24 +1,9 @@
 import React, {Fragment} from 'react';
 import { connect } from 'react-redux';
 
-import { 
-    Modal,
-    Button, 
-    Icon,  
-    Image,
-    Message, 
-    Grid,
-    Item,
-    Loader, 
-    Dimmer
-} from 'semantic-ui-react';
 import {Form} from "formsy-semantic-ui-react";
-import EditModal, {withFormValidation} from "../EditModal";
-import * as modelActions from '../modelActions';
-import ProvContract from '../models/ProvContract';
-import ProvContractList from '../models/ProvContractList';
+import {modelActions, ProvContract, ProvContractList, Tag, EditModalWrapper, withFormValidation} from "./imports";
 import EditModalTagList from './EditModalTagList';
-import Tag from '../models/Tag';
 
 export class EditTagView extends React.Component {
 
@@ -31,7 +16,7 @@ export class EditTagView extends React.Component {
 
     render() {
         return(
-            <EditModal 
+            <EditModalWrapper 
                 header="Add Tag" 
                 defaultWarning 
                 isOpen={this.props.isOpen} 
@@ -52,7 +37,7 @@ export class EditTagView extends React.Component {
                         />
                     </Form.Group>
                 </Form>
-            </EditModal>
+            </EditModalWrapper>
         );
     }
 }

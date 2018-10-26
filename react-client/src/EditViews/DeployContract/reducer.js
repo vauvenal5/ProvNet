@@ -1,4 +1,4 @@
-import * as actions from "../modelActions";
+import {modelActions as actions} from "./imports";
 import ContractDeployment from "./ContractDeployment";
 
 export const reducer = (

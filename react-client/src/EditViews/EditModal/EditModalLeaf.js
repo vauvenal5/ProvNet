@@ -49,6 +49,10 @@ export default class EditModalLeaf extends EditModal {
         return this.setState(this.states.loading);
     }
 
+    static setLoading(self) {
+        return self.setLoading();
+    }
+
     setState(state) {
         return this.softClone({state: state});
     }

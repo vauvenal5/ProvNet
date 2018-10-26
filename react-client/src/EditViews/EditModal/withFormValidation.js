@@ -15,10 +15,13 @@ export const withFormValidation = (WrappedComponent) => {
 
         render() {
             return (
-                <WrappedComponent {...this.props}
-                    valid={this.state.valid} 
-                    onValid={() => this.onToggleValid(true)} 
-                    onInvalid={() => this.onToggleValid(false)}
+                <WrappedComponent 
+                    {...this.props}
+                    valid={this.state.valid}
+                    formValidation={{
+                        onValid: () => this.onToggleValid(true), 
+                        onInvalid: () => this.onToggleValid(false)
+                    }}
                 />
             );
         }

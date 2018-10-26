@@ -1,26 +1,24 @@
 import React, {Fragment} from 'react';
 import { connect } from 'react-redux';
 
-import { 
-    Modal,
-    Button, 
-    Icon,  
-    Image,
-    Message, 
-    Grid,
-    Item,
-    Label, 
-    Dimmer
+import {  
+    Image, 
+    Grid
 } from 'semantic-ui-react';
 import {Form} from "formsy-semantic-ui-react";
-import EditModal, {withFormValidation} from "../EditModal";
-import * as modelActions from '../modelActions';
 import * as actions from "./actions";
-import ProvContractList from '../models/ProvContractList';
-import ContractDetails from '../models/ContractDetails';
-import ProvContract from '../models/ProvContract';
-import EditModalList from "../EditModal/EditModalList";
-import {withDefaultImage} from "../withDefaultImage";
+import { 
+    ProvContractList, 
+    ContractDetails, 
+    ProvContract, 
+    modelActions, 
+    withDefaultImage, 
+    EditModalList, 
+    EditModalWrapper, 
+    withFormValidation 
+} from "./imports";
+import { withDefaultProps } from '../withDefaultProps';
+
 
 export class EditDetailsView extends React.Component {
 
@@ -52,12 +50,12 @@ export class EditDetailsView extends React.Component {
 
     render() {
         return(
-            <EditModal 
+            <EditModalWrapper 
                 header="Edit Contract Details" 
+                errorHeader="One or more transactions failed!"
+                errorMessage="We were not able to transfer some or all of your details."
                 defaultWarning 
-                isOpen={this.props.isOpen} 
-                onClose={this.props.onClose}
-                commitValid={this.props.valid}
+                {...this.props.defaultProps}
                 onCommit={this.onSubmit.bind(this)}
             >
                 <Grid stackable>
@@ -67,8 +65,7 @@ export class EditDetailsView extends React.Component {
                     <Grid.Column width="12">
                         <Form
                             onValidSubmit={this.onSubmit.bind(this)}
-                            onValid={this.props.onValid}
-                            onInvalid={this.props.onInvalid}
+                            {...this.props.formValidation}
                         >                            
                             <Form.Group widths="equal">
                                 <Form.Input
@@ -107,12 +104,12 @@ export class EditDetailsView extends React.Component {
                         </Form>
                     </Grid.Column> 
                 </Grid>
-            </EditModal>
+            </EditModalWrapper>
         );
     }
 }
 
-export const ValidatedEditDetailsView = withFormValidation(withDefaultImage(EditDetailsView));
+export const ValidatedEditDetailsView = withFormValidation(withDefaultProps(withDefaultImage(EditDetailsView)));
 
 export const mapStateToProps = (state, ownProps) => {
     //todo-sv: change first input to RootState.getProvContractList(state)

@@ -17,6 +17,10 @@ export default class ProvContractList {
         return contract;
     }
 
+    static getContract(self, address) {
+        return self.getContract(address);
+    }
+
     assignContract(contract) {
         return this.softClone({[contract.address]: contract});
     }

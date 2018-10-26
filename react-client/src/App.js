@@ -3,9 +3,7 @@ import TopMenu from './TopMenu';
 import Loader from "./Web3Loader";
 import DetailsView from "./DetailsView";
 import LinksView from "./LinksView";
-import DeployContract from "./DeployContract";
-import EditDetailsView from "./EditDetailsView";
-import EditTagView from './EditTagView';
+import {DeployContract, EditDetailsView, EditTagView} from "./EditViews";
 import { connect } from 'react-redux';
 
 class App extends Component {
