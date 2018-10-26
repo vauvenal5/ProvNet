@@ -6,6 +6,8 @@ import { Menu, Icon, Form, Dimmer, Loader } from 'semantic-ui-react';
 import * as modelActions from '../modelActions';
 
 import logo from './logo.svg';
+import ProvContractList from '../models/ProvContractList';
+import EditModalList from "../EditModal/EditModalList";
 
 export class TopMenu extends React.Component{
     
@@ -42,7 +44,7 @@ export class TopMenu extends React.Component{
                     </Icon.Group>
                 </Menu.Item>
 
-                <Menu.Item onClick={() => this.props.onDeploy()}>
+                <Menu.Item onClick={() => this.props.onEdit()} disabled={!this.props.isContractSelected}>
                     {/* <Dimmer active={this.props.deploy.loading}>
                         <Loader />
                     </Dimmer>
@@ -54,7 +56,23 @@ export class TopMenu extends React.Component{
                     </Dimmer> */}
                     <Icon.Group size="big">
                         <Icon name="file alternate outline"/>
-                        <Icon name="edit" color="blue" corner/>
+                        <Icon name="edit" color="blue" corner disabled={!this.props.isContractSelected}/>
+                    </Icon.Group>
+                </Menu.Item>
+
+                <Menu.Item onClick={() => this.props.onAddTag()} disabled={!this.props.isContractSelected}>
+                    {/* <Dimmer active={this.props.deploy.loading}>
+                        <Loader />
+                    </Dimmer>
+                    <Dimmer active={this.props.deploy.success}>
+                        <Icon name="check" color="green" size="big" />
+                    </Dimmer>
+                    <Dimmer active={this.props.deploy.error}>
+                        <Icon name="close" color="red" size="big" />
+                    </Dimmer> */}
+                    <Icon.Group size="big">
+                        <Icon name="file alternate outline"/>
+                        <Icon name="tag" color="blue" corner disabled={!this.props.isContractSelected}/>
                     </Icon.Group>
                 </Menu.Item>
 
@@ -79,11 +97,17 @@ export class TopMenu extends React.Component{
 
 //container part
 export const mapStateToProps = (state) => {
+    let selected = ProvContractList.getSelectedContract(ProvContractList.getSelf(state));
     return {
+        isContractSelected: ProvContractList.getSelf(state).isRootSelected(), 
+        selectedContract: selected.getAddress(),
         deploy: {
             loading: state.deployment.isLoading(),
             success: state.deployment.isSuccess(),
             error: state.deployment.isError()
+        },
+        edit: {
+            loading: EditModalList.getModal(state.editDetails, selected.getAddress())
         }
     };
 }
@@ -91,8 +115,17 @@ export const mapStateToProps = (state) => {
 export const mapDispatchToProps = (dispatch) => {
     return {
         searchSubmit: (address) => dispatch(modelActions.onContractSelect(address)),
-        onDeploy: () => dispatch(modelActions.onDeployContractModalOpen(true))
+        onDeploy: () => dispatch(modelActions.onDeployContractModalOpen(true)),
+        onEdit: (selected) => dispatch(modelActions.onEditDetailsModalOpen(true, selected)),
+        onAddTag: (selected) => dispatch(modelActions.onEditTagModalOpen(true, selected, "new")),
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TopMenu);
+export const mergeProps = (stateProps, dispatchProps, ownProps) => {
+    return Object.assign({}, ownProps, stateProps, dispatchProps, {
+        onEdit: () => dispatchProps.onEdit(stateProps.selectedContract),
+        onAddTag: () => dispatchProps.onAddTag(stateProps.selectedContract)
+    });
+}
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(TopMenu);

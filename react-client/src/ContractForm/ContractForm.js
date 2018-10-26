@@ -1,18 +1,14 @@
 import React from 'react';
 import { Item, Button, Image, Icon, Label, Dimmer, Loader, Segment } from 'semantic-ui-react';
+import {withDefaultImage} from "../withDefaultImage";
 
 //component part
 export const ContractForm = (props) => {
-    let url = props.imageUrl;
-    if(url === undefined || url === "") {
-        url = 'https://react.semantic-ui.com/images/wireframe/square-image.png';
-    }
-
     return (
            
         <Item.Group>
             <Item>
-                <Item.Image src={url} size='small' circular/>
+                <Item.Image src={props.imageUrl} size='small' circular/>
 
                 <Item.Content>
                 
@@ -29,4 +25,4 @@ export const ContractForm = (props) => {
     );
 }
 
-export default ContractForm;
+export default withDefaultImage(ContractForm);

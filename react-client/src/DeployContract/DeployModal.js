@@ -10,7 +10,7 @@ import {
     Dimmer
 } from 'semantic-ui-react';
 import {Form} from "formsy-semantic-ui-react";
-
+import EditModal, {withFormValidation} from "../EditModal";
 import * as modelActions from '../modelActions';
 
 export class DeployModal extends React.Component {
@@ -30,7 +30,7 @@ export class DeployModal extends React.Component {
     }
 
     onClearResult() {
-        this.onTitleChange("");
+        //this.onTitleChange("");
         this.props.onClose();
         this.props.onClear();
     }
@@ -38,32 +38,27 @@ export class DeployModal extends React.Component {
     render() {
         return(
             <Fragment>
-            <Modal
-                on='click'
-                open={this.props.isOpen}
+            <EditModal 
+                header="Deploy new Provenance Contract" 
+                isOpen={this.props.isOpen}
                 onClose={this.props.onClose}
-                closeIcon
-                size="small"
+                commitValid={this.props.valid}
+                onCommit={this.onSubmit.bind(this)}
+                
+                {...this.props.error}
+                onClearResult={this.onClearResult.bind(this)}
             >
-                <Modal.Header>
-                    Deploy new Provenance Contract
-                </Modal.Header>
-                <Modal.Content>
-                    <Dimmer active={this.props.loading}>
-                        <Loader size="big" content="Deploying..."/>
-                    </Dimmer>
-                    
+                <Message
+                    warning
+                    icon="warning sign"
+                    header='You are about to deploy a new contract!'
+                    content="This action will deploy a new SimpleProvenanceContract to the chain your MetaMask is connected to!"
+                />
                     <Form 
-                        warning 
                         onValidSubmit={this.onSubmit.bind(this)}
-                        onValid={() => this.setState({valid: true})}
-                        onInvalid={() => this.setState({valid: false})}>
-                        <Message
-                            warning
-                            icon="warning sign"
-                            header='You are about to deploy a new contract!'
-                            content="This action will deploy a new SimpleProvenanceContract to the chain your MetaMask is connected to!"
-                        />
+                        onValid={this.props.onValid}
+                        onInvalid={this.props.onInvalid}>
+                        
                         <Form.Group inline>
                             <Form.Input 
                                 label="Contract Title"
@@ -78,15 +73,11 @@ export class DeployModal extends React.Component {
                             
                         </Form.Group>
                     </Form>
-                </Modal.Content>
-                <Modal.Actions>
-                    <Button color="olive" disabled={!this.state.valid} onClick={this.onSubmit.bind(this)}>Deploy</Button>
-                </Modal.Actions>
-            </Modal>
+            </EditModal>
             <Modal
                 basic
                 size="small"
-                open={this.props.isOpen && this.props.success}
+                open={this.props.success}
             >
                 <Modal.Content>
                     <Message
@@ -118,53 +109,24 @@ export class DeployModal extends React.Component {
                     </Button>
                 </Modal.Actions>
             </Modal>
-            <Modal
-                basic
-                size="small"
-                open={this.props.isOpen && this.props.failure}
-            >
-                <Modal.Content>
-                    <Message
-                        error
-                        icon
-                    >
-                        <Icon name="frown outline"/>
-                        <Message.Content>
-                            <Message.Header>Contract deployment failed!</Message.Header>
-                            <p>
-                                We were not able to deploy your contract. Possible steps:
-                            </p>
-                            <Message.List>
-                                <Message.Item>Error was logged to the console for further investigation.</Message.Item>
-                                <Message.Item>Check your MetaMask for more error messages.</Message.Item>
-                                <Message.Item>Contact your administrator for further help.</Message.Item>
-                                <Message.Item>Or simply try again.</Message.Item>
-                            </Message.List>
-                        </Message.Content>                    
-                    </Message>
-                </Modal.Content>
-                <Modal.Actions>
-                    <Button 
-                        color='red' 
-                        inverted
-                        onClick={this.onClearResult.bind(this)}
-                    >
-                        <Icon name='close' /> Close
-                    </Button>
-                </Modal.Actions>
-            </Modal>
             </Fragment>
         );
     }
 }
 
+export const ValidatedDeployModal = withFormValidation(DeployModal);
+
 export const mapStateToProps = (state) => {
     return {
         isOpen: state.deployment.isOpen(),
-        failure: state.deployment.isError(),
-        success: state.deployment.isSuccess(),
+        success: state.deployment.isOpen() && state.deployment.isSuccess(),
         loading: state.deployment.isLoading(),
-        address: state.deployment.getAddress()
+        address: state.deployment.getAddress(),
+        error: {
+            error: state.deployment.isOpen() && state.deployment.isError(),
+            errorHeader: "Contract deployment failed!",
+            errorMessage: "We were not able to deploy your contract.",
+        }
     }
 }
 
@@ -176,4 +138,4 @@ export const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DeployModal);
+export default connect(mapStateToProps, mapDispatchToProps)(ValidatedDeployModal);

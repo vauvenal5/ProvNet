@@ -1,6 +1,7 @@
 import ProvContract from "./models/ProvContract";
 import Tag from "./models/Tag";
 import Link from "./models/Link";
+import ContractDetails from "./models/ContractDetails";
 
 export const types = {
     contractLoad: "CONTRACT_LOAD",
@@ -24,6 +25,10 @@ export const types = {
     deployContractFailed: "DEPLOY_CONTRACT_FAILED",
     deployContractModalOpen: "DEPLOY_CONTRACT_MODAL_OPEN",
     deployContractModalClear: "DEPLOY_CONTRACT_MODAL_CLEAR",
+
+    editDetailsModalOpen: "EDIT_DETAILS_MODAL_OPEN",
+
+    editTagModalOpen: "EDIT_TAG_MODAL_OPEN",
 };
 
 export const onContractLoad = (address) => ({
@@ -34,11 +39,7 @@ export const onContractLoad = (address) => ({
 export const onContractDetailsLoaded = (address, title, description, logoUrl) => ({
     type: types.contractDetailsLoaded,
     address: address,
-    details: {
-        title: title,
-        description: description,
-        logoUrl: logoUrl
-    }
+    details: new ContractDetails(title, description, logoUrl)
 });
 
 export const onContractSelect = (address) => ({
@@ -106,4 +107,17 @@ export const onDeployContractModalOpen = (value) => ({
 
 export const onDeployContractModalClear = () => ({
     type: types.deployContractModalClear,
+})
+
+export const onEditDetailsModalOpen = (value, address) => ({
+    type: types.editDetailsModalOpen,
+    value: value,
+    address: address
+})
+
+export const onEditTagModalOpen = (value, address, id) => ({
+    type: types.editTagModalOpen,
+    value: value,
+    address: address,
+    tagId: id
 })

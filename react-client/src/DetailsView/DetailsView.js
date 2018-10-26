@@ -27,7 +27,7 @@ export const DetailsView = ({selected, contract}) => {
                     <ContractForm.Component imageUrl={contract.details.logoUrl} description={contract.details.description}/>
                 </Grid.Column>
                 <Grid.Column floated="right" width={5}>
-                    <TagsListView/>
+                    <TagsListView tags={contract.getTags()}/>
                     {/* <TagsView.Component 
                         tags={contract.getTags()}
                     /> */}

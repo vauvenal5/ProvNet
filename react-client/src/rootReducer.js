@@ -23,6 +23,8 @@ import TagList from "./models/TagList";
 import LinkList from "./models/LinkList";
 import Select from "./SelectReducer";
 import DeployContract from "./DeployContract";
+import EditDetailsView from "./EditDetailsView";
+import {reducer as editTagReducer} from './EditTagView';
 
 //import contract from "truffle-contract";
 
@@ -121,7 +123,6 @@ export const deployContractEpic = (action$, state$) => action$.pipe(
             if(err) {
                 reject(err);
             }
-            console.log(id);
             resolve(id);
         };
 
@@ -210,7 +211,8 @@ export const rootEpic = combineEpics(
     contractDetailsLoadingEpic,
     linkSelectEpic,
     Select.epic,
-    deployContractEpic
+    deployContractEpic,
+    EditDetailsView.epic,
 );
 
 export const rootReducer = combineReducers({
@@ -219,5 +221,7 @@ export const rootReducer = combineReducers({
     detailsView: DetailsView.reducer,
     web3: Web3Loader.web3,
     select: Select.reducer,
-    deployment: DeployContract.reducer
+    deployment: DeployContract.reducer,
+    editDetails: EditDetailsView.reducer,
+    editTag: editTagReducer,
 });

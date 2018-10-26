@@ -1,3 +1,5 @@
+import ProvContract from "./ProvContract";
+
 export default class ContractDetails {
     constructor(title = "", description = "", logoUrl = "") {
         this.title = title;
@@ -15,5 +17,17 @@ export default class ContractDetails {
 
     getLogoUrl() {
         return this.logoUrl;
+    }
+
+    static getTitle(details) {
+        return details.getTitle();
+    }
+
+    static getDescription(details) {
+        return details.description;
+    }
+
+    static getLogoUrl(details) {
+        return details.getLogoUrl();
     }
 }
