@@ -181,4 +181,10 @@ contract SimpleProvenanceContract is SwitchableRBACWithSuperuser {
     returns(uint256[]) {
         return linkTypes.toReturnValue();
     }
+
+    function setTagTitle(uint256 _type, string _title)
+    public
+    onlyOwnerOrSuperuser() {
+        linkTypes.setTagTitle(_type, _title);
+    }
 }

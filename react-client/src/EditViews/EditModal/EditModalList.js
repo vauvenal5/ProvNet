@@ -1,4 +1,5 @@
 import EditModal from "./EditModal";
+import EditModalLeaf from "./EditModalLeaf";
 
 export default class EditModalList extends EditModal {
     constructor(id) {
@@ -10,25 +11,62 @@ export default class EditModalList extends EditModal {
         return Object.assign(new EditModalList(), this, o);
     }
 
-    getModal(id) {
-        return this.modals[id];
+    // getModal(id) {
+    //     return this.modals[id];
+    // }
+
+    // static getModal(self, id) {
+    //     return self.getModal(id);
+    // }
+
+    getModal(...selectors) {
+        let [selector, ...rest] = selectors;
+        let modal = this.modals[selector];
+
+        if(rest.length === 0 || modal === undefined) {
+            return modal;
+        }
+
+        return modal.getModal(...rest);
     }
 
-    static getModal(self, id) {
-        return self.getModal(id);
+    static getModal(self, ...selectors) {
+        return self.getModal(...selectors);
     }
 
-    setModal(modal) {
+    // setModal(modal) {
+    //     return this.softClone({
+    //         modals: {
+    //             ...this.modals,
+    //             [EditModal.getId(modal)]: modal
+    //         }
+    //     });
+    // }
+
+    setModal(modal, ...selectors) {
+        if(selectors.length == 0) {
+            selectors.push(EditModal.getId(modal));
+        }
+
+        let [selector, ...rest] = selectors;
+        let m = this.getModal(selector);
+
+        if(EditModal.isLeaf(m)) {
+            m = modal;
+        } else {
+            m = m.setModal(modal, ...rest);
+        }
+
         return this.softClone({
             modals: {
                 ...this.modals,
-                [EditModal.getId(modal)]: modal
+                [selector]: m
             }
         });
     }
 
-    static setModal(self, modal) {
-        return self.setModal(modal);
+    static setModal(self, modal, ...selectors) {
+        return self.setModal(modal, ...selectors);
     }
 
     putOnce(modal) {

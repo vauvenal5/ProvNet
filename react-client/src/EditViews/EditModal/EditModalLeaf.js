@@ -1,56 +1,82 @@
 import EditModal from "./EditModal";
+import State from "./EditModalState";
 
 export default class EditModalLeaf extends EditModal {
     constructor(id) {
         super(id, true);
+        this.state = State.createStateCleared();
+    }
 
-        this.states = {};
-        this.states.cleared = 0;
-        this.states.success = 1;
-        this.states.error = 2;
-        this.states.loading = 3;
-        
-        this.state = this.states.cleared;
+    getStateProps() {
+        return State.getStateProps(this.state);
+    }
+
+    static getStateProps(self) {
+        return self.getStateProps();
     }
 
     isState(state) {
-        return this.state === state;
+        return State.isState(this.state, state);
     }
 
     isCleared() {
-        return this.isState(this.states.cleared);
+        return this.isState(State.CLEARED);
     }
 
     isSuccess() {
-        return this.isState(this.states.success);
+        return this.isState(State.SUCCESS);
+    }
+
+    static isSuccess(self) {
+        return self.isSuccess();
     }
 
     isError() {
-        return this.isState(this.states.error);
+        return this.isState(State.ERROR);
+    }
+
+    static isError(self) {
+        return self.isError();
     }
 
     isLoading() {
-        return this.isState(this.states.loading);
+        return this.isState(State.LOADING);
     }
 
-    setCleared() {
-        return this.setState(this.states.cleared);
+    static isLoading(self) {
+        return self.isLoading();
     }
 
-    setSuccess() {
-        return this.setState(this.states.success);
+    setCleared(props) {
+        return this.setState(State.createStateCleared(props));
     }
 
-    setError() {
-        return this.setState(this.states.error);
+    static setCleared(self, props) {
+        return self.setCleared(props);
     }
 
-    setLoading() {
-        return this.setState(this.states.loading);
+    setSuccess(props) {
+        return this.setState(State.createStateSuccess(props));
     }
 
-    static setLoading(self) {
-        return self.setLoading();
+    static setSuccess(self, props) {
+        return self.setSuccess(props);
+    }
+
+    setError(props) {
+        return this.setState(State.createStateError(props));
+    }
+
+    static setError(self, props) {
+        return self.setError(props);
+    }
+
+    setLoading(props) {
+        return this.setState(State.createStateLoading(props));
+    }
+
+    static setLoading(self, props) {
+        return self.setLoading(props);
     }
 
     setState(state) {

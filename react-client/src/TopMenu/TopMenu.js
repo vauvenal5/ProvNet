@@ -7,7 +7,7 @@ import * as modelActions from '../modelActions';
 
 import logo from './logo.svg';
 import ProvContractList from '../models/ProvContractList';
-import {EditModalList, EditModalLeaf} from "../EditViews";
+import {EditModalList, EditModalLeaf, editTagActions } from "../EditViews";
 
 export class TopMenu extends React.Component{
     
@@ -48,9 +48,9 @@ export class TopMenu extends React.Component{
                     <Dimmer active={this.props.edit.loading}>
                         <Loader />
                     </Dimmer>
-                    {/* <Dimmer active={this.props.edit.success}>
+                    <Dimmer active={this.props.edit.success}>
                         <Icon name="check" color="green" size="big" />
-                    </Dimmer> */}
+                    </Dimmer>
                     <Dimmer active={this.props.edit.error}>
                         <Icon name="close" color="red" size="big" />
                     </Dimmer>
@@ -111,7 +111,9 @@ export const mapStateToProps = (state) => {
             error: state.deployment.isError()
         },
         edit: {
-            loading: editModal.isLoading()
+            loading: editModal.isLoading(),
+            error: editModal.isError(),
+            success: editModal.isSuccess()
         }
     };
 }
@@ -121,7 +123,7 @@ export const mapDispatchToProps = (dispatch) => {
         searchSubmit: (address) => dispatch(modelActions.onContractSelect(address)),
         onDeploy: () => dispatch(modelActions.onDeployContractModalOpen(true)),
         onEdit: (selected) => dispatch(modelActions.onEditDetailsModalOpen(true, selected)),
-        onAddTag: (selected) => dispatch(modelActions.onEditTagModalOpen(true, selected, "new")),
+        onAddTag: (selected) => dispatch(editTagActions.onEditTagModalOpen(true, selected, "new")),
     };
 }
 

@@ -80,8 +80,9 @@ export class EditModal extends React.Component {
 
             <EditErrorModal 
                 open={this.props.error}
-                header={this.props.errorHeader}
-                message={this.props.errorMessage}
+                header={this.props.errorProps.header}
+                message={this.props.errorProps.msg}
+                list={this.props.errorProps.list}
                 onClearResult={this.props.onClearResult}
             />
         </Fragment>

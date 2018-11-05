@@ -23,7 +23,7 @@ import TagList from "./models/TagList";
 import LinkList from "./models/LinkList";
 import Select from "./SelectReducer";
 import {DeployContract} from "./EditViews";
-import {EditDetailsView, editTagReducer} from "./EditViews";
+import {EditDetailsView, editTagReducer, editTagEpic} from "./EditViews";
 
 //import contract from "truffle-contract";
 
@@ -114,52 +114,6 @@ export const linkSelectEpic = (action$, state$) => action$.pipe(
     })
 );
 
-export const deployContractEpic = (action$, state$) => action$.pipe(
-    ofType(modelActions.types.deployContract),
-    withLatestFrom(state$),
-    flatMap(([action, state]) => {
-        const promiseCallback = (resolve, reject) => (err, id) => {
-            if(err) {
-                reject(err);
-            }
-            resolve(id);
-        };
-
-        let networkIdPromise = new Promise((resolve, reject) => {
-            state.web3.eth.net.getId(promiseCallback(resolve, reject))
-        });
-
-        let accountsPromise = new Promise((resolve, reject) => {
-            state.web3.eth.getAccounts(promiseCallback(resolve, reject))
-        });
-
-        return zip(
-            networkIdPromise, 
-            accountsPromise, 
-            (id, accounts) => ({
-                account: accounts[0],
-                web3Instance: new state.web3.eth.Contract(
-                    SimpleProvenanceContract.truffle.abi, 
-                    undefined, 
-                    //todo-sv: add some check if binary exists for this network
-                    {data: SimpleProvenanceContract.binary[id]}
-                )
-            })
-        );
-    }),
-    flatMap(({account, web3Instance}) => {
-        return from(
-            web3Instance.deploy().send({from: account})
-        ).pipe(
-            map(res => {console.log(res); return modelActions.onDeployedContract(res.options.address);}),
-            catchError(err => {
-                console.log(err);
-                return of(modelActions.onDeployContractFailed(err));
-            })
-        )
-    }),  
-);
-
 export const contractReducer = (state = new ProvContractList(), action) => {
     console.log(action.type);
     console.log(state);
@@ -210,8 +164,9 @@ export const rootEpic = combineEpics(
     contractDetailsLoadingEpic,
     linkSelectEpic,
     Select.epic,
-    deployContractEpic,
+    DeployContract.epic,
     EditDetailsView.epic,
+    editTagEpic
 );
 
 export const rootReducer = combineReducers({

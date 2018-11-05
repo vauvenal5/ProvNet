@@ -11,6 +11,7 @@ import {
 } from 'semantic-ui-react';
 import {Form} from "formsy-semantic-ui-react";
 import {modelActions, EditModalWrapper, withFormValidation, withDefaultProps} from "./imports";
+import { EditModalLeaf } from '../EditModal';
 
 export class DeployModal extends React.Component {
 
@@ -25,14 +26,9 @@ export class DeployModal extends React.Component {
     onTitleChange = (title) => this.setState({title: title});
 
     onSubmit() {
-        this.props.onClose();
-        this.props.onDeploy(this.state.title);
-    }
-
-    onClearResult() {
-        //this.onTitleChange("");
-        this.props.onClose();
-        this.props.onClear();
+        this.props.onSubmit(this.state.title);
+        //this.props.onClose();
+        //this.props.onDeploy(this.state.title);
     }
 
     render() {
@@ -40,11 +36,9 @@ export class DeployModal extends React.Component {
             <Fragment>
             <EditModalWrapper 
                 header="Deploy new Provenance Contract" 
-                errorHeader="Contract deployment failed!"
-                errorMessage="We were not able to deploy your contract."
                 {...this.props.defaultProps}
                 onCommit={this.onSubmit.bind(this)}
-                onClearResult={this.onClearResult.bind(this)}
+                // onClearResult={this.onClearResult.bind(this)}
             >
                 <Message
                     warning
@@ -100,7 +94,7 @@ export class DeployModal extends React.Component {
                     <Button 
                         color='yellow' 
                         inverted 
-                        onClick={this.onClearResult.bind(this)}
+                        onClick={this.props.onClearResult}
                     >
                         <Icon name='warning sign' /> Ok
                     </Button>
@@ -115,18 +109,20 @@ export const ValidatedDeployModal = withFormValidation(withDefaultProps(DeployMo
 
 export const mapStateToProps = (state) => {
     return {
+        editModalLeaf: state.deployment,
         isOpen: state.deployment.isOpen(),
         success: state.deployment.isOpen() && state.deployment.isSuccess(),
-        loading: state.deployment.isLoading(),
+        //loading: state.deployment.isLoading(),
         address: state.deployment.getAddress(),
-        error: state.deployment.isOpen() && state.deployment.isError(),
+        //error: state.deployment.isOpen() && state.deployment.isError(),
+        //errorProps: EditModalLeaf.getStateProps(state.deployment),
     }
 }
 
 export const mapDispatchToProps = (dispatch) => {
     return {
         onClose: () => dispatch(modelActions.onDeployContractModalOpen(false)),
-        onDeploy: (title) => dispatch(modelActions.onDeployContract(title)),
+        onSubmit: (title) => dispatch(modelActions.onDeployContract(title)),
         onClear: () => dispatch(modelActions.onDeployContractModalClear())
     }
 }

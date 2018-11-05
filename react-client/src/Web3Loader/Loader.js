@@ -15,6 +15,8 @@ import * as actions from './actions';
 //     );
 // }
 
+//todo-sv: https://bit.ly/2QQHXvF This will need addressing soon.
+
 class Web3Loader extends Component {
     componentDidMount() {
         this.props.startWeb3Init();

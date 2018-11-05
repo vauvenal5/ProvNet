@@ -17,6 +17,20 @@ export class EditErrorModal extends React.Component {
     }
 
     render() {
+
+        let list;
+
+        if(this.props.list) {
+            list = (
+                <Message.List>
+                    <Message.Item>Error was logged to the console for further investigation.</Message.Item>
+                    <Message.Item>Check your MetaMask for more error messages.</Message.Item>
+                    <Message.Item>Contact your administrator for further help.</Message.Item>
+                    <Message.Item>Or simply try again.</Message.Item>
+                </Message.List>
+            );
+        }
+
         return(
             <Fragment>
             <Modal
@@ -33,14 +47,9 @@ export class EditErrorModal extends React.Component {
                         <Message.Content>
                             <Message.Header>{this.props.header}</Message.Header>
                             <p>
-                                {this.props.message} Possible steps:
+                                {this.props.message}
                             </p>
-                            <Message.List>
-                                <Message.Item>Error was logged to the console for further investigation.</Message.Item>
-                                <Message.Item>Check your MetaMask for more error messages.</Message.Item>
-                                <Message.Item>Contact your administrator for further help.</Message.Item>
-                                <Message.Item>Or simply try again.</Message.Item>
-                            </Message.List>
+                            {list}
                         </Message.Content>                    
                     </Message>
                 </Modal.Content>

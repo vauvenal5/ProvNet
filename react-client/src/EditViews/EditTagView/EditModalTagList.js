@@ -1,8 +1,10 @@
 import {EditModalList} from "./imports";
+import EditModal from "../EditModal";
 
 export default class EditModalTagList extends EditModalList {
     constructor(id) {
         super(id);
+        this.selected = {};
     }
 
     softClone(o) {

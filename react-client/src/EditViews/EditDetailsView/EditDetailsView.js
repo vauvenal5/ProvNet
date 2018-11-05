@@ -18,6 +18,7 @@ import {
     withFormValidation 
 } from "./imports";
 import { withDefaultProps } from '../withDefaultProps';
+import { EditModalLeaf } from '../EditModal';
 
 
 export class EditDetailsView extends React.Component {
@@ -44,16 +45,13 @@ export class EditDetailsView extends React.Component {
     }
 
     onSubmit() {
-        this.props.onClose();
-        this.props.onEdit(this.props.address, this.state.title, this.state.desc, this.state.imageUrl);
+        this.props.onSubmit(this.props.address, this.state.title, this.state.desc, this.state.imageUrl);
     }
 
     render() {
         return(
             <EditModalWrapper 
                 header="Edit Contract Details" 
-                errorHeader="One or more transactions failed!"
-                errorMessage="We were not able to transfer some or all of your details."
                 defaultWarning 
                 {...this.props.defaultProps}
                 onCommit={this.onSubmit.bind(this)}
@@ -116,21 +114,32 @@ export const mapStateToProps = (state, ownProps) => {
     let contract = ProvContractList.getSelectedContract(ProvContractList.getSelf(state));
     let address = ProvContract.getAddress(contract);
     let details = ProvContract.getDetails(contract);
+    let modal = EditModalList.getModal(state.editDetails, address);
     return {
+        editModalLeaf: modal,
         isOpen: state.editDetails.isOpen(),
-        loading: EditModalList.getModal(state.editDetails, address).isLoading(),
+        //loading: EditModalList.getModal(state.editDetails, address).isLoading(),
         address: address,
         title: ContractDetails.getTitle(details),
         desc: ContractDetails.getDescription(details),
         imageUrl: ContractDetails.getLogoUrl(details),
+        //error: modal.isError(),
+        //errorProps: EditModalLeaf.getStateProps(modal),
     }
 }
 
 export const mapDispatchToProps = (dispatch) => {
     return {
         onClose: () => dispatch(modelActions.onEditDetailsModalOpen(false)),
-        onEdit: (address, title, desc, url) => dispatch(actions.onEditDetails(address, title, desc, url))
+        onSubmit: (address, title, desc, url) => dispatch(actions.onEditDetails(address, title, desc, url)),
+        onClear: (address) => dispatch(actions.onEditDetailsModalClear(address))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ValidatedEditDetailsView);
+export const mergeProps = (stateProps, dispatchProps, ownProps) => {
+    return Object.assign({}, ownProps, stateProps, dispatchProps, {
+        onClear: () => dispatchProps.onClear(stateProps.address)
+    });
+}
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(ValidatedEditDetailsView);

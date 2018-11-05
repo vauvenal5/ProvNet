@@ -41,6 +41,10 @@ library TagLib {
         self.tags[tag] = Tag(tag, title);
     }
 
+    function setTagTitle(TagList storage self, uint256 tag, string title) internal tagExists(self, tag) {
+        self.tags[tag] = Tag(tag, title);
+    }
+
     function removeTag(TagList storage self, uint256 tag) internal 
     tagExists(self, tag) {
         self.keys.remove(tag);

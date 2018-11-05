@@ -1,4 +1,4 @@
 import Component from "./DeployModal";
-import {reducer} from "./reducer";
+import {reducer,  epic} from "./reducer";
 
-export default {Component, reducer};
+export default {Component, reducer, epic};

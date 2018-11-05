@@ -1,11 +1,12 @@
-import {modelActions, EditModalLeaf, ProvContractList, Tag, ProvContract, TagList, accountsPromiseFactory } from "./imports";
+import {EditModalLeaf, ProvContractList, Tag, ProvContract, TagList, accountsPromiseFactory } from "./imports";
 import * as actions from "./actions";
 import EditModalTagList from "./EditModalTagList";
-import { ofType } from "redux-observable";
+import { ofType, combineEpics } from "redux-observable";
 
 import SimpleProvenanceContract from "ProvNet/build/linked/SimpleProvenanceContract";
 import { from, of, defer } from "rxjs";
-import { withLatestFrom, flatMap, map, catchError } from "rxjs/operators";
+import { withLatestFrom, flatMap, map, catchError, delay } from "rxjs/operators";
+import { modelActions } from "../imports";
 
 export const editTagEpic = (action$, state$) => action$.pipe(
     ofType(actions.types.editTag),
@@ -13,7 +14,7 @@ export const editTagEpic = (action$, state$) => action$.pipe(
     flatMap(([action, state]) => {
         let web3Instance = new state.web3.eth.Contract(SimpleProvenanceContract.truffle.abi, action.address);
         let contract = ProvContractList.getContract(ProvContractList.getSelf(state), action.address);
-        let currentTag = TagList.getTag(ProvContract.getTags(contract), Tag.getId(action.tag));
+        let currentTag = TagList.getTag(ProvContract.getTags(contract), action.tagId);
 
         return from(
             accountsPromiseFactory(state.web3)
@@ -27,6 +28,8 @@ export const editTagEpic = (action$, state$) => action$.pipe(
         )
     }),
     flatMap(({web3Instance, account, action, currentTag}) => {
+        let tagId = action.tagId;
+
         const detailObsFactory = (detail, currDetail, web3ObsFac) => {
             if(detail.localeCompare(currDetail) == 0) {
                 return of({noChange: true});
@@ -36,23 +39,69 @@ export const editTagEpic = (action$, state$) => action$.pipe(
         }
 
         return defer(() => detailObsFactory(
-            Tag.getTitle(action.tag),
+            action.title,
             Tag.getTitle(currentTag),
-            (title) => web3Instance.methods.setTagTitle(Tag.getId(action.tag), title)
-        ))
+            (title) => web3Instance.methods.setTagTitle(action.tagId, title).send({from: account})
+        )).pipe(
+            flatMap(res => {
+                if(res.noChange) {
+                    return actions.onNop();
+                }
+
+                return of( 
+                    modelActions.onTypeLoaded(action.address, action.tagId, action.title),
+                    actions.onEditTagSuccess(action.address, action.tagId)
+                );
+            }),
+            catchError(err => {
+                console.log(err);
+                return of(actions.onEditTagError(action.address, tagId, {
+                    msg: "Could not commit all transactions.",
+                    header: "Tag edit error",
+                    list: true
+                }));
+            })
+        )
     })
 );
+
+export const editTagSuccessEpic = (action$) => action$.pipe(
+    ofType(actions.types.editTagSuccess),
+    delay(1000),
+    map(action => actions.onEditTagModalClear(action.address, action.tagId))
+);
+
+export const epic = combineEpics(editTagEpic, editTagSuccessEpic);
+
+const stateSetHelper = (state, leaf, address, tagId) => {
+    state = EditModalTagList.setModal(state, leaf, address);
+    return state.setSelected(address, tagId);
+}
 
 export const reducer = (
     state = new EditModalTagList(), 
     action ) => {
+        let leaf = EditModalTagList.getModal(state, action.address, action.tagId);
         switch(action.type) {
-            case modelActions.types.editTagModalOpen:
+            case actions.types.editTag:
+                leaf = EditModalLeaf.setLoading(leaf);
+                state = EditModalTagList.setModal(state, leaf, action.address);
+                return state.setSelected(action.address, action.tagId);
+            case actions.types.editTagModalOpen:
                 if(action.value) {
                     state = EditModalTagList.putOnce(state, EditModalTagList.create(action.address, new EditModalLeaf(action.tagId)));
                     state = EditModalTagList.setSelected(state, action.address, action.tagId);
                 }
-                return state.setOpen(action.value);;
+                return state.setOpen(action.value);
+            case actions.types.editTagError:
+                leaf = EditModalLeaf.setError(leaf, action.error);
+                return stateSetHelper(state, leaf, action.address, action.tagId);
+            case actions.types.editTagSuccess:
+                leaf = EditModalLeaf.setSuccess(leaf);
+                return stateSetHelper(state, leaf, action.address, action.tagId);
+            case actions.types.editTagModalClear:
+                leaf = EditModalLeaf.setCleared(leaf);
+                return stateSetHelper(state, leaf, action.address, action.tagId);
             default:
                 return state;
         }

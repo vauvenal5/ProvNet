@@ -27,8 +27,6 @@ export const types = {
     deployContractModalClear: "DEPLOY_CONTRACT_MODAL_CLEAR",
 
     editDetailsModalOpen: "EDIT_DETAILS_MODAL_OPEN",
-
-    editTagModalOpen: "EDIT_TAG_MODAL_OPEN",
 };
 
 export const onContractLoad = (address) => ({
@@ -115,9 +113,3 @@ export const onEditDetailsModalOpen = (value, address) => ({
     address: address
 })
 
-export const onEditTagModalOpen = (value, address, id) => ({
-    type: types.editTagModalOpen,
-    value: value,
-    address: address,
-    tagId: id
-})

@@ -29,6 +29,10 @@ export default class EditModal {
         return this.open;
     }
 
+    static isOpen(self) {
+        return self.isOpen();
+    }
+
     setOpen(value) {
         return this.softClone({open: value});
     }
