@@ -1,4 +1,4 @@
-import {EditModalLeaf, ProvContractList, Tag, ProvContract, TagList, accountsPromiseFactory } from "./imports";
+import {EditModalLeaf, ProvContractList, Tag, ProvContract, TagList, MetaMaskPromiseFactory } from "./imports";
 import * as actions from "./actions";
 import EditModalTagList from "./EditModalTagList";
 import { ofType, combineEpics } from "redux-observable";
@@ -17,7 +17,7 @@ export const editTagEpic = (action$, state$) => action$.pipe(
         let currentTag = TagList.getTag(ProvContract.getTags(contract), action.tagId);
 
         return from(
-            accountsPromiseFactory(state.web3)
+            MetaMaskPromiseFactory.accountsPromise(state.web3)
         ).pipe(
             map((accounts) => ({
                 web3Instance,

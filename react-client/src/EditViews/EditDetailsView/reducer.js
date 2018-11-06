@@ -3,7 +3,7 @@ import { withLatestFrom, flatMap, map, catchError, mapTo, delay } from "rxjs/ope
 import { ofType, combineEpics } from "redux-observable";
 import SimpleProvenanceContract from "ProvNet/build/linked/SimpleProvenanceContract";
 import { from, of, forkJoin, Observable, iif, defer, empty } from "rxjs";
-import { ContractDetails, ProvContract, ProvContractList, modelActions, EditModalLeaf, EditModalList, accountsPromiseFactory } from "./imports";
+import { ContractDetails, ProvContract, ProvContractList, modelActions, EditModalLeaf, EditModalList, MetaMaskPromiseFactory } from "./imports";
 
 export const editDetailEpic = (action$, state$) => action$.pipe(
     ofType(actions.types.editDetails),
@@ -13,7 +13,7 @@ export const editDetailEpic = (action$, state$) => action$.pipe(
         let currentDetails = ProvContract.getDetails(ProvContractList.getSelectedContract(ProvContractList.getSelf(state)));
 
         return from(
-            accountsPromiseFactory(state.web3)
+            MetaMaskPromiseFactory.accountsPromise(state.web3)
         ).pipe(
             map((accounts) => ({
                 web3Instance,

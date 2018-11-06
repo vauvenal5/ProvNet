@@ -1,4 +1,4 @@
-import {modelActions} from "./imports";
+import {modelActions, MetaMaskPromiseFactory} from "./imports";
 import { combineEpics, ofType } from 'redux-observable';
 import ContractDeployment from "./ContractDeployment";
 import { 
@@ -17,19 +17,8 @@ export const deployContractModalOpenEpic = (action$, state$) => action$.pipe(
     filter(action => action.value === true),
     withLatestFrom(state$),
     flatMap(([action, state]) => {
-        const promiseCallback = (resolve, reject) => (err, id) => {
-            if(err) {
-                reject(err);
-            }
-            resolve(id);
-        };
-
-        let networkIdPromise = new Promise((resolve, reject) => {
-            state.web3.eth.net.getId(promiseCallback(resolve, reject))
-        });
-
         return from(
-            networkIdPromise
+            MetaMaskPromiseFactory.networkIdPromise(state.web3)
         )
     }),
     filter((id) => SimpleProvenanceContract.binary[id] === undefined),
@@ -44,24 +33,9 @@ export const deployContractEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.deployContract),
     withLatestFrom(state$),
     flatMap(([action, state]) => {
-        const promiseCallback = (resolve, reject) => (err, id) => {
-            if(err) {
-                reject(err);
-            }
-            resolve(id);
-        };
-
-        let networkIdPromise = new Promise((resolve, reject) => {
-            state.web3.eth.net.getId(promiseCallback(resolve, reject))
-        });
-
-        let accountsPromise = new Promise((resolve, reject) => {
-            state.web3.eth.getAccounts(promiseCallback(resolve, reject))
-        });
-
         return zip(
-            networkIdPromise, 
-            accountsPromise, 
+            MetaMaskPromiseFactory.networkIdPromise(state.web3), 
+            MetaMaskPromiseFactory.accountsPromise(state.web3), 
             (id, accounts) => ({
                 account: accounts[0],
                 web3Instance: new state.web3.eth.Contract(
