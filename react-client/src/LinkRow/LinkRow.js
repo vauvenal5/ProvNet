@@ -13,11 +13,11 @@ export const LinkRow = ({types, link, linkSelect, contractSelect}) => {
     return (
         <Table.Row>
             <Table.Cell>
-                <Label as="a" ribbon 
+                {/* <Label as="a" ribbon 
                     onClick={(e, data) => linkSelect(link.getAddress())}
-                >
+                > */}
                     {link.address}
-                </Label>
+                {/* </Label> */}
             </Table.Cell>
             <Table.Cell>{link.title}</Table.Cell>
             <Table.Cell>
@@ -25,7 +25,8 @@ export const LinkRow = ({types, link, linkSelect, contractSelect}) => {
             </Table.Cell>
             <Table.Cell>
                     {/* <Button icon='info' content="Info" labelPosition='left'/> */}
-                    <Button onClick={() => contractSelect(link.getAddress())} icon='eye' content="Select" labelPosition='left'/>
+                    <Button onClick={() => linkSelect(link.getAddress())} icon='eye' content="Links" labelPosition='left'/>
+                    <Button onClick={() => contractSelect(link.getAddress())} icon='file alternate outline' content="Select" labelPosition='left'/>
             </Table.Cell>
         </Table.Row>
     );

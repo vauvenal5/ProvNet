@@ -8,6 +8,8 @@ import * as modelActions from '../modelActions';
 import logo from './logo.svg';
 import ProvContractList from '../models/ProvContractList';
 import {EditModalList, EditModalLeaf, editTagActions } from "../EditViews";
+import Select from '../models/Select';
+import { RootSelector } from '../models';
 
 export class TopMenu extends React.Component{
     
@@ -97,14 +99,15 @@ export class TopMenu extends React.Component{
 
 //container part
 export const mapStateToProps = (state) => {
-    let selected = ProvContractList.getSelectedContract(ProvContractList.getSelf(state));
-    let editModal = EditModalList.getModal(state.editDetails, selected.getAddress());
+    let selectState = RootSelector.getSelect(state);
+    let address = Select.getSelectedContract(selectState);
+    let editModal = EditModalList.getModal(state.editDetails, address);
     if(editModal === undefined) {
         editModal = new EditModalLeaf();
     }
     return {
-        isContractSelected: ProvContractList.getSelf(state).isRootSelected(), 
-        selectedContract: selected.getAddress(),
+        isContractSelected: Select.isRootSelected(selectState), 
+        selectedContract: address,
         deploy: {
             loading: state.deployment.isLoading(),
             success: state.deployment.isSuccess(),

@@ -7,8 +7,13 @@ var TagLibrary = artifacts.require("./libs/TagLib.sol");
 var LinkedListLib = artifacts.require("ethereum-libraries-linked-list/contracts/LinkedListLib.sol");
 var LinkedListExtensionLib = artifacts.require("../contracts/libs/LinkedList/LinkedListExtensionLib.sol");
 var LinkedListIteratorLib = artifacts.require("./libs/LinkedList/LinkedListIteratorLib.sol");
+var LinkedListAdvancedExtensionLib = artifacts.require("./libs/LinkedListAdvancedExtensionLib.sol");
+var LinkableContract = artifacts.require("./contracts/LinkableContract");
+
+var Uint256Utils = artifacts.require("./libs/Uint256Utils.sol");
 
 var SwitchableRBACWithSuperuser = artifacts.require("./contracts/SwitchableRBACWithSuperuser.sol");
+var UserAccessControl = artifacts.require("./contracts/UserAccessControl.sol");
 
 const deploySimpleProvenanceContract = (deployer, title, description, logoUrl, accounts) => {
   let contract = {};
@@ -39,6 +44,7 @@ const addLink = (deployer, linker, linked, type) => {
 };
 
 module.exports = function(deployer, network, accounts) {
+  //todo-sv: do a clean analysis if the contract deployment is correct
   deployer.deploy(LinkedListLib);
   deployer.link(LinkedListLib, [
     ProvenanceLinkLibrary,
@@ -46,28 +52,45 @@ module.exports = function(deployer, network, accounts) {
     ProvenanceLinkQueryLibrary, 
     SimpleProvenanceContract,
     LinkedListExtensionLib,
-    TagLibrary
-  ]);
-  
+    TagLibrary,
+    UserAccessControl,
+    LinkedListAdvancedExtensionLib,
+    LinkableContract
+  ]);  
+
   deployer.deploy(LinkedListExtensionLib);
-  deployer.link(LinkedListExtensionLib, [TagLibrary, ProvenanceLinkQueryLibrary, ProvenanceLinkLibrary, ProvLinkListLib]);
+  deployer.link(LinkedListExtensionLib, [
+    TagLibrary, 
+    ProvenanceLinkQueryLibrary, 
+    ProvenanceLinkLibrary, 
+    ProvLinkListLib, 
+    LinkedListAdvancedExtensionLib, 
+    SimpleProvenanceContract
+  ]);
 
   deployer.deploy(LinkedListIteratorLib);
   deployer.link(LinkedListIteratorLib, [TagLibrary]);
+  
+  deployer.deploy(LinkedListAdvancedExtensionLib);
+  deployer.link(LinkedListAdvancedExtensionLib, [TagLibrary, ProvLinkListLib, SimpleProvenanceContract, UserAccessControl, LinkableContract]);
 
   
   deployer.deploy(ProvenanceLinkQueryLibrary);
   deployer.deploy(SwitchableRBACWithSuperuser);
+  
   deployer.deploy(TagLibrary);
-
+  deployer.link(TagLibrary, [UserAccessControl, LinkableContract]);
   
   deployer.link(TagLibrary, [SimpleProvenanceContract, ProvenanceLinkLibrary]);
 
   deployer.deploy(ProvenanceLinkLibrary);
-  deployer.link(ProvenanceLinkLibrary, [SimpleProvenanceContract]);
+  deployer.link(ProvenanceLinkLibrary, [SimpleProvenanceContract, LinkableContract]);
 
   deployer.deploy(ProvLinkListLib);
-  deployer.link(ProvLinkListLib, [SimpleProvenanceContract]);
+  deployer.link(ProvLinkListLib, [SimpleProvenanceContract, LinkableContract]);
+
+  deployer.deploy(UserAccessControl);
+  deployer.deploy(LinkableContract);
 
   var description = "This is a TU Wien InfoSys Mock contract used for development. It is not affiliated with the TU Wien!";
   var logoUrl = "http://www.informatik.tuwien.ac.at/kontakt/INF_Logo_typo_grau_web_rgb.png";

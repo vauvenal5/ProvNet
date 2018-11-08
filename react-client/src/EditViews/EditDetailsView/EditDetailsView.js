@@ -19,6 +19,8 @@ import {
 } from "./imports";
 import { withDefaultProps } from '../withDefaultProps';
 import { EditModalLeaf } from '../EditModal';
+import { RootSelector } from '../../models';
+import Select from '../../models/Select';
 
 
 export class EditDetailsView extends React.Component {
@@ -111,7 +113,7 @@ export const ValidatedEditDetailsView = withFormValidation(withDefaultProps(with
 
 export const mapStateToProps = (state, ownProps) => {
     //todo-sv: change first input to RootState.getProvContractList(state)
-    let contract = ProvContractList.getSelectedContract(ProvContractList.getSelf(state));
+    let contract = ProvContractList.getContract(RootSelector.getContracts(state), Select.getSelectedContract(RootSelector.getSelect(state)));
     let address = ProvContract.getAddress(contract);
     let details = ProvContract.getDetails(contract);
     let modal = EditModalList.getModal(state.editDetails, address);

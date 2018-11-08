@@ -4,12 +4,14 @@ import "../../node_modules/ethereum-libraries-linked-list/contracts/LinkedListLi
 
 import "./LinkedList/LinkedListExtensionLib.sol";
 import "./LinkedList/LinkedListIteratorLib.sol";
+import "./LinkedList/LinkedListAdvancedExtensionLib.sol";
 
 library TagLib {
     using TagLib for TagLib.TagList;
     using LinkedListLib for LinkedListLib.LinkedList;
     using LinkedListExtensionLib for LinkedListLib.LinkedList;
     using LinkedListIteratorLib for LinkedListIteratorLib.Iterator;
+    using LinkedListAdvancedExtensionLib for LinkedListLib.LinkedList;
 
     struct Tag {
         uint256 id;
@@ -89,17 +91,18 @@ library TagLib {
     // }
 
     function toReturnValue(TagList storage self) public view returns(uint256[]){
-        uint256[] memory tagIds = new uint256[](self.keys.sizeOf());
-        uint256 counter = 0;
-        LinkedListIteratorLib.Iterator memory iterator = self.keys.getIterator();
+        // uint256[] memory tagIds = new uint256[](self.keys.sizeOf());
+        // uint256 counter = 0;
+        // LinkedListIteratorLib.Iterator memory iterator = self.keys.getIterator();
         
-        (bool hasNext, uint256 next) = iterator.getNext(self.keys);
-        while(hasNext) {
-            tagIds[counter] = next;
-            counter++;
-            (hasNext, next) = iterator.getNext(self.keys);
-        }
+        // (bool hasNext, uint256 next) = iterator.getNext(self.keys);
+        // while(hasNext) {
+        //     tagIds[counter] = next;
+        //     counter++;
+        //     (hasNext, next) = iterator.getNext(self.keys);
+        // }
 
-        return tagIds;
+        // return tagIds;
+        return self.keys.getKeysArray();
     }
 }

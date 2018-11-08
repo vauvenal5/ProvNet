@@ -9,6 +9,7 @@ export default class ProvContract {
         this.details = new ContractDetails();
         this.tags = new TagList();
         this.links = new LinkList();
+        this.specialRoles = new TagList();
     }
 
     getAddress() {
@@ -40,6 +41,9 @@ export default class ProvContract {
     }
 
     static getDetails(contract) {
+        if(contract === undefined) {
+            return new ContractDetails();
+        }
         return contract.getDetails();
     }
 
@@ -49,6 +53,14 @@ export default class ProvContract {
 
     setLinks(links) {
         return this.softClone({links: links});
+    }
+
+    getSpecialRoles () {
+        return this.specialRoles;
+    }
+
+    setSpecialRoles(roles) {
+        return this.softClone({specialRoles: roles});
     }
 
     softClone(o) {

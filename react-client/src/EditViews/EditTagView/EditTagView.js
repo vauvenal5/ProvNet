@@ -2,10 +2,11 @@ import React, {Fragment} from 'react';
 import { connect } from 'react-redux';
 
 import {Form} from "formsy-semantic-ui-react";
-import {ProvContract, ProvContractList, Tag, EditModalWrapper, withFormValidation} from "./imports";
+import {ProvContract, ProvContractList, Tag, EditModalWrapper, withFormValidation, RootSelector} from "./imports";
 import * as actions from "./actions";
 import EditModalTagList from './EditModalTagList';
 import { withDefaultProps } from '../withDefaultProps';
+import Select from '../../models/Select';
 
 export class EditTagView extends React.Component {
 
@@ -55,7 +56,7 @@ export class EditTagView extends React.Component {
 export const ValidatedEditTagView = withFormValidation(withDefaultProps(EditTagView));
 
 export const mapStateToProps = (state) => {
-    let contract = ProvContractList.getSelectedContract(ProvContractList.getSelf(state));
+    let contract = ProvContractList.getContract(RootSelector.getContracts(state), Select.getSelectedContract(RootSelector.getSelect(state)));
     let selectedModal = EditModalTagList.getSelected(state.editTag);
     let selectedTag = ProvContract.getTags(contract).getTag(EditModalTagList.getId(selectedModal));
     if(selectedTag === undefined) {

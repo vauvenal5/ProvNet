@@ -20,6 +20,10 @@ export default class ContractDetails {
     }
 
     static getTitle(details) {
+        if(details === undefined) {
+            return "";
+        }
+        
         return details.getTitle();
     }
 

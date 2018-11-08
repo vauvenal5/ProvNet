@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import TopMenu from './TopMenu';
 import Loader from "./Web3Loader";
-import DetailsView from "./DetailsView";
 import LinksView from "./LinksView";
 import {DeployContract, EditDetailsView, EditTagView} from "./EditViews";
 import { connect } from 'react-redux';
+import ContractView from "./ContractView"
 
 class App extends Component {
     render() {
@@ -27,8 +27,7 @@ class App extends Component {
 			<div>
 				<TopMenu.Component/>
 				<Loader.Component/>
-				<DetailsView.Component/>
-				<LinksView.Component/>
+				<ContractView/>
 				{renderDeployModal}
 				{renderEdit}
 				{renderTagEdit}

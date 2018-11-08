@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import { Grid, Header, Label, Icon, Dimmer, Loader, Segment, Button } from 'semantic-ui-react';
 
 import TagsView from '../TagsView';
-import ContractForm from "../ContractForm";
+// import ContractForm from "../ContractForm";
 import ProvContract from '../models/ProvContract';
 import TagsTableView from "../TagsTableView/TagsTableView";
 import TagsListView from "../TagsListView/TagsListView";
+import { ContentView } from '../ContentView/ContentView';
 
 export const DetailsView = ({selected, contract}) => {    
     return (
@@ -24,13 +25,18 @@ export const DetailsView = ({selected, contract}) => {
             </Grid.Row>
             <Grid.Row columns={2}>
                 <Grid.Column stretched>
-                    <ContractForm.Component imageUrl={contract.details.logoUrl} description={contract.details.description}/>
+                    {/* <ContractForm.Component imageUrl={contract.details.logoUrl} description={contract.details.description}/> */}
                 </Grid.Column>
                 <Grid.Column floated="right" width={5}>
                     <TagsListView tags={contract.getTags()}/>
                     {/* <TagsView.Component 
                         tags={contract.getTags()}
                     /> */}
+                </Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+                <Grid.Column>
+                    <ContentView/>
                 </Grid.Column>
             </Grid.Row>
         </Grid>

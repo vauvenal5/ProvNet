@@ -27,6 +27,8 @@ export const types = {
     deployContractModalClear: "DEPLOY_CONTRACT_MODAL_CLEAR",
 
     editDetailsModalOpen: "EDIT_DETAILS_MODAL_OPEN",
+
+    userSpecialRoleLoaded: "USER_SPECIAL_ROLE_LOADED",
 };
 
 export const onContractLoad = (address) => ({
@@ -113,3 +115,8 @@ export const onEditDetailsModalOpen = (value, address) => ({
     address: address
 })
 
+export const onUserSpecialRoleLoaded = (address, id, title) => ({
+    type: types.userSpecialRoleLoaded,
+    address: address,
+    role: new Tag(id, title)
+})

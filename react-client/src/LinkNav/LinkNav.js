@@ -2,8 +2,10 @@ import React, {Fragment} from 'react';
 import { connect } from 'react-redux';
 import { Breadcrumb, Label } from 'semantic-ui-react';
 import * as actions from '../modelActions';
+import Select from '../models/Select';
+import { RootSelector, ProvContractList, ContractDetails, ProvContract } from '../models';
 
-export const LinkNav = ({selection, contracts, linkSelect}) => {
+export const LinkNav = ({selection, titles, linkSelect}) => {
     
     let sections = selection.map((selected, index) => {
         let divider = "";
@@ -17,7 +19,7 @@ export const LinkNav = ({selection, contracts, linkSelect}) => {
                     <Label as='a' color="grey" 
                         onClick={(e, data) => linkSelect(selected)}
                     >
-                        {contracts[selected].details.title}
+                        {titles[index]}
                     </Label>
                 </Breadcrumb.Section>
                 {divider}
@@ -32,17 +34,15 @@ export const LinkNav = ({selection, contracts, linkSelect}) => {
     );
 };
 
-const mapSelectionToContracts = (contracts) => {
-    let selection = contracts.selected;
-    let subset = {};
-    selection.map((selected) => subset[selected] = contracts[selected]);
-    return subset;
-}
-
 export const mapStateToProps = (state) => {
+    let selection = Select.getSelectedList(RootSelector.getSelect(state));
     return {
-        selection: state.contracts.selected,
-        contracts: mapSelectionToContracts(state.contracts)
+        selection: selection,
+        titles: selection.map(selected => ContractDetails.getTitle(
+            ProvContract.getDetails(
+                ProvContractList.getContract(RootSelector.getContracts(state), selected)
+            )
+        ))
     };
 }
 

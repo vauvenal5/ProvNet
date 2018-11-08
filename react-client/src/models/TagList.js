@@ -7,6 +7,10 @@ export default class TagList {
         return this.softClone({[tag.id]: tag});
     }
 
+    static addTag(list, tag) {
+        return list.addTag(tag);
+    }
+
     getTag(id) {
         return this[id];
     }

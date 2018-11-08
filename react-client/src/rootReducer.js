@@ -1,7 +1,6 @@
 import * as modelActions from "./modelActions";
 import { combineReducers } from 'redux';
 import { combineEpics, ofType } from 'redux-observable';
-import TopMenu from './TopMenu';
 import Web3Loader from './Web3Loader';
 import { 
     withLatestFrom, 
@@ -10,28 +9,24 @@ import {
     switchAll,
     reduce,
     catchError } from "rxjs/operators";
-import { of, from, zip, forkJoin} from 'rxjs';
+import { of, from, zip, forkJoin, Observable} from 'rxjs';
 
 import SimpleProvenanceContract from "ProvNet/build/linked/SimpleProvenanceContract";
 
 import ProvContract from "./models/ProvContract";
-import Tag from "./models/Tag";
-import Link from "./models/Link";
-import DetailsView from "./DetailsView";
 import ProvContractList from "./models/ProvContractList";
-import TagList from "./models/TagList";
-import LinkList from "./models/LinkList";
 import Select from "./SelectReducer";
 import {DeployContract} from "./EditViews";
 import {EditDetailsView, editTagReducer, editTagEpic} from "./EditViews";
+import {reducer as specialRolesReducer} from "./UsersView";
+import {withWeb3ContractFrom} from "./operators";
 
 //import contract from "truffle-contract";
 
 export const contractDetailsLoadingEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.contractLoad),
-    withLatestFrom(state$),
-    flatMap(([action, state]) => {
-        let web3Instance = new state.web3.eth.Contract(SimpleProvenanceContract.truffle.abi, action.address);
+    withWeb3ContractFrom(state$),
+    flatMap(([action, web3Instance]) => {
         return forkJoin(
             web3Instance.methods.getDescription().call(),
             web3Instance.methods.getLogoUrl().call(),
@@ -44,9 +39,8 @@ export const contractDetailsLoadingEpic = (action$, state$) => action$.pipe(
 
 export const contractTypesLoadEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.contractLoad),
-    withLatestFrom(state$),
-    flatMap(([action, state]) => {
-        let web3Instance = new state.web3.eth.Contract(SimpleProvenanceContract.truffle.abi, action.address);
+    withWeb3ContractFrom(state$),
+    flatMap(([action, web3Instance]) => {
         return from(
             web3Instance.methods.getLinkTypes().call()
         ).pipe(
@@ -64,6 +58,8 @@ export const contractTypesLoadEpic = (action$, state$) => action$.pipe(
         );
     }),
 );
+
+
 
 export const typeLoadEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.typeLoad),
@@ -147,10 +143,9 @@ export const contractReducer = (state = new ProvContractList(), action) => {
                 contract.setLinks(contract.getLinks().addLink(action.link))
             );
         //todo-sv: this should probably move to the selectReducer now that it exists
-        case modelActions.types.contractSelected:
-            return state.setSelected(action.address);
-        case modelActions.types.linkSelected:
-            return state.setLinkSelected(action.address);
+        // case modelActions.types.contractSelected:
+        //     return state.setSelected(action.address);
+        
         default:
             return state;
     }
@@ -166,16 +161,18 @@ export const rootEpic = combineEpics(
     Select.epic,
     DeployContract.epic,
     EditDetailsView.epic,
-    editTagEpic
+    editTagEpic,
+    specialRolesReducer.epic
 );
 
 export const rootReducer = combineReducers({
     contracts: contractReducer,
     web3Loader: Web3Loader.reducer,
-    detailsView: DetailsView.reducer,
     web3: Web3Loader.web3,
     select: Select.reducer,
     deployment: DeployContract.reducer,
     editDetails: EditDetailsView.reducer,
     editTag: editTagReducer,
+    [specialRolesReducer.root]: specialRolesReducer.specialRolesReducer,
+    users: specialRolesReducer.usersReducer
 });

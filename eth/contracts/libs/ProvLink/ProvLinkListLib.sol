@@ -7,6 +7,7 @@ import "../Uint256Utils.sol";
 import "../LinkedList/LinkedListExtensionLib.sol";
 import "../LinkedList/LinkedListIteratorLib.sol";
 import "./ProvLinkLib.sol";
+import "../LinkedList/LinkedListAdvancedExtensionLib.sol";
 
 library ProvLinkListLib {
     using ProvLinkLib for ProvLinkLib.Link;
@@ -17,6 +18,7 @@ library ProvLinkListLib {
     using TagLib for TagLib.TagList;
     using AddressUtils for address;
     using Uint256Utils for uint256;
+    using LinkedListAdvancedExtensionLib for LinkedListLib.LinkedList;
 
     struct LinkList {
         LinkedListLib.LinkedList keys;
@@ -86,17 +88,18 @@ library ProvLinkListLib {
     public
     view
     returns(address[]) {
-        address[] memory addresses = new address[](self.keys.sizeOf());
-        uint256 counter = 0;
-        LinkedListIteratorLib.Iterator memory iterator = self.getIterator();
+        // address[] memory addresses = new address[](self.keys.sizeOf());
+        // uint256 counter = 0;
+        // LinkedListIteratorLib.Iterator memory iterator = self.getIterator();
 
-        (bool hasNext, uint256 next) = iterator.getNext(self.keys);
-        while(hasNext) {
-            addresses[counter] = next.toAddress();
-            counter++;
-            (hasNext, next) = iterator.getNext(self.keys);
-        }
+        // (bool hasNext, uint256 next) = iterator.getNext(self.keys);
+        // while(hasNext) {
+        //     addresses[counter] = next.toAddress();
+        //     counter++;
+        //     (hasNext, next) = iterator.getNext(self.keys);
+        // }
 
-        return addresses;
+        // return addresses;
+        return self.keys.getKeysAddressArray();
     }
 }

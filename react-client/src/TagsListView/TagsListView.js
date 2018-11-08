@@ -8,6 +8,9 @@ import {editTagActions, EditModalLeaf} from "../EditViews";
 import ProvContract from '../models/ProvContract';
 import ProvContractList from '../models/ProvContractList';
 import EditModalTagList from '../EditViews/EditTagView/EditModalTagList';
+import Select from '../models/Select';
+import { RootSelector } from '../models';
+import { TagButton } from '../TagView/TagButton';
 
 export const TagsListView = ({tags, onEditTag, tagModals}) => {
 
@@ -41,12 +44,7 @@ export const TagsListView = ({tags, onEditTag, tagModals}) => {
 
         labels.push(
             <List.Item key={tag.getId()}>
-                <Button as='div' labelPosition='right' compact size="tiny" onClick={() => onEditTag(tag.getId())}>
-                    <Button color={getColor(tag)} loading={isLoading} compact size="tiny">
-                        {icon}
-                    </Button>
-                    <TagView tag={tag} basic size="tiny" pointing="left"/>                    
-                </Button>
+                <TagButton tag={tag} icon={icon} parentClick={() => onEditTag(tag.getId())} loading={isLoading} />
             </List.Item>
         );
     }
@@ -64,8 +62,7 @@ export const TagsListView = ({tags, onEditTag, tagModals}) => {
 }
 
 export const mapStateToProps = (state) => {
-    let selected = ProvContractList.getSelectedContract(ProvContractList.getSelf(state));
-    let selectedAddress = ProvContract.getAddress(selected);
+    let selectedAddress = Select.getSelectedContract(RootSelector.getSelect(state));
     return {
         selectedContract: selectedAddress,
         tagModals: EditModalTagList.getModal(state.editTag, selectedAddress)
