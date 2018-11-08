@@ -7,6 +7,7 @@ import * as actions from "./actions";
 import EditModalTagList from './EditModalTagList';
 import { withDefaultProps } from '../withDefaultProps';
 import Select from '../../models/Select';
+import ListModel from '../../models/ListModel';
 
 export class EditTagView extends React.Component {
 
@@ -56,18 +57,18 @@ export class EditTagView extends React.Component {
 export const ValidatedEditTagView = withFormValidation(withDefaultProps(EditTagView));
 
 export const mapStateToProps = (state) => {
-    let contract = ProvContractList.getContract(RootSelector.getContracts(state), Select.getSelectedContract(RootSelector.getSelect(state)));
+    let root = new RootSelector(state);
+    let select = new Select(root.getSelect());
+    let address = select.getSelectedContract();
+    //Select.getSelectedContract(root.getSelect());
     let selectedModal = EditModalTagList.getSelected(state.editTag);
-    let selectedTag = ProvContract.getTags(contract).getTag(EditModalTagList.getId(selectedModal));
-    if(selectedTag === undefined) {
-        selectedTag = new Tag("","");
-    }
+    let selectedTag = ListModel.get(ListModel.get(root.getTags(), address), EditModalTagList.getId(selectedModal));
     
     return {
         editModalLeaf: selectedModal,
         isOpen: state.editTag.isOpen(),
         title: selectedTag.getTitle(),
-        address: ProvContract.getAddress(contract),
+        address: address,
         tagId: EditModalTagList.getId(selectedModal)
     }
 }

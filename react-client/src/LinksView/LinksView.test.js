@@ -4,9 +4,9 @@ import Adapter from 'enzyme-adapter-react-16';
 import { LinksView, mapStateToProps } from './LinksView';
 import testContract from "../models/ProvContract.testHelper";
 import ProvContract from '../models/ProvContract';
-import TagList from '../models/TagList';
 import LinkList from '../models/LinkList';
 import ProvContractList from '../models/ProvContractList';
+import ListModel from '../models/ListModel';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -28,7 +28,7 @@ const setup = (propOverrides) => {
 describe("LinksView", () => {
     it("should render empty view", () => {
         const {expected} = setup({
-            tags: new TagList(), 
+            tags: (new ListModel()).getItems(), 
             links: (new LinkList()).asArray()
         });
         expect(expected).toMatchSnapshot();

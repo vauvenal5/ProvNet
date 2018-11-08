@@ -1,4 +1,4 @@
-import {EditModalLeaf, ProvContractList, Tag, ProvContract, TagList, MetaMaskPromiseFactory } from "./imports";
+import {EditModalLeaf, ProvContractList, Tag, ProvContract, MetaMaskPromiseFactory } from "./imports";
 import * as actions from "./actions";
 import EditModalTagList from "./EditModalTagList";
 import { ofType, combineEpics } from "redux-observable";
@@ -7,14 +7,15 @@ import SimpleProvenanceContract from "ProvNet/build/linked/SimpleProvenanceContr
 import { from, of, defer } from "rxjs";
 import { withLatestFrom, flatMap, map, catchError, delay } from "rxjs/operators";
 import { modelActions } from "../imports";
+import ListModel from "../../models/ListModel";
+import { RootSelector } from "../../models";
 
 export const editTagEpic = (action$, state$) => action$.pipe(
     ofType(actions.types.editTag),
     withLatestFrom(state$),
     flatMap(([action, state]) => {
         let web3Instance = new state.web3.eth.Contract(SimpleProvenanceContract.truffle.abi, action.address);
-        let contract = ProvContractList.getContract(ProvContractList.getSelf(state), action.address);
-        let currentTag = TagList.getTag(ProvContract.getTags(contract), action.tagId);
+        let currentTag = ListModel.get(ListModel.get(RootSelector.getTags(state), action.address), action.tagId);
 
         return from(
             MetaMaskPromiseFactory.accountsPromise(state.web3)

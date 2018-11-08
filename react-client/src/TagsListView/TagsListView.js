@@ -11,6 +11,7 @@ import EditModalTagList from '../EditViews/EditTagView/EditModalTagList';
 import Select from '../models/Select';
 import { RootSelector } from '../models';
 import { TagButton } from '../TagView/TagButton';
+import ListModel from '../models/ListModel';
 
 export const TagsListView = ({tags, onEditTag, tagModals}) => {
 
@@ -65,7 +66,8 @@ export const mapStateToProps = (state) => {
     let selectedAddress = Select.getSelectedContract(RootSelector.getSelect(state));
     return {
         selectedContract: selectedAddress,
-        tagModals: EditModalTagList.getModal(state.editTag, selectedAddress)
+        tagModals: EditModalTagList.getModal(state.editTag, selectedAddress),
+        tags: ListModel.getItems(ListModel.get(RootSelector.getTags(state), selectedAddress))
     }
 }
 

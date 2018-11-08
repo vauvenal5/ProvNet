@@ -1,8 +1,25 @@
 import {reducer as specialRolesReducer} from "../UsersView";
 
 export default class RootSelector {
+
+    constructor(state) {
+        this.state = state;
+    }
+
     static getContracts(state) {
         return state.contracts;
+    }
+
+    getTags() {
+        return this.state.tags;
+    }
+
+    static getTags(state) {
+        return state.tags;
+    }
+
+    getSelect() {
+        return this.state.select;
     }
 
     static getSelect(state) {

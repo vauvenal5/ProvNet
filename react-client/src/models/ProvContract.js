@@ -1,15 +1,11 @@
-import TagList from "./TagList";
 import LinkList from "./LinkList";
 import ContractDetails from "./ContractDetails";
-import ProvContractList from "./ProvContractList";
 
 export default class ProvContract {
     constructor(address=undefined, details) {
         this.address = address;
         this.details = new ContractDetails();
-        this.tags = new TagList();
         this.links = new LinkList();
-        this.specialRoles = new TagList();
     }
 
     getAddress() {
@@ -18,14 +14,6 @@ export default class ProvContract {
 
     static getAddress(contract) {
         return contract.getAddress();
-    }
-
-    getTags() {
-        return this.tags;
-    }
-
-    setTags(tags) {
-        return this.softClone({tags: tags});
     }
 
     static getTags(self) {
@@ -53,10 +41,6 @@ export default class ProvContract {
 
     setLinks(links) {
         return this.softClone({links: links});
-    }
-
-    getSpecialRoles () {
-        return this.specialRoles;
     }
 
     setSpecialRoles(roles) {

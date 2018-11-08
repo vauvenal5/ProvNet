@@ -20,6 +20,7 @@ import {DeployContract} from "./EditViews";
 import {EditDetailsView, editTagReducer, editTagEpic} from "./EditViews";
 import {reducer as specialRolesReducer} from "./UsersView";
 import {withWeb3ContractFrom} from "./operators";
+import {tagReducer} from "./tagReducer";
 
 //import contract from "truffle-contract";
 
@@ -121,12 +122,12 @@ export const contractReducer = (state = new ProvContractList(), action) => {
             return state.assignContract(
                 state.getContract(action.address).setDetails(action.details)
             );
-        case modelActions.types.typeLoad:
-        case modelActions.types.typeLoaded:
-            contract = state.getContract(action.address);
-            return state.assignContract(
-                contract.setTags(contract.getTags().addTag(action.tag))
-            );
+        // case modelActions.types.typeLoad:
+        // case modelActions.types.typeLoaded:
+        //     contract = state.getContract(action.address);
+        //     return state.assignContract(
+        //         contract.setTags(contract.getTags().addTag(action.tag))
+        //     );
         //TODO-sv: clean up?
         // case modelActions.types.linksLoad:
         //     contract = state[action.address];
@@ -174,5 +175,6 @@ export const rootReducer = combineReducers({
     editDetails: EditDetailsView.reducer,
     editTag: editTagReducer,
     [specialRolesReducer.root]: specialRolesReducer.specialRolesReducer,
-    users: specialRolesReducer.usersReducer
+    users: specialRolesReducer.usersReducer,
+    tags: tagReducer
 });

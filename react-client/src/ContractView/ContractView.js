@@ -27,7 +27,7 @@ export const ContractView = ({contract}) => {
                     <ContractDetailsView/>
                 </Grid.Column>
                 <Grid.Column floated="right" width={5}>
-                    <TagsListView tags={contract.getTags()}/>
+                    <TagsListView />
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row>

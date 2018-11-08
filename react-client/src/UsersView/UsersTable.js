@@ -7,11 +7,10 @@ import LinkRow from '../LinkRow';
 import { Input } from 'formsy-semantic-ui-react';
 import TagView from "../TagView";
 import { Tag, ProvContractList, ProvContract } from '../models';
-import { ContractTagMap } from '../models/ContractTagMap';
 import reducer from "./reducer";
 import Select from '../models/Select';
 import { RootSelector, User } from '../models';
-import List from '../models/List';
+import ListModel from '../models/ListModel';
 import { TagButton } from '../TagView/TagButton';
 
 export const UsersTable = (props) => {
@@ -77,9 +76,9 @@ export const UsersTable = (props) => {
 export const mapStateToProps = (state) => {
     let contract = Select.getSelectedContract(RootSelector.getSelect(state));
     return {
-        specialRoles: ContractTagMap.getTags(RootSelector.getSpecialRoles(state), contract),
-        users: List.getItems(RootSelector.getUsers(state)),
-        tags: ProvContract.getTags(ProvContractList.getContract(RootSelector.getContracts(state), contract))
+        specialRoles: ListModel.getItems(RootSelector.getSpecialRoles(state)),
+        users: ListModel.getItems(RootSelector.getUsers(state)),
+        tags: ListModel.getItems(ListModel.get(RootSelector.getTags(state), contract))
     };
 }
 

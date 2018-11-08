@@ -1,12 +1,11 @@
-import { ContractTagMap } from "../models/ContractTagMap";
 import * as modelActions from "../modelActions";
 import * as actions from "./actions";
 import { combineEpics, ofType } from "redux-observable";
 import {withWeb3ContractFrom} from "../operators";
 import { map, flatMap, switchAll } from "rxjs/operators";
 import { from } from 'rxjs';
-import List from "../models/List";
-import { User } from "../models";
+import ListModel from "../models/ListModel";
+import { User, Tag } from "../models";
 
 export const contractSpecialRolesLoadEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.contractLoad),
@@ -46,21 +45,23 @@ export const usersEpic = (action$, state$) => action$.pipe(
 
 const epic = combineEpics(contractSpecialRolesLoadEpic, usersEpic);
 
-export const specialRolesReducer = (state = new ContractTagMap(), action) => {
+export const specialRolesReducer = (state = new ListModel("specialRoles", (item) => Tag.getId(item)), action) => {
     switch(action.type) {
+        case modelActions.types.contractLoad:
+            return ListModel.reset(state);
         case modelActions.types.userSpecialRoleLoaded:
-            return ContractTagMap.assignRole(state, action.address, action.role);
+            return ListModel.add(state, action.role);
         default:
             return state;
     }
 };
 
-export const usersReducer = (state = new List(User.getAddress), action) => {
+export const usersReducer = (state = new ListModel("users", User.getAddress), action) => {
     switch(action.type) {
         case modelActions.types.contractLoad:
-            return new List(User.getAddress);
+            return ListModel.reset(state);
         case actions.types.userLoaded:
-            return List.add(state, action.user);
+            return ListModel.add(state, action.user);
         default:
             return state;
     }

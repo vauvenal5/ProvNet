@@ -1,6 +1,9 @@
 export default class Select {
-    constructor() {
+    constructor(self) {
         this.selected = [];
+        if(self) {
+            this.selected = self.selected;
+        }
     }
 
     setLinkSelected(address) {
