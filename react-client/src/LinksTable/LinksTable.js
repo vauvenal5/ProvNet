@@ -43,7 +43,7 @@ export const mapStateToProps = (state) => {
     let contract = ProvContractList.getContract(RootSelector.getContracts(state), linkAddress);
     return {
         tags: ListModel.getItems(ListModel.get(RootSelector.getTags(state), linkAddress)),
-        links: contract.getLinks().asArray()
+        links: ListModel.getItems(ListModel.get(RootSelector.getLinks(state), linkAddress))
     };
 }
 

@@ -21,6 +21,7 @@ import {EditDetailsView, editTagReducer, editTagEpic} from "./EditViews";
 import {reducer as specialRolesReducer} from "./UsersView";
 import {withWeb3ContractFrom} from "./operators";
 import {tagReducer} from "./tagReducer";
+import { linkReducer } from "./linksReducer";
 
 //import contract from "truffle-contract";
 
@@ -138,11 +139,6 @@ export const contractReducer = (state = new ProvContractList(), action) => {
                     
         //         }
         //     }
-        case modelActions.types.linkLoaded:
-            contract = state.getContract(action.address);
-            return state.assignContract(
-                contract.setLinks(contract.getLinks().addLink(action.link))
-            );
         //todo-sv: this should probably move to the selectReducer now that it exists
         // case modelActions.types.contractSelected:
         //     return state.setSelected(action.address);
@@ -176,5 +172,6 @@ export const rootReducer = combineReducers({
     editTag: editTagReducer,
     [specialRolesReducer.root]: specialRolesReducer.specialRolesReducer,
     users: specialRolesReducer.usersReducer,
-    tags: tagReducer
+    tags: tagReducer,
+    links: linkReducer
 });

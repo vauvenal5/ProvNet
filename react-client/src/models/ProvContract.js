@@ -1,11 +1,9 @@
-import LinkList from "./LinkList";
 import ContractDetails from "./ContractDetails";
 
 export default class ProvContract {
     constructor(address=undefined, details) {
         this.address = address;
         this.details = new ContractDetails();
-        this.links = new LinkList();
     }
 
     getAddress() {
@@ -33,14 +31,6 @@ export default class ProvContract {
             return new ContractDetails();
         }
         return contract.getDetails();
-    }
-
-    getLinks() {
-        return this.links;
-    }
-
-    setLinks(links) {
-        return this.softClone({links: links});
     }
 
     setSpecialRoles(roles) {

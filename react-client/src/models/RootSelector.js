@@ -33,4 +33,8 @@ export default class RootSelector {
     static getUsers(state) {
         return state.users;
     }
+
+    static getLinks(state) {
+        return state.links;
+    }
 }

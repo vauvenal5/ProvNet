@@ -9,6 +9,10 @@ export default class Link {
         return this.address;
     }
 
+    static getAddress(self) {
+        return self.getAddress();
+    }
+
     getTitle() {
         return this.title;
     }
