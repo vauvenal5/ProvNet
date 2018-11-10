@@ -1,36 +1,28 @@
-import {EditModalLeaf, ProvContractList, Tag, ProvContract, MetaMaskPromiseFactory } from "./imports";
+import {EditModalLeaf, MetaMaskPromiseFactory } from "./imports";
 import * as actions from "./actions";
 import EditModalTagList from "./EditModalTagList";
 import { ofType, combineEpics } from "redux-observable";
 
-import SimpleProvenanceContract from "ProvNet/build/linked/SimpleProvenanceContract";
 import { from, of, defer } from "rxjs";
-import { withLatestFrom, flatMap, map, catchError, delay } from "rxjs/operators";
+import { flatMap, map, catchError, delay } from "rxjs/operators";
 import { modelActions } from "../imports";
-import MapModel from "../../models/MapModel";
-import { RootSelector } from "../../models";
+import { withWeb3ContractFrom } from "../../operators";
 
 export const editTagEpic = (action$, state$) => action$.pipe(
     ofType(actions.types.editTag),
-    withLatestFrom(state$),
-    flatMap(([action, state]) => {
-        let web3Instance = new state.web3.eth.Contract(SimpleProvenanceContract.truffle.abi, action.address);
-        let currentTag = MapModel.get(MapModel.get(RootSelector.getTags(state), action.address), action.tagId);
-
+    withWeb3ContractFrom(state$),
+    flatMap(([action, web3Instance, web3]) => {
         return from(
-            MetaMaskPromiseFactory.accountsPromise(state.web3)
+            MetaMaskPromiseFactory.accountsPromise(web3)
         ).pipe(
             map((accounts) => ({
                 web3Instance,
                 account: accounts[0],
-                action,
-                currentTag
+                action
             }))
         )
     }),
-    flatMap(({web3Instance, account, action, currentTag}) => {
-        let tagId = action.tagId;
-
+    flatMap(({web3Instance, account, action}) => {
         const detailObsFactory = (detail, currDetail, web3ObsFac) => {
             if(detail.localeCompare(currDetail) == 0) {
                 return of({noChange: true});
@@ -39,10 +31,12 @@ export const editTagEpic = (action$, state$) => action$.pipe(
             return web3ObsFac(detail);
         }
 
+        let {tagId, title} = action;
+
         return defer(() => detailObsFactory(
-            action.title,
-            Tag.getTitle(currentTag),
-            (title) => web3Instance.methods.setTagTitle(action.tagId, title).send({from: account})
+            title,
+            action.origTitle,
+            (title) => web3Instance.methods.setTagTitle(tagId, title).send({from: account})
         )).pipe(
             flatMap(res => {
                 if(res.noChange) {
@@ -50,8 +44,8 @@ export const editTagEpic = (action$, state$) => action$.pipe(
                 }
 
                 return of( 
-                    modelActions.onTypeLoaded(action.address, action.tagId, action.title),
-                    actions.onEditTagSuccess(action.address, action.tagId)
+                    modelActions.onTypeLoaded(action.address, tagId, title),
+                    actions.onEditTagSuccess(action.address, tagId)
                 );
             }),
             catchError(err => {

@@ -1,15 +1,9 @@
-import MapModel from "./models/MapModel";
 import * as modelActions from "./modelActions";
-import { Tag } from "./models";
-import ContractListMap from "./models/ContractListMap";
+import { TagSelector } from "./models";
 import ContractTagsMap from "./models/ContractTagsMap";
 
 export const tagReducer = (
-    // state = new ContractListMap("tags",
-    //     (item) => Tag.getId(item),
-    //     (id) => new Tag(id, "")
-    // ),
-    state = new ContractTagsMap("tags"),
+    state = new ContractTagsMap(TagSelector.key),
     action
 ) => {
     switch(action.type) {

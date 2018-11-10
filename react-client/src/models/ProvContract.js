@@ -1,9 +1,9 @@
 import ContractDetails from "./ContractDetails";
 
 export default class ProvContract {
-    constructor(address=undefined, details) {
+    constructor(address=undefined, details = new ContractDetails()) {
         this.address = address;
-        this.details = new ContractDetails();
+        this.details = details;
     }
 
     getAddress() {

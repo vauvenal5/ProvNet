@@ -1,13 +1,12 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import {Form} from "formsy-semantic-ui-react";
-import {ProvContract, ProvContractList, Tag, EditModalWrapper, withFormValidation, RootSelector, SelectSelector, TagSelector} from "./imports";
+import { EditModalWrapper, withFormValidation, SelectSelector, TagSelector} from "./imports";
 import * as actions from "./actions";
 import EditModalTagList from './EditModalTagList';
 import { withDefaultProps } from '../withDefaultProps';
-import Select from '../../models/Select';
-import MapModel from '../../models/MapModel';
+import { Tag } from '../../models';
 
 export class EditTagView extends React.Component {
 
@@ -57,11 +56,8 @@ export class EditTagView extends React.Component {
 export const ValidatedEditTagView = withFormValidation(withDefaultProps(EditTagView));
 
 export const mapStateToProps = (state) => {
-    //let select = new Select(RootSelector.getSelect(state));
-    //let address = Select.getSelectedContract(root.getSelect());
     let address = SelectSelector.getSelectedContract(state);
     let selectedModal = EditModalTagList.getSelected(state.editTag);
-    //let selectedTag = MapModel.get(MapModel.get(root.getTags(), address), EditModalTagList.getId(selectedModal));
     //todo-sv: We could even say that the EditModalSelector ist responsible for selecting the tag since he has the complete view.
     let selectedTag = TagSelector.getContractSelectedTag(state, EditModalTagList.getId(selectedModal));
     
@@ -76,7 +72,7 @@ export const mapStateToProps = (state) => {
 
 export const mapDispatchToProps = (dispatch) => {
     return {
-        onSubmit: (address, tagId, title) => dispatch(actions.onEditTag(address, tagId, title)),
+        onSubmit: (address, tagId, title, origTitle) => dispatch(actions.onEditTag(address, tagId, title, origTitle)),
         onClose: () => dispatch(actions.onEditTagModalOpen(false)),
         onClear: (address, tagId) => dispatch(actions.onEditTagModalClear(address, tagId))
     }
@@ -84,6 +80,7 @@ export const mapDispatchToProps = (dispatch) => {
 
 export const mergeProps = (stateProps, dispatchProps, ownProps) => {
     return Object.assign({}, ownProps, stateProps, dispatchProps, {
+        onSubmit: (address, tagId, title) => dispatchProps.onSubmit(address, tagId, title, stateProps.title),
         onClear: () => dispatchProps.onClear(stateProps.address, stateProps.tagId)
     });
 }

@@ -1,4 +1,4 @@
 import * as modelActions from "../modelActions";
 export { modelActions };
 
-export { ContractDetails, ProvContract, ProvContractList, Tag, RootSelector, SelectSelector, TagSelector } from "../models";
+export { ContractDetails, ProvContract, Tag, SelectSelector, TagSelector } from "../models";

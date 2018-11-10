@@ -1,4 +1,4 @@
-import Select from "./Select";
+import Select from "../Select";
 
 export default class SelectSelector {
 
@@ -8,6 +8,14 @@ export default class SelectSelector {
 
     static getSelect(root) {
         return root[SelectSelector.getKey()];
+    }
+
+    static getSelectedList(root) {
+        return Select.getSelectedList(SelectSelector.getSelect(root));
+    }
+
+    static isContractSelected(root) {
+        return Select.isRootSelected(SelectSelector.getSelect(root));
     }
 
     static getSelectedContract(root) {

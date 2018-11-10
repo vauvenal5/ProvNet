@@ -27,10 +27,9 @@ export default class MapModel {
 
     add(item) {
         return this.softClone({
-            items: {
-                ...this.items,
+            items: Object.assign({}, this.items, {
                 [this.getIdFunc(item)]: item
-            }
+            })
         });
     }
 
@@ -39,15 +38,26 @@ export default class MapModel {
     }
 
     get(id) {
-        let item = this.items[id];
-        if(item) {
-            return item;
+        if(this.has(id)) {
+            return this.items[id];
         }
         return this.emptyItemConstructor(id);
     }
 
     static get(self, id) {
         return self.get(id);
+    }
+
+    has(id) {
+        let item = this.items[id];
+        if(item) {
+            return true;
+        }
+        return false;
+    }
+
+    static has(self, id) {
+        return self.has(id);
     }
 
     getItems() {
@@ -60,5 +70,21 @@ export default class MapModel {
 
     softClone(o) {
         return Object.assign(new MapModel(), this, o);
+    }
+
+    forEach(cb) {
+        for(let key in this.items) {
+            cb(key, this.get(key));
+        }
+    }
+
+    mapToArray(cb) {
+        let res = [];
+        this.forEach((key, item) => res.push(cb(key, item)));
+        return res;
+    }
+
+    static mapToArray(self, cb) {
+        return self.mapToArray(cb);
     }
 }

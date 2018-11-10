@@ -1,16 +1,13 @@
-import RootSelector from "./RootSelector";
 import SelectSelector from "./SelectSelector"
-import ContractTagsMap from "./ContractTagsMap";
-import TagsMap from "./TagsMap";
+import ContractTagsMap from "../ContractTagsMap";
+import TagsMap from "../maps/TagsMap";
 
 export default class TagSelector {
 
-    static getKey() {
-        return "tags";
-    }
+    static key = "tags";
 
     static getTagsMap(root) {
-        return root[TagSelector.getKey()];
+        return root[TagSelector.key];
     }
 
     static getContractSelected(root) {

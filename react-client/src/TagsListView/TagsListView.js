@@ -1,21 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Segment, Label, Header, Dimmer, Loader, List, Icon, Button } from 'semantic-ui-react';
-import TagView,{getColor} from '../TagView';
-import * as modelActions from "../modelActions";
+import { Segment, Header, List, Icon } from 'semantic-ui-react';
 import {editTagActions, EditModalLeaf} from "../EditViews";
-import ProvContract from '../models/ProvContract';
-import ProvContractList from '../models/ProvContractList';
 import EditModalTagList from '../EditViews/EditTagView/EditModalTagList';
-import Select from '../models/Select';
-import { RootSelector } from '../models';
 import { TagButton } from '../TagView/TagButton';
-import MapModel from '../models/MapModel';
-import TagsMap from '../models/TagsMap';
-import ContractTagsMap from '../models/ContractTagsMap';
-import TagSelector from '../models/TagSelector';
-import SelectSelector from '../models/SelectSelector';
+import TagsMap from '../models/maps/TagsMap';
+import TagSelector from '../models/selectors/TagSelector';
+import SelectSelector from '../models/selectors/SelectSelector';
 
 export const TagsListView = ({tags, list = new TagsMap(), onEditTag, tagModals}) => {
 
@@ -68,12 +60,10 @@ export const TagsListView = ({tags, list = new TagsMap(), onEditTag, tagModals})
 }
 
 export const mapStateToProps = (state) => {
-    let selectedAddress = Select.getSelectedContract(RootSelector.getSelect(state));
+    let selectedAddress = SelectSelector.getSelectedContract(state);
     return {
-        selectedContract: SelectSelector.getSelectedContract(state),
+        selectedContract: selectedAddress,
         tagModals: EditModalTagList.getModal(state.editTag, selectedAddress),
-        //tags: ListModel.getItems(ListModel.get(RootSelector.getTags(state), selectedAddress))
-        //tags: TagsList.getItems(state, selectedAddress),
         list: TagSelector.getContractSelected(state)
     }
 }

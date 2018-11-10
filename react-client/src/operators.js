@@ -5,7 +5,7 @@ export const withWeb3ContractFrom = (state$) => {
     return function withWeb3ContractFromImplementation(source) {
         return source.pipe(
             withLatestFrom(state$),
-            map(([action, state]) => ([action, new state.web3.eth.Contract(SimpleProvenanceContract.truffle.abi, action.address)]))
+            map(([action, state]) => ([action, new state.web3.eth.Contract(SimpleProvenanceContract.truffle.abi, action.address), state.web3]))
         );
     }
 }

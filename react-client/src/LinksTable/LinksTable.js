@@ -5,19 +5,26 @@ import { Table } from 'semantic-ui-react';
 
 import LinkRow from '../LinkRow';
 import Select from '../models/Select';
-import { RootSelector } from '../models';
-import { ProvContractList } from '../models';
-import MapModel from '../models/MapModel';
+import { TagSelector } from '../models';
+import LinkSelector from '../models/selectors/LinkSelector';
+import LinkMap from '../models/maps/LinkMap';
+import TagsMap from '../models/maps/TagsMap';
 
-export const LinksTable = ({tags, links}) => {
+export const LinksTable = ({tags = new TagsMap(), links = new LinkMap()}) => {
 
-    let linkRows = [];
-    for(let key in links) {
-        let link = links[key];
-        linkRows.push(
-            <LinkRow key={link.address} types={tags} link={link} />
+    let linkRows = links.mapToArray((key, link) => {
+        return (
+            <LinkRow key={link.address} types={tags.getItems()} link={link} />
         );
-    }
+    });
+
+    // let linkRows = [];
+    // for(let key in links) {
+    //     let link = links[key];
+    //     linkRows.push(
+    //         <LinkRow key={link.address} types={tags} link={link} />
+    //     );
+    // }
 
     return (
         <Table singleLine selectable>
@@ -39,11 +46,10 @@ export const LinksTable = ({tags, links}) => {
 
 //container part
 export const mapStateToProps = (state) => {
-    let linkAddress = Select.getLinkSelectedContract(RootSelector.getSelect(state));
-    let contract = ProvContractList.getContract(RootSelector.getContracts(state), linkAddress);
     return {
-        tags: MapModel.getItems(MapModel.get(RootSelector.getTags(state), linkAddress)),
-        links: MapModel.getItems(MapModel.get(RootSelector.getLinks(state), linkAddress))
+        tags: TagSelector.getLinkSelected(state),
+        links: LinkSelector.getLinkSelectedLinks(state)
+        //links: MapModel.getItems(MapModel.get(RootSelector.getLinks(state), linkAddress))
     };
 }
 

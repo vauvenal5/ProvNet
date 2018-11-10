@@ -2,8 +2,8 @@ import React, {Fragment} from 'react';
 import { connect } from 'react-redux';
 import { Breadcrumb, Label } from 'semantic-ui-react';
 import * as actions from '../modelActions';
-import Select from '../models/Select';
-import { RootSelector, ProvContractList, ContractDetails, ProvContract } from '../models';
+import { SelectSelector } from '../models';
+import ProvContractSelector from '../models/selectors/ProvContractSelector';
 
 export const LinkNav = ({selection, titles, linkSelect}) => {
     
@@ -35,14 +35,9 @@ export const LinkNav = ({selection, titles, linkSelect}) => {
 };
 
 export const mapStateToProps = (state) => {
-    let selection = Select.getSelectedList(RootSelector.getSelect(state));
     return {
-        selection: selection,
-        titles: selection.map(selected => ContractDetails.getTitle(
-            ProvContract.getDetails(
-                ProvContractList.getContract(RootSelector.getContracts(state), selected)
-            )
-        ))
+        selection: SelectSelector.getSelectedList(state),
+        titles: ProvContractSelector.getLinkSelectedContractTitles(state)
     };
 }
 

@@ -1,15 +1,7 @@
-import MapModel from "./MapModel";
-import RootSelector from "./RootSelector";
+import MapModel from "./maps/MapModel";
 
 export default class ContractListMap extends MapModel {
     constructor(id, childGetIdFunc, childEmptyItemConstructor) {
-        // super(id, 
-        //     (item) => ListModel.getId(item), 
-        //     (id) => new ListModel(id, 
-        //         (item) => childGetIdFunc(item), 
-        //         (id) => childEmptyItemConstructor(id)
-        //     )
-        // )
         super(id, (list) => MapModel.getId(list), (id) => this.getNewList(id, childGetIdFunc, childEmptyItemConstructor));
     }
 

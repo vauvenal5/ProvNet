@@ -14,7 +14,6 @@ import { of, from, zip, forkJoin, Observable} from 'rxjs';
 import SimpleProvenanceContract from "ProvNet/build/linked/SimpleProvenanceContract";
 
 import ProvContract from "./models/ProvContract";
-import ProvContractList from "./models/ProvContractList";
 import Select from "./SelectReducer";
 import {DeployContract} from "./EditViews";
 import {EditDetailsView, editTagReducer, editTagEpic} from "./EditViews";
@@ -22,8 +21,12 @@ import {reducer as specialRolesReducer} from "./UsersView";
 import {withWeb3ContractFrom} from "./operators";
 import {tagReducer} from "./tagReducer";
 import { linkReducer } from "./linksReducer";
-import TagSelector from "./models/TagSelector";
-import SelectSelector from "./models/SelectSelector";
+import TagSelector from "./models/selectors/TagSelector";
+import SelectSelector from "./models/selectors/SelectSelector";
+import SpecialRoleSelector from "./models/selectors/SpecialRoleSelector";
+import UserSelector from "./models/selectors/UserSelector";
+import ProvContractMap from "./models/maps/ProvContractMap";
+import ProvContractSelector from "./models/selectors/ProvContractSelector";
 
 //import contract from "truffle-contract";
 
@@ -103,7 +106,7 @@ export const linkSelectEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.linkSelect),
     withLatestFrom(state$),
     flatMap(([action, state]) => {
-        if(state.contracts.isLoaded(action.address)){
+        if(ProvContractSelector.isLoaded(state, action.address)){
             return of(modelActions.onLinkSelected(action.address));
         }
 
@@ -114,17 +117,14 @@ export const linkSelectEpic = (action$, state$) => action$.pipe(
     })
 );
 
-export const contractReducer = (state = new ProvContractList(), action) => {
+export const contractReducer = (state = new ProvContractMap(ProvContractSelector.key), action) => {
     console.log(action.type);
-    console.log(state);
-    let contract;
+
     switch(action.type) {
         case modelActions.types.contractLoad:
-            return state.assignContract(new ProvContract(action.address));
+            return ProvContractMap.add(state, new ProvContract(action.address));
         case modelActions.types.contractDetailsLoaded:
-            return state.assignContract(
-                state.getContract(action.address).setDetails(action.details)
-            );
+            return ProvContractMap.add(state, new ProvContract(action.address, action.details));
         // case modelActions.types.typeLoad:
         // case modelActions.types.typeLoaded:
         //     contract = state.getContract(action.address);
@@ -165,15 +165,15 @@ export const rootEpic = combineEpics(
 );
 
 export const rootReducer = combineReducers({
-    contracts: contractReducer,
+    [ProvContractSelector.key]: contractReducer,
     web3Loader: Web3Loader.reducer,
     web3: Web3Loader.web3,
     [SelectSelector.getKey()]: Select.reducer,
     deployment: DeployContract.reducer,
     editDetails: EditDetailsView.reducer,
     editTag: editTagReducer,
-    [specialRolesReducer.root]: specialRolesReducer.specialRolesReducer,
-    users: specialRolesReducer.usersReducer,
-    [TagSelector.getKey()]: tagReducer,
+    [SpecialRoleSelector.key]: specialRolesReducer.specialRolesReducer,
+    [UserSelector.key]: specialRolesReducer.usersReducer,
+    [TagSelector.key]: tagReducer,
     links: linkReducer
 });

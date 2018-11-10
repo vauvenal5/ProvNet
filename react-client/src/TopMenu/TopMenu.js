@@ -6,10 +6,9 @@ import { Menu, Icon, Form, Dimmer, Loader } from 'semantic-ui-react';
 import * as modelActions from '../modelActions';
 
 import logo from './logo.svg';
-import ProvContractList from '../models/ProvContractList';
 import {EditModalList, EditModalLeaf, editTagActions } from "../EditViews";
 import Select from '../models/Select';
-import { RootSelector } from '../models';
+import { SelectSelector } from '../models';
 
 export class TopMenu extends React.Component{
     
@@ -99,14 +98,13 @@ export class TopMenu extends React.Component{
 
 //container part
 export const mapStateToProps = (state) => {
-    let selectState = RootSelector.getSelect(state);
-    let address = Select.getSelectedContract(selectState);
+    let address = SelectSelector.getSelectedContract(state);
     let editModal = EditModalList.getModal(state.editDetails, address);
     if(editModal === undefined) {
         editModal = new EditModalLeaf();
     }
     return {
-        isContractSelected: Select.isRootSelected(selectState), 
+        isContractSelected: SelectSelector.isContractSelected(state), 
         selectedContract: address,
         deploy: {
             loading: state.deployment.isLoading(),

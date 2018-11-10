@@ -3,7 +3,7 @@ import { ofType, combineEpics } from "redux-observable";
 import { map, withLatestFrom, flatMap, filter } from 'rxjs/operators';
 import { of } from 'rxjs';
 import Select from "../models/Select";
-import { RootSelector } from "../models";
+import { SelectSelector } from "../models";
 
 const selectContractEpic = (action$) => action$.pipe(
     ofType(modelActions.types.contractSelect),
@@ -16,7 +16,7 @@ const contractLoadedEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.contractDetailsLoaded),
     withLatestFrom(state$),
     filter(([action, state]) => 
-        action.address === Select.getSelectedContract(RootSelector.getSelect(state))
+        action.address === SelectSelector.getSelectedContract(state)
     ),
     map(([action]) => modelActions.onContractSelected(action.address)),
 )

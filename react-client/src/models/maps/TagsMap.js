@@ -1,5 +1,5 @@
 import MapModel from "./MapModel";
-import Tag from "./Tag";
+import Tag from "../Tag";
 
 export default class TagsMap extends MapModel {
     constructor(id) {

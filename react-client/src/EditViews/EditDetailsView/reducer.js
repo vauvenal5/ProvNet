@@ -1,25 +1,22 @@
 import * as actions from "./actions";
 import { withLatestFrom, flatMap, map, catchError, mapTo, delay } from "rxjs/operators";
 import { ofType, combineEpics } from "redux-observable";
-import SimpleProvenanceContract from "ProvNet/build/linked/SimpleProvenanceContract";
 import { from, of, forkJoin, Observable, iif, defer, empty } from "rxjs";
-import { ContractDetails, ProvContract, ProvContractList, modelActions, EditModalLeaf, EditModalList, MetaMaskPromiseFactory } from "./imports";
+import { ContractDetails, modelActions, EditModalLeaf, EditModalList, MetaMaskPromiseFactory } from "./imports";
+import { withWeb3ContractFrom } from "../../operators";
 
 export const editDetailEpic = (action$, state$) => action$.pipe(
     ofType(actions.types.editDetails),
-    withLatestFrom(state$),
-    flatMap(([action, state]) => {
-        let web3Instance = new state.web3.eth.Contract(SimpleProvenanceContract.truffle.abi, action.address);
-        let currentDetails = ProvContract.getDetails(ProvContractList.getSelectedContract(ProvContractList.getSelf(state)));
-
+    withWeb3ContractFrom(state$),
+    flatMap(([action, web3Instance, web3]) => {
         return from(
-            MetaMaskPromiseFactory.accountsPromise(state.web3)
+            MetaMaskPromiseFactory.accountsPromise(web3)
         ).pipe(
             map((accounts) => ({
                 web3Instance,
                 account: accounts[0],
                 action,
-                currentDetails
+                currentDetails: action.origDetails
             }))
         )
     }),

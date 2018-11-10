@@ -8,7 +8,6 @@ import {
 import {Form} from "formsy-semantic-ui-react";
 import * as actions from "./actions";
 import { 
-    ProvContractList, 
     ContractDetails, 
     ProvContract, 
     modelActions, 
@@ -18,9 +17,7 @@ import {
     withFormValidation 
 } from "./imports";
 import { withDefaultProps } from '../withDefaultProps';
-import { EditModalLeaf } from '../EditModal';
-import { RootSelector } from '../../models';
-import Select from '../../models/Select';
+import ProvContractSelector from '../../models/selectors/ProvContractSelector';
 
 
 export class EditDetailsView extends React.Component {
@@ -28,9 +25,9 @@ export class EditDetailsView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: this.props.title,
-            imageUrl: this.props.imageUrl,
-            desc: this.props.desc
+            title: ContractDetails.getTitle(this.props.details),
+            desc: ContractDetails.getDescription(this.props.details),
+            imageUrl: ContractDetails.getLogoUrl(this.props.details),
         }
     }
 
@@ -112,34 +109,29 @@ export class EditDetailsView extends React.Component {
 export const ValidatedEditDetailsView = withFormValidation(withDefaultProps(withDefaultImage(EditDetailsView)));
 
 export const mapStateToProps = (state, ownProps) => {
-    //todo-sv: change first input to RootState.getProvContractList(state)
-    let contract = ProvContractList.getContract(RootSelector.getContracts(state), Select.getSelectedContract(RootSelector.getSelect(state)));
+    let contract = ProvContractSelector.getSelected(state);
     let address = ProvContract.getAddress(contract);
     let details = ProvContract.getDetails(contract);
     let modal = EditModalList.getModal(state.editDetails, address);
     return {
         editModalLeaf: modal,
         isOpen: state.editDetails.isOpen(),
-        //loading: EditModalList.getModal(state.editDetails, address).isLoading(),
         address: address,
-        title: ContractDetails.getTitle(details),
-        desc: ContractDetails.getDescription(details),
-        imageUrl: ContractDetails.getLogoUrl(details),
-        //error: modal.isError(),
-        //errorProps: EditModalLeaf.getStateProps(modal),
+        details: details
     }
 }
 
 export const mapDispatchToProps = (dispatch) => {
     return {
         onClose: () => dispatch(modelActions.onEditDetailsModalOpen(false)),
-        onSubmit: (address, title, desc, url) => dispatch(actions.onEditDetails(address, title, desc, url)),
+        onSubmit: (address, title, desc, url, origDetails) => dispatch(actions.onEditDetails(address, title, desc, url, origDetails)),
         onClear: (address) => dispatch(actions.onEditDetailsModalClear(address))
     }
 }
 
 export const mergeProps = (stateProps, dispatchProps, ownProps) => {
     return Object.assign({}, ownProps, stateProps, dispatchProps, {
+        onSubmit: (address, title, desc, url) => dispatchProps.onSubmit(address, title, desc, url, stateProps.details),
         onClear: () => dispatchProps.onClear(stateProps.address)
     });
 }

@@ -8,10 +8,11 @@ export const types = {
     nop: "NO_OPERATION"
 }
 
-export const onEditDetails = (address, title, desc, url) => ({
+export const onEditDetails = (address, title, desc, url, origDetails) => ({
     type: types.editDetails,
     address: address,
-    details: new ContractDetails(title, desc, url)
+    details: new ContractDetails(title, desc, url),
+    origDetails: origDetails
 });
 
 export const onEditDetailsError = (address, error) => ({

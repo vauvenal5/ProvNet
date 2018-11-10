@@ -2,9 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Item, Button, Image, Icon, Label, Dimmer, Loader, Segment } from 'semantic-ui-react';
 import {withDefaultImage} from "../withDefaultImage";
-import { ProvContractList, ContractDetails, ProvContract } from '../models';
-import Select from '../models/Select';
-import { RootSelector } from '../models';
+import { ContractDetails, ProvContract } from '../models';
+import ProvContractSelector from '../models/selectors/ProvContractSelector';
 
 //component part
 export const ContractDetailsView = (props) => {
@@ -28,10 +27,7 @@ export const ContractDetailsView = (props) => {
 }
 
 export const mapStateToProps = (state) => {
-    let selected = ProvContractList.getContract(
-        RootSelector.getContracts(state), 
-        Select.getSelectedContract(RootSelector.getSelect(state))
-    );
+    let selected = ProvContractSelector.getSelected(state);
     return {
         imageUrl: ContractDetails.getLogoUrl(ProvContract.getDetails(selected)),
         description: ContractDetails.getDescription(ProvContract.getDetails(selected))

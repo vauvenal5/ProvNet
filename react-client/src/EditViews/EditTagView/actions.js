@@ -9,11 +9,12 @@ export const types = {
     editTagModalClear: "EDIT_TAG_MODAL_CLEAR",
 }
 
-export const onEditTag = (address, tagId, title) => ({
+export const onEditTag = (address, tagId, title, origTitle) => ({
     type: types.editTag,
     address: address,
     tagId: tagId,
-    title: title
+    title: title,
+    origTitle: origTitle
 });
 
 export const onNop = () => ({

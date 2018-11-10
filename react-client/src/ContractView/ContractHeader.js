@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import { Grid, Header, Label, Icon, Dimmer, Loader, Segment, Button } from 'semantic-ui-react';
 
 import ProvContract from '../models/ProvContract';
-import { ProvContractList, ContractDetails } from '../models';
-import Select from '../models/Select';
-import { RootSelector } from '../models';
+import { ContractDetails } from '../models';
+import ProvContractSelector from '../models/selectors/ProvContractSelector';
 
 export const ContractHeader = ({address, title}) => {    
     return (
@@ -21,11 +20,10 @@ export const ContractHeader = ({address, title}) => {
 
 //container part
 export const mapStateToProps = (state) => {
-    let address = Select.getSelectedContract(RootSelector.getSelect(state));
-    let selected = ProvContractList.getContract(RootSelector.getContracts(state), address);
+    let selected = ProvContractSelector.getSelected(state);
 
     return {
-        address: address,
+        address: ProvContract.getAddress(selected),
         title: ContractDetails.getTitle(ProvContract.getDetails(selected))
     };
 }
