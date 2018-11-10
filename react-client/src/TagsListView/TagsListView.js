@@ -11,12 +11,17 @@ import EditModalTagList from '../EditViews/EditTagView/EditModalTagList';
 import Select from '../models/Select';
 import { RootSelector } from '../models';
 import { TagButton } from '../TagView/TagButton';
-import ListModel from '../models/ListModel';
+import MapModel from '../models/MapModel';
+import TagsMap from '../models/TagsMap';
+import ContractTagsMap from '../models/ContractTagsMap';
+import TagSelector from '../models/TagSelector';
+import SelectSelector from '../models/SelectSelector';
 
-export const TagsListView = ({tags, onEditTag, tagModals}) => {
+export const TagsListView = ({tags, list = new TagsMap(), onEditTag, tagModals}) => {
 
     let labels = [];
-    console.log(tagModals);
+    tags = list.getItems();
+    console.log(tags);
 
     //todo-sv: the list items should be filled in the parent element and this one should only encapsulate them
     //compound components: https://medium.com/@Dane_s/react-js-compound-components-a6e54b5c9992 
@@ -65,9 +70,11 @@ export const TagsListView = ({tags, onEditTag, tagModals}) => {
 export const mapStateToProps = (state) => {
     let selectedAddress = Select.getSelectedContract(RootSelector.getSelect(state));
     return {
-        selectedContract: selectedAddress,
+        selectedContract: SelectSelector.getSelectedContract(state),
         tagModals: EditModalTagList.getModal(state.editTag, selectedAddress),
-        tags: ListModel.getItems(ListModel.get(RootSelector.getTags(state), selectedAddress))
+        //tags: ListModel.getItems(ListModel.get(RootSelector.getTags(state), selectedAddress))
+        //tags: TagsList.getItems(state, selectedAddress),
+        list: TagSelector.getContractSelected(state)
     }
 }
 

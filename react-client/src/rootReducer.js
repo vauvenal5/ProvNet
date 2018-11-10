@@ -22,6 +22,8 @@ import {reducer as specialRolesReducer} from "./UsersView";
 import {withWeb3ContractFrom} from "./operators";
 import {tagReducer} from "./tagReducer";
 import { linkReducer } from "./linksReducer";
+import TagSelector from "./models/TagSelector";
+import SelectSelector from "./models/SelectSelector";
 
 //import contract from "truffle-contract";
 
@@ -166,12 +168,12 @@ export const rootReducer = combineReducers({
     contracts: contractReducer,
     web3Loader: Web3Loader.reducer,
     web3: Web3Loader.web3,
-    select: Select.reducer,
+    [SelectSelector.getKey()]: Select.reducer,
     deployment: DeployContract.reducer,
     editDetails: EditDetailsView.reducer,
     editTag: editTagReducer,
     [specialRolesReducer.root]: specialRolesReducer.specialRolesReducer,
     users: specialRolesReducer.usersReducer,
-    tags: tagReducer,
+    [TagSelector.getKey()]: tagReducer,
     links: linkReducer
 });

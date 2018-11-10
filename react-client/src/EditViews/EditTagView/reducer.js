@@ -7,7 +7,7 @@ import SimpleProvenanceContract from "ProvNet/build/linked/SimpleProvenanceContr
 import { from, of, defer } from "rxjs";
 import { withLatestFrom, flatMap, map, catchError, delay } from "rxjs/operators";
 import { modelActions } from "../imports";
-import ListModel from "../../models/ListModel";
+import MapModel from "../../models/MapModel";
 import { RootSelector } from "../../models";
 
 export const editTagEpic = (action$, state$) => action$.pipe(
@@ -15,7 +15,7 @@ export const editTagEpic = (action$, state$) => action$.pipe(
     withLatestFrom(state$),
     flatMap(([action, state]) => {
         let web3Instance = new state.web3.eth.Contract(SimpleProvenanceContract.truffle.abi, action.address);
-        let currentTag = ListModel.get(ListModel.get(RootSelector.getTags(state), action.address), action.tagId);
+        let currentTag = MapModel.get(MapModel.get(RootSelector.getTags(state), action.address), action.tagId);
 
         return from(
             MetaMaskPromiseFactory.accountsPromise(state.web3)

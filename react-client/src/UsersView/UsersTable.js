@@ -10,7 +10,7 @@ import { Tag, ProvContractList, ProvContract } from '../models';
 import reducer from "./reducer";
 import Select from '../models/Select';
 import { RootSelector, User } from '../models';
-import ListModel from '../models/ListModel';
+import MapModel from '../models/MapModel';
 import { TagButton } from '../TagView/TagButton';
 
 export const UsersTable = (props) => {
@@ -76,9 +76,9 @@ export const UsersTable = (props) => {
 export const mapStateToProps = (state) => {
     let contract = Select.getSelectedContract(RootSelector.getSelect(state));
     return {
-        specialRoles: ListModel.getItems(RootSelector.getSpecialRoles(state)),
-        users: ListModel.getItems(RootSelector.getUsers(state)),
-        tags: ListModel.getItems(ListModel.get(RootSelector.getTags(state), contract))
+        specialRoles: MapModel.getItems(RootSelector.getSpecialRoles(state)),
+        users: MapModel.getItems(RootSelector.getUsers(state)),
+        tags: MapModel.getItems(MapModel.get(RootSelector.getTags(state), contract))
     };
 }
 

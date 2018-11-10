@@ -2,12 +2,12 @@ import React, {Fragment} from 'react';
 import { connect } from 'react-redux';
 
 import {Form} from "formsy-semantic-ui-react";
-import {ProvContract, ProvContractList, Tag, EditModalWrapper, withFormValidation, RootSelector} from "./imports";
+import {ProvContract, ProvContractList, Tag, EditModalWrapper, withFormValidation, RootSelector, SelectSelector, TagSelector} from "./imports";
 import * as actions from "./actions";
 import EditModalTagList from './EditModalTagList';
 import { withDefaultProps } from '../withDefaultProps';
 import Select from '../../models/Select';
-import ListModel from '../../models/ListModel';
+import MapModel from '../../models/MapModel';
 
 export class EditTagView extends React.Component {
 
@@ -57,12 +57,13 @@ export class EditTagView extends React.Component {
 export const ValidatedEditTagView = withFormValidation(withDefaultProps(EditTagView));
 
 export const mapStateToProps = (state) => {
-    let root = new RootSelector(state);
-    let select = new Select(root.getSelect());
-    let address = select.getSelectedContract();
-    //Select.getSelectedContract(root.getSelect());
+    //let select = new Select(RootSelector.getSelect(state));
+    //let address = Select.getSelectedContract(root.getSelect());
+    let address = SelectSelector.getSelectedContract(state);
     let selectedModal = EditModalTagList.getSelected(state.editTag);
-    let selectedTag = ListModel.get(ListModel.get(root.getTags(), address), EditModalTagList.getId(selectedModal));
+    //let selectedTag = MapModel.get(MapModel.get(root.getTags(), address), EditModalTagList.getId(selectedModal));
+    //todo-sv: We could even say that the EditModalSelector ist responsible for selecting the tag since he has the complete view.
+    let selectedTag = TagSelector.getContractSelectedTag(state, EditModalTagList.getId(selectedModal));
     
     return {
         editModalLeaf: selectedModal,

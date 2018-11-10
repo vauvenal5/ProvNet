@@ -4,7 +4,7 @@ import { combineEpics, ofType } from "redux-observable";
 import {withWeb3ContractFrom} from "../operators";
 import { map, flatMap, switchAll } from "rxjs/operators";
 import { from } from 'rxjs';
-import ListModel from "../models/ListModel";
+import MapModel from "../models/MapModel";
 import { User, Tag } from "../models";
 
 export const contractSpecialRolesLoadEpic = (action$, state$) => action$.pipe(
@@ -45,23 +45,23 @@ export const usersEpic = (action$, state$) => action$.pipe(
 
 const epic = combineEpics(contractSpecialRolesLoadEpic, usersEpic);
 
-export const specialRolesReducer = (state = new ListModel("specialRoles", (item) => Tag.getId(item)), action) => {
+export const specialRolesReducer = (state = new MapModel("specialRoles", (item) => Tag.getId(item)), action) => {
     switch(action.type) {
         case modelActions.types.contractLoad:
-            return ListModel.reset(state);
+            return MapModel.reset(state);
         case modelActions.types.userSpecialRoleLoaded:
-            return ListModel.add(state, action.role);
+            return MapModel.add(state, action.role);
         default:
             return state;
     }
 };
 
-export const usersReducer = (state = new ListModel("users", User.getAddress), action) => {
+export const usersReducer = (state = new MapModel("users", User.getAddress), action) => {
     switch(action.type) {
         case modelActions.types.contractLoad:
-            return ListModel.reset(state);
+            return MapModel.reset(state);
         case actions.types.userLoaded:
-            return ListModel.add(state, action.user);
+            return MapModel.add(state, action.user);
         default:
             return state;
     }

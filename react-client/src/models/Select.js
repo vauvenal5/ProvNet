@@ -1,9 +1,6 @@
 export default class Select {
-    constructor(self) {
+    constructor() {
         this.selected = [];
-        if(self) {
-            this.selected = self.selected;
-        }
     }
 
     setLinkSelected(address) {
@@ -28,8 +25,8 @@ export default class Select {
         return this.selected[0];
     }
 
-    static getSelectedContract(list) {
-        return list.getSelectedContract();
+    static getSelectedContract(self) {
+        return self.getSelectedContract();
     }
 
     isRootSelected() {

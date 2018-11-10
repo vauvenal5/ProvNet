@@ -7,7 +7,7 @@ import LinkRow from '../LinkRow';
 import Select from '../models/Select';
 import { RootSelector } from '../models';
 import { ProvContractList } from '../models';
-import ListModel from '../models/ListModel';
+import MapModel from '../models/MapModel';
 
 export const LinksTable = ({tags, links}) => {
 
@@ -42,8 +42,8 @@ export const mapStateToProps = (state) => {
     let linkAddress = Select.getLinkSelectedContract(RootSelector.getSelect(state));
     let contract = ProvContractList.getContract(RootSelector.getContracts(state), linkAddress);
     return {
-        tags: ListModel.getItems(ListModel.get(RootSelector.getTags(state), linkAddress)),
-        links: ListModel.getItems(ListModel.get(RootSelector.getLinks(state), linkAddress))
+        tags: MapModel.getItems(MapModel.get(RootSelector.getTags(state), linkAddress)),
+        links: MapModel.getItems(MapModel.get(RootSelector.getLinks(state), linkAddress))
     };
 }
 

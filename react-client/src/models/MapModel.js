@@ -1,4 +1,4 @@
-export default class ListModel {
+export default class MapModel {
     constructor(id, getIdFunc, emptyItemConstructor, ...items) {
         this.id = id;
         this.getIdFunc = getIdFunc;
@@ -59,6 +59,6 @@ export default class ListModel {
     }
 
     softClone(o) {
-        return Object.assign(new ListModel(), this, o);
+        return Object.assign(new MapModel(), this, o);
     }
 }

@@ -1,4 +1,4 @@
-import ListModel from "./models/ListModel";
+import MapModel from "./models/MapModel";
 import Link from "./models/Link";
 import * as modelActions from "./modelActions";
 import ContractListMap from "./models/ContractListMap";
