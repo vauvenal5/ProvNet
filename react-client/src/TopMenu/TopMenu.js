@@ -1,13 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Menu, Icon, Form, Dimmer, Loader } from 'semantic-ui-react';
+import { Menu, Icon, Form } from 'semantic-ui-react';
 
 import * as modelActions from '../modelActions';
 
 import logo from './logo.svg';
 import {EditModalList, EditModalLeaf, editTagActions } from "../EditViews";
 import { SelectSelector } from '../models';
+import { FancyButtonItem } from './FancyButtonItem';
 
 export class TopMenu extends React.Component{
     
@@ -28,53 +29,37 @@ export class TopMenu extends React.Component{
                     <img src={logo} />
                 </Menu.Item>
 
-                <Menu.Item onClick={() => this.props.onDeploy()}>
-                    <Dimmer active={this.props.deploy.loading}>
-                        <Loader />
-                    </Dimmer>
-                    <Dimmer active={this.props.deploy.success}>
-                        <Icon name="check" color="green" size="big" />
-                    </Dimmer>
-                    <Dimmer active={this.props.deploy.error}>
-                        <Icon name="close" color="red" size="big" />
-                    </Dimmer>
-                    <Icon.Group size="big">
-                        <Icon name="file alternate outline"/>
-                        <Icon name="add" color="olive" corner/>
-                    </Icon.Group>
-                </Menu.Item>
+                <FancyButtonItem 
+                    icon="file alternate outline" 
+                    childIcon="add" 
+                    success={this.props.deploy.success} 
+                    error={this.props.deploy.error} 
+                    loading={this.props.deploy.loading}
+                    onClick={this.props.onDeploy}
+                />
 
-                <Menu.Item onClick={() => this.props.onEdit()} disabled={!this.props.isContractSelected}>
-                    <Dimmer active={this.props.edit.loading}>
-                        <Loader />
-                    </Dimmer>
-                    <Dimmer active={this.props.edit.success}>
-                        <Icon name="check" color="green" size="big" />
-                    </Dimmer>
-                    <Dimmer active={this.props.edit.error}>
-                        <Icon name="close" color="red" size="big" />
-                    </Dimmer>
-                    <Icon.Group size="big">
-                        <Icon name="file alternate outline"/>
-                        <Icon name="edit" color="blue" corner disabled={!this.props.isContractSelected}/>
-                    </Icon.Group>
-                </Menu.Item>
+                <FancyButtonItem 
+                    icon="file alternate outline" 
+                    childIcon="edit" 
+                    success={this.props.edit.success} 
+                    error={this.props.edit.error} 
+                    loading={this.props.edit.loading}
+                    onClick={this.props.onEdit}
+                    disabled={!this.props.isContractSelected}
+                />
 
-                <Menu.Item onClick={() => this.props.onAddTag()} disabled={!this.props.isContractSelected}>
-                    {/* <Dimmer active={this.props.deploy.loading}>
-                        <Loader />
-                    </Dimmer>
-                    <Dimmer active={this.props.deploy.success}>
-                        <Icon name="check" color="green" size="big" />
-                    </Dimmer>
-                    <Dimmer active={this.props.deploy.error}>
-                        <Icon name="close" color="red" size="big" />
-                    </Dimmer> */}
-                    <Icon.Group size="big">
-                        <Icon name="file alternate outline"/>
-                        <Icon name="tag" color="blue" corner disabled={!this.props.isContractSelected}/>
-                    </Icon.Group>
-                </Menu.Item>
+                <FancyButtonItem 
+                    icon="file alternate outline" 
+                    childIcon="tag" 
+                    onClick={this.props.onAddTag}
+                    disabled={!this.props.isContractSelected}
+                />
+
+                <FancyButtonItem 
+                    icon="user outline" 
+                    childIcon="add"
+                    disabled={!this.props.isContractSelected}
+                />
 
                 <Menu.Menu position="right">
                     <Menu.Item>
