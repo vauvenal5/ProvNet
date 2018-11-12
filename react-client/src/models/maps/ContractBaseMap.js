@@ -1,6 +1,6 @@
-import MapModel from "./maps/MapModel";
+import MapModel from "./MapModel";
 
-export default class ContractListMap extends MapModel {
+export default class ContractBaseMap extends MapModel {
     constructor(id, childGetIdFunc, childEmptyItemConstructor) {
         super(id, (list) => MapModel.getId(list), (id) => this.getNewList(id, childGetIdFunc, childEmptyItemConstructor));
     }
@@ -20,6 +20,6 @@ export default class ContractListMap extends MapModel {
     }
 
     softClone(o) {
-        return Object.assign(new ContractListMap(), this, o);
+        return Object.assign(new ContractBaseMap(), this, o);
     }
 }

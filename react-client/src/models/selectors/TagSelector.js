@@ -1,5 +1,5 @@
 import SelectSelector from "./SelectSelector"
-import ContractTagsMap from "../ContractTagsMap";
+import ContractTagsMap from "../maps/ContractTagsMap";
 import TagsMap from "../maps/TagsMap";
 
 export default class TagSelector {
