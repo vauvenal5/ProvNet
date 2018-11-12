@@ -1,8 +1,5 @@
 import * as actions from "./modelActions";
-import {types} from "./modelActions";
-import ProvContract from "./models/ProvContract";
-import Tag from "./models/Tag";
-import Link from "./models/Link";
+import {ProvContract, Tag, Link} from "./models";
 
 const getExpectedWithAddress = (type, address="testAddress") => ({
     type: type,
@@ -16,13 +13,13 @@ const getExpectedWithContract = (type, contract=new ProvContract("testAddress"))
 
 describe("model actions", () => {
     it("should create a contract load action", () => {
-        const expectedAction = getExpectedWithAddress(types.contractLoad);
+        const expectedAction = getExpectedWithAddress(actions.types.contractLoad);
 
         expect(actions.onContractLoad(expectedAction.address)).toEqual(expectedAction);
     });
     
     it("should create a contract details loaded action", () => {
-        const expected = getExpectedWithAddress(types.contractDetailsLoaded);
+        const expected = getExpectedWithAddress(actions.types.contractDetailsLoaded);
         expected.details = {
             title: "title",
             description: "desc",
@@ -38,33 +35,33 @@ describe("model actions", () => {
     });
 
     it("should create a contract select action", () => {
-        const expected = getExpectedWithAddress(types.contractSelect);
+        const expected = getExpectedWithAddress(actions.types.contractSelect);
 
         expect(actions.onContractSelect(expected.address)).toEqual(expected);
     });
 
     it("should create a type load action", () => {
-        const expected = getExpectedWithAddress(types.typeLoad);
+        const expected = getExpectedWithAddress(actions.types.typeLoad);
         expected.tag = new Tag("testId", "");
 
         expect(actions.onTypeLoad(expected.address, expected.tag.id)).toEqual(expected);
     });
 
     it("should create a type loaded action", () => {
-        const expected = getExpectedWithAddress(types.typeLoaded);
+        const expected = getExpectedWithAddress(actions.types.typeLoaded);
         expected.tag = new Tag("testTagId", "testTitle");
 
         expect(actions.onTypeLoaded(expected.address, expected.tag.id, expected.tag.title)).toEqual(expected);
     });
 
     it("should create a links load action", () => {
-        const expected = getExpectedWithAddress(types.linksLoad);
+        const expected = getExpectedWithAddress(actions.types.linksLoad);
 
         expect(actions.onLinksLoad(expected.address)).toEqual(expected);
     });
 
     it("should create a link loaded action", () => {
-        const expected = getExpectedWithAddress(types.linkLoaded);
+        const expected = getExpectedWithAddress(actions.types.linkLoaded);
         expected.link = new Link("linkAddress", [1,2], "testTag");
 
         expect(actions.onLinkLoaded(

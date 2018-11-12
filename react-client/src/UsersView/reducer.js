@@ -4,12 +4,9 @@ import { combineEpics, ofType } from "redux-observable";
 import {withWeb3ContractFrom} from "../operators";
 import { map, flatMap, switchAll } from "rxjs/operators";
 import { from } from 'rxjs';
-import { User, Tag } from "../models";
-import TagsMap from "../models/maps/TagsMap";
+import { UserSelector, SpecialRoleSelector } from "../models";
 import SpecialRolesMap from "./SpecialRolesMap";
 import UsersMap from "./UsersMap";
-import UserSelector from "../models/selectors/UserSelector";
-import SpecialRoleSelector from "../models/selectors/SpecialRoleSelector";
 
 export const contractSpecialRolesLoadEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.contractLoad),

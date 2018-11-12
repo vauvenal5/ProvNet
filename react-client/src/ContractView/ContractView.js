@@ -3,7 +3,7 @@ import React from 'react';
 import { Grid} from 'semantic-ui-react';
 
 import ContractDetailsView from "./ContractDetailsView";
-import TagsListView from "../TagsListView/TagsListView";
+import { TagsListView } from "../TagsListView";
 import { ContentView } from './ContentView';
 import { default as ContractHeader } from './ContractHeader';
 

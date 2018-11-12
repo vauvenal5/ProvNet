@@ -1,4 +1,4 @@
-import TagsMap from "../models/maps/TagsMap";
+import {TagsMap} from "../models";
 
 export default class SpecialRolesMap extends TagsMap {
     

@@ -2,14 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Table, TableCell, Button, Icon } from 'semantic-ui-react';
 import TagView from "../TagView";
-import { Tag, TagSelector } from '../models';
-import { User } from '../models';
+import { Tag, TagSelector, User, SpecialRoleSelector, TagsMap, UserSelector } from '../models';
 import { TagButton } from '../TagView/TagButton';
-import SpecialRoleSelector from '../models/selectors/SpecialRoleSelector';
 import SpecialRolesMap from './SpecialRolesMap';
 import UsersMap from './UsersMap';
-import TagsMap from '../models/maps/TagsMap';
-import UserSelector from '../models/selectors/UserSelector';
 
 export const UsersTable = ({
     specialRoles = new SpecialRolesMap(), 

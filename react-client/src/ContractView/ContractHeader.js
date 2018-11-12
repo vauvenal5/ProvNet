@@ -3,9 +3,7 @@ import { connect } from 'react-redux';
 
 import { Grid, Header, Label, Icon, Dimmer, Loader, Segment, Button } from 'semantic-ui-react';
 
-import ProvContract from '../models/ProvContract';
-import { ContractDetails } from '../models';
-import ProvContractSelector from '../models/selectors/ProvContractSelector';
+import { ContractDetails, ProvContract, ProvContractSelector } from '../models';
 
 export const ContractHeader = ({address, title}) => {    
     return (

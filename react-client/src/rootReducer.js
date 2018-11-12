@@ -13,7 +13,7 @@ import { of, from, zip, forkJoin, Observable} from 'rxjs';
 
 import SimpleProvenanceContract from "ProvNet/build/linked/SimpleProvenanceContract";
 
-import ProvContract from "./models/ProvContract";
+import { ProvContract, TagSelector, SelectSelector, SpecialRoleSelector, UserSelector, ProvContractMap, ProvContractSelector } from "./models";
 import Select from "./SelectReducer";
 import {DeployContract} from "./EditViews";
 import {EditDetailsView, editTagReducer, editTagEpic} from "./EditViews";
@@ -21,12 +21,6 @@ import {reducer as specialRolesReducer} from "./UsersView";
 import {withWeb3ContractFrom} from "./operators";
 import {tagReducer} from "./tagReducer";
 import { linkReducer } from "./linksReducer";
-import TagSelector from "./models/selectors/TagSelector";
-import SelectSelector from "./models/selectors/SelectSelector";
-import SpecialRoleSelector from "./models/selectors/SpecialRoleSelector";
-import UserSelector from "./models/selectors/UserSelector";
-import ProvContractMap from "./models/maps/ProvContractMap";
-import ProvContractSelector from "./models/selectors/ProvContractSelector";
 
 //import contract from "truffle-contract";
 

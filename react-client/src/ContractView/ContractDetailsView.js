@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Item, Button, Image, Icon, Label, Dimmer, Loader, Segment } from 'semantic-ui-react';
 import {withDefaultImage} from "../withDefaultImage";
-import { ContractDetails, ProvContract } from '../models';
-import ProvContractSelector from '../models/selectors/ProvContractSelector';
+import { ContractDetails, ProvContract, ProvContractSelector } from '../models';
 
 //component part
 export const ContractDetailsView = (props) => {

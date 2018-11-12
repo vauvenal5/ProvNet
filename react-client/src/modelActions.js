@@ -1,7 +1,4 @@
-import ProvContract from "./models/ProvContract";
-import Tag from "./models/Tag";
-import Link from "./models/Link";
-import ContractDetails from "./models/ContractDetails";
+import {Tag, Link, ContractDetails} from "./models";
 
 export const types = {
     contractLoad: "CONTRACT_LOAD",

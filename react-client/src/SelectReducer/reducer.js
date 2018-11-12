@@ -2,8 +2,7 @@ import * as modelActions from "../modelActions";
 import { ofType, combineEpics } from "redux-observable";
 import { map, withLatestFrom, flatMap, filter } from 'rxjs/operators';
 import { of } from 'rxjs';
-import Select from "../models/Select";
-import { SelectSelector } from "../models";
+import { SelectSelector, Select } from "../models";
 
 const selectContractEpic = (action$) => action$.pipe(
     ofType(modelActions.types.contractSelect),

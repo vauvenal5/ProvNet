@@ -1,9 +1,8 @@
 import React, {Fragment} from 'react';
 import { connect } from 'react-redux';
 import { Breadcrumb, Label } from 'semantic-ui-react';
-import * as actions from '../modelActions';
-import { SelectSelector } from '../models';
-import ProvContractSelector from '../models/selectors/ProvContractSelector';
+import * as actions from '../../modelActions';
+import { SelectSelector, ProvContractSelector } from '../../models';
 
 export const LinkNav = ({selection, titles, linkSelect}) => {
     

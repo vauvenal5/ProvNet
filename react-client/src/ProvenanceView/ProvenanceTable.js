@@ -3,9 +3,6 @@ import { connect } from 'react-redux';
 
 import { Table, Label, TableCell, Segment, Button, TextArea, Container } from 'semantic-ui-react';
 
-import LinkRow from '../LinkRow';
-import { Input } from 'formsy-semantic-ui-react';
-
 export const ProvenanceTable = (props) => {
 
     let linkRows = [];

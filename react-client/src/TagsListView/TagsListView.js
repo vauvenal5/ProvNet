@@ -5,9 +5,7 @@ import { Segment, Header, List, Icon } from 'semantic-ui-react';
 import {editTagActions, EditModalLeaf} from "../EditViews";
 import EditModalTagList from '../EditViews/EditTagView/EditModalTagList';
 import { TagButton } from '../TagView/TagButton';
-import TagsMap from '../models/maps/TagsMap';
-import TagSelector from '../models/selectors/TagSelector';
-import SelectSelector from '../models/selectors/SelectSelector';
+import {TagsMap, TagSelector, SelectSelector} from '../models';
 
 export const TagsListView = ({tags, list = new TagsMap(), onEditTag, tagModals}) => {
 

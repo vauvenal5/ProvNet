@@ -3,12 +3,8 @@ import { connect } from 'react-redux';
 
 import { Table } from 'semantic-ui-react';
 
-import LinkRow from '../LinkRow';
-import Select from '../models/Select';
-import { TagSelector } from '../models';
-import LinkSelector from '../models/selectors/LinkSelector';
-import LinkMap from '../models/maps/LinkMap';
-import TagsMap from '../models/maps/TagsMap';
+import LinkRow from './LinkRow';
+import { TagSelector, LinkSelector, LinkMap, TagsMap } from '../../models';
 
 export const LinksTable = ({tags = new TagsMap(), links = new LinkMap()}) => {
 

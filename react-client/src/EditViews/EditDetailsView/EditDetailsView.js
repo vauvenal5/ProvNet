@@ -17,7 +17,7 @@ import {
     withFormValidation 
 } from "./imports";
 import { withDefaultProps } from '../withDefaultProps';
-import ProvContractSelector from '../../models/selectors/ProvContractSelector';
+import {ProvContractSelector} from '../../models';
 
 
 export class EditDetailsView extends React.Component {

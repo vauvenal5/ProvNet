@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 
 import { Grid, Header, Table } from 'semantic-ui-react';
 
-import LinkNav from '../LinkNav';
-import LinksTable from '../LinksTable';
+import LinkNav from './LinkNav';
+import LinksTable from './LinksTable';
 
 export const LinksView = ({tags, links}) => {
 

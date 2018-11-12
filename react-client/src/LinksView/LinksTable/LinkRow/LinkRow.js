@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Label, Table, Button } from 'semantic-ui-react';
-import TagView from '../TagView';
-import * as actions from '../modelActions';
+import TagView from '../../../TagView';
+import * as actions from '../../../modelActions';
 
 export const LinkRow = ({types, link, linkSelect, contractSelect}) => {
     

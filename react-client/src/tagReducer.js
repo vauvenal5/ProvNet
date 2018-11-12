@@ -1,6 +1,5 @@
 import * as modelActions from "./modelActions";
-import { TagSelector } from "./models";
-import ContractTagsMap from "./models/maps/ContractTagsMap";
+import { TagSelector, ContractTagsMap } from "./models";
 
 export const tagReducer = (
     state = new ContractTagsMap(TagSelector.key),

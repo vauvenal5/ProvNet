@@ -7,7 +7,6 @@ import * as modelActions from '../modelActions';
 
 import logo from './logo.svg';
 import {EditModalList, EditModalLeaf, editTagActions } from "../EditViews";
-import Select from '../models/Select';
 import { SelectSelector } from '../models';
 
 export class TopMenu extends React.Component{
