@@ -1,5 +1,6 @@
 import React from 'react';
-import { EditModalLeaf } from './EditModal';
+import { connect } from 'react-redux';
+import { dispatch } from 'rxjs/internal/observable/pairs';
 
 export const withDefaultProps = (WrappedComponent) => {
     return class extends React.Component {
@@ -22,13 +23,11 @@ export const withDefaultProps = (WrappedComponent) => {
                 <WrappedComponent {...this.props} 
                 onSubmit={this.onSubmit.bind(this)}
                 defaultProps={{
-                    isOpen: this.props.isOpen,
-                    loading: EditModalLeaf.isLoading(this.props.editModalLeaf),
-                    error: EditModalLeaf.isError(this.props.editModalLeaf),
-                    errorProps: EditModalLeaf.getStateProps(this.props.editModalLeaf),
+                    editModel: this.props.editModel,
                     onClearResult: this.onClearResult.bind(this),
                     onClose: this.props.onClose,
                     commitValid: this.props.valid,
+                    header: this.props.header
                 }}/>
             );
         }

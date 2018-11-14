@@ -2,10 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { Segment, Header, List, Icon } from 'semantic-ui-react';
-import {editTagActions, EditModalLeaf} from "../EditViews";
-import EditModalTagList from '../EditViews/EditTagView/EditModalTagList';
 import { TagButton } from '../TagView/TagButton';
 import {TagsMap, TagSelector, SelectSelector} from '../models';
+import EditModelSelector from '../models/selectors/EditModelSelector';
+import EditModelMap from '../models/maps/EditModelMap';
+import EditModel from '../models/EditModel';
+import * as editModelActions from "../EditViews/actions";
+import {selectActions} from "../SelectReducer";
 
 export const TagsListView = ({tags, list = new TagsMap(), onEditTag, tagModals}) => {
 
@@ -20,21 +23,22 @@ export const TagsListView = ({tags, list = new TagsMap(), onEditTag, tagModals})
         
         let modal=undefined;
         if(tagModals) {
-            modal = EditModalTagList.getModal(tagModals, key);
+            //modal = EditModalTagList.getModal(tagModals, key);
+            modal = EditModelMap.get(tagModals, key);
         }
         
         let isLoading = false;
         if(modal) {
-            isLoading = EditModalLeaf.isLoading(modal);
+            isLoading = EditModel.isLoading(modal);
         }
 
         let icon = (<Icon name='edit' fitted/>);
         
-        if(modal && EditModalLeaf.isSuccess(modal)) {
+        if(modal && EditModel.isSuccess(modal)) {
             icon = (<Icon name='check' color="green" fitted/>);
         }
 
-        if(modal && EditModalLeaf.isError(modal)) {
+        if(modal && EditModel.isError(modal)) {
             icon = (<Icon name='close' color="red" fitted/>);
         }
 
@@ -61,14 +65,16 @@ export const mapStateToProps = (state) => {
     let selectedAddress = SelectSelector.getSelectedContract(state);
     return {
         selectedContract: selectedAddress,
-        tagModals: EditModalTagList.getModal(state.editTag, selectedAddress),
+        tagModals: EditModelSelector.getContractSelected(state),
+        //tagModals: EditModalTagList.getModal(state.editTag, selectedAddress),
         list: TagSelector.getContractSelected(state)
     }
 }
 
 export const mapDispatchToProps = (dispatch) => {
     return {
-        onEditTag: (selected, tagId) => dispatch(editTagActions.onEditTagModalOpen(true, selected, tagId)),
+        //onEditTag: (selected, tagId) => dispatch(editTagActions.onEditTagModalOpen(true, selected, tagId)),
+        onEditTag: (selected, tagId) => dispatch(selectActions.onTagSelect(selected, tagId, true)),
     }
 }
 

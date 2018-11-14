@@ -1,10 +1,38 @@
-import EditModal from "./EditModal";
-import State from "./EditModalState";
+import State from "./EditModelState";
 
-export default class EditModalLeaf extends EditModal {
-    constructor(id) {
-        super(id, true);
+export default class EditModel {
+    constructor(id = "") {
+        this.id = id;
+        this.open = false;
         this.state = State.createStateCleared();
+    }
+
+    setId(id) {
+        return this.softClone({id: id});
+    }
+
+    getId() {
+        return this.id;
+    }
+
+    static getId(modal) {
+        return modal.getId();
+    }
+
+    isOpen() {
+        return this.open;
+    }
+
+    static isOpen(self) {
+        return self.isOpen();
+    }
+
+    setOpen(value) {
+        return this.softClone({open: value});
+    }
+
+    static setOpen(modal, value) {
+        return modal.setOpen(value);
     }
 
     getStateProps() {
@@ -84,6 +112,6 @@ export default class EditModalLeaf extends EditModal {
     }
 
     softClone(o) {
-        return Object.assign(new EditModalLeaf(), this, o);
+        return Object.assign(new EditModel(), this, o);
     }
 }

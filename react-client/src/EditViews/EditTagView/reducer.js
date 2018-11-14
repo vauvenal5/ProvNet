@@ -1,10 +1,9 @@
-import {EditModalLeaf, MetaMaskPromiseFactory } from "./imports";
-import * as actions from "./actions";
-import EditModalTagList from "./EditModalTagList";
+import {MetaMaskPromiseFactory } from "./imports";
+import * as actions from "../actions";
 import { ofType, combineEpics } from "redux-observable";
 
 import { from, of, defer } from "rxjs";
-import { flatMap, map, catchError, delay } from "rxjs/operators";
+import { flatMap, map, catchError } from "rxjs/operators";
 import { modelActions } from "../imports";
 import { withWeb3ContractFrom } from "../../operators";
 
@@ -31,7 +30,8 @@ export const editTagEpic = (action$, state$) => action$.pipe(
             return web3ObsFac(detail);
         }
 
-        let {tagId, title} = action;
+        let tagId = action.id;
+        let title = action.payload;
 
         return defer(() => detailObsFactory(
             title,
@@ -45,12 +45,12 @@ export const editTagEpic = (action$, state$) => action$.pipe(
 
                 return of( 
                     modelActions.onTypeLoaded(action.address, tagId, title),
-                    actions.onEditTagSuccess(action.address, tagId)
+                    actions.onEditSuccess(action.address, tagId)
                 );
             }),
             catchError(err => {
                 console.log(err);
-                return of(actions.onEditTagError(action.address, tagId, {
+                return of(actions.onEditError(action.address, tagId, {
                     msg: "Could not commit all transactions.",
                     header: "Tag edit error",
                     list: true
@@ -60,44 +60,10 @@ export const editTagEpic = (action$, state$) => action$.pipe(
     })
 );
 
-export const editTagSuccessEpic = (action$) => action$.pipe(
-    ofType(actions.types.editTagSuccess),
-    delay(1000),
-    map(action => actions.onEditTagModalClear(action.address, action.tagId))
-);
+// export const editTagSuccessEpic = (action$) => action$.pipe(
+//     ofType(actions.types.editSuccess),
+//     delay(1000),
+//     map(action => actions.onEditModalClear(action.address, action.id))
+// );
 
-export const epic = combineEpics(editTagEpic, editTagSuccessEpic);
-
-const stateSetHelper = (state, leaf, address, tagId) => {
-    state = EditModalTagList.setModal(state, leaf, address);
-    return state.setSelected(address, tagId);
-}
-
-export const reducer = (
-    state = new EditModalTagList(), 
-    action ) => {
-        let leaf = EditModalTagList.getModal(state, action.address, action.tagId);
-        switch(action.type) {
-            case actions.types.editTag:
-                leaf = EditModalLeaf.setLoading(leaf);
-                state = EditModalTagList.setModal(state, leaf, action.address);
-                return state.setSelected(action.address, action.tagId);
-            case actions.types.editTagModalOpen:
-                if(action.value) {
-                    state = EditModalTagList.putOnce(state, EditModalTagList.create(action.address, new EditModalLeaf(action.tagId)));
-                    state = EditModalTagList.setSelected(state, action.address, action.tagId);
-                }
-                return state.setOpen(action.value);
-            case actions.types.editTagError:
-                leaf = EditModalLeaf.setError(leaf, action.error);
-                return stateSetHelper(state, leaf, action.address, action.tagId);
-            case actions.types.editTagSuccess:
-                leaf = EditModalLeaf.setSuccess(leaf);
-                return stateSetHelper(state, leaf, action.address, action.tagId);
-            case actions.types.editTagModalClear:
-                leaf = EditModalLeaf.setCleared(leaf);
-                return stateSetHelper(state, leaf, action.address, action.tagId);
-            default:
-                return state;
-        }
-}
+export const epic = combineEpics(editTagEpic);

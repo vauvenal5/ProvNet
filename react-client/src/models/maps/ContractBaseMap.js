@@ -2,7 +2,10 @@ import MapModel from "./MapModel";
 
 export default class ContractBaseMap extends MapModel {
     constructor(id, childGetIdFunc, childEmptyItemConstructor) {
-        super(id, (list) => MapModel.getId(list), (id) => this.getNewList(id, childGetIdFunc, childEmptyItemConstructor));
+        super(
+            id, 
+            (list) => MapModel.getId(list), 
+            (id) => this.getNewList(id, childGetIdFunc, childEmptyItemConstructor));
     }
 
     getNewList(id, childGetIdFunc, childEmptyItemConstructor) {

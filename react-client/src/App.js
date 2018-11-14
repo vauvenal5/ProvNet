@@ -5,17 +5,19 @@ import LinksView from "./LinksView";
 import {DeployContract, EditDetailsView, EditTagView} from "./EditViews";
 import { connect } from 'react-redux';
 import ContractView from "./ContractView"
+import EditModelSelector from './models/selectors/EditModelSelector';
+import EditModel from './models/EditModel';
 
 class App extends Component {
     render() {
 		let renderDeployModal;
 		if(this.props.renderDeployModal) {
-			renderDeployModal=(<DeployContract.Component/>);
+			renderDeployModal=(<DeployContract/>);
 		}
 
 		let renderEdit;
 		if(this.props.renderDetails) {
-			renderEdit=(<EditDetailsView.Component/>);
+			renderEdit=(<EditDetailsView/>);
 		}
 
 		let renderTagEdit;
@@ -37,10 +39,14 @@ class App extends Component {
 }
 
 export const mapStateToProps = (state) => {
+	console.log(state);
+	let tagModel = EditModelSelector.getTagSelectedEditModel(state);
+	let deployModel = EditModelSelector.getNewContractModel(state);
+	let detailsModel = EditModelSelector.getContractDetailsModel(state);
 	return {
-		renderDeployModal: state.deployment.isOpen(),
-		renderDetails: state.editDetails.isOpen(),
-		renderTagEdit: state.editTag.isOpen()
+		renderDeployModal: EditModel.isOpen(deployModel),
+		renderDetails: EditModel.isOpen(detailsModel),
+		renderTagEdit: EditModel.isOpen(tagModel)
 	};
 }
 

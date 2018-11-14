@@ -27,4 +27,9 @@ export default class SelectSelector {
         let select = SelectSelector.getSelect(root);
         return Select.getLinkSelectedContract(select);
     }
+
+    static getTagEditModal(root) {
+        let select = SelectSelector.getSelect(root);
+        return Select.getTagEditModel(select);
+    }
 }

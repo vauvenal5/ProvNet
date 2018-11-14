@@ -1,6 +1,5 @@
-import {modelActions, MetaMaskPromiseFactory} from "./imports";
+import {MetaMaskPromiseFactory} from "./imports";
 import { combineEpics, ofType } from 'redux-observable';
-import ContractDeployment from "./ContractDeployment";
 import { 
     withLatestFrom, 
     map,  
@@ -11,9 +10,10 @@ import {
     mapTo} from "rxjs/operators";
 import { of, from, zip, forkJoin} from 'rxjs';
 import SimpleProvenanceContract from "ProvNet/build/linked/SimpleProvenanceContract";
+import * as actions from "../actions";
 
 export const deployContractModalOpenEpic = (action$, state$) => action$.pipe(
-    ofType(modelActions.types.deployContractModalOpen),
+    ofType(actions.types.deployContractModalOpen),
     filter(action => action.value === true),
     withLatestFrom(state$),
     flatMap(([action, state]) => {
@@ -22,7 +22,7 @@ export const deployContractModalOpenEpic = (action$, state$) => action$.pipe(
         )
     }),
     filter((id) => SimpleProvenanceContract.binary[id] === undefined),
-    map((id) => modelActions.onDeployContractFailed({
+    map((id) => actions.onDeployContractError({
         msg: "No pre-build binaries found for chosen network. If you are deploying on a private network please pre-build the contracts for this network.",
         header: "Network unknown!",
         list: false
@@ -30,7 +30,7 @@ export const deployContractModalOpenEpic = (action$, state$) => action$.pipe(
 );
 
 export const deployContractEpic = (action$, state$) => action$.pipe(
-    ofType(modelActions.types.deployContract),
+    ofType(actions.types.deployContract),
     withLatestFrom(state$),
     flatMap(([action, state]) => {
         return zip(
@@ -51,10 +51,12 @@ export const deployContractEpic = (action$, state$) => action$.pipe(
         return from(
             web3Instance.deploy().send({from: account})
         ).pipe(
-            map(res => {console.log(res); return modelActions.onDeployedContract(res.options.address);}),
+            map(res => actions.onDeployContractSuccess({
+                address: res.options.address
+            })),
             catchError(err => {
                 console.log(err);
-                return of(modelActions.onDeployContractFailed({
+                return of(actions.onDeployContractError({
                     msg: "We were not able to deploy your contract.",
                     header: "Contract deployment failed!",
                     list: true
@@ -65,22 +67,3 @@ export const deployContractEpic = (action$, state$) => action$.pipe(
 );
 
 export const epic = combineEpics(deployContractEpic, deployContractModalOpenEpic);
-
-export const reducer = (
-    state = new ContractDeployment(), 
-    action ) => {
-        switch(action.type) {
-            case modelActions.types.deployContract:
-                return state.setLoading();
-            case modelActions.types.deployedContract:
-                return state.setAddress(action.address).setSuccess();
-            case modelActions.types.deployContractFailed:
-                return state.setError(action.error);
-            case modelActions.types.deployContractModalOpen:
-                return state.setOpen(action.value);
-            case modelActions.types.deployContractModalClear:
-                return state.setCleared();
-            default:
-                return state;
-        }
-}

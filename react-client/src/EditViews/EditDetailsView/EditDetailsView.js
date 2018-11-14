@@ -6,18 +6,19 @@ import {
     Grid
 } from 'semantic-ui-react';
 import {Form} from "formsy-semantic-ui-react";
-import * as actions from "./actions";
+import * as actions from "../actions";
 import { 
     ContractDetails, 
     ProvContract, 
-    modelActions, 
     withDefaultImage, 
-    EditModalList, 
     EditModalWrapper, 
     withFormValidation 
 } from "./imports";
 import { withDefaultProps } from '../withDefaultProps';
-import {ProvContractSelector} from '../../models';
+import {ProvContractSelector, SelectSelector} from '../../models';
+import EditModelSelector from '../../models/selectors/EditModelSelector';
+import EditModel from '../../models/EditModel';
+import { withDefaultDispatch, withDefaultMerge } from '../EditModal/EditModal';
 
 
 export class EditDetailsView extends React.Component {
@@ -44,15 +45,15 @@ export class EditDetailsView extends React.Component {
     }
 
     onSubmit() {
-        this.props.onSubmit(this.props.address, this.state.title, this.state.desc, this.state.imageUrl);
+        this.props.onSubmit(this.state.title, this.state.desc, this.state.imageUrl);
     }
 
     render() {
         return(
             <EditModalWrapper 
-                header="Edit Contract Details" 
                 defaultWarning 
                 {...this.props.defaultProps}
+                header="Edit Contract Details" 
                 onCommit={this.onSubmit.bind(this)}
             >
                 <Grid stackable>
@@ -110,29 +111,23 @@ export const ValidatedEditDetailsView = withFormValidation(withDefaultProps(with
 
 export const mapStateToProps = (state, ownProps) => {
     let contract = ProvContractSelector.getSelected(state);
-    let address = ProvContract.getAddress(contract);
     let details = ProvContract.getDetails(contract);
-    let modal = EditModalList.getModal(state.editDetails, address);
     return {
-        editModalLeaf: modal,
-        isOpen: state.editDetails.isOpen(),
-        address: address,
+        editModel: EditModelSelector.getContractDetailsModel(state),
+        address: SelectSelector.getSelectedContract(state),
         details: details
     }
 }
 
 export const mapDispatchToProps = (dispatch) => {
-    return {
-        onClose: () => dispatch(modelActions.onEditDetailsModalOpen(false)),
+    return withDefaultDispatch(dispatch, {
         onSubmit: (address, title, desc, url, origDetails) => dispatch(actions.onEditDetails(address, title, desc, url, origDetails)),
-        onClear: (address) => dispatch(actions.onEditDetailsModalClear(address))
-    }
+    });
 }
 
 export const mergeProps = (stateProps, dispatchProps, ownProps) => {
-    return Object.assign({}, ownProps, stateProps, dispatchProps, {
-        onSubmit: (address, title, desc, url) => dispatchProps.onSubmit(address, title, desc, url, stateProps.details),
-        onClear: () => dispatchProps.onClear(stateProps.address)
+    return withDefaultMerge(stateProps, dispatchProps, ownProps, {
+        onSubmit: (title, desc, url) => dispatchProps.onSubmit(stateProps.address, title, desc, url, stateProps.details),
     });
 }
 

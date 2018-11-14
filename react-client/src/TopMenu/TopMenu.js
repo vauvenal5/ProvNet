@@ -4,11 +4,14 @@ import { connect } from 'react-redux';
 import { Menu, Icon, Form } from 'semantic-ui-react';
 
 import * as modelActions from '../modelActions';
+import {editModelActions} from "../EditViews";
 
 import logo from './logo.svg';
-import {EditModalList, EditModalLeaf, editTagActions } from "../EditViews";
 import { SelectSelector } from '../models';
 import { FancyButtonItem } from './FancyButtonItem';
+import EditModel from '../models/EditModel';
+import EditModelSelector from '../models/selectors/EditModelSelector';
+import * as selectActions from "../SelectReducer/actions";
 
 export class TopMenu extends React.Component{
     
@@ -32,18 +35,18 @@ export class TopMenu extends React.Component{
                 <FancyButtonItem 
                     icon="file alternate outline" 
                     childIcon="add" 
-                    success={this.props.deploy.success} 
-                    error={this.props.deploy.error} 
-                    loading={this.props.deploy.loading}
+                    success={EditModel.isSuccess(this.props.deploy)} 
+                    error={EditModel.isError(this.props.deploy)} 
+                    loading={EditModel.isLoading(this.props.deploy)}
                     onClick={this.props.onDeploy}
                 />
 
                 <FancyButtonItem 
                     icon="file alternate outline" 
                     childIcon="edit" 
-                    success={this.props.edit.success} 
-                    error={this.props.edit.error} 
-                    loading={this.props.edit.loading}
+                    success={EditModel.isSuccess(this.props.edit)} 
+                    error={EditModel.isError(this.props.edit)} 
+                    loading={EditModel.isLoading(this.props.edit)}
                     onClick={this.props.onEdit}
                     disabled={!this.props.isContractSelected}
                 />
@@ -82,33 +85,20 @@ export class TopMenu extends React.Component{
 
 //container part
 export const mapStateToProps = (state) => {
-    let address = SelectSelector.getSelectedContract(state);
-    let editModal = EditModalList.getModal(state.editDetails, address);
-    if(editModal === undefined) {
-        editModal = new EditModalLeaf();
-    }
     return {
         isContractSelected: SelectSelector.isContractSelected(state), 
-        selectedContract: address,
-        deploy: {
-            loading: state.deployment.isLoading(),
-            success: state.deployment.isSuccess(),
-            error: state.deployment.isError()
-        },
-        edit: {
-            loading: editModal.isLoading(),
-            error: editModal.isError(),
-            success: editModal.isSuccess()
-        }
+        selectedContract: SelectSelector.getSelectedContract(state),
+        deploy: EditModelSelector.getNewContractModel(state),
+        edit: EditModelSelector.getContractDetailsModel(state)
     };
 }
 
 export const mapDispatchToProps = (dispatch) => {
     return {
         searchSubmit: (address) => dispatch(modelActions.onContractSelect(address)),
-        onDeploy: () => dispatch(modelActions.onDeployContractModalOpen(true)),
-        onEdit: (selected) => dispatch(modelActions.onEditDetailsModalOpen(true, selected)),
-        onAddTag: (selected) => dispatch(editTagActions.onEditTagModalOpen(true, selected, "new")),
+        onDeploy: () => dispatch(editModelActions.onDeployContractOpen(true)),
+        onEdit: (selected) => dispatch(editModelActions.onEditDetailsModalOpen(true, selected)),
+        onAddTag: (selected) => dispatch(selectActions.onTagSelect(selected, "new", true)),
     };
 }
 

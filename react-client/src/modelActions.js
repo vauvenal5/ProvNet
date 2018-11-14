@@ -16,15 +16,6 @@ export const types = {
     linksLoad: "LINKS_LOAD",
     linkLoaded: "LINK_LOADED",
 
-    //todo-sv: clean up model actions and root reducer!
-    deployContract: "DEPLOY_CONTRACT",
-    deployedContract: "DEPLOYED_CONTRACT",
-    deployContractFailed: "DEPLOY_CONTRACT_FAILED",
-    deployContractModalOpen: "DEPLOY_CONTRACT_MODAL_OPEN",
-    deployContractModalClear: "DEPLOY_CONTRACT_MODAL_CLEAR",
-
-    editDetailsModalOpen: "EDIT_DETAILS_MODAL_OPEN",
-
     userSpecialRoleLoaded: "USER_SPECIAL_ROLE_LOADED",
 };
 
@@ -81,36 +72,6 @@ export const onLinkSelected = (address) => ({
     type: types.linkSelected,
     address: address
 });
-
-export const onDeployContract = (title) => ({
-    type: types.deployContract,
-    title: title
-})
-
-export const onDeployedContract = (address) => ({
-    type: types.deployedContract,
-    address: address
-})
-
-export const onDeployContractFailed = (err) => ({
-    type: types.deployContractFailed,
-    error: err
-})
-
-export const onDeployContractModalOpen = (value) => ({
-    type: types.deployContractModalOpen,
-    value: value
-})
-
-export const onDeployContractModalClear = () => ({
-    type: types.deployContractModalClear,
-})
-
-export const onEditDetailsModalOpen = (value, address) => ({
-    type: types.editDetailsModalOpen,
-    value: value,
-    address: address
-})
 
 export const onUserSpecialRoleLoaded = (address, id, title) => ({
     type: types.userSpecialRoleLoaded,

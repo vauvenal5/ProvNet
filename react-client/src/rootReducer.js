@@ -21,8 +21,8 @@ import {reducer as specialRolesReducer} from "./UsersView";
 import {withWeb3ContractFrom} from "./operators";
 import {tagReducer} from "./tagReducer";
 import { linkReducer } from "./linksReducer";
-
-//import contract from "truffle-contract";
+import { EditModelReducer, editModelEpics } from "./EditViews";
+import EditModelSelector from "./models/selectors/EditModelSelector";
 
 export const contractDetailsLoadingEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.contractLoad),
@@ -119,25 +119,6 @@ export const contractReducer = (state = new ProvContractMap(ProvContractSelector
             return ProvContractMap.add(state, new ProvContract(action.address));
         case modelActions.types.contractDetailsLoaded:
             return ProvContractMap.add(state, new ProvContract(action.address, action.details));
-        // case modelActions.types.typeLoad:
-        // case modelActions.types.typeLoaded:
-        //     contract = state.getContract(action.address);
-        //     return state.assignContract(
-        //         contract.setTags(contract.getTags().addTag(action.tag))
-        //     );
-        //TODO-sv: clean up?
-        // case modelActions.types.linksLoad:
-        //     contract = state[action.address];
-        //     return {
-        //         ...state,
-        //         [action.address]: {
-        //             ...contract,
-                    
-        //         }
-        //     }
-        //todo-sv: this should probably move to the selectReducer now that it exists
-        // case modelActions.types.contractSelected:
-        //     return state.setSelected(action.address);
         
         default:
             return state;
@@ -152,9 +133,7 @@ export const rootEpic = combineEpics(
     contractDetailsLoadingEpic,
     linkSelectEpic,
     Select.epic,
-    DeployContract.epic,
-    EditDetailsView.epic,
-    editTagEpic,
+    editModelEpics,
     specialRolesReducer.epic
 );
 
@@ -163,9 +142,7 @@ export const rootReducer = combineReducers({
     web3Loader: Web3Loader.reducer,
     web3: Web3Loader.web3,
     [SelectSelector.getKey()]: Select.reducer,
-    deployment: DeployContract.reducer,
-    editDetails: EditDetailsView.reducer,
-    editTag: editTagReducer,
+    [EditModelSelector.key]: EditModelReducer,
     [SpecialRoleSelector.key]: specialRolesReducer.specialRolesReducer,
     [UserSelector.key]: specialRolesReducer.usersReducer,
     [TagSelector.key]: tagReducer,

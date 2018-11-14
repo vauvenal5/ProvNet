@@ -1,9 +1,10 @@
-import * as actions from "./actions";
+import * as actions from "../actions";
 import { withLatestFrom, flatMap, map, catchError, mapTo, delay } from "rxjs/operators";
 import { ofType, combineEpics } from "redux-observable";
 import { from, of, forkJoin, Observable, iif, defer, empty } from "rxjs";
-import { ContractDetails, modelActions, EditModalLeaf, EditModalList, MetaMaskPromiseFactory } from "./imports";
+import { ContractDetails, modelActions, MetaMaskPromiseFactory } from "./imports";
 import { withWeb3ContractFrom } from "../../operators";
+import EditModelSelector from "../../models/selectors/EditModelSelector";
 
 export const editDetailEpic = (action$, state$) => action$.pipe(
     ofType(actions.types.editDetails),
@@ -16,14 +17,14 @@ export const editDetailEpic = (action$, state$) => action$.pipe(
                 web3Instance,
                 account: accounts[0],
                 action,
-                currentDetails: action.origDetails
+                currentDetails: action.payload.origDetails
             }))
         )
     }),
     flatMap(({web3Instance, account, action, currentDetails}) => {
 
         const detailObsFactory = (getter, web3Func) => {
-            let detail = getter(action.details);
+            let detail = getter(action.payload.details);
             let currDetail = getter(currentDetails);
 
             if(detail.localeCompare(currDetail) == 0) {
@@ -56,7 +57,7 @@ export const editDetailEpic = (action$, state$) => action$.pipe(
         ).pipe(
             flatMap(([resTitle, resDesc, resUrl]) => {
                 if(resTitle.noChange && resDesc.noChange && resUrl.noChange) {
-                    return of(actions.onEditDetailsModalClear(action.address));
+                    return of(actions.onEditModalClear(action.address, EditModelSelector.detailsKey));
                 }
 
                 const checkRes = (res, details, currentDetails, getter) => {
@@ -69,9 +70,9 @@ export const editDetailEpic = (action$, state$) => action$.pipe(
                 let resActions = [];
                 resActions.push(modelActions.onContractDetailsLoaded(
                         action.address, 
-                        checkRes(resTitle, action.details, currentDetails, ContractDetails.getTitle),
-                        checkRes(resDesc, action.details, currentDetails, ContractDetails.getDescription),
-                        checkRes(resUrl, action.details, currentDetails, ContractDetails.getLogoUrl)
+                        checkRes(resTitle, action.payload.details, currentDetails, ContractDetails.getTitle),
+                        checkRes(resDesc, action.payload.details, currentDetails, ContractDetails.getDescription),
+                        checkRes(resUrl, action.payload.details, currentDetails, ContractDetails.getLogoUrl)
                     )
                 );
 
@@ -91,31 +92,4 @@ export const editDetailEpic = (action$, state$) => action$.pipe(
     })
 );
 
-export const editDetailSuccessEpic = (action$) => action$.pipe(
-    ofType(actions.types.editDetailsSuccess),
-    delay(1000),
-    map(action => actions.onEditDetailsModalClear(action.address))
-);
-
-export const epic = combineEpics(editDetailEpic, editDetailSuccessEpic);
-
-export const reducer = (state = new EditModalList("details"), action) => {
-    let leaf = EditModalList.getModal(state, action.address);
-    switch(action.type) {
-        case actions.types.editDetails:
-            return EditModalList.setModal(state, EditModalLeaf.setLoading(leaf));
-        case modelActions.types.editDetailsModalOpen:
-            if(action.value) {
-                state = EditModalList.putOnce(state, new EditModalLeaf(action.address));
-            }
-            return EditModalList.setOpen(state, action.value);
-        case actions.types.editDetailsError:
-            return EditModalList.setModal(state, EditModalLeaf.setError(leaf, action.error));
-        case actions.types.editDetailsSuccess:
-            return EditModalList.setModal(state, EditModalLeaf.setSuccess(leaf));
-        case actions.types.editDetailsModalClear:
-            return EditModalList.setModal(state, EditModalLeaf.setCleared(leaf));
-        default:
-            return state;
-    }
-}
+export const epic = combineEpics(editDetailEpic);

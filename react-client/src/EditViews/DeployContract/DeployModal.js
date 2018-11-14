@@ -11,7 +11,10 @@ import {
 } from 'semantic-ui-react';
 import {Form} from "formsy-semantic-ui-react";
 import {modelActions, EditModalWrapper, withFormValidation, withDefaultProps} from "./imports";
-import { EditModalLeaf } from '../EditModal';
+import * as actions from "../actions";
+import EditModelSelector from '../../models/selectors/EditModelSelector';
+import EditModel from '../../models/EditModel';
+import { withDefaultDispatch, withDefaultMerge } from '../EditModal/EditModal';
 
 export class DeployModal extends React.Component {
 
@@ -35,8 +38,8 @@ export class DeployModal extends React.Component {
         return(
             <Fragment>
             <EditModalWrapper 
-                header="Deploy new Provenance Contract" 
                 {...this.props.defaultProps}
+                header="Deploy new Provenance Contract" 
                 onCommit={this.onSubmit.bind(this)}
                 // onClearResult={this.onClearResult.bind(this)}
             >
@@ -68,7 +71,7 @@ export class DeployModal extends React.Component {
             <Modal
                 basic
                 size="small"
-                open={this.props.success}
+                open={EditModel.isSuccess(this.props.editModel)}
             >
                 <Modal.Content>
                     <Message
@@ -79,7 +82,7 @@ export class DeployModal extends React.Component {
                         <Message.Content>
                             <Message.Header>Success!</Message.Header>
                             <p>
-                                We successfully deployed your new contract under the following address: <b>{this.props.address}</b>
+                                We successfully deployed your new contract under the following address: <b>{EditModel.getStateProps(this.props.editModel).address}</b>
                             </p>
                         </Message.Content>
                     </Message>
@@ -94,7 +97,7 @@ export class DeployModal extends React.Component {
                     <Button 
                         color='yellow' 
                         inverted 
-                        onClick={this.props.onClearResult}
+                        onClick={this.props.defaultProps.onClearResult}
                     >
                         <Icon name='warning sign' /> Ok
                     </Button>
@@ -109,22 +112,15 @@ export const ValidatedDeployModal = withFormValidation(withDefaultProps(DeployMo
 
 export const mapStateToProps = (state) => {
     return {
-        editModalLeaf: state.deployment,
-        isOpen: state.deployment.isOpen(),
-        success: state.deployment.isOpen() && state.deployment.isSuccess(),
-        //loading: state.deployment.isLoading(),
-        address: state.deployment.getAddress(),
-        //error: state.deployment.isOpen() && state.deployment.isError(),
-        //errorProps: EditModalLeaf.getStateProps(state.deployment),
+        editModel: EditModelSelector.getNewContractModel(state),
+        address: EditModelSelector.newContractKey,
     }
 }
 
 export const mapDispatchToProps = (dispatch) => {
-    return {
-        onClose: () => dispatch(modelActions.onDeployContractModalOpen(false)),
-        onSubmit: (title) => dispatch(modelActions.onDeployContract(title)),
-        onClear: () => dispatch(modelActions.onDeployContractModalClear())
-    }
+    return withDefaultDispatch(dispatch, {
+        onSubmit: (title) => dispatch(actions.onDeployContract(title)),
+    });
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ValidatedDeployModal);
+export default connect(mapStateToProps, mapDispatchToProps, withDefaultMerge)(ValidatedDeployModal);

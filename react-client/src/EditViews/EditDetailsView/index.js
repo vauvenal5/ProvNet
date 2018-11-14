@@ -1,4 +1,4 @@
 import Component from "./EditDetailsView";
-import {reducer, epic} from "./reducer";
+import {epic} from "./reducer";
 
-export default {Component, reducer, epic};
+export {Component as default, epic};
