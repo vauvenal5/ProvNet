@@ -35,18 +35,14 @@ export class TopMenu extends React.Component{
                 <FancyButtonItem 
                     icon="file alternate outline" 
                     childIcon="add" 
-                    success={EditModel.isSuccess(this.props.deploy)} 
-                    error={EditModel.isError(this.props.deploy)} 
-                    loading={EditModel.isLoading(this.props.deploy)}
+                    editModel={this.props.deploy}
                     onClick={this.props.onDeploy}
                 />
 
                 <FancyButtonItem 
                     icon="file alternate outline" 
                     childIcon="edit" 
-                    success={EditModel.isSuccess(this.props.edit)} 
-                    error={EditModel.isError(this.props.edit)} 
-                    loading={EditModel.isLoading(this.props.edit)}
+                    editModel={this.props.edit}
                     onClick={this.props.onEdit}
                     disabled={!this.props.isContractSelected}
                 />
@@ -61,6 +57,8 @@ export class TopMenu extends React.Component{
                 <FancyButtonItem 
                     icon="user outline" 
                     childIcon="add"
+                    editModel={this.props.user}
+                    onClick={this.props.onAddUser}
                     disabled={!this.props.isContractSelected}
                 />
 
@@ -89,7 +87,8 @@ export const mapStateToProps = (state) => {
         isContractSelected: SelectSelector.isContractSelected(state), 
         selectedContract: SelectSelector.getSelectedContract(state),
         deploy: EditModelSelector.getNewContractModel(state),
-        edit: EditModelSelector.getContractDetailsModel(state)
+        edit: EditModelSelector.getContractDetailsModel(state),
+        user: EditModelSelector.getUserAddModel(state),
     };
 }
 
@@ -99,13 +98,15 @@ export const mapDispatchToProps = (dispatch) => {
         onDeploy: () => dispatch(editModelActions.onDeployContractOpen(true)),
         onEdit: (selected) => dispatch(editModelActions.onEditDetailsModalOpen(true, selected)),
         onAddTag: (selected) => dispatch(selectActions.onTagSelect(selected, "new", true)),
+        onAddUser: (selected) => dispatch(editModelActions.onEditModalOpen(true, selected, EditModelSelector.userKey))
     };
 }
 
 export const mergeProps = (stateProps, dispatchProps, ownProps) => {
     return Object.assign({}, ownProps, stateProps, dispatchProps, {
         onEdit: () => dispatchProps.onEdit(stateProps.selectedContract),
-        onAddTag: () => dispatchProps.onAddTag(stateProps.selectedContract)
+        onAddTag: () => dispatchProps.onAddTag(stateProps.selectedContract),
+        onAddUser: () => dispatchProps.onAddUser(stateProps.selectedContract)
     });
 }
 

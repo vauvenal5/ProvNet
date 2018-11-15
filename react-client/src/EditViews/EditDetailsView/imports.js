@@ -6,5 +6,5 @@ export { withDefaultImage } from "../../withDefaultImage";
 
 export { default as EditModalWrapper } from "../EditModal";
 
-export { MetaMaskPromiseFactory } from "../MetaMaskPromiseFactory";
+export { MetaMaskPromiseFactory } from "../../MetaMaskPromiseFactory";
 export {withFormValidation} from "../withFormValidation";

@@ -4,14 +4,15 @@ import { ContractDetails } from "../models";
 
 export const types = {
     nop: "NO_OPERATION",
+
     editModalOpen: "EDIT_MODAL_OPEN",
     editError: "EDIT_ERROR",
     editSuccess: "EDIT_SUCCESS",
     editModalClear: "EDIT_MODAL_CLEAR",
 
     editTag: "EDIT_TAG",
-
     editDetails: "EDIT_DETAILS",
+    addUser: "ADD_USER",
     
     deployContract: "DEPLOY_CONTRACT",
     deployContractSuccess: "DEPLOY_CONTRACT_SUCCESS",
@@ -29,12 +30,25 @@ const onEditBase = (type, address, id, payload) => ({
 
 export const onDeployContract = (payload) => onEditBase(types.deployContract, EditModelSelector.newContractKey, EditModelSelector.newContractKey, payload);
 
-export const onEditTag = (address, id, payload) => onEditBase(types.editTag, address, id, payload);
+export const onEditTag = (address, id, tag, origTag) => onEditBase(types.editTag, address, id, {
+    tag,
+    origTag
+});
+
+export const onAddUser = (address, user, origUser) => onEditBase(
+    types.addUser,
+    address,
+    EditModelSelector.userKey,
+    {
+        user,
+        origUser
+    }
+)
 
 export const onEditDetails = (address, title, desc, url, origDetails) => onEditBase(
     types.editDetails, 
     address, 
-    "details", 
+    EditModelSelector.detailsKey, 
     {
         details: new ContractDetails(title, desc, url),
         origDetails

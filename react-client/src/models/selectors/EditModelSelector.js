@@ -7,6 +7,7 @@ export default class EditModelSelector {
     static key = "editModels";
     static newContractKey = "new";
     static detailsKey = "details";
+    static userKey = "user";
 
     static getMap(root) {
         return root[EditModelSelector.key];
@@ -37,5 +38,10 @@ export default class EditModelSelector {
     static getContractDetailsModel(root) {
         let address = SelectSelector.getSelectedContract(root);
         return EditModelSelector.getEditModel(root, address, EditModelSelector.detailsKey);
+    }
+
+    static getUserAddModel(root) {
+        let map = EditModelSelector.getContractSelected(root);
+        return EditModelMap.get(map, EditModelSelector.userKey);
     }
 }

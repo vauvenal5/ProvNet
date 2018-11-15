@@ -11,7 +11,7 @@ import UsersMap from "./UsersMap";
 export const contractSpecialRolesLoadEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.contractLoad),
     withWeb3ContractFrom(state$),
-    flatMap(([action, web3Instance]) => {
+    flatMap(({action, web3Instance}) => {
         return from(
             web3Instance.methods.getSpecialRoles().call()
         ).pipe(
@@ -29,7 +29,7 @@ export const contractSpecialRolesLoadEpic = (action$, state$) => action$.pipe(
 export const usersEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.contractLoad),
     withWeb3ContractFrom(state$),
-    flatMap(([action, web3Instance]) => {
+    flatMap(({action, web3Instance}) => {
         return from(
             web3Instance.methods.getUsers().call()
         ).pipe(

@@ -1,5 +1,5 @@
 export default class User {
-    constructor(address, specialRoles, roles, isOwner) {
+    constructor(address="", specialRoles=[], roles=[], isOwner=false) {
         this.address = address;
         this.specialRoles = specialRoles;
         this.roles = roles;

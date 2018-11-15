@@ -23,11 +23,12 @@ import {tagReducer} from "./tagReducer";
 import { linkReducer } from "./linksReducer";
 import { EditModelReducer, editModelEpics } from "./EditViews";
 import EditModelSelector from "./models/selectors/EditModelSelector";
+import {epic as userEpic} from "./EditViews/EditUserView";
 
 export const contractDetailsLoadingEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.contractLoad),
     withWeb3ContractFrom(state$),
-    flatMap(([action, web3Instance]) => {
+    flatMap(({action, web3Instance}) => {
         return forkJoin(
             web3Instance.methods.getDescription().call(),
             web3Instance.methods.getLogoUrl().call(),
@@ -41,7 +42,7 @@ export const contractDetailsLoadingEpic = (action$, state$) => action$.pipe(
 export const contractTypesLoadEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.contractLoad),
     withWeb3ContractFrom(state$),
-    flatMap(([action, web3Instance]) => {
+    flatMap(({action, web3Instance}) => {
         return from(
             web3Instance.methods.getLinkTypes().call()
         ).pipe(
@@ -134,7 +135,8 @@ export const rootEpic = combineEpics(
     linkSelectEpic,
     Select.epic,
     editModelEpics,
-    specialRolesReducer.epic
+    specialRolesReducer.epic,
+    userEpic
 );
 
 export const rootReducer = combineReducers({

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import TopMenu from './TopMenu';
 import Loader from "./Web3Loader";
 import LinksView from "./LinksView";
-import {DeployContract, EditDetailsView, EditTagView} from "./EditViews";
+import {DeployContract, EditDetailsView, EditTagView, EditUserView} from "./EditViews";
 import { connect } from 'react-redux';
 import ContractView from "./ContractView"
 import EditModelSelector from './models/selectors/EditModelSelector';
@@ -30,11 +30,18 @@ class App extends Component {
 				<TopMenu.Component/>
 				<Loader.Component/>
 				<ContractView/>
-				{renderDeployModal}
-				{renderEdit}
-				{renderTagEdit}
+				{checkAndRender(this.props.renderDeployModal, (<DeployContract/>))}
+				{checkAndRender(this.props.renderDetails, (<EditDetailsView/>))}
+				{checkAndRender(this.props.renderTagEdit, (<EditTagView/>))}
+				{checkAndRender(this.props.renderAddUser, (<EditUserView/>))}
 			</div>
 		);
+	}
+}
+
+export const checkAndRender = (isOpen, component) => {
+	if(isOpen) {
+		return component;
 	}
 }
 
@@ -43,10 +50,12 @@ export const mapStateToProps = (state) => {
 	let tagModel = EditModelSelector.getTagSelectedEditModel(state);
 	let deployModel = EditModelSelector.getNewContractModel(state);
 	let detailsModel = EditModelSelector.getContractDetailsModel(state);
+	let userModel = EditModelSelector.getUserAddModel(state);
 	return {
 		renderDeployModal: EditModel.isOpen(deployModel),
 		renderDetails: EditModel.isOpen(detailsModel),
-		renderTagEdit: EditModel.isOpen(tagModel)
+		renderTagEdit: EditModel.isOpen(tagModel),
+		renderAddUser: EditModel.isOpen(userModel)
 	};
 }
 

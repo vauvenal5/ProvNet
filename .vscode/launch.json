@@ -8,10 +8,9 @@
             "type": "chrome",
             "request": "attach",
             "port": 9222,
-            "name": "Launch Chrome against localhost",
+            "name": "Attach to Chrome against localhost",
             "url": "http://localhost:3000",
             "webRoot": "${workspaceFolder}",
-            "runtimeExecutable": "/bin/chromium"
         }
     ]
 }

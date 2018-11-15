@@ -9,7 +9,7 @@ import EditModelSelector from "../../models/selectors/EditModelSelector";
 export const editDetailEpic = (action$, state$) => action$.pipe(
     ofType(actions.types.editDetails),
     withWeb3ContractFrom(state$),
-    flatMap(([action, web3Instance, web3]) => {
+    flatMap(({action, web3Instance, web3}) => {
         return from(
             MetaMaskPromiseFactory.accountsPromise(web3)
         ).pipe(

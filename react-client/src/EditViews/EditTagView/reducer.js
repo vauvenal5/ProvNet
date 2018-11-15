@@ -5,42 +5,33 @@ import { ofType, combineEpics } from "redux-observable";
 import { from, of, defer } from "rxjs";
 import { flatMap, map, catchError } from "rxjs/operators";
 import { modelActions } from "../imports";
-import { withWeb3ContractFrom } from "../../operators";
+import { withWeb3ContractFrom, withAccountInfo } from "../../operators";
+import { detailObsFactory } from "../detailObsFactory";
 
 export const editTagEpic = (action$, state$) => action$.pipe(
     ofType(actions.types.editTag),
     withWeb3ContractFrom(state$),
-    flatMap(([action, web3Instance, web3]) => {
-        return from(
-            MetaMaskPromiseFactory.accountsPromise(web3)
-        ).pipe(
-            map((accounts) => ({
-                web3Instance,
-                account: accounts[0],
-                action
-            }))
-        )
-    }),
+    withAccountInfo(),
     flatMap(({web3Instance, account, action}) => {
-        const detailObsFactory = (detail, currDetail, web3ObsFac) => {
-            if(detail.localeCompare(currDetail) == 0) {
-                return of({noChange: true});
-            }
+        // const detailObsFactory = (detail, currDetail, web3ObsFac) => {
+        //     if(detail.localeCompare(currDetail) == 0) {
+        //         return of({noChange: true});
+        //     }
 
-            return web3ObsFac(detail);
-        }
+        //     return web3ObsFac(detail);
+        // }
 
         let tagId = action.id;
-        let title = action.payload;
+        let title = action.payload.tag;
 
         return defer(() => detailObsFactory(
             title,
-            action.origTitle,
-            (title) => web3Instance.methods.setTagTitle(tagId, title).send({from: account})
+            action.payload.origTag,
+            () => web3Instance.methods.setTagTitle(tagId, title).send({from: account})
         )).pipe(
             flatMap(res => {
                 if(res.noChange) {
-                    return actions.onNop();
+                    return of(actions.onEditModalClear(action.address, action.id));
                 }
 
                 return of( 
