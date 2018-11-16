@@ -1,6 +1,6 @@
 import { Tag } from "./imports";
 import EditModelSelector from "../models/selectors/EditModelSelector";
-import { ContractDetails } from "../models";
+import { ContractDetails, User } from "../models";
 
 export const types = {
     nop: "NO_OPERATION",
@@ -35,12 +35,12 @@ export const onEditTag = (address, id, tag, origTag) => onEditBase(types.editTag
     origTag
 });
 
-export const onAddUser = (address, user, origUser) => onEditBase(
+export const onAddUser = (address, user, specialRoles, roles, origUser) => onEditBase(
     types.addUser,
     address,
     EditModelSelector.userKey,
     {
-        user,
+        user: new User(user, specialRoles, roles),
         origUser
     }
 )

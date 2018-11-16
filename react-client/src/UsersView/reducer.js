@@ -6,7 +6,7 @@ import { map, flatMap, switchAll } from "rxjs/operators";
 import { from } from 'rxjs';
 import { UserSelector, SpecialRoleSelector } from "../models";
 import SpecialRolesMap from "./SpecialRolesMap";
-import UsersMap from "./UsersMap";
+import UsersMap from "../models/maps/UsersMap";
 
 export const contractSpecialRolesLoadEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.contractLoad),

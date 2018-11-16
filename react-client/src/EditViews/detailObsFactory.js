@@ -7,3 +7,11 @@ export const detailObsFactory = (detail, currDetail, web3ObsFac) => {
 
     return web3ObsFac();
 };
+
+export const arrayObsRecFactory = (array, nextCheck, web3ObsFac) => {
+    if(array.length == 0) {
+        return nextCheck();
+    }
+
+    return web3ObsFac();
+}

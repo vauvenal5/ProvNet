@@ -5,7 +5,7 @@ import TagView from "../TagView";
 import { Tag, TagSelector, User, SpecialRoleSelector, TagsMap, UserSelector } from '../models';
 import { TagButton } from '../TagView/TagButton';
 import SpecialRolesMap from './SpecialRolesMap';
-import UsersMap from './UsersMap';
+import UsersMap from '../models/maps/UsersMap';
 
 export const UsersTable = ({
     specialRoles = new SpecialRolesMap(), 

@@ -10,6 +10,22 @@ export default class User {
         return self.address;
     }
 
+    static hasRole(self, role) {
+        if(self.roles.includes(role)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    static hasSpecialRole(self, role) {
+        if(self.specialRoles.includes(role)) {
+            return true;
+        }
+
+        return false;
+    }
+
     static getSpecialRoles(self) {
         return self.specialRoles;
     }

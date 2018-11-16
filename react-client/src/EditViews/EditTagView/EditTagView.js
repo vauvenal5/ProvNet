@@ -43,6 +43,7 @@ export class EditTagView extends React.Component {
                             onChange={(e, value) => this.setTitle(value.value)}
                         />
                     </Form.Group>
+                    {this.props.children}
                 </Form>
             </EditModalWrapper>
         );

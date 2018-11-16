@@ -1,30 +1,45 @@
 import { connect } from 'react-redux';
 
-import { SelectSelector} from "../EditTagView/imports";
+import { SelectSelector, TagSelector} from "../EditTagView/imports";
 import * as actions from "../actions";
 import ValidatedEditTagView from "../EditTagView/EditTagView";
 import EditModelSelector from '../../models/selectors/EditModelSelector';
 import { withDefaultDispatch, withDefaultMerge } from '../EditModal/EditModal';
+import {EditUserView} from './EditUserView';
+import { User, SpecialRoleSelector, UserSelector } from '../../models';
+import EditModel from '../../models/EditModel';
+
+export const onSubmit = (address, user, tags, origUser, onAddUser) => {
+    tags.map(role => {
+        if(!User.hasRole(origUser, role)) {
+            onAddUser(address, user, role);
+        }
+    });
+}
 
 export const mapStateToProps = (state) => {    
+    let model = EditModelSelector.getUserAddModel(state);
     return {
-        editModel: EditModelSelector.getUserAddModel(state),
+        editModel: model,
         address: SelectSelector.getSelectedContract(state),
         header: "Add User",
-        labelTitle: "User Address"
+        labelTitle: "User Address",
+        tags: TagSelector.getContractSelected(state),
+        specials: SpecialRoleSelector.getContractSelected(state),
+        user: UserSelector.getContractSelectedUser(state, EditModel.getId(model))
     }
 }
 
 export const mapDispatchToProps = (dispatch) => {
     return withDefaultDispatch(dispatch, {
-        onSubmit: (address, user) => dispatch(actions.onAddUser(address, user, "")),
+        onSubmit: (address, user, specialRoles, roles, origUser) => dispatch(actions.onAddUser(address, user, specialRoles, roles, origUser)),
     });
 }
 
 export const mergeProps = (stateProps, dispatchProps, ownProps) => {
     return withDefaultMerge(stateProps, dispatchProps, ownProps, {
-        onSubmit: (user) => dispatchProps.onSubmit(stateProps.address, user)
+        onSubmit: (user, tags, specials) => dispatchProps.onSubmit(stateProps.address, user, specials, tags, stateProps.user)
     });
 }
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(ValidatedEditTagView);
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(EditUserView);

@@ -53,6 +53,15 @@ contract LinkableContract is UserAccessControl {
         Users
     */
 
+    function changeUser(address _user, uint256[] special, uint256[] removedSpecial, uint256[] link, uint256[] removedLink) 
+    public 
+    onlyOwnerOrSuperuser() {
+        UserAccessControl.addUserWithTagRoles(_user, link, linkTypes);
+        UserAccessControl.addUserWithSpecialRoles(_user, special);
+        UserAccessControl.removeUserWithTagRoles(_user, removedLink, linkTypes);
+        UserAccessControl.removeUserWithSpecialRoles(_user, removedSpecial);
+    }
+
     function getLinkRolesForUser(address _user) 
     internal
     view

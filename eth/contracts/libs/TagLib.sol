@@ -60,7 +60,7 @@ library TagLib {
     function getTag(TagList storage self, uint256 tagId) internal 
     view 
     tagExists(self, tagId)
-    returns(Tag) {
+    returns(Tag storage) {//todo-sv: check return values of all libs if storage is porperly set
         return self.tags[tagId];
     }
 

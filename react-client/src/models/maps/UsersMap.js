@@ -1,4 +1,5 @@
-import { User, MapModel } from "../models";
+import MapModel from "./MapModel";
+import User from "../User";
 
 export default class UsersMap extends MapModel {
     constructor(id) {

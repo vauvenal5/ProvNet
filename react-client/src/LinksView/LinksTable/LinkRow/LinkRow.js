@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import { Label, Table, Button } from 'semantic-ui-react';
 import TagView from '../../../TagView';
 import * as actions from '../../../modelActions';
+import { ClosableTagButton } from '../../../TagView/TagButton';
 
 export const LinkRow = ({types, link, linkSelect, contractSelect}) => {
     
     let tags = link.tags.map(
-        (tagId) => <TagView key={tagId} tag={types[tagId]}/>
+        (tagId) => <ClosableTagButton key={tagId} tag={types[tagId]}/>
     );
 
     return (

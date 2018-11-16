@@ -21,12 +21,12 @@ export const getColor = (tag) => colors[(tag.getId()-1)%colors.length];
 
 export const getTitle = (tag) => _.capitalize(tag.getTitle());
 
-export const TagView = ({tag, ...labelProps}) => {
+export const TagView = ({tag, tagIcon="tag", ...labelProps}) => {
     const getColor = () => colors[(tag.getId()-1)%colors.length];
 
     return(
-        <Label color={getColor(tag)} {...labelProps}>
-            <Icon name="tag"/>
+        <Label  {...labelProps}>
+            <Icon name={tagIcon} color={getColor(tag)}/>
             {getTitle(tag)}
         </Label>
     );

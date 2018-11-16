@@ -78,6 +78,10 @@ export default class MapModel {
         }
     }
 
+    static forEach(self, cb) {
+        self.forEach(cb);
+    }
+
     mapToArray(cb) {
         let res = [];
         this.forEach((key, item) => res.push(cb(key, item)));

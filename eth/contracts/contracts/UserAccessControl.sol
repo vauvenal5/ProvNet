@@ -36,12 +36,33 @@ contract UserAccessControl is SwitchableRBACWithSuperuser {
         specialRoles.addTag(roles.editor, ROLE_EDITOR);
     }
 
-    //todo-sv once tag selection is added to create user we in theory do not need this function anymore... however we could also keep it
-    function addUserTmp(address _user)
-    public 
+    function addUserWithSpecialRoles(address _user, uint256[] _roles)
+    public
     onlyOwnerOrSuperuser() {
-        if(!users.nodeExists(_user.toUint256())) {
-            users.push(_user.toUint256(), false);
+        addUserWithTagRoles(_user, _roles, specialRoles);
+    }
+
+    function addUserWithTagRoles(address _user, uint256[] _roles, TagLib.TagList storage _tags) 
+    internal
+    onlyOwnerOrSuperuser() {
+        for(uint256 i = 0; i < _roles.length; i++) {
+            TagLib.Tag storage tag = _tags.getTag(_roles[i]);
+            addUser(_user, tag.title);
+        }
+    }
+
+    function removeUserWithSpecialRoles(address _user, uint256[] _roles)
+    public
+    onlyOwnerOrSuperuser() {
+        removeUserWithTagRoles(_user, _roles, specialRoles);
+    }
+
+    function removeUserWithTagRoles(address _user, uint256[] _roles, TagLib.TagList storage _tags)
+    internal
+    onlyOwnerOrSuperuser() {
+        for(uint256 i = 0; i < _roles.length; i++) {
+            TagLib.Tag storage tag = _tags.getTag(_roles[i]);
+            SwitchableRBACWithSuperuser.removeUser(_user, tag.title);
         }
     }
 
