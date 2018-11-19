@@ -98,7 +98,8 @@ export const mapDispatchToProps = (dispatch) => {
         onDeploy: () => dispatch(editModelActions.onDeployContractOpen(true)),
         onEdit: (selected) => dispatch(editModelActions.onEditDetailsModalOpen(true, selected)),
         onAddTag: (selected) => dispatch(selectActions.onTagSelect(selected, "new", true)),
-        onAddUser: (selected) => dispatch(editModelActions.onEditModalOpen(true, selected, EditModelSelector.userKey))
+        onAddUser: (selected) => dispatch(selectActions.onEditUserSelect(selected, EditModelSelector.userKey, true))
+        //onAddUser: (selected) => dispatch(editModelActions.onEditModalOpen(true, selected, EditModelSelector.userKey))
     };
 }
 

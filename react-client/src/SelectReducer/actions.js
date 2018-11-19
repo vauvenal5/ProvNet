@@ -1,5 +1,6 @@
 export const types = {
     tagSelect: "TAG_SELECT",
+    editUserSelect: "EDIT_USER_SELECT"
 };
 
 export const onTagSelect = (address, id, payload) => ({
@@ -7,4 +8,11 @@ export const onTagSelect = (address, id, payload) => ({
     address: address,
     id: id,
     payload: payload
+});
+
+export const onEditUserSelect = (address, id, payload) => ({
+    type: types.editUserSelect,
+    address,
+    id,
+    payload
 });

@@ -7,6 +7,18 @@ import { detailObsFactory, arrayObsRecFactory } from "../detailObsFactory";
 import * as userActions from "../../UsersView/actions";
 import EditModelSelector from "../../models/selectors/EditModelSelector";
 import { User } from "../../models";
+import * as selectActions from "../../SelectReducer/actions";
+
+export const reselctEpic = (actions$) => actions$.pipe(
+    ofType(actions.types.reselect),
+    flatMap(action => {
+        return of(
+            actions.onEditModalOpen(false, action.address, action.current),
+            actions.onEditModalClear(action.address, action.current),
+            selectActions.onEditUserSelect(action.address, action.id, true)
+        );
+    })
+);
 
 export const addUserEpic = (action$, state$) => action$.pipe(
     ofType(actions.types.addUser),
@@ -40,7 +52,8 @@ export const addUserEpic = (action$, state$) => action$.pipe(
                             User.getAddress(user),
                             User.getAddress(origUser),
                             web3ObsFactory
-                        )
+                        ),
+                        web3ObsFactory
                     ),
                     web3ObsFactory
                 ),
@@ -74,4 +87,4 @@ export const addUserEpic = (action$, state$) => action$.pipe(
     })
 );
 
-export const epic = combineEpics(addUserEpic);
+export const epic = combineEpics(addUserEpic, reselctEpic);

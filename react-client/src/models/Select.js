@@ -2,6 +2,7 @@ export default class Select {
     constructor() {
         this.selected = [];
         this.tagEditModel = undefined;
+        this.editUserSelect = undefined;
     }
 
     setLinkSelected(address) {
@@ -52,6 +53,14 @@ export default class Select {
 
     static getTagEditModel(self) {
         return self.tagEditModel;
+    }
+
+    static setEditUserSelect(self, id) {
+        return self.softClone({editUserSelect: id});
+    }
+
+    static getEditUserSelect(self) {
+        return self.editUserSelect;
     }
 
     softClone(o) {

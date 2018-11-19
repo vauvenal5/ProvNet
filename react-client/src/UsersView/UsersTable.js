@@ -2,15 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Table, TableCell, Button, Icon } from 'semantic-ui-react';
 import TagView from "../TagView";
-import { Tag, TagSelector, User, SpecialRoleSelector, TagsMap, UserSelector } from '../models';
+import { Tag, TagSelector, User, SpecialRoleSelector, TagsMap, UserSelector, SelectSelector } from '../models';
 import { TagButton } from '../TagView/TagButton';
 import SpecialRolesMap from './SpecialRolesMap';
 import UsersMap from '../models/maps/UsersMap';
+import * as selectActions from "../SelectReducer/actions";
 
 export const UsersTable = ({
     specialRoles = new SpecialRolesMap(), 
     users = new UsersMap(), 
-    tags = new TagsMap()
+    tags = new TagsMap(),
+    onEditUser
 }) => {
     let rows = users.mapToArray((address, user) => {
         let specialRolesView = User.getSpecialRoles(user).map(role => {
@@ -41,8 +43,7 @@ export const UsersTable = ({
                     {roles}
                 </TableCell>
                 <TableCell>
-                    <Button icon="user plus"/>
-                    <Button icon="tag"/>
+                    <Button icon="tag" onClick={() => onEditUser(address)}/>
                 </TableCell>
             </Table.Row>
         );
@@ -72,7 +73,20 @@ export const mapStateToProps = (state) => {
         specialRoles: SpecialRoleSelector.getContractSelected(state),
         users: UserSelector.getContractSelected(state),
         tags: TagSelector.getContractSelected(state),
+        address: SelectSelector.getSelectedContract(state)
     };
 }
 
-export default connect(mapStateToProps)(UsersTable);
+export const mapDispatchToProps = (dispatch) => {
+    return {
+        onEditUser: (address, id) => dispatch(selectActions.onEditUserSelect(address, id, true))
+    };
+}
+
+export const mergeProps = (stateProps, dispatchProps, ownProps) => {
+    return Object.assign(stateProps, dispatchProps, ownProps, {
+        onEditUser: (id) => dispatchProps.onEditUser(stateProps.address, id)
+    });
+}
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(UsersTable);

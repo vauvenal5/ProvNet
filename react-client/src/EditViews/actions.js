@@ -16,8 +16,17 @@ export const types = {
     
     deployContract: "DEPLOY_CONTRACT",
     deployContractSuccess: "DEPLOY_CONTRACT_SUCCESS",
-    deployContractModalOpen: "DEPLOY_CONTRACT_MODAL_OPEN"
+    deployContractModalOpen: "DEPLOY_CONTRACT_MODAL_OPEN",
+
+    reselect: "EDIT_MODAL_RESELECT"
 }
+
+export const onEditModalReselect = (address, id, current) => ({
+    type: types.reselect,
+    address,
+    id,
+    current
+});
 
 // edit
 

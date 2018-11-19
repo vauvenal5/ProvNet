@@ -23,7 +23,7 @@ const contractLoadedEpic = (action$, state$) => action$.pipe(
 );
 
 const tagSelectEpic = (action$) => action$.pipe(
-    ofType(actions.types.tagSelect),
+    ofType(actions.types.tagSelect, actions.types.editUserSelect),
     map(action => editModelActions.onEditModalOpen(action.payload, action.address, action.id))
 );
 
@@ -41,6 +41,8 @@ export const reducer = (state=new Select(), action) => {
             return state.setLinkSelected(action.address);
         case actions.types.tagSelect:
             return state.setTagEditModel(action.id);
+        case actions.types.editUserSelect:
+            return Select.setEditUserSelect(state, action.id);
         default:
             return state;
     }

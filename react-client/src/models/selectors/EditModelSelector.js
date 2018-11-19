@@ -14,7 +14,7 @@ export default class EditModelSelector {
     }
 
     static getEditModel(root, address, id) {
-        let self = this.getMap(root);
+        let self = EditModelSelector.getMap(root);
         let map = ContractEditModelMap.get(self, address);
         return EditModelMap.get(map, id);
     }
@@ -42,6 +42,7 @@ export default class EditModelSelector {
 
     static getUserAddModel(root) {
         let map = EditModelSelector.getContractSelected(root);
-        return EditModelMap.get(map, EditModelSelector.userKey);
+        let id = SelectSelector.getUserEditModel(root);
+        return EditModelMap.get(map, id);
     }
 }

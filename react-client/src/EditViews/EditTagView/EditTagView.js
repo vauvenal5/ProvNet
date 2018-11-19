@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import {Form} from "formsy-semantic-ui-react";
 import { EditModalWrapper, withFormValidation, SelectSelector, TagSelector} from "./imports";
 import { withDefaultProps } from '../withDefaultProps';
+import BasicModalForm from "../EditModal/BasicModalForm";
 
-export class EditTagView extends React.Component {
+export default class EditTagView extends React.Component {
 
     constructor(props) {
         super(props);
@@ -24,15 +25,16 @@ export class EditTagView extends React.Component {
 
     render() {
         return(
-            <EditModalWrapper 
-                {...this.props.defaultProps}
-                defaultWarning 
-                onCommit={this.onSubmit.bind(this)}
-            >
-                <Form
-                    onValidSubmit={this.onSubmit.bind(this)}
-                    {...this.props.formValidation}
-                >                            
+            // <EditModalWrapper 
+            //     {...this.props.defaultProps}
+            //     defaultWarning 
+            //     onCommit={this.onSubmit.bind(this)}
+            // >
+            //     <Form
+            //         onValidSubmit={this.onSubmit.bind(this)}
+            //         {...this.props.formValidation}
+            //     >     
+            <BasicModalForm {...this.props} onSubmit={this.onSubmit.bind(this)}>
                     <Form.Group inline>
                         <Form.Input
                             label={this.props.labelTitle}
@@ -44,10 +46,11 @@ export class EditTagView extends React.Component {
                         />
                     </Form.Group>
                     {this.props.children}
-                </Form>
-            </EditModalWrapper>
+            </BasicModalForm>
+            //     </Form>
+            // </EditModalWrapper>
         );
     }
 }
 
-export default withFormValidation(withDefaultProps(EditTagView));
+//export default withFormValidation(withDefaultProps(EditTagView));

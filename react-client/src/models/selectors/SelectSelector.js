@@ -32,4 +32,9 @@ export default class SelectSelector {
         let select = SelectSelector.getSelect(root);
         return Select.getTagEditModel(select);
     }
+
+    static getUserEditModel(root) {
+        let select = SelectSelector.getSelect(root);
+        return Select.getEditUserSelect(select);
+    }
 }
