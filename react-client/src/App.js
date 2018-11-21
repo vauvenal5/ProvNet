@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import TopMenu from './TopMenu';
 import Loader from "./Web3Loader";
 import LinksView from "./LinksView";
-import {DeployContract, EditDetailsView, EditTagView, EditUserView} from "./EditViews";
+import {
+	DeployContract, 
+	EditDetailsView, 
+	EditTagView, 
+	EditUserView,
+	EditLinkView
+} from "./EditViews";
 import { connect } from 'react-redux';
 import ContractView from "./ContractView"
 import EditModelSelector from './models/selectors/EditModelSelector';
@@ -34,6 +40,7 @@ class App extends Component {
 				{checkAndRender(this.props.renderDetails, (<EditDetailsView/>))}
 				{checkAndRender(this.props.renderTagEdit, (<EditTagView/>))}
 				{checkAndRender(this.props.renderAddUser, (<EditUserView/>))}
+				{checkAndRender(this.props.renderAddLink, (<EditLinkView/>))}
 			</div>
 		);
 	}
@@ -51,12 +58,14 @@ export const mapStateToProps = (state) => {
 	let deployModel = EditModelSelector.getNewContractModel(state);
 	let detailsModel = EditModelSelector.getContractDetailsModel(state);
 	let userModel = EditModelSelector.getUserAddModel(state);
+	let linkModel = EditModelSelector.getSelectedEditModel(state);
 	return {
 		renderDeployModal: EditModel.isOpen(deployModel),
 		renderDetails: EditModel.isOpen(detailsModel),
 		renderTagEdit: EditModel.isOpen(tagModel),
-		renderAddUser: EditModel.isOpen(userModel)
+		renderAddUser: EditModel.isOpen(userModel),
+		renderAddLink: EditModel.isOpen(linkModel)
 	};
 }
 
-export default connect(mapStateToProps)(App);;
+export default connect(mapStateToProps)(App);

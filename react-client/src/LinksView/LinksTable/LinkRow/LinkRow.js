@@ -4,10 +4,11 @@ import { Label, Table, Button } from 'semantic-ui-react';
 import TagView from '../../../TagView';
 import * as actions from '../../../modelActions';
 import { ClosableTagButton } from '../../../TagView/TagButton';
+import { Link } from '../../../models';
 
-export const LinkRow = ({types, link, linkSelect, contractSelect}) => {
+export const LinkRow = ({types, link = new Link(), linkSelect, contractSelect}) => {
     
-    let tags = link.tags.map(
+    let tags = link.getTags().map(
         (tagId) => <ClosableTagButton key={tagId} tag={types[tagId]}/>
     );
 

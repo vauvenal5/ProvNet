@@ -1,7 +1,15 @@
-export default class Link {
+import TagArrayMap from "./maps/TagArrayMap";
+import TagArray from "./TagArray";
+
+export default class Link extends TagArrayMap {
+    static tagsKey = "tags";
+
     constructor(address="", tags=[], title="") {
+        super(
+            address,
+            new TagArray(Link.tagsKey, tags)
+        );
         this.address = address;
-        this.tags = tags;
         this.title = title;
     }
 
@@ -18,6 +26,7 @@ export default class Link {
     }
 
     getTags() {
-        return this.tags;
+        let tagArray = this.get(Link.tagsKey);
+        return TagArray.getTags(tagArray);
     }
 }

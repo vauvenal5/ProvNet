@@ -1,6 +1,9 @@
+import ContractBasedId from "./ContractBasedId";
+
 export default class Select {
     constructor() {
         this.selected = [];
+        this.editLinkModel = new ContractBasedId();
         this.tagEditModel = undefined;
         this.editUserSelect = undefined;
     }
@@ -41,6 +44,24 @@ export default class Select {
 
     static getLinkSelectedContract(list) {
         return list.selected[list.selected.length-1];
+    }
+
+    setEditModel(id, contract=this.selected[0]) {
+        return this.softClone({
+            editLinkModel: new ContractBasedId(contract, id)
+        });
+    }
+
+    static setEditModel(self, id, contract) {
+        return self.setEditModel(id, contract);
+    }
+
+    static getEditModel(self) {
+        return self.editLinkModel;
+    }
+
+    static getEditModelContract(self) {
+        return ContractBasedId.getAddress(self.editLinkModel);
     }
 
     setTagEditModel(id) {

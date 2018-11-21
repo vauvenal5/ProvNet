@@ -1,10 +1,23 @@
 import State from "./EditModelState";
 
 export default class EditModel {
-    constructor(id = "") {
+    constructor(id = "", address = "") {
+        this.address = address;
         this.id = id;
         this.open = false;
         this.state = State.createStateCleared();
+    }
+
+    setAddress(address) {
+        return this.softClone({address});
+    }
+
+    static setAddress(self, address) {
+        return self.setAddress(address);
+    }
+
+    static getAddress(self) {
+        return self.address;
     }
 
     setId(id) {

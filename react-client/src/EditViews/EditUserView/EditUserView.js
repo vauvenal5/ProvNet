@@ -2,13 +2,16 @@ import React from 'react';
 import EditTagView from '../EditTagView/EditTagView';
 import {Form} from "formsy-semantic-ui-react";
 import { Dropdown } from 'semantic-ui-react';
-import { TagsMap, Tag, User } from '../../models';
+import { TagsMap, Tag, User, MapModel, ContractTagsMap } from '../../models';
 import { ClosableTagButton } from '../../TagView/TagButton';
 import * as TagView from '../../TagView';
 import UsersMap from '../../models/maps/UsersMap';
 import { addValidationRule } from 'formsy-react';
 import BasicModalForm from '../EditModal/BasicModalForm';
 import EditModelSelector from '../../models/selectors/EditModelSelector';
+import TagArrayMap from '../../models/maps/TagArrayMap';
+import TagArray from '../../models/TagArray';
+import TagOptionsMap from '../../models/maps/TagOptionsMap';
 
 addValidationRule("doesNotExist", (values, value, array) => {
     return array.indexOf(values["title"]) < 0;
@@ -28,10 +31,7 @@ export class EditUserView extends React.Component {
     handleChange = (e, comp) => this.setState({values: comp.value});
 
     renderLabel = (label, index, defaultProps) => {
-        let tags = this.props.tags;
-        if(label.key.startsWith(this.state.special)) {
-            tags = this.props.specials;
-        }
+        let tags = ContractTagsMap.get(this.props.options, label.map);
         return (
             <ClosableTagButton 
                 tag={TagsMap.get(tags, label.id)} 
@@ -60,6 +60,7 @@ export class EditUserView extends React.Component {
         return ({
             key: this.mergeKey(keyName, key),
             value: this.mergeKey(keyName, key),
+            map: keyName,
             id: key,
             text: Tag.getTitle(tag),
             icon: { color: TagView.getColor(tag), name: icon }
@@ -77,7 +78,7 @@ export class EditUserView extends React.Component {
     };
 
     handleNewChange = (e, comp) => {
-        if(UsersMap.has(this.props.users, comp.value)) {
+        if(MapModel.has(this.props.taggedMap, comp.value)) {
             this.props.onReselect(comp.value);
         }
     };
@@ -86,18 +87,18 @@ export class EditUserView extends React.Component {
 
     render() {
         let options = [];
-        this.appendList(this.props.specials, this.state.special, "star", "Special Roles", options);
-        this.appendList(this.props.tags, this.state.link, "tag", "Link Roles", options);
+        ContractTagsMap.forEach(this.props.options, (key, tags) => {
+            this.appendList(tags, key, TagOptionsMap.getIcon(tags), TagOptionsMap.getTitle(tags), options);
+        });
 
         let selected = [];
-        User.getSpecialRoles(this.props.user).map(id => selected.push(
-            this.mergeKey(this.state.special, id)
-        ));
-        User.getRoles(this.props.user).map(id => selected.push(
-            this.mergeKey(this.state.link, id)
-        ));
+        TagArrayMap.forEach(this.props.tagged, (key, tagArray) => {
+            TagArray.getTags(tagArray).map(id => selected.push(
+                this.mergeKey(key, id)
+            ));
+        });
 
-        let userOptions = UsersMap.mapToArray(this.props.users, key => ({
+        let userOptions = MapModel.mapToArray(this.props.taggedMap, key => ({
             key: key,
             value: key,
             text: key
@@ -112,8 +113,8 @@ export class EditUserView extends React.Component {
         }
 
         let selectedUser = this.state.added;
-        if(User.getAddress(this.props.user).localeCompare(EditModelSelector.userKey)) {
-            selectedUser = User.getAddress(this.props.user);
+        if(TagArrayMap.getId(this.props.tagged).localeCompare(EditModelSelector.userKey)) {
+            selectedUser = TagArrayMap.getId(this.props.tagged);
         }
 
         return (
@@ -121,10 +122,10 @@ export class EditUserView extends React.Component {
                 () => this.onSubmit(selectedUser)
             }>
                 <Form.Dropdown
-                    label="User"
-                    name="user"
+                    label={this.props.labelTitle}
+                    name="address"
                     required
-                    placeholder="User Address"
+                    placeholder={this.props.labelTitle}
                     search
                     selection
                     allowAdditions
@@ -134,10 +135,10 @@ export class EditUserView extends React.Component {
                     value={selectedUser}
                 />
                 <Form.Dropdown 
-                    label="User Roles" 
+                    label={this.props.labelTags} 
                     name="dropdown" 
                     required 
-                    placeholder="User Roles" 
+                    placeholder={this.props.labelTags} 
                     multiple 
                     search 
                     selection 

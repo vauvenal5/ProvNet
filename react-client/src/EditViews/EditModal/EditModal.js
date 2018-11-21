@@ -95,7 +95,8 @@ export class EditModal extends React.Component {
 export const withDefaultDispatch = (dispatch, dispatchProps) => {
     return Object.assign({}, {
         onClose: (address, id) => dispatch(actions.onEditModalOpen(false, address, id)),
-        onClear: (address, id) => dispatch(actions.onEditModalClear(address, id))
+        onClear: (address, id) => dispatch(actions.onEditModalClear(address, id)),
+        onReselect: (address, id, current) => dispatch(actions.onEditModalReselect(address, id, current))
     }, dispatchProps);
 }
 
@@ -103,5 +104,6 @@ export const withDefaultMerge = (stateProps, dispatchProps, ownProps, props) => 
     return Object.assign({}, ownProps, stateProps, dispatchProps, {
         onClose: () => dispatchProps.onClose(stateProps.address, EditModel.getId(stateProps.editModel)),
         onClear: () => dispatchProps.onClear(stateProps.address, EditModel.getId(stateProps.editModel)),
+        onReselect: (id) => dispatchProps.onReselect(stateProps.address, id, EditModel.getId(stateProps.editModel))
     }, props);
 }

@@ -62,6 +62,14 @@ export class TopMenu extends React.Component{
                     disabled={!this.props.isContractSelected}
                 />
 
+                <FancyButtonItem 
+                    icon="file alternate outline" 
+                    childIcon="linkify"
+                    editModel={this.props.link}
+                    onClick={this.props.onAddLink}
+                    disabled={!this.props.isContractSelected}
+                />
+
                 <Menu.Menu position="right">
                     <Menu.Item>
                         <Form onSubmit={this.onSubmit}>
@@ -89,6 +97,7 @@ export const mapStateToProps = (state) => {
         deploy: EditModelSelector.getNewContractModel(state),
         edit: EditModelSelector.getContractDetailsModel(state),
         user: EditModelSelector.getUserAddModel(state),
+        link: EditModelSelector.getSelectedEditModel(state)
     };
 }
 
@@ -97,8 +106,9 @@ export const mapDispatchToProps = (dispatch) => {
         searchSubmit: (address) => dispatch(modelActions.onContractSelect(address)),
         onDeploy: () => dispatch(editModelActions.onDeployContractOpen(true)),
         onEdit: (selected) => dispatch(editModelActions.onEditDetailsModalOpen(true, selected)),
-        onAddTag: (selected) => dispatch(selectActions.onTagSelect(selected, "new", true)),
-        onAddUser: (selected) => dispatch(selectActions.onEditUserSelect(selected, EditModelSelector.userKey, true))
+        onAddTag: (selected) => dispatch(selectActions.onTagSelect(selected, EditModelSelector.tagKey, true)),
+        onAddUser: (selected) => dispatch(selectActions.onEditUserSelect(selected, EditModelSelector.userKey, true)),
+        onAddLink: (selected) => dispatch(selectActions.onEditModelSelect(selected, EditModelSelector.linkKey, true))
         //onAddUser: (selected) => dispatch(editModelActions.onEditModalOpen(true, selected, EditModelSelector.userKey))
     };
 }
@@ -107,7 +117,8 @@ export const mergeProps = (stateProps, dispatchProps, ownProps) => {
     return Object.assign({}, ownProps, stateProps, dispatchProps, {
         onEdit: () => dispatchProps.onEdit(stateProps.selectedContract),
         onAddTag: () => dispatchProps.onAddTag(stateProps.selectedContract),
-        onAddUser: () => dispatchProps.onAddUser(stateProps.selectedContract)
+        onAddUser: () => dispatchProps.onAddUser(stateProps.selectedContract),
+        onAddLink: () => dispatchProps.onAddLink(stateProps.selectedContract)
     });
 }
 

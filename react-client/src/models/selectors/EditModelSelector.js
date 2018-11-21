@@ -1,13 +1,15 @@
-import ContractBaseMap from "../maps/ContractBaseMap";
 import ContractEditModelMap from "../maps/ContractEditModelMap";
 import EditModelMap from "../maps/EditModelMap";
 import SelectSelector from "./SelectSelector";
+import ContractBasedId from "../ContractBasedId";
 
 export default class EditModelSelector {
     static key = "editModels";
     static newContractKey = "new";
     static detailsKey = "details";
     static userKey = "user";
+    static tagKey = "tag";
+    static linkKey = "link";
 
     static getMap(root) {
         return root[EditModelSelector.key];
@@ -44,5 +46,19 @@ export default class EditModelSelector {
         let map = EditModelSelector.getContractSelected(root);
         let id = SelectSelector.getUserEditModel(root);
         return EditModelMap.get(map, id);
+    }
+
+    static getContractSelectedFor(root, address) {
+        let map = EditModelSelector.getMap(root);
+        return ContractEditModelMap.get(map, address);
+    }
+
+    static getSelectedEditModel(root) {
+        let selected = SelectSelector.getEditModel(root);
+        let map = EditModelSelector.getContractSelectedFor(
+            root, 
+            ContractBasedId.getAddress(selected)
+        );
+        return EditModelMap.get(map, ContractBasedId.getId(selected));
     }
 }

@@ -1,6 +1,6 @@
 import { Tag } from "./imports";
 import EditModelSelector from "../models/selectors/EditModelSelector";
-import { ContractDetails, User } from "../models";
+import { ContractDetails, User, Link } from "../models";
 
 export const types = {
     nop: "NO_OPERATION",
@@ -13,6 +13,7 @@ export const types = {
     editTag: "EDIT_TAG",
     editDetails: "EDIT_DETAILS",
     addUser: "ADD_USER",
+    editLink: "EDIT_LINK",
     
     deployContract: "DEPLOY_CONTRACT",
     deployContractSuccess: "DEPLOY_CONTRACT_SUCCESS",
@@ -44,6 +45,16 @@ export const onEditTag = (address, id, tag, origTag) => onEditBase(types.editTag
     origTag
 });
 
+export const onEditLink = (address, id, tags, origLink) => onEditBase(
+    types.editLink,
+    address,
+    id,
+    {
+        link: new Link(id, tags),
+        origLink
+    }
+)
+//todo-sv: loading on user edit?
 export const onAddUser = (address, user, specialRoles, roles, origUser) => onEditBase(
     types.addUser,
     address,

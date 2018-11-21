@@ -37,4 +37,14 @@ export default class SelectSelector {
         let select = SelectSelector.getSelect(root);
         return Select.getEditUserSelect(select);
     }
+
+    static getEditModel(root) {
+        let select = SelectSelector.getSelect(root);
+        return Select.getEditModel(select);
+    }
+
+    static getEditModelContract(root) {
+        let select = SelectSelector.getSelect(root);
+        return Select.getEditModelContract(select);
+    }
 }

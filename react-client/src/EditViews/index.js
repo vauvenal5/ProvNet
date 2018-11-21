@@ -6,4 +6,4 @@ export { default as EditTagView, reducer as editTagReducer, epic as editTagEpic,
 export { default as DeployContract } from "./DeployContract";
 export { default as EditDetailsView } from "./EditDetailsView";
 export { reducer as EditModelReducer, epic as editModelEpics } from "./reducer";
-export {default as EditUserView} from "./EditUserView";
+export {EditUserView, EditLinkView} from "./EditUserView";

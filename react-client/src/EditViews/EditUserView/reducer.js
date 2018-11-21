@@ -15,6 +15,7 @@ export const reselctEpic = (actions$) => actions$.pipe(
         return of(
             actions.onEditModalOpen(false, action.address, action.current),
             actions.onEditModalClear(action.address, action.current),
+            //todo-sv: this is wrong, currently this epic gets triggered by addUser and addLink component
             selectActions.onEditUserSelect(action.address, action.id, true)
         );
     })
