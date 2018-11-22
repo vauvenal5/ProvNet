@@ -2,6 +2,8 @@ import SelectSelector from "./SelectSelector";
 import ContractLinkMap from "../maps/ContractLinksMap";
 import LinkMap from "../maps/LinkMap";
 import ContractBasedId from "../ContractBasedId";
+import EditModelSelector from "./EditModelSelector";
+
 
 export default class LinkSelector {
     static key = "links";
@@ -31,7 +33,7 @@ export default class LinkSelector {
     }
 
     static getEditSelectedLink(root) {
-        let selected = SelectSelector.getEditModel(root);
+        let selected = EditModelSelector.getSelectedKey(root);
         return LinkSelector.getLink(
             root, 
             ContractBasedId.getAddress(selected), 
@@ -40,7 +42,7 @@ export default class LinkSelector {
     }
 
     static getEditSelectedLinks(state) {
-        let selected = SelectSelector.getEditModel(state);
+        let selected = EditModelSelector.getSelectedKey(state);
         return LinkSelector.getLinks(state, ContractBasedId.getAddress(selected));
     }
 }

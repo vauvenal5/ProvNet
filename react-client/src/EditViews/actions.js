@@ -1,6 +1,6 @@
-import { Tag } from "./imports";
 import EditModelSelector from "../models/selectors/EditModelSelector";
 import { ContractDetails, User, Link } from "../models";
+import ContractEditModelMap from "../models/maps/ContractEditModelMap";
 
 export const types = {
     nop: "NO_OPERATION",
@@ -22,11 +22,12 @@ export const types = {
     reselect: "EDIT_MODAL_RESELECT"
 }
 
-export const onEditModalReselect = (address, id, current) => ({
+export const onEditModalReselect = (address, id, current, modal) => ({
     type: types.reselect,
     address,
     id,
-    current
+    current,
+    modal
 });
 
 // edit
@@ -58,7 +59,7 @@ export const onEditLink = (address, id, tags, origLink) => onEditBase(
 export const onAddUser = (address, user, specialRoles, roles, origUser) => onEditBase(
     types.addUser,
     address,
-    EditModelSelector.userKey,
+    user,
     {
         user: new User(user, specialRoles, roles),
         origUser
@@ -83,18 +84,51 @@ export const onNop = () => ({
 
 // open
 
-const onEditModalOpenBase = (type, value, address, id) => ({
+const onEditModalOpenBase = (type, value, address, id, modal) => ({
     type: type,
     value: value,
     address: address,
-    id: id
+    id: id,
+    modal
 });
 
-export const onDeployContractOpen = (value) => onEditModalOpenBase(types.deployContractModalOpen, value, EditModelSelector.newContractKey, EditModelSelector.newContractKey);
+export const onEditModalOpen = (value, address, id, modal) => onEditModalOpenBase(types.editModalOpen, value, address, id, modal);
 
-export const onEditModalOpen = (value, address, id) => onEditModalOpenBase(types.editModalOpen, value, address, id);
+export const onDeployContractOpen = (value) => onEditModalOpenBase(
+    types.deployContractModalOpen, 
+    value, 
+    EditModelSelector.newContractKey, 
+    EditModelSelector.newContractKey,
+    ContractEditModelMap.modals.deploy
+);
 
-export const onEditDetailsModalOpen = (value, address) => onEditModalOpen(value, address, EditModelSelector.detailsKey); 
+export const onEditDetailsModalOpen = (value, address) => onEditModalOpen(
+    value, 
+    address, 
+    EditModelSelector.detailsKey,
+    ContractEditModelMap.modals.details
+); 
+
+export const onEditTagModalOpen = (value, address, id) => onEditModalOpen(
+    value,
+    address,
+    id,
+    ContractEditModelMap.modals.editTag
+);
+
+export const onEditUserModalOpen = (value, address, id) => onEditModalOpen(
+    value,
+    address,
+    id,
+    ContractEditModelMap.modals.editUser
+);
+
+export const onEditLinkModalOpen = (value, address, id) => onEditModalOpen(
+    value,
+    address,
+    id,
+    ContractEditModelMap.modals.editLink
+)
 
 // clear
 

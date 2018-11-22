@@ -7,6 +7,7 @@ import { TagButton } from '../TagView/TagButton';
 import SpecialRolesMap from './SpecialRolesMap';
 import UsersMap from '../models/maps/UsersMap';
 import * as selectActions from "../SelectReducer/actions";
+import {editModelActions} from "../EditViews";
 
 export const UsersTable = ({
     specialRoles = new SpecialRolesMap(), 
@@ -79,7 +80,7 @@ export const mapStateToProps = (state) => {
 
 export const mapDispatchToProps = (dispatch) => {
     return {
-        onEditUser: (address, id) => dispatch(selectActions.onEditUserSelect(address, id, true))
+        onEditUser: (address, id) => dispatch(editModelActions.onEditUserModalOpen(true, address, id))
     };
 }
 

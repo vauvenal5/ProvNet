@@ -2,6 +2,7 @@ import ContractEditModelMap from "../maps/ContractEditModelMap";
 import EditModelMap from "../maps/EditModelMap";
 import SelectSelector from "./SelectSelector";
 import ContractBasedId from "../ContractBasedId";
+import EditModel from "../EditModel";
 
 export default class EditModelSelector {
     static key = "editModels";
@@ -21,12 +22,6 @@ export default class EditModelSelector {
         return EditModelMap.get(map, id);
     }
 
-    static getTagSelectedEditModel(root) {
-        let address = SelectSelector.getSelectedContract(root);
-        let tag = SelectSelector.getTagEditModal(root);
-        return EditModelSelector.getEditModel(root, address, tag);
-    }
-
     static getContractSelected(root) {
         let address = SelectSelector.getSelectedContract(root);
         let map = EditModelSelector.getMap(root);
@@ -43,22 +38,24 @@ export default class EditModelSelector {
     }
 
     static getUserAddModel(root) {
-        let map = EditModelSelector.getContractSelected(root);
-        let id = SelectSelector.getUserEditModel(root);
-        return EditModelMap.get(map, id);
+        let address = SelectSelector.getSelectedContract(root);
+        return EditModelSelector.getEditModel(root, address, EditModelSelector.userKey);
     }
 
-    static getContractSelectedFor(root, address) {
+    static getLinkAddModel(root) {
+        let address = SelectSelector.getSelectedContract(root);
+        return EditModelSelector.getEditModel(root, address, EditModelSelector.linkKey);
+    }
+
+    static getSelectedKey(root) {
         let map = EditModelSelector.getMap(root);
-        return ContractEditModelMap.get(map, address);
+        return ContractEditModelMap.getSelected(map);
     }
 
-    static getSelectedEditModel(root) {
-        let selected = SelectSelector.getEditModel(root);
-        let map = EditModelSelector.getContractSelectedFor(
-            root, 
-            ContractBasedId.getAddress(selected)
-        );
-        return EditModelMap.get(map, ContractBasedId.getId(selected));
+    static getSelectedModel(root) {
+        let map = EditModelSelector.getMap(root);
+        let selected = ContractEditModelMap.getSelected(map);
+        let selectedMap = ContractEditModelMap.get(map, ContractBasedId.getAddress(selected));
+        return EditModelMap.get(selectedMap, ContractBasedId.getId(selected));
     }
 }

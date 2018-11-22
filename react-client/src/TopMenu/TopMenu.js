@@ -9,9 +9,7 @@ import {editModelActions} from "../EditViews";
 import logo from './logo.svg';
 import { SelectSelector } from '../models';
 import { FancyButtonItem } from './FancyButtonItem';
-import EditModel from '../models/EditModel';
 import EditModelSelector from '../models/selectors/EditModelSelector';
-import * as selectActions from "../SelectReducer/actions";
 
 export class TopMenu extends React.Component{
     
@@ -97,7 +95,7 @@ export const mapStateToProps = (state) => {
         deploy: EditModelSelector.getNewContractModel(state),
         edit: EditModelSelector.getContractDetailsModel(state),
         user: EditModelSelector.getUserAddModel(state),
-        link: EditModelSelector.getSelectedEditModel(state)
+        link: EditModelSelector.getLinkAddModel(state)
     };
 }
 
@@ -106,10 +104,17 @@ export const mapDispatchToProps = (dispatch) => {
         searchSubmit: (address) => dispatch(modelActions.onContractSelect(address)),
         onDeploy: () => dispatch(editModelActions.onDeployContractOpen(true)),
         onEdit: (selected) => dispatch(editModelActions.onEditDetailsModalOpen(true, selected)),
-        onAddTag: (selected) => dispatch(selectActions.onTagSelect(selected, EditModelSelector.tagKey, true)),
-        onAddUser: (selected) => dispatch(selectActions.onEditUserSelect(selected, EditModelSelector.userKey, true)),
-        onAddLink: (selected) => dispatch(selectActions.onEditModelSelect(selected, EditModelSelector.linkKey, true))
-        //onAddUser: (selected) => dispatch(editModelActions.onEditModalOpen(true, selected, EditModelSelector.userKey))
+        onAddTag: (selected) => dispatch(editModelActions.onEditTagModalOpen(true, selected, EditModelSelector.tagKey)),
+        onAddUser: (selected) => dispatch(
+            editModelActions.onEditUserModalOpen(
+                true, selected, EditModelSelector.userKey,
+            )
+        ),
+        onAddLink: (selected) => dispatch(
+            editModelActions.onEditLinkModalOpen(
+                true, selected, EditModelSelector.linkKey
+            )
+        )
     };
 }
 

@@ -14,11 +14,11 @@ import {
     EditModalWrapper, 
     withFormValidation 
 } from "./imports";
-import { withDefaultProps } from '../withDefaultProps';
+import { withDefaultBehavior } from '../withDefaultBehavior';
 import {ProvContractSelector, SelectSelector} from '../../models';
 import EditModelSelector from '../../models/selectors/EditModelSelector';
-import EditModel from '../../models/EditModel';
-import { withDefaultDispatch, withDefaultMerge } from '../EditModal/EditModal';
+import { withDefaultDispatch, withDefaultMerge, modalPropsFrom, withDefaultMap } from '../EditModal/EditModal';
+import { connectWithDefault } from '../connectWithDefault';
 
 
 export class EditDetailsView extends React.Component {
@@ -51,10 +51,11 @@ export class EditDetailsView extends React.Component {
     render() {
         return(
             <EditModalWrapper 
-                defaultWarning 
-                {...this.props.defaultProps}
-                header="Edit Contract Details" 
-                onCommit={this.onSubmit.bind(this)}
+                {...modalPropsFrom(
+                    this.props, 
+                    this.onSubmit.bind(this),
+                    "Edit Contract Details"
+                )}
             >
                 <Grid stackable>
                     <Grid.Column width="4" verticalAlign="middle">
@@ -107,28 +108,26 @@ export class EditDetailsView extends React.Component {
     }
 }
 
-export const ValidatedEditDetailsView = withFormValidation(withDefaultProps(withDefaultImage(EditDetailsView)));
+export const ValidatedEditDetailsView = withFormValidation(withDefaultBehavior(withDefaultImage(EditDetailsView)));
 
 export const mapStateToProps = (state, ownProps) => {
     let contract = ProvContractSelector.getSelected(state);
     let details = ProvContract.getDetails(contract);
     return {
-        editModel: EditModelSelector.getContractDetailsModel(state),
-        address: SelectSelector.getSelectedContract(state),
         details: details
-    }
+    };
 }
 
 export const mapDispatchToProps = (dispatch) => {
-    return withDefaultDispatch(dispatch, {
+    return {
         onSubmit: (address, title, desc, url, origDetails) => dispatch(actions.onEditDetails(address, title, desc, url, origDetails)),
-    });
+    };
 }
 
 export const mergeProps = (stateProps, dispatchProps, ownProps) => {
-    return withDefaultMerge(stateProps, dispatchProps, ownProps, {
+    return {
         onSubmit: (title, desc, url) => dispatchProps.onSubmit(stateProps.address, title, desc, url, stateProps.details),
-    });
+    };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(ValidatedEditDetailsView);
+export default connectWithDefault(mapStateToProps, mapDispatchToProps, mergeProps)(ValidatedEditDetailsView);

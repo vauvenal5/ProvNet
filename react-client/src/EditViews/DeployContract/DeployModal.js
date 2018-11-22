@@ -6,15 +6,13 @@ import {
     Button, 
     Icon,  
     Message, 
-    Loader, 
-    Dimmer
 } from 'semantic-ui-react';
 import {Form} from "formsy-semantic-ui-react";
-import {modelActions, EditModalWrapper, withFormValidation, withDefaultProps} from "./imports";
+import {withFormValidation, withDefaultBehavior} from "./imports";
 import * as actions from "../actions";
-import EditModelSelector from '../../models/selectors/EditModelSelector';
 import EditModel from '../../models/EditModel';
-import { withDefaultDispatch, withDefaultMerge } from '../EditModal/EditModal';
+import { withDefaultDispatch, withDefaultMerge, modalPropsFrom, withDefaultMap } from '../EditModal/EditModal';
+import BasicModalForm from "../EditModal/BasicModalForm";
 
 export class DeployModal extends React.Component {
 
@@ -30,44 +28,36 @@ export class DeployModal extends React.Component {
 
     onSubmit() {
         this.props.onSubmit(this.state.title);
-        //this.props.onClose();
-        //this.props.onDeploy(this.state.title);
     }
 
     render() {
         return(
             <Fragment>
-            <EditModalWrapper 
-                {...this.props.defaultProps}
-                header="Deploy new Provenance Contract" 
-                onCommit={this.onSubmit.bind(this)}
-                // onClearResult={this.onClearResult.bind(this)}
+            <BasicModalForm 
+                {...modalPropsFrom(
+                    this.props,
+                    this.onSubmit.bind(this),
+                    "Deploy new Provenance Contract",
+                    {
+                        header: 'You are about to deploy a new contract!',
+                        msg: "This action will deploy a new SimpleProvenanceContract to the chain your MetaMask is connected to!" 
+                    }
+                )}
             >
-                <Message
-                    warning
-                    icon="warning sign"
-                    header='You are about to deploy a new contract!'
-                    content="This action will deploy a new SimpleProvenanceContract to the chain your MetaMask is connected to!"
-                />
-                <Form 
-                    onValidSubmit={this.onSubmit.bind(this)}
-                    {...this.props.formValidation}
-                >
-                    <Form.Group inline>
-                        <Form.Input 
-                            label="Contract Title"
-                            name="title" 
-                            onChange={(e, value) => 
-                                this.onTitleChange(value.value)
-                            }
-                            placeholder="MyCompaniesContract"
-                            required
-                            value={this.state.title}
-                        />
-                        
-                    </Form.Group>
-                </Form>
-            </EditModalWrapper>
+                <Form.Group inline>
+                    <Form.Input 
+                        label="Contract Title"
+                        name="title" 
+                        onChange={(e, value) => 
+                            this.onTitleChange(value.value)
+                        }
+                        placeholder="MyCompaniesContract"
+                        required
+                        value={this.state.title}
+                    />
+                    
+                </Form.Group>
+            </BasicModalForm>
             <Modal
                 basic
                 size="small"
@@ -97,7 +87,7 @@ export class DeployModal extends React.Component {
                     <Button 
                         color='yellow' 
                         inverted 
-                        onClick={this.props.defaultProps.onClearResult}
+                        onClick={this.props.onClear}
                     >
                         <Icon name='warning sign' /> Ok
                     </Button>
@@ -108,19 +98,16 @@ export class DeployModal extends React.Component {
     }
 }
 
-export const ValidatedDeployModal = withFormValidation(withDefaultProps(DeployModal));
-
-export const mapStateToProps = (state) => {
-    return {
-        editModel: EditModelSelector.getNewContractModel(state),
-        address: EditModelSelector.newContractKey,
-    }
-}
+export const ValidatedDeployModal = withFormValidation(withDefaultBehavior(DeployModal));
 
 export const mapDispatchToProps = (dispatch) => {
-    return withDefaultDispatch(dispatch, {
+    return {
         onSubmit: (title) => dispatch(actions.onDeployContract(title)),
-    });
+    };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps, withDefaultMerge)(ValidatedDeployModal);
+export default connect(
+    withDefaultMap, 
+    (dispatch) => withDefaultDispatch(dispatch, mapDispatchToProps(dispatch)),
+    withDefaultMerge
+)(ValidatedDeployModal);

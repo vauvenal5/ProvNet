@@ -13,22 +13,30 @@ import { connect } from 'react-redux';
 import ContractView from "./ContractView"
 import EditModelSelector from './models/selectors/EditModelSelector';
 import EditModel from './models/EditModel';
+import ContractEditModelMap from './models/maps/ContractEditModelMap';
 
 class App extends Component {
     render() {
-		let renderDeployModal;
-		if(this.props.renderDeployModal) {
-			renderDeployModal=(<DeployContract/>);
-		}
 
-		let renderEdit;
-		if(this.props.renderDetails) {
-			renderEdit=(<EditDetailsView/>);
-		}
-
-		let renderTagEdit;
-		if(this.props.renderTagEdit){
-			renderTagEdit = (<EditTagView/>);
+		let renderModal;
+		switch(EditModel.getModal(this.props.model)) {
+			case ContractEditModelMap.modals.deploy:
+				renderModal = (<DeployContract/>);
+				break;
+			case ContractEditModelMap.modals.details:
+				renderModal = (<EditDetailsView/>);
+				break;
+			case ContractEditModelMap.modals.editLink:
+				renderModal = (<EditLinkView/>);
+				break;
+			case ContractEditModelMap.modals.editTag:
+				renderModal = (<EditTagView/>);
+				break;
+			case ContractEditModelMap.modals.editUser:
+				renderModal = (<EditUserView/>);
+				break;
+			default:
+				break;
 		}
 
 		return (
@@ -36,11 +44,7 @@ class App extends Component {
 				<TopMenu.Component/>
 				<Loader.Component/>
 				<ContractView/>
-				{checkAndRender(this.props.renderDeployModal, (<DeployContract/>))}
-				{checkAndRender(this.props.renderDetails, (<EditDetailsView/>))}
-				{checkAndRender(this.props.renderTagEdit, (<EditTagView/>))}
-				{checkAndRender(this.props.renderAddUser, (<EditUserView/>))}
-				{checkAndRender(this.props.renderAddLink, (<EditLinkView/>))}
+				{renderModal}
 			</div>
 		);
 	}
@@ -54,17 +58,8 @@ export const checkAndRender = (isOpen, component) => {
 
 export const mapStateToProps = (state) => {
 	console.log(state);
-	let tagModel = EditModelSelector.getTagSelectedEditModel(state);
-	let deployModel = EditModelSelector.getNewContractModel(state);
-	let detailsModel = EditModelSelector.getContractDetailsModel(state);
-	let userModel = EditModelSelector.getUserAddModel(state);
-	let linkModel = EditModelSelector.getSelectedEditModel(state);
 	return {
-		renderDeployModal: EditModel.isOpen(deployModel),
-		renderDetails: EditModel.isOpen(detailsModel),
-		renderTagEdit: EditModel.isOpen(tagModel),
-		renderAddUser: EditModel.isOpen(userModel),
-		renderAddLink: EditModel.isOpen(linkModel)
+		model: EditModelSelector.getSelectedModel(state),
 	};
 }
 

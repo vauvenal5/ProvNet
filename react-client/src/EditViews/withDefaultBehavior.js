@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { dispatch } from 'rxjs/internal/observable/pairs';
 
-export const withDefaultProps = (WrappedComponent) => {
+export const withDefaultBehavior = (WrappedComponent) => {
     return class extends React.Component {
         constructor(props) {
             super(props);
@@ -22,13 +22,7 @@ export const withDefaultProps = (WrappedComponent) => {
             return (
                 <WrappedComponent {...this.props} 
                 onSubmit={this.onSubmit.bind(this)}
-                defaultProps={{
-                    editModel: this.props.editModel,
-                    onClearResult: this.onClearResult.bind(this),
-                    onClose: this.props.onClose,
-                    commitValid: this.props.valid,
-                    header: this.props.header
-                }}/>
+                onClear={this.onClearResult.bind(this)}/>
             );
         }
     }

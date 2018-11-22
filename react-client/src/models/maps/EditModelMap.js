@@ -1,4 +1,4 @@
-import { MapModel } from "..";
+import MapModel from "../maps/MapModel";
 import EditModel from "../EditModel";
 
 export default class EditModelMap extends MapModel {

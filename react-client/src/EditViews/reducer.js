@@ -15,7 +15,12 @@ export const editSuccessEpic = (action$) => action$.pipe(
     map(action => actions.onEditModalClear(action.address, action.id))
 );
 
-export const epic = combineEpics(editTagEpic, editSuccessEpic, deployContractEpic, editDetailsEpic);
+export const epic = combineEpics(
+    editTagEpic, 
+    editSuccessEpic, 
+    deployContractEpic, 
+    editDetailsEpic,
+);
 
 export const reducer = (
     state = new ContractEditModelMap("editModels"),
@@ -40,7 +45,8 @@ export const reducer = (
             break;
         case actions.types.deployContractModalOpen:
         case actions.types.editModalOpen:
-            model = EditModel.setOpen(model, action.value);
+            model = EditModel.setModalOpen(model, action.modal, action.value);
+            state = state.setSelected(action.address, action.id);
             break;
         case actions.types.editModalClear:
             model = EditModel.setCleared(model);

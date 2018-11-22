@@ -93,9 +93,10 @@ export class EditUserView extends React.Component {
 
         let selected = [];
         TagArrayMap.forEach(this.props.tagged, (key, tagArray) => {
-            TagArray.getTags(tagArray).map(id => selected.push(
+            TagArray.getTags(tagArray).map(id => {
+                selected.push(
                 this.mergeKey(key, id)
-            ));
+            )});
         });
 
         let userOptions = MapModel.mapToArray(this.props.taggedMap, key => ({

@@ -4,6 +4,7 @@ export default class EditModel {
     constructor(id = "", address = "") {
         this.address = address;
         this.id = id;
+        this.modal = "";
         this.open = false;
         this.state = State.createStateCleared();
     }
@@ -30,6 +31,33 @@ export default class EditModel {
 
     static getId(modal) {
         return modal.getId();
+    }
+
+    setModalOpen(modal, value) {
+        return this.softClone({
+            open:value,
+            modal: modal
+        });
+    }
+
+    static setModalOpen(self, modal, value) {
+        return self.setModalOpen(modal, value);
+    }
+
+    isOpenModal(modal) {
+        return this.open && this.modal === modal;
+    }
+
+    static isOpenModal(self, modal) {
+        return self.isOpenModal(modal);
+    }
+
+    getModal() {
+        return this.modal;
+    }
+
+    static getModal(self) {
+        return self.getModal();
     }
 
     isOpen() {

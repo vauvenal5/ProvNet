@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {Form} from "formsy-semantic-ui-react";
-import { withDefaultProps } from '../withDefaultProps';
-import { EditModal } from './EditModal';
+import { withDefaultBehavior } from '../withDefaultBehavior';
+import { EditModal, modalPropsFrom } from './EditModal';
 import { withFormValidation } from '../withFormValidation';
 
 export class BasicModalForm extends React.Component {
@@ -15,9 +15,12 @@ export class BasicModalForm extends React.Component {
     render() {
         return(
             <EditModal 
-                {...this.props.defaultProps}
-                defaultWarning 
-                onCommit={this.props.onSubmit}
+                {...modalPropsFrom(
+                    this.props,
+                    this.props.onSubmit,
+                    this.props.header,
+                    this.props.warning
+                )}
             >
                 <Form
                     onValidSubmit={this.props.onSubmit}
@@ -30,4 +33,4 @@ export class BasicModalForm extends React.Component {
     }
 }
 
-export default withFormValidation(withDefaultProps(BasicModalForm));
+export default withFormValidation(withDefaultBehavior(BasicModalForm));

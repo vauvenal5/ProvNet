@@ -16,16 +16,13 @@ import {
 import {EditErrorModal} from "./EditErrorModal";
 import EditModel from '../../models/EditModel';
 import * as actions from "../actions";
+import EditModelSelector from '../../models/selectors/EditModelSelector';
+import { SelectSelector } from '../../models';
 
 export class EditModal extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            title: "",
-            link: "",
-            desc: ""
-        }
     }
 
     render() {
@@ -36,18 +33,6 @@ export class EditModal extends React.Component {
                     <Icon name="trash" />
                     Delete
                 </Button>
-            );
-        }
-
-        let defaultWarning;
-        if(this.props.defaultWarning) {
-            defaultWarning = (
-                <Message 
-                    warning
-                    icon="warning sign"
-                    header="You are about to make on-chain changes to this contract!"
-                    content="This action will use one or more transactions to make changes to your contract."
-                />
             );
         }
 
@@ -68,7 +53,13 @@ export class EditModal extends React.Component {
                 </Dimmer>
                 
                 <Modal.Content >
-                    {defaultWarning}
+                    <Message 
+                        hidden={this.props.warning.hidden}
+                        warning
+                        icon="warning sign"
+                        header={this.props.warning.header}
+                        content={this.props.warning.msg}
+                    />
                     {this.props.children}
                 </Modal.Content>
                 <Modal.Actions>
@@ -92,18 +83,59 @@ export class EditModal extends React.Component {
     }
 }
 
+export const withDefaultMap = (state, props) => {
+    return Object.assign({}, {
+        editModel: EditModelSelector.getSelectedModel(state),
+        address: SelectSelector.getSelectedContract(state)
+    }, props);
+}
+
 export const withDefaultDispatch = (dispatch, dispatchProps) => {
     return Object.assign({}, {
-        onClose: (address, id) => dispatch(actions.onEditModalOpen(false, address, id)),
-        onClear: (address, id) => dispatch(actions.onEditModalClear(address, id)),
-        onReselect: (address, id, current) => dispatch(actions.onEditModalReselect(address, id, current))
+        onClose: (address, id, modal) => dispatch(
+            actions.onEditModalOpen(false, address, id, modal)
+        ),
+        onClear: (address, id) => dispatch(
+            actions.onEditModalClear(address, id)
+        ),
+        onReselect: (address, id, current, modal) => dispatch(
+            actions.onEditModalReselect(address, id, current, modal)
+        )
     }, dispatchProps);
 }
 
 export const withDefaultMerge = (stateProps, dispatchProps, ownProps, props) => {
+    let modal = EditModel.getModal(stateProps.editModel);
     return Object.assign({}, ownProps, stateProps, dispatchProps, {
-        onClose: () => dispatchProps.onClose(stateProps.address, EditModel.getId(stateProps.editModel)),
-        onClear: () => dispatchProps.onClear(stateProps.address, EditModel.getId(stateProps.editModel)),
-        onReselect: (id) => dispatchProps.onReselect(stateProps.address, id, EditModel.getId(stateProps.editModel))
+        onClose: () => dispatchProps.onClose(
+            stateProps.address, 
+            EditModel.getId(stateProps.editModel), 
+            modal
+        ),
+        onClear: () => dispatchProps.onClear(
+            stateProps.address, EditModel.getId(stateProps.editModel)
+        ),
+        onReselect: (id) => dispatchProps.onReselect(
+            stateProps.address, 
+            id, 
+            EditModel.getId(stateProps.editModel), 
+            modal
+        ),
     }, props);
 }
+
+export const modalPropsFrom = (props, submitFunc, header, warning={
+    hidden: false,
+    header: "You are about to make on-chain changes to this contract!",
+    msg: "This action will use one or more transactions to make changes to your contract."
+}) => {
+    return {
+        editModel: props.editModel,
+        commitValid: props.valid,
+        onClose: props.onClose,
+        onClearResult: props.onClear,
+        onCommit: submitFunc,
+        header: header,
+        warning: warning
+    }
+};

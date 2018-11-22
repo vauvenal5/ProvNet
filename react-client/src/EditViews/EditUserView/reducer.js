@@ -16,7 +16,7 @@ export const reselctEpic = (actions$) => actions$.pipe(
             actions.onEditModalOpen(false, action.address, action.current),
             actions.onEditModalClear(action.address, action.current),
             //todo-sv: this is wrong, currently this epic gets triggered by addUser and addLink component
-            selectActions.onEditUserSelect(action.address, action.id, true)
+            actions.onEditModalOpen(true, action.address, action.id, action.modal)
         );
     })
 );
@@ -74,12 +74,12 @@ export const addUserEpic = (action$, state$) => action$.pipe(
                         User.getRoles(user),
                         User.isOwner(user)
                     ),
-                    actions.onEditSuccess(action.address, EditModelSelector.userKey)
+                    actions.onEditSuccess(action.address, action.id)
                 );
             }),
             catchError(err => {
                 console.log(err);
-                return of(actions.onEditError(action.address, EditModelSelector.userKey, {
+                return of(actions.onEditError(action.address, action.id, {
                     msg: "Could not add user to contract!",
                     header: "User add error",
                 }));

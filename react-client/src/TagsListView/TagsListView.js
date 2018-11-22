@@ -66,15 +66,13 @@ export const mapStateToProps = (state) => {
     return {
         selectedContract: selectedAddress,
         tagModals: EditModelSelector.getContractSelected(state),
-        //tagModals: EditModalTagList.getModal(state.editTag, selectedAddress),
         list: TagSelector.getContractSelected(state)
     }
 }
 
 export const mapDispatchToProps = (dispatch) => {
     return {
-        //onEditTag: (selected, tagId) => dispatch(editTagActions.onEditTagModalOpen(true, selected, tagId)),
-        onEditTag: (selected, tagId) => dispatch(selectActions.onTagSelect(selected, tagId, true)),
+        onEditTag: (selected, tagId) => dispatch(editModelActions.onEditTagModalOpen(true, selected, tagId))
     }
 }
 
