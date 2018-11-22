@@ -1,6 +1,8 @@
 import React from 'react';
 import { Menu, Icon, Dimmer, Loader } from 'semantic-ui-react';
 import EditModel from '../models/EditModel';
+import { ErrorIcon } from '../DefaultIcons/ErrorIcon';
+import { SuccessIcon } from '../DefaultIcons/SuccessIcon';
 
 export const FancyButtonItem = ({onClick, editModel = new EditModel(), icon, childIcon, disabled}) => {
     return (
@@ -9,10 +11,11 @@ export const FancyButtonItem = ({onClick, editModel = new EditModel(), icon, chi
                 <Loader />
             </Dimmer>
             <Dimmer active={editModel.isSuccess()}>
-                <Icon name="check" color="green" size="big" />
+                <SuccessIcon size="big"/>
             </Dimmer>
             <Dimmer active={editModel.isError()}>
-                <Icon name="close" color="red" size="big" />
+                <ErrorIcon size="big"/>
+                {/* <Icon name="warning" color="red" size="big" /> */}
             </Dimmer>
             <Icon.Group size="big">
                 <Icon name={icon}/>

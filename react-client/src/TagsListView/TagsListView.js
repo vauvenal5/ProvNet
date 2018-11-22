@@ -9,6 +9,8 @@ import EditModelMap from '../models/maps/EditModelMap';
 import EditModel from '../models/EditModel';
 import * as editModelActions from "../EditViews/actions";
 import {selectActions} from "../SelectReducer";
+import { ErrorIcon } from '../DefaultIcons/ErrorIcon';
+import { SuccessIcon } from '../DefaultIcons/SuccessIcon';
 
 export const TagsListView = ({tags, list = new TagsMap(), onEditTag, tagModals}) => {
 
@@ -35,11 +37,11 @@ export const TagsListView = ({tags, list = new TagsMap(), onEditTag, tagModals})
         let icon = (<Icon name='edit' fitted/>);
         
         if(modal && EditModel.isSuccess(modal)) {
-            icon = (<Icon name='check' color="green" fitted/>);
+            icon = (<SuccessIcon fitted/>);
         }
 
         if(modal && EditModel.isError(modal)) {
-            icon = (<Icon name='close' color="red" fitted/>);
+            icon = (<ErrorIcon fitted/>);
         }
 
         labels.push(

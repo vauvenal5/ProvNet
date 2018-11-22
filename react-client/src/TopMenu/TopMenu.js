@@ -53,8 +53,8 @@ export class TopMenu extends React.Component{
                 />
 
                 <FancyButtonItem 
-                    icon="user outline" 
-                    childIcon="add"
+                    icon="file alternate outline" 
+                    childIcon="user"
                     editModel={this.props.user}
                     onClick={this.props.onAddUser}
                     disabled={!this.props.isContractSelected}

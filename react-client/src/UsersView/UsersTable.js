@@ -11,6 +11,8 @@ import {editModelActions} from "../EditViews";
 import EditModelSelector from '../models/selectors/EditModelSelector';
 import EditModelMap from '../models/maps/EditModelMap';
 import EditModel from '../models/EditModel';
+import { ErrorIcon } from '../DefaultIcons/ErrorIcon';
+import { SuccessIcon } from '../DefaultIcons/SuccessIcon';
 
 export const UsersTable = ({
     specialRoles = new SpecialRolesMap(), 
@@ -39,6 +41,15 @@ export const UsersTable = ({
         })
 
         let editModel = editModels.get(address);
+        let editIcon = (<Icon name="tag"/>);
+        
+        if(EditModel.isError(editModel)) {
+            editIcon = (<ErrorIcon/>)
+        }
+
+        if(EditModel.isSuccess(editModel)) {
+            editIcon = (<SuccessIcon/>);
+        }
 
         return (
             <Table.Row>
@@ -50,7 +61,7 @@ export const UsersTable = ({
                     {roles}
                 </TableCell>
                 <TableCell>
-                    <Button icon="tag" onClick={() => onEditUser(address)} loading={EditModel.isLoading(editModel)}/>
+                    <Button icon={editIcon} onClick={() => onEditUser(address)} loading={EditModel.isLoading(editModel)}/>
                 </TableCell>
             </Table.Row>
         );

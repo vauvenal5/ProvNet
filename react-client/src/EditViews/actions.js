@@ -71,18 +71,20 @@ export const onEditLink = (address, id, tags, origLink) => onEditBase(
         origLink
     })
 );
-//todo-sv: loading on user edit?
+
 export const onAddUser = (address, user, specialRoles, roles, origUser) => onEditBase(
     types.edit, 
     address, 
-    user, 
-    onEditBase( types.addUser, address, user, {
+    //model id is based on originalUser so that we manipulate the correct editModel for example in case of a new user the user parameter is set to the address but we want the "new" user default parameter which is set in the origUser
+    User.getAddress(origUser), 
+    onEditBase( types.addUser, address, User.getAddress(origUser), {
         user: new User(user, specialRoles, roles),
         origUser
     })
 );
 
 export const onEditDetails = (address, title, desc, url, origDetails) => onEditBase( 
+    types.edit,
     address,
     EditModelSelector.detailsKey,
     onEditBase(types.editDetails, address, EditModelSelector.detailsKey, {
