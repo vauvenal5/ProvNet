@@ -63,7 +63,7 @@ export class EditModal extends React.Component {
                     {this.props.children}
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button positive icon labelPosition="left" disabled={!this.props.commitValid} onClick={this.props.onCommit}>
+                    <Button positive icon labelPosition="left" disabled={!this.props.commitValid} onClick={this.props.onSubmit}>
                         <Icon name="upload" />
                         Commit
                     </Button>
@@ -76,7 +76,7 @@ export class EditModal extends React.Component {
                 header={EditModel.getStateProps(this.props.editModel).header}
                 message={EditModel.getStateProps(this.props.editModel).msg}
                 list={EditModel.getStateProps(this.props.editModel).list}
-                onClearResult={this.props.onClearResult}
+                onClearResult={this.props.onClear}
             />
         </Fragment>
         );
@@ -133,8 +133,8 @@ export const modalPropsFrom = (props, submitFunc, header, warning={
         editModel: props.editModel,
         commitValid: props.valid,
         onClose: props.onClose,
-        onClearResult: props.onClear,
-        onCommit: submitFunc,
+        onClear: props.onClear,
+        onSubmit: submitFunc,
         header: header,
         warning: warning
     }

@@ -8,11 +8,15 @@ import SpecialRolesMap from './SpecialRolesMap';
 import UsersMap from '../models/maps/UsersMap';
 import * as selectActions from "../SelectReducer/actions";
 import {editModelActions} from "../EditViews";
+import EditModelSelector from '../models/selectors/EditModelSelector';
+import EditModelMap from '../models/maps/EditModelMap';
+import EditModel from '../models/EditModel';
 
 export const UsersTable = ({
     specialRoles = new SpecialRolesMap(), 
     users = new UsersMap(), 
     tags = new TagsMap(),
+    editModels = new EditModelMap(),
     onEditUser
 }) => {
     let rows = users.mapToArray((address, user) => {
@@ -34,6 +38,8 @@ export const UsersTable = ({
             );
         })
 
+        let editModel = editModels.get(address);
+
         return (
             <Table.Row>
                 <TableCell>{address}</TableCell>
@@ -44,7 +50,7 @@ export const UsersTable = ({
                     {roles}
                 </TableCell>
                 <TableCell>
-                    <Button icon="tag" onClick={() => onEditUser(address)}/>
+                    <Button icon="tag" onClick={() => onEditUser(address)} loading={EditModel.isLoading(editModel)}/>
                 </TableCell>
             </Table.Row>
         );
@@ -74,7 +80,8 @@ export const mapStateToProps = (state) => {
         specialRoles: SpecialRoleSelector.getContractSelected(state),
         users: UserSelector.getContractSelected(state),
         tags: TagSelector.getContractSelected(state),
-        address: SelectSelector.getSelectedContract(state)
+        address: SelectSelector.getSelectedContract(state),
+        editModels: EditModelSelector.getContractSelected(state)
     };
 }
 

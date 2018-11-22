@@ -15,11 +15,17 @@ export const editSuccessEpic = (action$) => action$.pipe(
     map(action => actions.onEditModalClear(action.address, action.id))
 );
 
+export const mapEditToRealEditEpic = (action$) => action$.pipe(
+    ofType(actions.types.edit),
+    map(action => action.payload)
+);
+
 export const epic = combineEpics(
     editTagEpic, 
     editSuccessEpic, 
     deployContractEpic, 
     editDetailsEpic,
+    mapEditToRealEditEpic
 );
 
 export const reducer = (
@@ -30,9 +36,6 @@ export const reducer = (
     let model = EditModelMap.get(map, action.id);
 
     switch(action.type) {
-        case actions.types.editDetails:
-        case actions.types.deployContract:
-        case actions.types.editTag:
         case actions.types.edit:
             model = EditModel.setLoading(model);
             break;

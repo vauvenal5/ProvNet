@@ -13,6 +13,8 @@ import * as actions from "../actions";
 import EditModel from '../../models/EditModel';
 import { withDefaultDispatch, withDefaultMerge, modalPropsFrom, withDefaultMap } from '../EditModal/EditModal';
 import BasicModalForm from "../EditModal/BasicModalForm";
+import EditModelSelector from '../../models/selectors/EditModelSelector';
+import { connectWithDefault } from '../connectWithDefault';
 
 export class DeployModal extends React.Component {
 
@@ -98,7 +100,11 @@ export class DeployModal extends React.Component {
     }
 }
 
-export const ValidatedDeployModal = withFormValidation(withDefaultBehavior(DeployModal));
+export const mapStateToProps = (state) => {
+    return {
+        address: EditModelSelector.newContractKey
+    }
+} 
 
 export const mapDispatchToProps = (dispatch) => {
     return {
@@ -106,8 +112,4 @@ export const mapDispatchToProps = (dispatch) => {
     };
 }
 
-export default connect(
-    withDefaultMap, 
-    (dispatch) => withDefaultDispatch(dispatch, mapDispatchToProps(dispatch)),
-    withDefaultMerge
-)(ValidatedDeployModal);
+export default connectWithDefault(mapStateToProps, mapDispatchToProps)(DeployModal);

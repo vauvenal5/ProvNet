@@ -44,7 +44,10 @@ class App extends Component {
 				<TopMenu.Component/>
 				<Loader.Component/>
 				<ContractView/>
-				{renderModal}
+				{checkAndRender(
+					EditModel.isOpen(this.props.model), 
+					renderModal
+				)}
 			</div>
 		);
 	}

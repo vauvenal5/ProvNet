@@ -10,6 +10,7 @@ export const types = {
     editSuccess: "EDIT_SUCCESS",
     editModalClear: "EDIT_MODAL_CLEAR",
 
+    edit: "EDIT_MODEL",
     editTag: "EDIT_TAG",
     editDetails: "EDIT_DETAILS",
     addUser: "ADD_USER",
@@ -39,41 +40,55 @@ const onEditBase = (type, address, id, payload) => ({
     payload: payload
 })
 
-export const onDeployContract = (payload) => onEditBase(types.deployContract, EditModelSelector.newContractKey, EditModelSelector.newContractKey, payload);
+export const onDeployContract = (payload) => onEditBase(
+    types.edit, 
+    EditModelSelector.newContractKey, 
+    EditModelSelector.newContractKey, 
+    onEditBase(
+        types.deployContract, 
+        EditModelSelector.newContractKey,
+        EditModelSelector.newContractKey, 
+        payload
+    )
+);
 
-export const onEditTag = (address, id, tag, origTag) => onEditBase(types.editTag, address, id, {
-    tag,
-    origTag
-});
-
-export const onEditLink = (address, id, tags, origLink) => onEditBase(
-    types.editLink,
+export const onEditTag = (address, id, tag, origTag) => onEditBase(
+    types.edit,
     address,
     id,
-    {
+    onEditBase(types.editTag, address, id, {
+        tag,
+        origTag
+    })
+);
+
+export const onEditLink = (address, id, tags, origLink) => onEditBase(
+    types.edit, 
+    address, 
+    id, 
+    onEditBase(types.editLink, address, id, {
         link: new Link(id, tags),
         origLink
-    }
-)
+    })
+);
 //todo-sv: loading on user edit?
 export const onAddUser = (address, user, specialRoles, roles, origUser) => onEditBase(
-    types.addUser,
-    address,
-    user,
-    {
+    types.edit, 
+    address, 
+    user, 
+    onEditBase( types.addUser, address, user, {
         user: new User(user, specialRoles, roles),
         origUser
-    }
-)
+    })
+);
 
-export const onEditDetails = (address, title, desc, url, origDetails) => onEditBase(
-    types.editDetails, 
-    address, 
-    EditModelSelector.detailsKey, 
-    {
+export const onEditDetails = (address, title, desc, url, origDetails) => onEditBase( 
+    address,
+    EditModelSelector.detailsKey,
+    onEditBase(types.editDetails, address, EditModelSelector.detailsKey, {
         details: new ContractDetails(title, desc, url),
         origDetails
-    }
+    })
 );
 
 // other
