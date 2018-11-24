@@ -20,13 +20,13 @@ export const ProvenanceTable = (props) => {
                 <Table.Row>
                     <TableCell >https://react.semantic-ui.com/collections/table/#types-pagination</TableCell>
                     <TableCell collapsing>
-                    <Button icon='expand arrows alternate'></Button>
+                    <Button icon='download'></Button>
                     </TableCell>
                 </Table.Row>
                 <Table.Row>
                     <TableCell >https://react.semantic-ui.com/collections/table/#types-pagination</TableCell>
                     <TableCell collapsing>
-                    <Button icon='expand arrows alternate'></Button>
+                    <Button icon='download'></Button>
                     </TableCell>
                 </Table.Row>
                 {linkRows}

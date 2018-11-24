@@ -4,14 +4,23 @@ import "../libs/StringUtils.sol";
 import "../libs/ProvLink/ProvLinkLib.sol";
 import "../libs/ProvLink/ProvLinkListLib.sol";
 import "../libs/TagLib.sol";
+import "../libs/UrlLib.sol";
 
 import "./SwitchableRBACWithSuperuser.sol";
 import "./LinkableContract.sol";
 import "./UserAccessControl.sol";
 
 contract SimpleProvenanceContract is LinkableContract {
-    
-    mapping (string => string) provenance;
+    using UrlLib for UrlLib.UrlList;
+    using LinkedListLib for LinkedListLib.LinkedList;
+    using LinkedListExtensionLib for LinkedListLib.LinkedList;
+    using LinkedListIteratorLib for LinkedListIteratorLib.Iterator;
+    //for now we do not need a list here since to provenance is write once however when/if we implement provenance migration between contracts we may need to extend this to a list that allows for easy removal; consider also that this list should be write optimized in regard of the check if a url exists
+    //uint256 keyIndex = 0;
+    //mapping (uint256 => string) urls;
+
+    UrlLib.UrlList private urls;
+    mapping (string => string[]) provenance;
 
     string private description;
     string private logoUrl;
@@ -76,11 +85,20 @@ contract SimpleProvenanceContract is LinkableContract {
         Provenance
     */
 
-    function putProvenance(string _url, string _provenance) public onlyRoleOrOpenRole(ROLE_EDITOR) {
-        provenance[_url] = _provenance;
+    function putProvenanceRecord(string _url, string _provenance) public onlyRoleOrOpenRole(ROLE_EDITOR) {
+        if(!urls.hasUrl(_url)) {
+            urls.add(_url);
+        }
+
+        string[] storage provArray = provenance[_url];
+        provArray.push(_provenance);
     }
 
-    function getProvenance(string _url) public view returns (string) {
-        return provenance[_url];
+    function getProvenanceRecordLength(string _url) public view returns (uint256) {
+        return provenance[_url].length;
+    }
+
+    function getProvenanceRecord(string _url, uint256 _index) public view returns (string) {
+        return provenance[_url][_index];
     }
 }
