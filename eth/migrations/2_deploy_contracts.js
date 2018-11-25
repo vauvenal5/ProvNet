@@ -9,7 +9,7 @@ var LinkedListExtensionLib = artifacts.require("../contracts/libs/LinkedList/Lin
 var LinkedListIteratorLib = artifacts.require("./libs/LinkedList/LinkedListIteratorLib.sol");
 var LinkedListAdvancedExtensionLib = artifacts.require("./libs/LinkedListAdvancedExtensionLib.sol");
 var LinkableContract = artifacts.require("./contracts/LinkableContract");
-
+var UrlLib = artifacts.require("./libs/UrlLib.sol");
 var Uint256Utils = artifacts.require("./libs/Uint256Utils.sol");
 
 var SwitchableRBACWithSuperuser = artifacts.require("./contracts/SwitchableRBACWithSuperuser.sol");
@@ -32,6 +32,13 @@ const deploySimpleProvenanceContract = (deployer, title, description, logoUrl, a
     return contract.instance.addUser(accounts[0], "trusted");
   }).then(() => {
     return contract.instance.addUser(accounts[0], "known");
+  }).then(() => {
+    return contract.instance.addUser(accounts[0], "editor");
+  }).then(() => {
+    return contract.instance.putProvenanceRecord(
+      "https://react.semantic-ui.com/collections/table/#types-pagination",
+      "this is a default text simulating a provenance entry"
+    );
   });
 
   return contract;
@@ -55,7 +62,8 @@ module.exports = function(deployer, network, accounts) {
     TagLibrary,
     UserAccessControl,
     LinkedListAdvancedExtensionLib,
-    LinkableContract
+    LinkableContract,
+    UrlLib
   ]);  
 
   deployer.deploy(LinkedListExtensionLib);
@@ -72,7 +80,14 @@ module.exports = function(deployer, network, accounts) {
   deployer.link(LinkedListIteratorLib, [TagLibrary]);
   
   deployer.deploy(LinkedListAdvancedExtensionLib);
-  deployer.link(LinkedListAdvancedExtensionLib, [TagLibrary, ProvLinkListLib, SimpleProvenanceContract, UserAccessControl, LinkableContract]);
+  deployer.link(LinkedListAdvancedExtensionLib, [
+    TagLibrary, 
+    ProvLinkListLib, 
+    SimpleProvenanceContract, 
+    UserAccessControl, 
+    LinkableContract,
+    UrlLib
+  ]);
 
   
   deployer.deploy(ProvenanceLinkQueryLibrary);
@@ -89,8 +104,11 @@ module.exports = function(deployer, network, accounts) {
   deployer.deploy(ProvLinkListLib);
   deployer.link(ProvLinkListLib, [SimpleProvenanceContract, LinkableContract]);
 
-  deployer.deploy(UserAccessControl);
-  deployer.deploy(LinkableContract);
+  deployer.deploy(UrlLib);
+  deployer.link(UrlLib, [SimpleProvenanceContract]);
+
+  //deployer.deploy(UserAccessControl);
+  //deployer.deploy(LinkableContract);
 
   var description = "This is a TU Wien InfoSys Mock contract used for development. It is not affiliated with the TU Wien!";
   var logoUrl = "http://www.informatik.tuwien.ac.at/kontakt/INF_Logo_typo_grau_web_rgb.png";

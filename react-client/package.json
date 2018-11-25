@@ -5,6 +5,7 @@
   "dependencies": {
     "formsy-react": "^1.1.5",
     "formsy-semantic-ui-react": "^0.3.3",
+    "jspdf": "^1.4.1",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-redux": "^5.0.7",

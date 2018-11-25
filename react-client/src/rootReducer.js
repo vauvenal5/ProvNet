@@ -13,7 +13,7 @@ import { of, from, zip, forkJoin, Observable} from 'rxjs';
 
 import SimpleProvenanceContract from "ProvNet/build/linked/SimpleProvenanceContract";
 
-import { ProvContract, TagSelector, SelectSelector, SpecialRoleSelector, UserSelector, ProvContractMap, ProvContractSelector } from "./models";
+import { ProvContract, TagSelector, SelectSelector, SpecialRoleSelector, UserSelector, ProvContractMap, ProvContractSelector, UriSelector } from "./models";
 import Select from "./SelectReducer";
 import {DeployContract} from "./EditViews";
 import {EditDetailsView, editTagReducer, editTagEpic} from "./EditViews";
@@ -24,6 +24,7 @@ import { linkReducer } from "./linksReducer";
 import { EditModelReducer, editModelEpics } from "./EditViews";
 import EditModelSelector from "./models/selectors/EditModelSelector";
 import {epic as userEpic} from "./EditViews/EditUserView";
+import {reducer as uriReducer, epic as uriEpic} from "./ProvenanceView";
 
 export const contractDetailsLoadingEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.contractLoad),
@@ -60,8 +61,6 @@ export const contractTypesLoadEpic = (action$, state$) => action$.pipe(
         );
     }),
 );
-
-
 
 export const typeLoadEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.typeLoad),
@@ -136,7 +135,8 @@ export const rootEpic = combineEpics(
     Select.epic,
     editModelEpics,
     specialRolesReducer.epic,
-    userEpic
+    userEpic,
+    uriEpic
 );
 
 export const rootReducer = combineReducers({
@@ -148,5 +148,6 @@ export const rootReducer = combineReducers({
     [SpecialRoleSelector.key]: specialRolesReducer.specialRolesReducer,
     [UserSelector.key]: specialRolesReducer.usersReducer,
     [TagSelector.key]: tagReducer,
-    links: linkReducer
+    links: linkReducer,
+    [UriSelector.key]: uriReducer,
 });

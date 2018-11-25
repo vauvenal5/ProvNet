@@ -1,8 +1,8 @@
 pragma solidity ^0.4.24;
 
 import "../libs/StringUtils.sol";
-import "../libs/ProvLink/ProvLinkLib.sol";
-import "../libs/ProvLink/ProvLinkListLib.sol";
+// import "../libs/ProvLink/ProvLinkLib.sol";
+// import "../libs/ProvLink/ProvLinkListLib.sol";
 import "../libs/TagLib.sol";
 import "../libs/UrlLib.sol";
 
@@ -15,10 +15,11 @@ contract SimpleProvenanceContract is LinkableContract {
     using LinkedListLib for LinkedListLib.LinkedList;
     using LinkedListExtensionLib for LinkedListLib.LinkedList;
     using LinkedListIteratorLib for LinkedListIteratorLib.Iterator;
-    //for now we do not need a list here since to provenance is write once however when/if we implement provenance migration between contracts we may need to extend this to a list that allows for easy removal; consider also that this list should be write optimized in regard of the check if a url exists
-    //uint256 keyIndex = 0;
-    //mapping (uint256 => string) urls;
-
+    
+    //todo-sv: a url is nothing else then a tag for provenance?
+    // so if we refactor the tagList we should be able to reuse it here
+    // only difference would be that "normal" tags are a n-m mapping --> n tags map to m links for example
+    // and in this case we have simply a 1-1 mapping --> one url(tag) maps to one set of provenance
     UrlLib.UrlList private urls;
     mapping (string => string[]) provenance;
 
@@ -85,6 +86,14 @@ contract SimpleProvenanceContract is LinkableContract {
         Provenance
     */
 
+    function getUrls() public view returns (uint256[]) {
+        return urls.toReturnValue();
+    }
+
+    function getUrl(uint256 _key) public view returns (string) {
+        return urls.getUrl(_key);
+    }
+
     function putProvenanceRecord(string _url, string _provenance) public onlyRoleOrOpenRole(ROLE_EDITOR) {
         if(!urls.hasUrl(_url)) {
             urls.add(_url);
@@ -94,7 +103,7 @@ contract SimpleProvenanceContract is LinkableContract {
         provArray.push(_provenance);
     }
 
-    function getProvenanceRecordLength(string _url) public view returns (uint256) {
+    function getProvenanceRecords(string _url) public view returns (uint256) {
         return provenance[_url].length;
     }
 

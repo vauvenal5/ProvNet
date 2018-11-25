@@ -1,4 +1,4 @@
-import { withLatestFrom, map, flatMap } from "rxjs/operators";
+import { withLatestFrom, map, flatMap, switchAll } from "rxjs/operators";
 import { from, of, defer } from "rxjs";
 import SimpleProvenanceContract from "ProvNet/build/linked/SimpleProvenanceContract";
 import { MetaMaskPromiseFactory } from "./MetaMaskPromiseFactory";
@@ -31,5 +31,25 @@ export const withAccountInfo = () => {
                 )
             }),
         )
+    }
+}
+
+export const withContentFromIDArray = (arrayMathod, singleMethod) => {
+    return function withContentFromIDArrayImplementation(source) {
+        return source.pipe(
+            flatMap(({action, web3Instance}) => {
+                return from(
+                    web3Instance.methods[arrayMathod]().call()
+                ).pipe(
+                    switchAll(),
+                    flatMap(id => {
+                        return from(
+                            web3Instance.methods[singleMethod](id).call()
+                        )
+                    }),
+                    map(result => ({action, result}))
+                )
+            })
+        );
     }
 }
