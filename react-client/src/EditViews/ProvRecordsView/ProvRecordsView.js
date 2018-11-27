@@ -31,6 +31,7 @@ export const EditDetailsView = ({records = new ProvRecords(), ...props}) => {
                     hidden: true
                 }
             )}
+            scrolling={true}
         >
             <Container text>
                 {recordsView}

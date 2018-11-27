@@ -62,7 +62,7 @@ export class EditModal extends React.Component {
                     <Loader size="big" content="Sending..."/>
                 </Dimmer>
                 
-                <Modal.Content scrolling>
+                <Modal.Content scrolling={this.props.scrolling}>
                     <Message 
                         hidden={this.props.warning.hidden}
                         warning
