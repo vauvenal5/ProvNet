@@ -1,4 +1,4 @@
 import Component from "./EditTagComponent";
-import {reducer, epic} from "./reducer";
+import {epic} from "./reducer";
 
-export { Component as default, reducer, epic};
+export { Component as default, epic};
