@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/vauvenal5/ProvNet#readme",
   "dependencies": {
+    "ProvNet": "file:../eth",
     "express": "^4.16.4",
     "rxjs": "^6.3.3",
     "web3": "^1.0.0-beta.36"
@@ -41,8 +42,7 @@
     "babel-jest": "^23.6.0",
     "jest": "^23.6.0",
     "linklocal": "^2.8.2",
-    "nodemon": "^1.18.4",
-    "provnet": "file:../eth",
+    "nodemon": "^1.18.7",
     "regenerator-runtime": "^0.12.1"
   }
 }
