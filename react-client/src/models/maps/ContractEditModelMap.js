@@ -8,7 +8,8 @@ export default class ContractEditModelMap extends ContractBaseMap {
         details: "detailsModal",
         editTag: "editTagModal",
         editUser: "editUserModal",
-        editLink: "editLinkModal"
+        editLink: "editLinkModal",
+        displayProv: "displayProv"
     }
 
     constructor(id) {

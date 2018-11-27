@@ -36,6 +36,16 @@ export class EditModal extends React.Component {
             );
         }
 
+        let submitButton;
+        if(this.props.submitButton) {
+            submitButton = (
+                <Button positive icon labelPosition="left" disabled={!this.props.commitValid} onClick={this.props.onSubmit}>
+                    <Icon name="upload" />
+                    Commit
+                </Button>
+            );
+        }
+
         return(
         <Fragment>
             <Modal 
@@ -52,7 +62,7 @@ export class EditModal extends React.Component {
                     <Loader size="big" content="Sending..."/>
                 </Dimmer>
                 
-                <Modal.Content >
+                <Modal.Content scrolling>
                     <Message 
                         hidden={this.props.warning.hidden}
                         warning
@@ -63,10 +73,7 @@ export class EditModal extends React.Component {
                     {this.props.children}
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button positive icon labelPosition="left" disabled={!this.props.commitValid} onClick={this.props.onSubmit}>
-                        <Icon name="upload" />
-                        Commit
-                    </Button>
+                    {submitButton}
                     {deleteButton}
                 </Modal.Actions>
             </Modal>
@@ -86,7 +93,7 @@ export class EditModal extends React.Component {
 export const withDefaultMap = (state, props) => {
     return Object.assign({}, {
         editModel: EditModelSelector.getSelectedModel(state),
-        address: SelectSelector.getSelectedContract(state)
+        address: SelectSelector.getSelectedContract(state),
     }, props);
 }
 
@@ -136,6 +143,6 @@ export const modalPropsFrom = (props, submitFunc, header, warning={
         onClear: props.onClear,
         onSubmit: submitFunc,
         header: header,
-        warning: warning
+        warning: warning,
     }
 };

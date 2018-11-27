@@ -56,6 +56,7 @@ export class EditDetailsView extends React.Component {
                     this.onSubmit.bind(this),
                     "Edit Contract Details"
                 )}
+                submitButton={true}
             >
                 <Grid stackable>
                     <Grid.Column width="4" verticalAlign="middle">

@@ -13,7 +13,7 @@ import { of, from, zip, forkJoin, Observable} from 'rxjs';
 
 import SimpleProvenanceContract from "ProvNet/build/linked/SimpleProvenanceContract";
 
-import { ProvContract, TagSelector, SelectSelector, SpecialRoleSelector, UserSelector, ProvContractMap, ProvContractSelector, UriSelector } from "./models";
+import { ProvContract, TagSelector, SelectSelector, SpecialRoleSelector, UserSelector, ProvContractMap, ProvContractSelector, UriSelector, ProvRecordsSelector } from "./models";
 import Select from "./SelectReducer";
 import {DeployContract} from "./EditViews";
 import {EditDetailsView, editTagReducer, editTagEpic} from "./EditViews";
@@ -24,7 +24,7 @@ import { linkReducer } from "./linksReducer";
 import { EditModelReducer, editModelEpics } from "./EditViews";
 import EditModelSelector from "./models/selectors/EditModelSelector";
 import {epic as userEpic} from "./EditViews/EditUserView";
-import {reducer as uriReducer, epic as uriEpic} from "./ProvenanceView";
+import {reducer as uriReducer, epic as uriEpic, provRecordReducer} from "./ProvenanceView";
 
 export const contractDetailsLoadingEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.contractLoad),
@@ -150,4 +150,5 @@ export const rootReducer = combineReducers({
     [TagSelector.key]: tagReducer,
     links: linkReducer,
     [UriSelector.key]: uriReducer,
+    [ProvRecordsSelector.key]: provRecordReducer,
 });

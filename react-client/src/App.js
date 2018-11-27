@@ -7,7 +7,8 @@ import {
 	EditDetailsView, 
 	EditTagView, 
 	EditUserView,
-	EditLinkView
+	EditLinkView,
+	ProvRecordsView
 } from "./EditViews";
 import { connect } from 'react-redux';
 import ContractView from "./ContractView"
@@ -34,6 +35,9 @@ class App extends Component {
 				break;
 			case ContractEditModelMap.modals.editUser:
 				renderModal = (<EditUserView/>);
+				break;
+			case ContractEditModelMap.modals.displayProv:
+				renderModal = (<ProvRecordsView/>)
 				break;
 			default:
 				break;

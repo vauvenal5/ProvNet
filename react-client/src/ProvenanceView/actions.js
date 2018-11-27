@@ -1,8 +1,9 @@
-import { Uri } from "../models";
+import { Uri, ProvRecords } from "../models";
 
 export const types = {
     uriLoaded: "URI_LOADED",
-    createProvPdf: "CREATE_PROV_PDF"
+    provRecordsLoaded: "PROV_RECORDS_LOADED",
+    showProvRecords: "SHOW_PROV_RECORDS"
 }
 
 export const onURILoaded = (id, uri) => ({
@@ -10,8 +11,13 @@ export const onURILoaded = (id, uri) => ({
     uri: new Uri(id, uri)
 });
 
-export const onCreateProvPdf = (address, id, uri) => ({
-    type: types.createProvPdf,
+export const onProvRecordsLoaded = (uri, records) => ({
+    type: types.provRecordsLoaded,
+    provRecords: new ProvRecords(uri, records)
+});
+
+export const onProvRecordsShow = (address, uri) => ({
+    type: types.showProvRecords,
     address,
-    uri: new Uri(id, uri)
-})
+    uri
+});

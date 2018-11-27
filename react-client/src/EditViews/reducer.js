@@ -10,7 +10,7 @@ import { epic as deployContractEpic } from "./DeployContract";
 import { epic as editDetailsEpic } from "./EditDetailsView";
 
 export const editSuccessEpic = (action$) => action$.pipe(
-    ofType(actions.types.editSuccess),
+    ofType(actions.types.editSuccessAutoClear),
     delay(1000),
     map(action => actions.onEditModalClear(action.address, action.id))
 );
@@ -42,8 +42,8 @@ export const reducer = (
         case actions.types.editError:
             model = EditModel.setError(model, action.error);
             break;
-        case actions.types.deployContractSuccess:
         case actions.types.editSuccess:
+        case actions.types.editSuccessAutoClear:
             model = EditModel.setSuccess(model, action.payload);
             break;
         case actions.types.deployContractModalOpen:

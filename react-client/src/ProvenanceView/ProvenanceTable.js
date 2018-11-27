@@ -5,16 +5,25 @@ import { Table, Label, TableCell, Segment, Button, TextArea, Container } from 's
 import { UriSelector, Uri, SelectSelector } from '../models';
 import UriMap from '../models/maps/UriMap';
 import * as actions from "./actions";
+import EditModelSelector from '../models/selectors/EditModelSelector';
+import EditModelMap from '../models/maps/EditModelMap';
+import {editModelActions} from "../EditViews";
+import EditModel from '../models/EditModel';
 
-export const ProvenanceTable = ({uris, createPdf}) => {
+export const ProvenanceTable = ({uris, onShowProv, editModels = new EditModelMap()}) => {
 
     let linkRows = UriMap.mapToArray(uris, (key, uri) => {
         let title = Uri.getTitle(uri);
+        let model = editModels.get(title);
+        let color;
+        if(EditModel.isSuccess(model)) {
+            color = "green";
+        }
         return(
             <Table.Row>
                 <TableCell>{title}</TableCell>
                 <TableCell collapsing>
-                <Button icon='download' onClick={() => createPdf(key, title)}/>
+                <Button icon='download' color={color} loading={EditModel.isLoading(model)} onClick={() => onShowProv(title, model)}/>
                 </TableCell>
             </Table.Row>
         );
@@ -41,20 +50,25 @@ export const mapStateToProps = (state) => {
     return {
         address: SelectSelector.getSelectedContract(state),
         uris: UriSelector.getContractSelected(state),
-        hash: state.web3.utils.soliditySha3("Testing the length of a defualt hash!Testing the length of a defualt hash!Testing the length of a defualt hash!"),
-        hash2: state.web3.utils.sha3("Testing the length of a defualt hash!Testing the length of a defualt hash!Testing the length of a defualt hash!"),
+        editModels: EditModelSelector.getContractSelected(state)
     };
 }
 
 export const mapDispatchToProps = (dispatch) => {
     return {
-        createPdf: (address, id, uri) => dispatch(actions.onCreateProvPdf(address,id, uri))
+        onShowProv: (address, uri, editModel) => {
+            dispatch(editModelActions.onProvRecordsOpen(true, address, uri));
+            if(!EditModel.isSuccess(editModel)) {
+                dispatch(editModelActions.onShowProvenance(address, uri));
+                dispatch(actions.onProvRecordsShow(address, uri));
+            }
+        }
     }
 }
 
 export const mergeProps = (stateProps, dispatchProps, ownProps) => {
     return Object.assign({}, stateProps, dispatchProps, {
-        createPdf: (id, uri) => dispatchProps.createPdf(stateProps.address, id, uri)
+        onShowProv: (uri, model) => dispatchProps.onShowProv(stateProps.address, uri, model)
     }, ownProps);
 }
 

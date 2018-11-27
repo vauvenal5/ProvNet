@@ -47,6 +47,11 @@ export default class EditModelSelector {
         return EditModelSelector.getEditModel(root, address, EditModelSelector.linkKey);
     }
 
+    /**
+     * 
+     * @param {*} root 
+     * @returns {ContractBasedId} ContractBasedId: The Id object for the selected model.
+     */
     static getSelectedKey(root) {
         let map = EditModelSelector.getMap(root);
         return ContractEditModelMap.getSelected(map);

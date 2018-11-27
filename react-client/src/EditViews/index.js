@@ -7,3 +7,4 @@ export { default as DeployContract } from "./DeployContract";
 export { default as EditDetailsView } from "./EditDetailsView";
 export { reducer as EditModelReducer, epic as editModelEpics } from "./reducer";
 export {EditUserView, EditLinkView} from "./EditUserView";
+export { ProvRecordsView } from "./ProvRecordsView";

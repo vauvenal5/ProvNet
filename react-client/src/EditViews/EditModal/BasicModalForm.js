@@ -21,6 +21,7 @@ export class BasicModalForm extends React.Component {
                     this.props.header,
                     this.props.warning
                 )}
+                submitButton={true}
             >
                 <Form
                     onValidSubmit={this.props.onSubmit}

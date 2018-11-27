@@ -8,6 +8,7 @@ export const types = {
     editModalOpen: "EDIT_MODAL_OPEN",
     editError: "EDIT_ERROR",
     editSuccess: "EDIT_SUCCESS",
+    editSuccessAutoClear: "EDIT_SUCCESS_AUTO_CLEAR",
     editModalClear: "EDIT_MODAL_CLEAR",
 
     edit: "EDIT_MODEL",
@@ -93,6 +94,13 @@ export const onEditDetails = (address, title, desc, url, origDetails) => onEditB
     })
 );
 
+export const onShowProvenance = (address, id) => onEditBase(
+    types.edit,
+    address,
+    id,
+    onNop()
+);
+
 // other
 
 export const onNop = () => ({
@@ -145,7 +153,14 @@ export const onEditLinkModalOpen = (value, address, id) => onEditModalOpen(
     address,
     id,
     ContractEditModelMap.modals.editLink
-)
+);
+
+export const onProvRecordsOpen = (value, address, id) => onEditModalOpen(
+    value,
+    address,
+    id,
+    ContractEditModelMap.modals.displayProv
+);
 
 // clear
 
@@ -164,14 +179,16 @@ export const onEditSuccessBase = (type, address, id, payload) => ({
     payload: payload
 })
 
-export const onEditSuccess = (address, id) => onEditSuccessBase(types.editSuccess, address, id);
+export const onEditSuccess = (address, id) => onEditSuccessBase(types.editSuccessAutoClear, address, id);
+
+export const onEditSuccessNoClear = (address, id, payload) => onEditSuccessBase(types.editSuccess, address, id, payload);
 
 export const onEditDetailsSuccess = (address) => onEditSuccess(
     address, 
     EditModelSelector.detailsKey
 );
 
-export const onDeployContractSuccess = (payload) => onEditSuccessBase(types.deployContractSuccess, EditModelSelector.newContractKey, EditModelSelector.newContractKey, payload);
+export const onDeployContractSuccess = (payload) => onEditSuccessNoClear(EditModelSelector.newContractKey, EditModelSelector.newContractKey, payload);
 
 // error
 
