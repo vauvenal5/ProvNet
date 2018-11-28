@@ -5,8 +5,8 @@ const fs = require('fs');
 import SimpleProvenanceContract from "ProvNet/build/contracts/SimpleProvenanceContract";
 
 class Web3Provider {
-    constructor() {
-        this.web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:8545/'));
+    constructor(url) {
+        this.web3 = new Web3(new Web3.providers.HttpProvider(url));
         let keysPath = "./.keys";
         let accountPath = keysPath + "/account.json"
         if(!fs.existsSync(keysPath)) {
@@ -50,5 +50,5 @@ class Web3Provider {
     }
 }
 
-const web3Provider = new Web3Provider();
+const web3Provider = new Web3Provider(process.env.URL);
 export default web3Provider;
