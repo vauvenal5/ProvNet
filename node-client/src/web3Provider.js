@@ -18,18 +18,17 @@ class Web3Provider {
 
         if(!fs.existsSync(accountPath)) {
             account = this.web3.eth.accounts.create();
-            fs.writeFileSync(accountPath, JSON.stringify({
-                address: account.address,
-                privateKey: account.privateKey
-            }));
         } else {
             account = JSON.parse(fs.readFileSync(accountPath, "utf8"));
             account = this.web3.eth.accounts.privateKeyToAccount(account.privateKey);
         }
 
         console.log(account);
+        fs.writeFileSync(accountPath, JSON.stringify({
+            address: account.address,
+            privateKey: account.privateKey
+        }, null, 4), "utf8");
         this.account = account;
-        console.log(this.account);
         this.web3.eth.accounts.wallet.add(account);
     }
 

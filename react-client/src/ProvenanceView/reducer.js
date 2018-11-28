@@ -13,7 +13,7 @@ export const uriEpic = (action$, state$) => action$.pipe(
     ofType(modelActions.types.contractLoad),
     withWeb3ContractFrom(state$),
     withContentFromIDArray("getUrls", "getUrl"),
-    map(({action, result}) => actions.onURILoaded(action.id, result))
+    map(({result}) => actions.onURILoaded(result[0], result[1]))
 );
 
 export const provenancePdfEpic = (action$, state$) => action$.pipe(

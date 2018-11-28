@@ -39,6 +39,11 @@ const deploySimpleProvenanceContract = (deployer, title, description, logoUrl, a
       "https://react.semantic-ui.com/collections/table/#types-pagination",
       "this is a default text simulating a provenance entry"
     );
+  }).then(() => {
+    return contract.instance.putProvenanceRecord(
+      "https://url2",
+      "this is another default text simulating a provenance entry"
+    );
   });
 
   return contract;

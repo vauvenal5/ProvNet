@@ -90,8 +90,8 @@ contract SimpleProvenanceContract is LinkableContract {
         return urls.toReturnValue();
     }
 
-    function getUrl(uint256 _key) public view returns (string) {
-        return urls.getUrl(_key);
+    function getUrl(uint256 _key) public view returns (uint256, string) {
+        return (_key, urls.getUrl(_key));
     }
 
     function putProvenanceRecord(string _url, string _provenance) public onlyRoleOrOpenRole(ROLE_EDITOR) {

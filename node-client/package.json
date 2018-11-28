@@ -4,8 +4,8 @@
   "description": "A server side client for the ProvNet Ethereum contracts that can be used for automated provenance securing.",
   "main": "src/index.js",
   "scripts": {
-    "start": "nodemon src/index.js --exec babel-node",
-    "test": "jest",
+    "start": "nodemon src/index.js --exec babel-node --inspect=9229",
+    "test": "jest src",
     "build": "babel src -d build",
     "serve": "node build/index.js"
   },
@@ -28,6 +28,7 @@
   "homepage": "https://github.com/vauvenal5/ProvNet#readme",
   "dependencies": {
     "ProvNet": "file:../eth",
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "rxjs": "^6.3.3",
     "web3": "^1.0.0-beta.36"

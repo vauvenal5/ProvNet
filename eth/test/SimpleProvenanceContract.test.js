@@ -2,7 +2,7 @@ const SimpleProvenanceContract = artifacts.require("SimpleProvenanceContract.sol
 
 const userHelper = require('./helpers/UserHelper');
 
-contract("SimpleProvenanceContract", async([owner, accounts]) => {
+contract("SimpleProvenanceContract", async([owner, account]) => {
     var mock;
 
     beforeEach(async function() {
@@ -11,15 +11,18 @@ contract("SimpleProvenanceContract", async([owner, accounts]) => {
 
     context("provenance", async() => {
         it("should have URI after put", async() => {
-            //console.log(accounts);
-            //userHelper.addUser(mock, accounts, "bla", accounts);
+            console.log(account);
+            userHelper.addUser(mock, account, "editor", owner);
             await mock.putProvenanceRecord(
-                "test", "test", {from: accounts}
+                "test", "test", {from: account}
+            );
+            await mock.putProvenanceRecord(
+                "test2", "test2", {from: account}
             );
             console.log("URL TEST:")
             let res = await mock.getUrls();
             console.log(res);
-            res = await mock.getProvenanceRecordLength("test");
+            res = await mock.getProvenanceRecords("test");
             console.log(res);
         });
     });
