@@ -24,4 +24,10 @@ router.route(Path.create().addContractVar().getPath()).get((req, res) => {
     .subscribe(data => res.json(data));
 });
 
+router.route(Path.create().addContractVar().getPath()).put((req, res) => {
+    console.log(req.params);
+    controller.pushProvenance(req.params[Path.getContractVar()])
+    .subscribe(data => res.json(data));
+})
+
 export default router;

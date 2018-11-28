@@ -18,3 +18,10 @@ controller.loadContractObservable = (address) => Rx.of(address).pipe(
         map(([details, types, links]) => ({details: details, types: types, links}))
     )),
 );
+
+controller.pushProvenance = (address, url, prov) => Rx.forkJoin(address).pipe(
+    web3Provider.simpleProvenanceContractOperator(),
+    flatMap(web3Contract => Rx.from(
+        web3Contract.methods.putProvenanceRecord("https://test", "Hi from node!").send({from: web3Provider.getAddress()})
+    ))
+);

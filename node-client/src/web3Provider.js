@@ -1,11 +1,36 @@
 import Web3 from "web3";
 import { map } from "rxjs/operators";
+const fs = require('fs');
 
 import SimpleProvenanceContract from "ProvNet/build/contracts/SimpleProvenanceContract";
 
 class Web3Provider {
     constructor() {
-        this.web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:9545/'));
+        this.web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:8545/'));
+        let keysPath = "./.keys";
+        let accountPath = keysPath + "/account.json"
+        if(!fs.existsSync(keysPath)) {
+            fs.mkdirSync(keysPath);
+        }
+
+        this.web3.eth.accounts.wallet.create();
+        let account;
+
+        if(!fs.existsSync(accountPath)) {
+            account = this.web3.eth.accounts.create();
+            fs.writeFileSync(accountPath, JSON.stringify({
+                address: account.address,
+                privateKey: account.privateKey
+            }));
+        } else {
+            account = JSON.parse(fs.readFileSync(accountPath, "utf8"));
+            account = this.web3.eth.accounts.privateKeyToAccount(account.privateKey);
+        }
+
+        console.log(account);
+        this.account = account;
+        console.log(this.account);
+        this.web3.eth.accounts.wallet.add(account);
     }
 
     getWeb3() {
@@ -18,6 +43,11 @@ class Web3Provider {
 
     simpleProvenanceContractOperator() {
         return map(address => this.createContract(SimpleProvenanceContract.abi, address));
+    }
+
+    getAddress() {
+        console.log(this.account);
+        return this.account.address;
     }
 }
 
