@@ -1,18 +1,23 @@
-import { filter, delay, map, withLatestFrom } from 'rxjs/operators';
+import { filter, delay, map, withLatestFrom, flatMap } from 'rxjs/operators';
 import { combineEpics, ofType } from 'redux-observable';
 import Web3 from 'web3';
 import * as actions from "./actions";
+import { of } from 'rxjs';
+import * as modelActions from "../modelActions";
 
 const web3LoaderEpic = (action$, state$) => action$.pipe(
     ofType(actions.types.initWeb3),
     withLatestFrom(state$),
     filter(([, state]) => state.web3 === null),
     delay(1000),//this is only for estetics
-    map(() => {
+    flatMap(([action]) => {
         if(window.web3 === undefined) {
-            return actions.initFailed("No metamask found!");
+            return of(actions.initFailed("No metamask found!"));
         }
-        return actions.initSuccess(new Web3(window.web3.currentProvider));
+        return of(
+            actions.initSuccess(new Web3(window.web3.currentProvider)),
+            modelActions.onContractSelect(action.address)
+        );
     })
 );
 

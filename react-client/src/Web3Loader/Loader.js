@@ -1,19 +1,9 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { Dimmer, Loader, Header, Icon } from 'semantic-ui-react';
 
 import * as actions from './actions';
-
-// export const Web3Loader = () => {
-//     //startLoading();
-//     return (
-//         <Dimmer active>
-//             <Loader size="massive">Loading...</Loader>
-//         </Dimmer>
-//     );
-// }
 
 //todo-sv: https://bit.ly/2QQHXvF This will need addressing soon.
 
@@ -53,8 +43,14 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     console.log(actions.startInit());
     return {
-        startWeb3Init: () => dispatch(actions.startInit()),
+        startWeb3Init: (address) => dispatch(actions.startInit(address)),
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Web3Loader);
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+    return Object.assign({}, ownProps, stateProps, dispatchProps, {
+        startWeb3Init: () => dispatchProps.startWeb3Init(ownProps.match.params.contract),
+    });
+}
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Web3Loader);

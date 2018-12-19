@@ -3,12 +3,17 @@ import { ofType, combineEpics } from "redux-observable";
 import { map, withLatestFrom, flatMap, filter } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { SelectSelector, Select } from "../models";
+import { push } from 'connected-react-router';
 
 const selectContractEpic = (action$) => action$.pipe(
     ofType(modelActions.types.contractSelect),
-    flatMap(action => of(
-        modelActions.onContractLoad(action.address)
-    )),
+    filter(action => action.address !== undefined),
+    flatMap(action => {
+        return of(
+            modelActions.onContractLoad(action.address),
+            push("/contracts/"+action.address)
+        );
+    }),
 );
 
 const contractLoadedEpic = (action$, state$) => action$.pipe(
@@ -27,6 +32,7 @@ export const epic = combineEpics(
 
 export const reducer = (state=new Select(), action) => {
     switch(action.type) {
+        case modelActions.types.contractSelectHistory:
         case modelActions.types.contractSelect:
             return state.setSelected(action.address);
         case modelActions.types.linkSelected:

@@ -6,6 +6,7 @@ export const types = {
     
     //todo-sv: selections are only necessary for the UI not however for the node part... we should refactor this at a latter moment and move selection handling to a view reducer
     contractSelect: "CONTRACT_SELECT",
+    contractSelectHistory: "CONTRACT_SELECT_HISTORY",
     contractSelected: "CONTRACT_SELECTED",
     linkSelect: "LINK_SELECT",
     linkSelected: "LINK_SELECTED",
@@ -32,6 +33,11 @@ export const onContractDetailsLoaded = (address, title, description, logoUrl) =>
 
 export const onContractSelect = (address) => ({
     type: types.contractSelect,
+    address: address
+});
+
+export const onContractSelectHistory = (address) => ({
+    type: types.contractSelectHistory,
     address: address
 });
 

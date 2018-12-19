@@ -7,17 +7,35 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import {rootReducer, rootEpic} from "./rootReducer";
 import { createEpicMiddleware } from 'redux-observable';
-
-import Web3 from 'web3';
+import { Route, Switch } from 'react-router-dom'
+import { routerMiddleware } from 'connected-react-router';
+import { createBrowserHistory } from 'history';
+import { ConnectedRouter } from 'connected-react-router'
 
 const epicMiddleware = createEpicMiddleware();
 
-const store = createStore(rootReducer, applyMiddleware(epicMiddleware));
+const history = createBrowserHistory();
+
+const store = createStore(
+    rootReducer(history), 
+    applyMiddleware(
+        routerMiddleware(history),
+        epicMiddleware
+    )
+);
 
 epicMiddleware.run(rootEpic);
 
 ReactDOM.render(
-    <Provider store={store}><App /></Provider>, 
+    <Provider store={store}>
+        <ConnectedRouter history={history}>
+            <Switch>
+                <Route path="/contracts/:contract" component={App}/>
+                <Route path="/" component={App}/>
+            </Switch>
+        </ConnectedRouter>
+        {/* <App /> */}
+    </Provider>, 
     document.getElementById('root')
 );
 registerServiceWorker();

@@ -1,6 +1,7 @@
 import * as modelActions from "./modelActions";
 import { combineReducers } from 'redux';
 import { combineEpics, ofType } from 'redux-observable';
+import { connectRouter } from 'connected-react-router';
 import Web3Loader from './Web3Loader';
 import { 
     withLatestFrom, 
@@ -139,7 +140,8 @@ export const rootEpic = combineEpics(
     uriEpic
 );
 
-export const rootReducer = combineReducers({
+export const rootReducer = (history) => combineReducers({
+    router: connectRouter(history),
     [ProvContractSelector.key]: contractReducer,
     web3Loader: Web3Loader.reducer,
     web3: Web3Loader.web3,
