@@ -3,7 +3,8 @@ import { Uri, ProvRecords } from "../models";
 export const types = {
     uriLoaded: "URI_LOADED",
     provRecordsLoaded: "PROV_RECORDS_LOADED",
-    showProvRecords: "SHOW_PROV_RECORDS"
+    showProvRecords: "SHOW_PROV_RECORDS",
+    loadProvRecords: "LOAD_PROV_RECORDS"
 }
 
 export const onURILoaded = (id, uri) => ({
@@ -16,8 +17,15 @@ export const onProvRecordsLoaded = (uri, records) => ({
     provRecords: new ProvRecords(uri, records)
 });
 
-export const onProvRecordsShow = (address, uri) => ({
+export const onProvRecordsShow = (address, uri, loaded) => ({
     type: types.showProvRecords,
+    address,
+    uri,
+    loaded
+});
+
+export const onProvRecordsLoad = (address, uri) => ({
+    type: types.loadProvRecords,
     address,
     uri
 });

@@ -4,7 +4,7 @@ import * as actions from "./actions";
 import { ofType, combineEpics } from "redux-observable";
 import { withWeb3ContractFrom, withContentFromIDArray } from "../operators";
 import UriMap from "../models/maps/UriMap";
-import { map, flatMap, reduce } from "rxjs/operators";
+import { map, flatMap, reduce, filter } from "rxjs/operators";
 import { from, of } from "rxjs";
 import { Uri, ProvRecordsMap } from "../models";
 import { editModelActions } from '../EditViews';
@@ -16,8 +16,28 @@ export const uriEpic = (action$, state$) => action$.pipe(
     map(({result}) => actions.onURILoaded(result[0], result[1]))
 );
 
-export const provenancePdfEpic = (action$, state$) => action$.pipe(
+export const showProvenanceEpic = (action$) => action$.pipe(
     ofType(actions.types.showProvRecords),
+    filter(action => action.address !== undefined),
+    filter(action => action.uri !== undefined && action.uri !== null),
+    flatMap(action => {
+
+        if(!action.loaded) {
+            return of(
+                editModelActions.onProvRecordsOpen(true, action.address, action.uri),
+                editModelActions.onShowProvenance(action.address, action.uri),
+                actions.onProvRecordsLoad(action.address, action.uri)
+            );
+        }
+
+        return of(
+            editModelActions.onProvRecordsOpen(true, action.address, action.uri)
+        );
+    })
+);
+
+export const provenancePdfEpic = (action$, state$) => action$.pipe(
+    ofType(actions.types.loadProvRecords),
     withWeb3ContractFrom(state$),
     flatMap(({action, web3Instance}) => {
         return from(
@@ -47,7 +67,7 @@ export const provenancePdfEpic = (action$, state$) => action$.pipe(
     }),
 );
 
-export const epic = combineEpics(uriEpic, provenancePdfEpic);
+export const epic = combineEpics(uriEpic, showProvenanceEpic, provenancePdfEpic);
 
 export const reducer = (
     state = new UriMap(),

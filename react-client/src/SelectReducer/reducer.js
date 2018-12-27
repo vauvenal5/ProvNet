@@ -6,9 +6,15 @@ import { SelectSelector, Select } from "../models";
 import { push } from 'connected-react-router';
 
 const selectContractEpic = (action$) => action$.pipe(
-    ofType(modelActions.types.contractSelect),
+    ofType(modelActions.types.contractSelect, modelActions.types.contractSelectInit),
     filter(action => action.address !== undefined),
     flatMap(action => {
+        if(action.type == modelActions.types.contractSelectInit) {
+            return of(
+                modelActions.onContractLoad(action.address),
+            );
+        }
+
         return of(
             modelActions.onContractLoad(action.address),
             push("/contracts/"+action.address)
@@ -32,6 +38,7 @@ export const epic = combineEpics(
 
 export const reducer = (state=new Select(), action) => {
     switch(action.type) {
+        case modelActions.types.contractSelectInit:
         case modelActions.types.contractSelectHistory:
         case modelActions.types.contractSelect:
             return state.setSelected(action.address);

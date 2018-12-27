@@ -4,9 +4,10 @@ export const types = {
     initWeb3Failed: "INIT_WEB3_FAILED",
 };
 
-export const startInit = (address) => ({
+export const startInit = (address, uri) => ({
     type: types.initWeb3,
-    address: address
+    address: address,
+    uri: uri
     //web3: web3,
 });
 

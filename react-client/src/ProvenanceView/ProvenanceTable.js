@@ -9,6 +9,7 @@ import EditModelSelector from '../models/selectors/EditModelSelector';
 import EditModelMap from '../models/maps/EditModelMap';
 import {editModelActions} from "../EditViews";
 import EditModel from '../models/EditModel';
+import { push } from 'connected-react-router';
 
 export const ProvenanceTable = ({uris, onShowProv, editModels = new EditModelMap()}) => {
 
@@ -57,11 +58,9 @@ export const mapStateToProps = (state) => {
 export const mapDispatchToProps = (dispatch) => {
     return {
         onShowProv: (address, uri, editModel) => {
-            dispatch(editModelActions.onProvRecordsOpen(true, address, uri));
-            if(!EditModel.isSuccess(editModel)) {
-                dispatch(editModelActions.onShowProvenance(address, uri));
-                dispatch(actions.onProvRecordsShow(address, uri));
-            }
+            let encUri = encodeURIComponent(uri);
+            dispatch(push("/contracts/"+address+"?target="+encUri));
+            dispatch(actions.onProvRecordsShow(address, uri, EditModel.isSuccess(editModel)));
         }
     }
 }

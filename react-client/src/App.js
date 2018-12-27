@@ -55,7 +55,7 @@ class App extends Component {
 
 		return (
 			<div>
-				<Loader.Component match={this.props.match}/>
+				<Loader.Component match={this.props.match} location={this.props.location}/>
 				<TopMenu.Component/>
 				<ContractView/>
 				{checkAndRender(

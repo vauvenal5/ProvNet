@@ -43,13 +43,15 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     console.log(actions.startInit());
     return {
-        startWeb3Init: (address) => dispatch(actions.startInit(address)),
+        startWeb3Init: (address, url) => dispatch(actions.startInit(address, url)),
     };
 }
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
+    let params = new URLSearchParams(ownProps.location.search);
+
     return Object.assign({}, ownProps, stateProps, dispatchProps, {
-        startWeb3Init: () => dispatchProps.startWeb3Init(ownProps.match.params.contract),
+        startWeb3Init: () => dispatchProps.startWeb3Init(ownProps.match.params.contract, params.get("target")),
     });
 }
 

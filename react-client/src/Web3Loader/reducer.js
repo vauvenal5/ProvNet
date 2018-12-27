@@ -4,6 +4,8 @@ import Web3 from 'web3';
 import * as actions from "./actions";
 import { of } from 'rxjs';
 import * as modelActions from "../modelActions";
+import { editModelActions } from '../EditViews';
+import * as recordActions from "../ProvenanceView/actions";
 
 const web3LoaderEpic = (action$, state$) => action$.pipe(
     ofType(actions.types.initWeb3),
@@ -16,7 +18,8 @@ const web3LoaderEpic = (action$, state$) => action$.pipe(
         }
         return of(
             actions.initSuccess(new Web3(window.web3.currentProvider)),
-            modelActions.onContractSelect(action.address)
+            modelActions.onContractSelectInit(action.address),
+            recordActions.onProvRecordsShow(action.address, action.uri, false)
         );
     })
 );
