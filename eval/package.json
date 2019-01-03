@@ -1,0 +1,18 @@
+{
+  "name": "eval",
+  "version": "1.0.0",
+  "description": "Master thesis evaluation project.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "commander": "^2.19.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2",
+    "rxjs": "^6.3.3"
+  }
+}
