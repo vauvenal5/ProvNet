@@ -4,6 +4,7 @@ import links from "../links";
 import details from "../details";
 import types from "../types";
 import Path from "../path";
+import search from "../search";
 
 const router = express.Router();
 
@@ -17,6 +18,10 @@ router.use(
 
 router.use(
     Path.create().addContractVar().addLinks().getPath(), links.router
+);
+
+router.use(
+    Path.create().addContractVar().addSearch().getPath(), search.router
 );
 
 router.route(Path.create().addContractVar().getPath()).get((req, res) => {

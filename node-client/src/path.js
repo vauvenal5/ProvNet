@@ -32,6 +32,10 @@ export default class Path {
         return this.addPath("/details");
     }
 
+    addSearch() {
+        return this.addPath("/search");
+    }
+
     static create() {
         return new Path();
     }
