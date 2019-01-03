@@ -121,6 +121,7 @@ module.exports = function(deployer, network, accounts) {
   let dsg;
   let infoSys;
   let tuwien;
+  let inst1;
   
   if(network === "develop" || network === "ui") {
     dsg = deploySimpleProvenanceContract(deployer, "DSG", "This is a TU Wien DSG Mock contract used for development. It is not affiliated with the TU Wien!", "http://dsg.tuwien.ac.at/images/dsg-logo.jpg", accounts);
@@ -128,23 +129,34 @@ module.exports = function(deployer, network, accounts) {
     infoSys = deploySimpleProvenanceContract(deployer, "InfoSys", "This is a TU Wien InfoSys Mock contract used for development. It is not affiliated with the TU Wien!", "http://www.informatik.tuwien.ac.at/kontakt/INF_Logo_typo_grau_web_rgb.png", accounts);
 
     tuwien = deploySimpleProvenanceContract(deployer, "TUWien", "This is a TU Wien Mock contract used for development. It is not affiliated with the TU Wien!", "https://www.tuwien.ac.at/fileadmin/t/tuwien/downloads/cd/CD_NEU_2009/TU_Logos_2009/TUSignet.jpg", accounts);
+
+    inst1 = deployInstituteWithGroups(deployer, 5, "Inst-1", "Group-", accounts);
   }
 
   //this one is the last contract on purpose so that this contracts address is written into the SimpleProvenanceContract json file!
   let svidenov = deploySimpleProvenanceContract(deployer, "svidenov", "This is the contract of the ProvNet developer.", "https://www.tuwien.ac.at/fileadmin/t/tuwien/downloads/cd/CD_NEU_2009/TU_Logos_2009/TUSignet.jpg", accounts);
 
   if(network === "develop" || network === "ui") {
-    addLink(deployer, dsg, infoSys, 1);
-    addLink(deployer, infoSys, dsg, 1);
+    // addLink(deployer, dsg, infoSys, 1);
+    // addLink(deployer, infoSys, dsg, 1);
+    twoWayLink(deployer, infoSys, dsg, 1, 1);
     
-    addLink(deployer, infoSys, tuwien, 1);
-    addLink(deployer, tuwien, infoSys, 1);
+    // addLink(deployer, infoSys, tuwien, 1);
+    // addLink(deployer, tuwien, infoSys, 1);
+    twoWayLink(deployer, tuwien, infoSys, 1, 1);
+    twoWayLink(deployer, tuwien, inst1.inst, 1, 1);
 
     addLink(deployer, svidenov, tuwien, 2);
     addLink(deployer, svidenov, infoSys, 2);
     addLink(deployer, svidenov, dsg, 2);
 
+    addProvenance(deployer, inst1.inst, "https://find.this.com/resource1", "some prov");
+    addProvenance(deployer, inst1.groups[2], "https://find.this.com/resource1", "some more prov");
+    addProvenance(deployer, inst1.groups[4], "https://find.this.com/resource1", "and even more prov");
+
     deployer.then(() => {
+      console.log("INST1:" + inst1.inst.instance.address);
+      inst1.groups.map((group, index) => console.log("GROUP-"+index+":"+group.instance.address));
       console.log("DSG: " + dsg.instance.address);
       console.log("InfoSys: " + infoSys.instance.address);
       console.log("TUWien: " + tuwien.instance.address);
@@ -153,4 +165,24 @@ module.exports = function(deployer, network, accounts) {
   }
 };
 
+twoWayLink = (deployer, c1, c2, tl1, tl2) => {
+  addLink(deployer, c1, c2, tl1);
+  addLink(deployer, c2, c1, tl2);
+};
 
+deployInstituteWithGroups = (deployer, numberGroups, nameInst, nameGroup, accounts) => {
+  let inst = deploySimpleProvenanceContract(deployer, nameInst, "This is a TU Wien InfoSys Mock contract used for development. It is not affiliated with the TU Wien!", "http://www.informatik.tuwien.ac.at/kontakt/INF_Logo_typo_grau_web_rgb.png", accounts);
+  let groups = [];
+
+  for(let i = 0; i<numberGroups; i++) {
+    let group = deploySimpleProvenanceContract(deployer, nameGroup+i, "This is a TU Wien DSG Mock contract used for development. It is not affiliated with the TU Wien!", "http://dsg.tuwien.ac.at/images/dsg-logo.jpg", accounts);
+    twoWayLink(deployer, inst, group, 1, 1);
+    groups.push(group);
+  }
+
+  return {inst, groups};
+};
+
+addProvenance = (deployer, contract, url, content) => {
+  deployer.then(() => contract.instance.putProvenanceRecord(url, content))
+}
