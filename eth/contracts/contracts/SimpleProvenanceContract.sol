@@ -27,6 +27,10 @@ contract SimpleProvenanceContract is LinkableContract {
     string private logoUrl;
     string private title = "defaultTitle";
 
+    constructor(string _title) public {
+        title = _title;
+    }
+
     /**
         Other stuff
     */
