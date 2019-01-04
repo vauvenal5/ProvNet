@@ -25,7 +25,7 @@ controller.bfs = (searched = [], address, url) => Rx.of(address).pipe(
         );
     }),
     map(value => {
-        console.log(value);
+        //console.log(value);
         return value;
     }),
     concatMap(({recordsLength, links}) => {
@@ -37,7 +37,7 @@ controller.bfs = (searched = [], address, url) => Rx.of(address).pipe(
             Rx.from(links).pipe(
                 map(add => add.toLowerCase()),
                 filter(add => {
-                    console.log(searched);
+                    //console.log(searched);
                     return !searched.includes(add);
                 }),
                 concatMap(add => controller.bfs(searched, add, url)),

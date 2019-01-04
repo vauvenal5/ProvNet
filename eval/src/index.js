@@ -6,19 +6,16 @@ const rp = require("request-promise");
 
 program
     .version("1.0.0")
-    .option("-s, --scenario [id]", "Run scenario.")
+    .option("-s, --scenario <scenario> ", "Run scenario.")
+    .option("-c, --contract <contract> ", "Contract address.", "0xdc3044110b5aa207b5f30adce7b4398851fa0f8f")
+    .option("-t, --target <target> ", "Target URI.", "https://find.this.com/resource1")
     .parse(process.argv);
 
 console.log(program.scenario);
 
-let req = {
-    host: "http://localhost",
-    port: 3001,
-    path: "/contracts/0xccb9b0e85393b35bf1a325aeceda0a835679fb5d/search",
-    method: "GET"
-};
+let target = encodeURIComponent(program.target);
 
-let requestObs = Rx.from(rp("http://localhost:3001/contracts/0xccb9b0e85393b35bf1a325aeceda0a835679fb5d/search"));
+let requestObs = Rx.from(rp("http://localhost:3001/contracts/"+program.contract+"/search?target="+target));
 requestObs.subscribe((res) => {
     console.log(JSON.parse(res));
 });
