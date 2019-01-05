@@ -1,20 +1,11 @@
 pragma solidity ^0.4.24;
 
-import "../libs/StringUtils.sol";
-// import "../libs/ProvLink/ProvLinkLib.sol";
-// import "../libs/ProvLink/ProvLinkListLib.sol";
-import "../libs/TagLib.sol";
 import "../libs/UrlLib.sol";
 
-import "./SwitchableRBACWithSuperuser.sol";
 import "./LinkableContract.sol";
-import "./UserAccessControl.sol";
 
 contract SimpleProvenanceContract is LinkableContract {
     using UrlLib for UrlLib.UrlList;
-    using LinkedListLib for LinkedListLib.LinkedList;
-    using LinkedListExtensionLib for LinkedListLib.LinkedList;
-    using LinkedListIteratorLib for LinkedListIteratorLib.Iterator;
     
     //todo-sv: a url is nothing else then a tag for provenance?
     // so if we refactor the tagList we should be able to reuse it here

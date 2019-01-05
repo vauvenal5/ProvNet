@@ -54,14 +54,14 @@ library LinkedListIteratorLib {
     */
     function getCounter(LinkedListIteratorLib.Iterator memory self)
     internal
-    view
+    pure
     returns(uint256) {
         return self.counter-1;
     }
 
     function next(LinkedListIteratorLib.Iterator memory self) 
     internal 
-    view 
+    pure 
     returns(uint256) {
         return self.pointer;
     }
@@ -70,15 +70,15 @@ library LinkedListIteratorLib {
     internal 
     view 
     returns(bool) {        
-        (bool pointerExists, uint256 next) = list.getAdjacentNext(self.pointer);
+        (bool pointerExists, uint256 nextNode) = list.getAdjacentNext(self.pointer);
 
-        if(!pointerExists || list.isHead(next)) {
+        if(!pointerExists || list.isHead(nextNode)) {
             return false;
         }
 
-        if(list.nodeExists(next)) {
+        if(list.nodeExists(nextNode)) {
             self.counter++;
-            self.pointer = next;
+            self.pointer = nextNode;
             return true;
         }
 

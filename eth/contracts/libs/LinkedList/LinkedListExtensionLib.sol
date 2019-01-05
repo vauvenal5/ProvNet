@@ -16,23 +16,16 @@ library LinkedListExtensionLib {
     bool constant PREV = false;
     bool constant NEXT = true;
 
-    // function getIterator(LinkedListLib.LinkedList storage self) 
-    // internal 
-    // pure 
-    // returns(LinkedListIteratorLib.Iterator) {
-    //     return LinkedListIteratorLib.Iterator(HEAD, self);
-    // }
-
     function getIterator(LinkedListLib.LinkedList storage) 
     internal 
     pure 
-    returns(LinkedListIteratorLib.Iterator) {
+    returns(LinkedListIteratorLib.Iterator memory) {
         return LinkedListIteratorLib.Iterator(HEAD, 0);
     }
 
-    function isHead(LinkedListLib.LinkedList storage self, uint256 node) 
+    function isHead(LinkedListLib.LinkedList storage, uint256 node) 
     public 
-    view 
+    pure 
     returns(bool) {
         return node == HEAD;
     }
@@ -43,32 +36,4 @@ library LinkedListExtensionLib {
     returns(bool, uint256) {
         return self.getAdjacent(_node, NEXT);
     }
-
-    // function getKeysArray(LinkedListLib.LinkedList storage self)
-    // public
-    // view
-    // returns(uint256[]) {
-    //     uint256[] memory res = new uint256[](self.sizeOf());
-    //     LinkedListIteratorLib.Iterator memory iterator = self.getIterator();
-        
-    //     while(iterator.hasNext(self)) {
-    //         res[iterator.getCounter()] = iterator.next();
-    //     }
-
-    //     return res;
-    // }
-
-    // function getKeysAddressArray(LinkedListLib.LinkedList storage self)
-    // public
-    // view
-    // returns(address[]) {
-    //     address[] memory res = new address[](self.sizeOf());
-    //     LinkedListIteratorLib.Iterator memory iterator = self.getIterator();
-        
-    //     while(iterator.hasNext(self)) {
-    //         res[iterator.getCounter()] = iterator.next().toAddress();
-    //     }
-
-    //     return res;
-    // }
 }

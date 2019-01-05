@@ -88,18 +88,6 @@ library ProvLinkListLib {
     public
     view
     returns(address[]) {
-        // address[] memory addresses = new address[](self.keys.sizeOf());
-        // uint256 counter = 0;
-        // LinkedListIteratorLib.Iterator memory iterator = self.getIterator();
-
-        // (bool hasNext, uint256 next) = iterator.getNext(self.keys);
-        // while(hasNext) {
-        //     addresses[counter] = next.toAddress();
-        //     counter++;
-        //     (hasNext, next) = iterator.getNext(self.keys);
-        // }
-
-        // return addresses;
         return self.keys.getKeysAddressArray();
     }
 }

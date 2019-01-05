@@ -85,24 +85,7 @@ library TagLib {
         return self.keys;
     }
 
-
-    // function getTag(TagList storage self, uint256 tagId) public view returns(uint256, string) {
-    //     return (4,"hall");
-    // }
-
     function toReturnValue(TagList storage self) public view returns(uint256[]){
-        // uint256[] memory tagIds = new uint256[](self.keys.sizeOf());
-        // uint256 counter = 0;
-        // LinkedListIteratorLib.Iterator memory iterator = self.keys.getIterator();
-        
-        // (bool hasNext, uint256 next) = iterator.getNext(self.keys);
-        // while(hasNext) {
-        //     tagIds[counter] = next;
-        //     counter++;
-        //     (hasNext, next) = iterator.getNext(self.keys);
-        // }
-
-        // return tagIds;
         return self.keys.getKeysArray();
     }
 }

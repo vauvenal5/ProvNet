@@ -79,8 +79,4 @@ library ProvLinkQueryLib {
 
         return links;
     }
-
-    /*function getHasProvenanceLinks(LinkList storage self, string _url) public view returns (address[]) {
-
-    }*/
 }

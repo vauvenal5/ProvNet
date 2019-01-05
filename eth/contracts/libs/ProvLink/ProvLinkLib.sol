@@ -17,22 +17,6 @@ library ProvLinkLib {
         mapping (string => bool) hasProvenance;
     }
 
-    // function toReturnValue(Link storage self, uint256[] contractTypes)
-    // public
-    // view
-    // returns(address, uint256[]) {
-    //     uint256[] memory types = new uint256[](contractTypes.length);
-
-    //     for(uint256 counter = 0; counter < contractTypes.length; counter++) {
-    //         uint256 contractType = contractTypes[counter];
-    //         if(self.types[contractType]) {
-    //             types[counter] = contractType;
-    //         }
-    //     }
-
-    //     return (self.provenanceContract, types);
-    // }
-
     function toReturnValue(Link storage self, TagLib.TagList storage contractTypes)
     public
     view

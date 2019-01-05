@@ -15,7 +15,7 @@ library LinkedListAdvancedExtensionLib {
     function getKeysArray(LinkedListLib.LinkedList storage self)
     public
     view
-    returns(uint256[]) {
+    returns(uint256[] memory) {
         uint256[] memory res = new uint256[](self.sizeOf());
         LinkedListIteratorLib.Iterator memory iterator = self.getIterator();
         
@@ -29,7 +29,7 @@ library LinkedListAdvancedExtensionLib {
     function getKeysAddressArray(LinkedListLib.LinkedList storage self)
     public
     view
-    returns(address[]) {
+    returns(address[] memory) {
         address[] memory res = new address[](self.sizeOf());
         LinkedListIteratorLib.Iterator memory iterator = self.getIterator();
         

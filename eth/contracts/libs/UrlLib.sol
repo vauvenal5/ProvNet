@@ -10,11 +10,6 @@ library UrlLib {
 
     event UrlAdded(uint256 key, string url);
     //todo-sv: compare this list library to the tagLis library and think of refactoring tag list into the same way... 
-    
-    // struct Url {
-    //     uint256 id;
-    //     string url;
-    // }
 
     /** 
     This rather complicated list structure allows for iterating over existing urls in views without the need to iterate when checking for existence or when creating a new entry.
@@ -40,7 +35,6 @@ library UrlLib {
             return false;
         }
         return true;
-        //return self.keys.nodeExists(self.keyMap[_url]);
     }
 
     function getUrl(UrlList storage self, uint256 _key) internal view returns (string storage) {
