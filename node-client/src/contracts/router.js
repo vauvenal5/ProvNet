@@ -29,6 +29,22 @@ router.route(Path.create().addContractVar().getPath()).get((req, res) => {
     .subscribe(data => res.json(data));
 });
 
+router.route(Path.create().addDeploy().getPath()).put((req, res) => {
+    console.log("Title is:" +  req.body.title);
+    if(req.body.title === undefined) {
+        res.status(500);
+        res.json({msg: "Title required!"});
+        return;
+    }
+
+    controller.deployContract(req.body.title).subscribe(contract => {
+        if(contract.error) {
+            res.status(500);
+        }
+        res.json(contract);
+    });
+});
+
 router.route(Path.create().addContractVar().getPath()).put((req, res) => {
     console.log(req.body);
     controller.pushProvenance(req.params[Path.getContractVar()], req.body.url, req.body.prov)
@@ -39,5 +55,7 @@ router.route(Path.create().addContractVar().getPath()).put((req, res) => {
         res.json(data);
     });
 });
+
+
 
 export default router;

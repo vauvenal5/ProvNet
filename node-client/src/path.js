@@ -36,6 +36,10 @@ export default class Path {
         return this.addPath("/search");
     }
 
+    addDeploy() {
+        return this.addPath("/deploy");
+    }
+
     static create() {
         return new Path();
     }
