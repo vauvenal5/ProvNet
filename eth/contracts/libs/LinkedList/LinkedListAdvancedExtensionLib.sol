@@ -6,6 +6,9 @@ import "./LinkedListIteratorLib.sol";
 import "./LinkedListExtensionLib.sol";
 import "../Uint256Utils.sol";
 
+/**
+    We need and ExtensionLib and an AdvancedExtensionLib because the IteratorLib builds upon the ExtensionLib and the AdvancedExtension needs the IteratorLib. Moving this function into ExtensionLib would lead to a cyclic dependency between ExtensionLib and IteratorLib.
+*/
 library LinkedListAdvancedExtensionLib {
     using LinkedListLib for LinkedListLib.LinkedList;
     using LinkedListExtensionLib for LinkedListLib.LinkedList;

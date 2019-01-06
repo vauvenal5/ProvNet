@@ -2,3 +2,5 @@
 node-client/\.keys/
 
 eval/node_modules/
+
+eth/\.env
