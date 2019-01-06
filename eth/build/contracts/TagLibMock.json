@@ -1,0 +1,866 @@
+{
+  "contractName": "TagLibMock",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "tag",
+          "type": "uint256"
+        },
+        {
+          "name": "title",
+          "type": "string"
+        }
+      ],
+      "name": "addTag",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "toReturnValue",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x608060405234801561001057600080fd5b50610583806100206000396000f30060806040526004361061004b5763ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166345590ec8811461005057806368839c4b146100b0575b600080fd5b34801561005c57600080fd5b5060408051602060046024803582810135601f81018590048502860185019096528585526100ae9583359536956044949193909101919081908401838280828437509497506101159650505050505050565b005b3480156100bc57600080fd5b506100c561012b565b60408051602080825283518183015283519192839290830191858101910280838360005b838110156101015781810151838201526020016100e9565b505050509050019250505060405180910390f35b6101276000838363ffffffff61022816565b5050565b604080517f469e038e000000000000000000000000000000000000000000000000000000008152600060048201819052915160609273__TagLib________________________________9263469e038e9260248083019392829003018186803b15801561019757600080fd5b505af41580156101ab573d6000803e3d6000fd5b505050506040513d6000823e601f3d908101601f1916820160405260208110156101d457600080fd5b8101908080516401000000008111156101ec57600080fd5b820160208101848111156101ff57600080fd5b815185602082028301116401000000008211171561021c57600080fd5b50909450505050505b90565b604080517ff593633c000000000000000000000000000000000000000000000000000000008152600481018590526024810184905290518491849173__LinkedListLib_________________________9163f593633c916044808301926020929190829003018186803b15801561029e57600080fd5b505af41580156102b2573d6000803e3d6000fd5b505050506040513d60208110156102c857600080fd5b50511561033657604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152600f60248201527f54616720646f6573206578697374210000000000000000000000000000000000604482015290519081900360640190fd5b6103488585600063ffffffff61039316565b604080518082018252858152602080820186815260008881526001808b018452949020835181559051805193949193610389939285019291909101906104bf565b5050505050505050565b6103a083600084846103a6565b50505050565b6000806103b38685610414565b1580156103c557506103c58686610414565b15610406575060008481526020868152604080832085151584529091529020546103f18686868661048e565b6103fd8685838661048e565b6001915061040b565b600091505b50949350505050565b60008181526020838152604080832083805290915281205415801561044f575060008281526020848152604080832060018452909152902054155b15610484576000808052602084815260408083206001845290915290205482141561047c57506001610488565b506000610488565b5060015b92915050565b6000828152602085815260408083209315808452938252808320869055948252948552838120911581529352912055565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061050057805160ff191683800117855561052d565b8280016001018555821561052d579182015b8281111561052d578251825591602001919060010190610512565b5061053992915061053d565b5090565b61022591905b8082111561053957600081556001016105435600a165627a7a72305820c58b1b331bc3a05579163bfdf8584cbe937e9766510d8f1066f87e29319a31e00029",
+  "deployedBytecode": "0x60806040526004361061004b5763ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166345590ec8811461005057806368839c4b146100b0575b600080fd5b34801561005c57600080fd5b5060408051602060046024803582810135601f81018590048502860185019096528585526100ae9583359536956044949193909101919081908401838280828437509497506101159650505050505050565b005b3480156100bc57600080fd5b506100c561012b565b60408051602080825283518183015283519192839290830191858101910280838360005b838110156101015781810151838201526020016100e9565b505050509050019250505060405180910390f35b6101276000838363ffffffff61022816565b5050565b604080517f469e038e000000000000000000000000000000000000000000000000000000008152600060048201819052915160609273__TagLib________________________________9263469e038e9260248083019392829003018186803b15801561019757600080fd5b505af41580156101ab573d6000803e3d6000fd5b505050506040513d6000823e601f3d908101601f1916820160405260208110156101d457600080fd5b8101908080516401000000008111156101ec57600080fd5b820160208101848111156101ff57600080fd5b815185602082028301116401000000008211171561021c57600080fd5b50909450505050505b90565b604080517ff593633c000000000000000000000000000000000000000000000000000000008152600481018590526024810184905290518491849173__LinkedListLib_________________________9163f593633c916044808301926020929190829003018186803b15801561029e57600080fd5b505af41580156102b2573d6000803e3d6000fd5b505050506040513d60208110156102c857600080fd5b50511561033657604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152600f60248201527f54616720646f6573206578697374210000000000000000000000000000000000604482015290519081900360640190fd5b6103488585600063ffffffff61039316565b604080518082018252858152602080820186815260008881526001808b018452949020835181559051805193949193610389939285019291909101906104bf565b5050505050505050565b6103a083600084846103a6565b50505050565b6000806103b38685610414565b1580156103c557506103c58686610414565b15610406575060008481526020868152604080832085151584529091529020546103f18686868661048e565b6103fd8685838661048e565b6001915061040b565b600091505b50949350505050565b60008181526020838152604080832083805290915281205415801561044f575060008281526020848152604080832060018452909152902054155b15610484576000808052602084815260408083206001845290915290205482141561047c57506001610488565b506000610488565b5060015b92915050565b6000828152602085815260408083209315808452938252808320869055948252948552838120911581529352912055565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061050057805160ff191683800117855561052d565b8280016001018555821561052d579182015b8281111561052d578251825591602001919060010190610512565b5061053992915061053d565b5090565b61022591905b8082111561053957600081556001016105435600a165627a7a72305820c58b1b331bc3a05579163bfdf8584cbe937e9766510d8f1066f87e29319a31e00029",
+  "sourceMap": "56:321:21:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;56:321:21;;;;;;;",
+  "deployedSourceMap": "56:321:21:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;157:97;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;157:97:21;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;157:97:21;;-1:-1:-1;157:97:21;;-1:-1:-1;;;;;;;157:97:21;;;260:115;;8:9:-1;5:2;;;30:1;27;20:12;5:2;260:115:21;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:100:-1;33:3;30:1;27:10;8:100;;;90:11;;;84:18;71:11;;;64:39;52:2;45:10;8:100;;;12:14;260:115:21;;;;;;;;;;;;;;;;;157:97;221:26;:7;236:3;241:5;221:26;:14;:26;:::i;:::-;157:97;;:::o;260:115::-;345:23;;;;;;:7;:23;;;;;;;;317:9;;345:21;;;;:23;;;;;:7;:23;;;;;:21;:23;;;5:2:-1;;;;30:1;27;20:12;5:2;345:23:21;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;345:23:21;;;;;;39:16:-1;36:1;17:17;2:54;101:4;345:23:21;80:15:-1;;;-1:-1;;76:31;65:43;;120:4;113:20;13:2;5:11;;2:2;;;29:1;26;19:12;2:2;345:23:21;;;;;;20:11:-1;15:3;12:20;9:2;;;45:1;42;35:12;9:2;64:21;;126:4;117:14;;142:31;;;139:2;;;186:1;183;176:12;139:2;224:3;218:10;339:9;333:2;319:12;315:21;297:16;293:44;290:59;268:11;254:12;251:29;239:119;236:2;;;371:1;368;361:12;236:2;-1:-1;345:23:21;;-1:-1:-1;;;;;260:115:21;;:::o;1162:191:14:-;984:25;;;;;;;;;;;;;;;;;;;;1257:4;;1263:3;;984:20;;;;:25;;;;;;;;;;;;;;:20;:25;;;5:2:-1;;;;30:1;27;20:12;5:2;984:25:14;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;984:25:14;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;984:25:14;983:26;975:54;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1278:26;:4;1293:3;1298:5;1278:26;:14;:26;:::i;:::-;1331:15;;;;;;;;;;;;;;;;;;-1:-1:-1;1314:14:14;;;:9;;;;:14;;;;;:32;;;;;;;;1331:15;;1314:14;;:32;;;;;;;;;;;;:::i;:::-;-1:-1:-1;;;;;;;;1162:191:14:o;6993:135:23:-;7084:37;7091:4;1722:1;7103:5;7110:10;7084:6;:37::i;:::-;;6993:135;;;:::o;5837:419::-;5942:4;6025:9;5962:21;5973:4;5978;5962:10;:21::i;:::-;5961:22;:48;;;;;5987:22;5998:4;6003:5;5987:10;:22::i;:::-;5958:292;;;-1:-1:-1;6037:9:23;:16;;;;;;;;;;;:28;;;;;;;;;;;6079:41;6037:4;6047:5;6103:4;6054:10;6079;:41::i;:::-;6134:37;6145:4;6151;6157:1;6160:10;6134;:37::i;:::-;6192:4;6185:11;;;;5958:292;6234:5;6227:12;;5958:292;5837:419;;;;;;;:::o;2496:390::-;2593:4;2617:16;;;;;;;;;;;:22;;;;;;;;;:30;:64;;;;-1:-1:-1;1722:1:23;2651:16;;;;;;;;;;;1782:4;2651:22;;;;;;;;:30;2617:64;2613:267;;;2701:9;:15;;;;;;;;;;;1782:4;2701:21;;;;;;;;:30;;2697:131;;;-1:-1:-1;2758:4:23;2751:11;;2697:131;-1:-1:-1;2808:5:23;2801:12;;2613:267;-1:-1:-1;2865:4:23;2613:267;2496:390;;;;:::o;5360:201::-;5471:9;:16;;;;;;;;;;;5488:11;;5471:29;;;;;;;;;:37;;;5518:16;;;;;;;;;5471:29;;5518:28;;;;;;:36;5360:201::o;56:321:21:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;56:321:21;;;-1:-1:-1;56:321:21;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;",
+  "source": "pragma solidity ^0.4.24;\n\nimport \"../libs/TagLib.sol\";\n\ncontract TagLibMock {\n    using TagLib for TagLib.TagList;\n\n    TagLib.TagList private tagList;\n\n    function addTag(uint256 tag, string title)\n    public {\n        tagList.addTag(tag, title);\n    }\n\n    function toReturnValue()\n    public\n    view\n    returns(uint256[]) {\n        return tagList.toReturnValue();\n    }\n}",
+  "sourcePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/mocks/TagLibMock.sol",
+  "ast": {
+    "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/mocks/TagLibMock.sol",
+    "exportedSymbols": {
+      "TagLibMock": [
+        3034
+      ]
+    },
+    "id": 3035,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 3001,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:21"
+      },
+      {
+        "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/libs/TagLib.sol",
+        "file": "../libs/TagLib.sol",
+        "id": 3002,
+        "nodeType": "ImportDirective",
+        "scope": 3035,
+        "sourceUnit": 2551,
+        "src": "26:28:21",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 3034,
+        "linearizedBaseContracts": [
+          3034
+        ],
+        "name": "TagLibMock",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "id": 3005,
+            "libraryName": {
+              "contractScope": null,
+              "id": 3003,
+              "name": "TagLib",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 2550,
+              "src": "88:6:21",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_TagLib_$2550",
+                "typeString": "library TagLib"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "82:32:21",
+            "typeName": {
+              "contractScope": null,
+              "id": 3004,
+              "name": "TagLib.TagList",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 2321,
+              "src": "99:14:21",
+              "typeDescriptions": {
+                "typeIdentifier": "t_struct$_TagList_$2321_storage_ptr",
+                "typeString": "struct TagLib.TagList"
+              }
+            }
+          },
+          {
+            "constant": false,
+            "id": 3007,
+            "name": "tagList",
+            "nodeType": "VariableDeclaration",
+            "scope": 3034,
+            "src": "120:30:21",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_struct$_TagList_$2321_storage",
+              "typeString": "struct TagLib.TagList"
+            },
+            "typeName": {
+              "contractScope": null,
+              "id": 3006,
+              "name": "TagLib.TagList",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 2321,
+              "src": "120:14:21",
+              "typeDescriptions": {
+                "typeIdentifier": "t_struct$_TagList_$2321_storage_ptr",
+                "typeString": "struct TagLib.TagList"
+              }
+            },
+            "value": null,
+            "visibility": "private"
+          },
+          {
+            "body": {
+              "id": 3021,
+              "nodeType": "Block",
+              "src": "211:43:21",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 3017,
+                        "name": "tag",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3009,
+                        "src": "236:3:21",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 3018,
+                        "name": "title",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3011,
+                        "src": "241:5:21",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 3014,
+                        "name": "tagList",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3007,
+                        "src": "221:7:21",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_TagList_$2321_storage",
+                          "typeString": "struct TagLib.TagList storage ref"
+                        }
+                      },
+                      "id": 3016,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "addTag",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 2407,
+                      "src": "221:14:21",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_TagList_$2321_storage_ptr_$_t_uint256_$_t_string_memory_ptr_$returns$__$bound_to$_t_struct$_TagList_$2321_storage_ptr_$",
+                        "typeString": "function (struct TagLib.TagList storage pointer,uint256,string memory)"
+                      }
+                    },
+                    "id": 3019,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "221:26:21",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 3020,
+                  "nodeType": "ExpressionStatement",
+                  "src": "221:26:21"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 3022,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "addTag",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 3012,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3009,
+                  "name": "tag",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3022,
+                  "src": "173:11:21",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 3008,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "173:7:21",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3011,
+                  "name": "title",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3022,
+                  "src": "186:12:21",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 3010,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "186:6:21",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "172:27:21"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 3013,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "211:0:21"
+            },
+            "scope": 3034,
+            "src": "157:97:21",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 3032,
+              "nodeType": "Block",
+              "src": "328:47:21",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 3028,
+                        "name": "tagList",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3007,
+                        "src": "345:7:21",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_TagList_$2321_storage",
+                          "typeString": "struct TagLib.TagList storage ref"
+                        }
+                      },
+                      "id": 3029,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "toReturnValue",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 2549,
+                      "src": "345:21:21",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_delegatecall_view$_t_struct$_TagList_$2321_storage_ptr_$returns$_t_array$_t_uint256_$dyn_memory_ptr_$bound_to$_t_struct$_TagList_$2321_storage_ptr_$",
+                        "typeString": "function (struct TagLib.TagList storage pointer) view returns (uint256[] memory)"
+                      }
+                    },
+                    "id": 3030,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "345:23:21",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
+                      "typeString": "uint256[] memory"
+                    }
+                  },
+                  "functionReturnParameters": 3027,
+                  "id": 3031,
+                  "nodeType": "Return",
+                  "src": "338:30:21"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 3033,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "toReturnValue",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 3023,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "282:2:21"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 3027,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3026,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3033,
+                  "src": "317:9:21",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
+                    "typeString": "uint256[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 3024,
+                      "name": "uint256",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "317:7:21",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 3025,
+                    "length": null,
+                    "nodeType": "ArrayTypeName",
+                    "src": "317:9:21",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                      "typeString": "uint256[]"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "316:11:21"
+            },
+            "scope": 3034,
+            "src": "260:115:21",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 3035,
+        "src": "56:321:21"
+      }
+    ],
+    "src": "0:377:21"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/mocks/TagLibMock.sol",
+    "exportedSymbols": {
+      "TagLibMock": [
+        3034
+      ]
+    },
+    "id": 3035,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 3001,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:21"
+      },
+      {
+        "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/libs/TagLib.sol",
+        "file": "../libs/TagLib.sol",
+        "id": 3002,
+        "nodeType": "ImportDirective",
+        "scope": 3035,
+        "sourceUnit": 2551,
+        "src": "26:28:21",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 3034,
+        "linearizedBaseContracts": [
+          3034
+        ],
+        "name": "TagLibMock",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "id": 3005,
+            "libraryName": {
+              "contractScope": null,
+              "id": 3003,
+              "name": "TagLib",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 2550,
+              "src": "88:6:21",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_TagLib_$2550",
+                "typeString": "library TagLib"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "82:32:21",
+            "typeName": {
+              "contractScope": null,
+              "id": 3004,
+              "name": "TagLib.TagList",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 2321,
+              "src": "99:14:21",
+              "typeDescriptions": {
+                "typeIdentifier": "t_struct$_TagList_$2321_storage_ptr",
+                "typeString": "struct TagLib.TagList"
+              }
+            }
+          },
+          {
+            "constant": false,
+            "id": 3007,
+            "name": "tagList",
+            "nodeType": "VariableDeclaration",
+            "scope": 3034,
+            "src": "120:30:21",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_struct$_TagList_$2321_storage",
+              "typeString": "struct TagLib.TagList"
+            },
+            "typeName": {
+              "contractScope": null,
+              "id": 3006,
+              "name": "TagLib.TagList",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 2321,
+              "src": "120:14:21",
+              "typeDescriptions": {
+                "typeIdentifier": "t_struct$_TagList_$2321_storage_ptr",
+                "typeString": "struct TagLib.TagList"
+              }
+            },
+            "value": null,
+            "visibility": "private"
+          },
+          {
+            "body": {
+              "id": 3021,
+              "nodeType": "Block",
+              "src": "211:43:21",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 3017,
+                        "name": "tag",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3009,
+                        "src": "236:3:21",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 3018,
+                        "name": "title",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3011,
+                        "src": "241:5:21",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 3014,
+                        "name": "tagList",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3007,
+                        "src": "221:7:21",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_TagList_$2321_storage",
+                          "typeString": "struct TagLib.TagList storage ref"
+                        }
+                      },
+                      "id": 3016,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "addTag",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 2407,
+                      "src": "221:14:21",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_TagList_$2321_storage_ptr_$_t_uint256_$_t_string_memory_ptr_$returns$__$bound_to$_t_struct$_TagList_$2321_storage_ptr_$",
+                        "typeString": "function (struct TagLib.TagList storage pointer,uint256,string memory)"
+                      }
+                    },
+                    "id": 3019,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "221:26:21",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 3020,
+                  "nodeType": "ExpressionStatement",
+                  "src": "221:26:21"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 3022,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "addTag",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 3012,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3009,
+                  "name": "tag",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3022,
+                  "src": "173:11:21",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 3008,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "173:7:21",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 3011,
+                  "name": "title",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3022,
+                  "src": "186:12:21",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 3010,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "186:6:21",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "172:27:21"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 3013,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "211:0:21"
+            },
+            "scope": 3034,
+            "src": "157:97:21",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 3032,
+              "nodeType": "Block",
+              "src": "328:47:21",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 3028,
+                        "name": "tagList",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 3007,
+                        "src": "345:7:21",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_TagList_$2321_storage",
+                          "typeString": "struct TagLib.TagList storage ref"
+                        }
+                      },
+                      "id": 3029,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "toReturnValue",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 2549,
+                      "src": "345:21:21",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_delegatecall_view$_t_struct$_TagList_$2321_storage_ptr_$returns$_t_array$_t_uint256_$dyn_memory_ptr_$bound_to$_t_struct$_TagList_$2321_storage_ptr_$",
+                        "typeString": "function (struct TagLib.TagList storage pointer) view returns (uint256[] memory)"
+                      }
+                    },
+                    "id": 3030,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "345:23:21",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
+                      "typeString": "uint256[] memory"
+                    }
+                  },
+                  "functionReturnParameters": 3027,
+                  "id": 3031,
+                  "nodeType": "Return",
+                  "src": "338:30:21"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 3033,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "toReturnValue",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 3023,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "282:2:21"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 3027,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3026,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3033,
+                  "src": "317:9:21",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
+                    "typeString": "uint256[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 3024,
+                      "name": "uint256",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "317:7:21",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 3025,
+                    "length": null,
+                    "nodeType": "ArrayTypeName",
+                    "src": "317:9:21",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                      "typeString": "uint256[]"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "316:11:21"
+            },
+            "scope": 3034,
+            "src": "260:115:21",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 3035,
+        "src": "56:321:21"
+      }
+    ],
+    "src": "0:377:21"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "2.0.1",
+  "updatedAt": "2019-01-05T22:33:14.352Z"
+}

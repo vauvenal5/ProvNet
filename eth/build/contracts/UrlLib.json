@@ -1,0 +1,3189 @@
+{
+  "contractName": "UrlLib",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "key",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "url",
+          "type": "string"
+        }
+      ],
+      "name": "UrlAdded",
+      "type": "event"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "UrlLib.UrlList storage"
+        }
+      ],
+      "name": "toReturnValue",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x6101e6610030600b82828239805160001a6073146000811461002057610022565bfe5b5030600052607381538281f30073000000000000000000000000000000000000000030146080604052600436106100575763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663c3f82555811461005c575b600080fd5b6100676004356100b7565b60408051602080825283518183015283519192839290830191858101910280838360005b838110156100a357818101518382015260200161008b565b505050509050019250505060405180910390f35b60608160000173__LinkedListAdvancedExtensionLib________631bca78ab90916040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060006040518083038186803b15801561012957600080fd5b505af415801561013d573d6000803e3d6000fd5b505050506040513d6000823e601f3d908101601f19168201604052602081101561016657600080fd5b81019080805164010000000081111561017e57600080fd5b8201602081018481111561019157600080fd5b81518560208202830111640100000000821117156101ae57600080fd5b509096955050505050505600a165627a7a723058205c92bfbb7e8df803e8b7cc907834f4ad62c3c4dbb79b04865612c185c68d7f470029",
+  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600436106100575763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663c3f82555811461005c575b600080fd5b6100676004356100b7565b60408051602080825283518183015283519192839290830191858101910280838360005b838110156100a357818101518382015260200161008b565b505050509050019250505060405180910390f35b60608160000173__LinkedListAdvancedExtensionLib________631bca78ab90916040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018082815260200191505060006040518083038186803b15801561012957600080fd5b505af415801561013d573d6000803e3d6000fd5b505050506040513d6000823e601f3d908101601f19168201604052602081101561016657600080fd5b81019080805164010000000081111561017e57600080fd5b8201602081018481111561019157600080fd5b81518560208202830111640100000000821117156101ae57600080fd5b509096955050505050505600a165627a7a723058205c92bfbb7e8df803e8b7cc907834f4ad62c3c4dbb79b04865612c185c68d7f470029",
+  "sourceMap": "173:1479:16:-;;132:2:-1;166:7;155:9;146:7;137:37;252:7;246:14;243:1;238:23;232:4;229:33;270:1;265:20;;;;222:63;;265:20;274:9;222:63;;298:9;295:1;288:20;328:4;319:7;311:22;352:7;343;336:24",
+  "deployedSourceMap": "173:1479:16:-;;;;;;;;;;;;;;;;;;;;;;;;;;1527:123;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:100:-1;33:3;30:1;27:10;8:100;;;90:11;;;84:18;71:11;;;64:39;52:2;45:10;8:100;;;12:14;1527:123:16;;;;;;;;;;;;;;;;;;1592:9;1619:4;:9;;:22;;;;:24;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1619:24:16;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;1619:24:16;;;;;;39:16:-1;36:1;17:17;2:54;101:4;1619:24:16;80:15:-1;;;-1:-1;;76:31;65:43;;120:4;113:20;13:2;5:11;;2:2;;;29:1;26;19:12;2:2;1619:24:16;;;;;;20:11:-1;15:3;12:20;9:2;;;45:1;42;35:12;9:2;64:21;;126:4;117:14;;142:31;;;139:2;;;186:1;183;176:12;139:2;224:3;218:10;339:9;333:2;319:12;315:21;297:16;293:44;290:59;268:11;254:12;251:29;239:119;236:2;;;371:1;368;361:12;236:2;-1:-1;1619:24:16;;1527:123;-1:-1:-1;;;;;;1527:123:16:o",
+  "source": "pragma solidity ^0.4.24;\n\nimport \"../../node_modules/ethereum-libraries-linked-list/contracts/LinkedListLib.sol\";\nimport \"./LinkedList/LinkedListAdvancedExtensionLib.sol\";\n\nlibrary UrlLib {\n    using UrlLib for UrlLib.UrlList;\n    using LinkedListLib for LinkedListLib.LinkedList;\n    using LinkedListAdvancedExtensionLib for LinkedListLib.LinkedList;\n\n    event UrlAdded(uint256 key, string url);\n    //todo-sv: compare this list library to the tagLis library and think of refactoring tag list into the same way... \n\n    /** \n    This rather complicated list structure allows for iterating over existing urls in views without the need to iterate when checking for existence or when creating a new entry.\n    */\n    struct UrlList {\n        LinkedListLib.LinkedList keys;\n        //mapping (uint256 => Url) urls;\n        mapping (uint256 => string) urls;\n        mapping (string => uint256) keyMap;\n        uint256 keyCount;\n    }\n\n    function add(UrlList storage self, string _url) internal {\n        self.keyCount++;\n        self.keys.push(self.keyCount, false);\n        self.urls[self.keyCount] = _url;\n        self.keyMap[_url] = self.keyCount;\n        emit UrlAdded(self.keyCount, _url);\n    }\n\n    function hasUrl(UrlList storage self, string _url) internal view returns(bool) {\n        if(self.keyMap[_url] == 0) {\n            return false;\n        }\n        return true;\n    }\n\n    function getUrl(UrlList storage self, uint256 _key) internal view returns (string storage) {\n        return self.urls[_key];\n    }\n\n    function toReturnValue(UrlList storage self) public view returns(uint256[]){\n        return self.keys.getKeysArray();\n    }\n}",
+  "sourcePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/libs/UrlLib.sol",
+  "ast": {
+    "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/libs/UrlLib.sol",
+    "exportedSymbols": {
+      "UrlLib": [
+        2696
+      ]
+    },
+    "id": 2697,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 2567,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:16"
+      },
+      {
+        "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/node_modules/ethereum-libraries-linked-list/contracts/LinkedListLib.sol",
+        "file": "../../node_modules/ethereum-libraries-linked-list/contracts/LinkedListLib.sol",
+        "id": 2568,
+        "nodeType": "ImportDirective",
+        "scope": 2697,
+        "sourceUnit": 3550,
+        "src": "26:87:16",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/libs/LinkedList/LinkedListAdvancedExtensionLib.sol",
+        "file": "./LinkedList/LinkedListAdvancedExtensionLib.sol",
+        "id": 2569,
+        "nodeType": "ImportDirective",
+        "scope": 2697,
+        "sourceUnit": 1233,
+        "src": "114:57:16",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "library",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 2696,
+        "linearizedBaseContracts": [
+          2696
+        ],
+        "name": "UrlLib",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "id": 2572,
+            "libraryName": {
+              "contractScope": null,
+              "id": 2570,
+              "name": "UrlLib",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 2696,
+              "src": "200:6:16",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_UrlLib_$2696",
+                "typeString": "library UrlLib"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "194:32:16",
+            "typeName": {
+              "contractScope": null,
+              "id": 2571,
+              "name": "UrlLib.UrlList",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 2597,
+              "src": "211:14:16",
+              "typeDescriptions": {
+                "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                "typeString": "struct UrlLib.UrlList"
+              }
+            }
+          },
+          {
+            "id": 2575,
+            "libraryName": {
+              "contractScope": null,
+              "id": 2573,
+              "name": "LinkedListLib",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 3549,
+              "src": "237:13:16",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_LinkedListLib_$3549",
+                "typeString": "library LinkedListLib"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "231:49:16",
+            "typeName": {
+              "contractScope": null,
+              "id": 2574,
+              "name": "LinkedListLib.LinkedList",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 3074,
+              "src": "255:24:16",
+              "typeDescriptions": {
+                "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                "typeString": "struct LinkedListLib.LinkedList"
+              }
+            }
+          },
+          {
+            "id": 2578,
+            "libraryName": {
+              "contractScope": null,
+              "id": 2576,
+              "name": "LinkedListAdvancedExtensionLib",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1232,
+              "src": "291:30:16",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_LinkedListAdvancedExtensionLib_$1232",
+                "typeString": "library LinkedListAdvancedExtensionLib"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "285:66:16",
+            "typeName": {
+              "contractScope": null,
+              "id": 2577,
+              "name": "LinkedListLib.LinkedList",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 3074,
+              "src": "326:24:16",
+              "typeDescriptions": {
+                "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                "typeString": "struct LinkedListLib.LinkedList"
+              }
+            }
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 2584,
+            "name": "UrlAdded",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 2583,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2580,
+                  "indexed": false,
+                  "name": "key",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2584,
+                  "src": "372:11:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 2579,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "372:7:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2582,
+                  "indexed": false,
+                  "name": "url",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2584,
+                  "src": "385:10:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 2581,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "385:6:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "371:25:16"
+            },
+            "src": "357:40:16"
+          },
+          {
+            "canonicalName": "UrlLib.UrlList",
+            "id": 2597,
+            "members": [
+              {
+                "constant": false,
+                "id": 2586,
+                "name": "keys",
+                "nodeType": "VariableDeclaration",
+                "scope": 2597,
+                "src": "741:29:16",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                  "typeString": "struct LinkedListLib.LinkedList"
+                },
+                "typeName": {
+                  "contractScope": null,
+                  "id": 2585,
+                  "name": "LinkedListLib.LinkedList",
+                  "nodeType": "UserDefinedTypeName",
+                  "referencedDeclaration": 3074,
+                  "src": "741:24:16",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                    "typeString": "struct LinkedListLib.LinkedList"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2590,
+                "name": "urls",
+                "nodeType": "VariableDeclaration",
+                "scope": 2597,
+                "src": "821:32:16",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_mapping$_t_uint256_$_t_string_storage_$",
+                  "typeString": "mapping(uint256 => string)"
+                },
+                "typeName": {
+                  "id": 2589,
+                  "keyType": {
+                    "id": 2587,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "830:7:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "nodeType": "Mapping",
+                  "src": "821:27:16",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_mapping$_t_uint256_$_t_string_storage_$",
+                    "typeString": "mapping(uint256 => string)"
+                  },
+                  "valueType": {
+                    "id": 2588,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "841:6:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2594,
+                "name": "keyMap",
+                "nodeType": "VariableDeclaration",
+                "scope": 2597,
+                "src": "863:34:16",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_mapping$_t_string_memory_$_t_uint256_$",
+                  "typeString": "mapping(string => uint256)"
+                },
+                "typeName": {
+                  "id": 2593,
+                  "keyType": {
+                    "id": 2591,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "872:6:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "nodeType": "Mapping",
+                  "src": "863:27:16",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_mapping$_t_string_memory_$_t_uint256_$",
+                    "typeString": "mapping(string => uint256)"
+                  },
+                  "valueType": {
+                    "id": 2592,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "882:7:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2596,
+                "name": "keyCount",
+                "nodeType": "VariableDeclaration",
+                "scope": 2597,
+                "src": "907:16:16",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 2595,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "907:7:16",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "UrlList",
+            "nodeType": "StructDefinition",
+            "scope": 2696,
+            "src": "716:214:16",
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 2643,
+              "nodeType": "Block",
+              "src": "993:206:16",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 2607,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "UnaryOperation",
+                    "operator": "++",
+                    "prefix": false,
+                    "src": "1003:15:16",
+                    "subExpression": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 2604,
+                        "name": "self",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 2599,
+                        "src": "1003:4:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                          "typeString": "struct UrlLib.UrlList storage pointer"
+                        }
+                      },
+                      "id": 2606,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "memberName": "keyCount",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 2596,
+                      "src": "1003:13:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 2608,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1003:15:16"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 2614,
+                          "name": "self",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 2599,
+                          "src": "1043:4:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                            "typeString": "struct UrlLib.UrlList storage pointer"
+                          }
+                        },
+                        "id": 2615,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "keyCount",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 2596,
+                        "src": "1043:13:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "66616c7365",
+                        "id": 2616,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "bool",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "1058:5:16",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        },
+                        "value": "false"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 2609,
+                          "name": "self",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 2599,
+                          "src": "1028:4:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                            "typeString": "struct UrlLib.UrlList storage pointer"
+                          }
+                        },
+                        "id": 2612,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "keys",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 2586,
+                        "src": "1028:9:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_LinkedList_$3074_storage",
+                          "typeString": "struct LinkedListLib.LinkedList storage ref"
+                        }
+                      },
+                      "id": 2613,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "push",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 3517,
+                      "src": "1028:14:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_LinkedList_$3074_storage_ptr_$_t_uint256_$_t_bool_$returns$__$bound_to$_t_struct$_LinkedList_$3074_storage_ptr_$",
+                        "typeString": "function (struct LinkedListLib.LinkedList storage pointer,uint256,bool)"
+                      }
+                    },
+                    "id": 2617,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1028:36:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 2618,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1028:36:16"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 2626,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "baseExpression": {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 2619,
+                          "name": "self",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 2599,
+                          "src": "1074:4:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                            "typeString": "struct UrlLib.UrlList storage pointer"
+                          }
+                        },
+                        "id": 2623,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "urls",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 2590,
+                        "src": "1074:9:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_uint256_$_t_string_storage_$",
+                          "typeString": "mapping(uint256 => string storage ref)"
+                        }
+                      },
+                      "id": 2624,
+                      "indexExpression": {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 2621,
+                          "name": "self",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 2599,
+                          "src": "1084:4:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                            "typeString": "struct UrlLib.UrlList storage pointer"
+                          }
+                        },
+                        "id": 2622,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "keyCount",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 2596,
+                        "src": "1084:13:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "nodeType": "IndexAccess",
+                      "src": "1074:24:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_string_storage",
+                        "typeString": "string storage ref"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 2625,
+                      "name": "_url",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 2601,
+                      "src": "1101:4:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_string_memory_ptr",
+                        "typeString": "string memory"
+                      }
+                    },
+                    "src": "1074:31:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage",
+                      "typeString": "string storage ref"
+                    }
+                  },
+                  "id": 2627,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1074:31:16"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 2635,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "baseExpression": {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 2628,
+                          "name": "self",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 2599,
+                          "src": "1115:4:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                            "typeString": "struct UrlLib.UrlList storage pointer"
+                          }
+                        },
+                        "id": 2631,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "keyMap",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 2594,
+                        "src": "1115:11:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_string_memory_$_t_uint256_$",
+                          "typeString": "mapping(string memory => uint256)"
+                        }
+                      },
+                      "id": 2632,
+                      "indexExpression": {
+                        "argumentTypes": null,
+                        "id": 2630,
+                        "name": "_url",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 2601,
+                        "src": "1127:4:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "nodeType": "IndexAccess",
+                      "src": "1115:17:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 2633,
+                        "name": "self",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 2599,
+                        "src": "1135:4:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                          "typeString": "struct UrlLib.UrlList storage pointer"
+                        }
+                      },
+                      "id": 2634,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "keyCount",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 2596,
+                      "src": "1135:13:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "1115:33:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 2636,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1115:33:16"
+                },
+                {
+                  "eventCall": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 2638,
+                          "name": "self",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 2599,
+                          "src": "1172:4:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                            "typeString": "struct UrlLib.UrlList storage pointer"
+                          }
+                        },
+                        "id": 2639,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "keyCount",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 2596,
+                        "src": "1172:13:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 2640,
+                        "name": "_url",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 2601,
+                        "src": "1187:4:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      ],
+                      "id": 2637,
+                      "name": "UrlAdded",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 2584,
+                      "src": "1163:8:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_event_nonpayable$_t_uint256_$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (uint256,string memory)"
+                      }
+                    },
+                    "id": 2641,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1163:29:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 2642,
+                  "nodeType": "EmitStatement",
+                  "src": "1158:34:16"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 2644,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "add",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2602,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2599,
+                  "name": "self",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2644,
+                  "src": "949:20:16",
+                  "stateVariable": false,
+                  "storageLocation": "storage",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                    "typeString": "struct UrlLib.UrlList"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 2598,
+                    "name": "UrlList",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 2597,
+                    "src": "949:7:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                      "typeString": "struct UrlLib.UrlList"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2601,
+                  "name": "_url",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2644,
+                  "src": "971:11:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 2600,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "971:6:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "948:35:16"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 2603,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "993:0:16"
+            },
+            "scope": 2696,
+            "src": "936:263:16",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 2665,
+              "nodeType": "Block",
+              "src": "1284:101:16",
+              "statements": [
+                {
+                  "condition": {
+                    "argumentTypes": null,
+                    "commonType": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    },
+                    "id": 2658,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "argumentTypes": null,
+                      "baseExpression": {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 2653,
+                          "name": "self",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 2646,
+                          "src": "1297:4:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                            "typeString": "struct UrlLib.UrlList storage pointer"
+                          }
+                        },
+                        "id": 2654,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "keyMap",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 2594,
+                        "src": "1297:11:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_string_memory_$_t_uint256_$",
+                          "typeString": "mapping(string memory => uint256)"
+                        }
+                      },
+                      "id": 2656,
+                      "indexExpression": {
+                        "argumentTypes": null,
+                        "id": 2655,
+                        "name": "_url",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 2648,
+                        "src": "1309:4:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "nodeType": "IndexAccess",
+                      "src": "1297:17:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "==",
+                    "rightExpression": {
+                      "argumentTypes": null,
+                      "hexValue": "30",
+                      "id": 2657,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "number",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "1318:1:16",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_rational_0_by_1",
+                        "typeString": "int_const 0"
+                      },
+                      "value": "0"
+                    },
+                    "src": "1297:22:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "falseBody": null,
+                  "id": 2662,
+                  "nodeType": "IfStatement",
+                  "src": "1294:64:16",
+                  "trueBody": {
+                    "id": 2661,
+                    "nodeType": "Block",
+                    "src": "1321:37:16",
+                    "statements": [
+                      {
+                        "expression": {
+                          "argumentTypes": null,
+                          "hexValue": "66616c7365",
+                          "id": 2659,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "bool",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "1342:5:16",
+                          "subdenomination": null,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bool",
+                            "typeString": "bool"
+                          },
+                          "value": "false"
+                        },
+                        "functionReturnParameters": 2652,
+                        "id": 2660,
+                        "nodeType": "Return",
+                        "src": "1335:12:16"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "hexValue": "74727565",
+                    "id": 2663,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "bool",
+                    "lValueRequested": false,
+                    "nodeType": "Literal",
+                    "src": "1374:4:16",
+                    "subdenomination": null,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    },
+                    "value": "true"
+                  },
+                  "functionReturnParameters": 2652,
+                  "id": 2664,
+                  "nodeType": "Return",
+                  "src": "1367:11:16"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 2666,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "hasUrl",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2649,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2646,
+                  "name": "self",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2666,
+                  "src": "1221:20:16",
+                  "stateVariable": false,
+                  "storageLocation": "storage",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                    "typeString": "struct UrlLib.UrlList"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 2645,
+                    "name": "UrlList",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 2597,
+                    "src": "1221:7:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                      "typeString": "struct UrlLib.UrlList"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2648,
+                  "name": "_url",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2666,
+                  "src": "1243:11:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 2647,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1243:6:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1220:35:16"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 2652,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2651,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2666,
+                  "src": "1278:4:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 2650,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1278:4:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1277:6:16"
+            },
+            "scope": 2696,
+            "src": "1205:180:16",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 2680,
+              "nodeType": "Block",
+              "src": "1482:39:16",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "baseExpression": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 2675,
+                        "name": "self",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 2668,
+                        "src": "1499:4:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                          "typeString": "struct UrlLib.UrlList storage pointer"
+                        }
+                      },
+                      "id": 2676,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "urls",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 2590,
+                      "src": "1499:9:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_mapping$_t_uint256_$_t_string_storage_$",
+                        "typeString": "mapping(uint256 => string storage ref)"
+                      }
+                    },
+                    "id": 2678,
+                    "indexExpression": {
+                      "argumentTypes": null,
+                      "id": 2677,
+                      "name": "_key",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 2670,
+                      "src": "1509:4:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "isConstant": false,
+                    "isLValue": true,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "IndexAccess",
+                    "src": "1499:15:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage",
+                      "typeString": "string storage ref"
+                    }
+                  },
+                  "functionReturnParameters": 2674,
+                  "id": 2679,
+                  "nodeType": "Return",
+                  "src": "1492:22:16"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 2681,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getUrl",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2671,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2668,
+                  "name": "self",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2681,
+                  "src": "1407:20:16",
+                  "stateVariable": false,
+                  "storageLocation": "storage",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                    "typeString": "struct UrlLib.UrlList"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 2667,
+                    "name": "UrlList",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 2597,
+                    "src": "1407:7:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                      "typeString": "struct UrlLib.UrlList"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2670,
+                  "name": "_key",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2681,
+                  "src": "1429:12:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 2669,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1429:7:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1406:36:16"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 2674,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2673,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2681,
+                  "src": "1466:6:16",
+                  "stateVariable": false,
+                  "storageLocation": "storage",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 2672,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1466:6:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1465:16:16"
+            },
+            "scope": 2696,
+            "src": "1391:130:16",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 2694,
+              "nodeType": "Block",
+              "src": "1602:48:16",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 2689,
+                          "name": "self",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 2683,
+                          "src": "1619:4:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                            "typeString": "struct UrlLib.UrlList storage pointer"
+                          }
+                        },
+                        "id": 2690,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "keys",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 2586,
+                        "src": "1619:9:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_LinkedList_$3074_storage",
+                          "typeString": "struct LinkedListLib.LinkedList storage ref"
+                        }
+                      },
+                      "id": 2691,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "getKeysArray",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 1182,
+                      "src": "1619:22:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_delegatecall_view$_t_struct$_LinkedList_$3074_storage_ptr_$returns$_t_array$_t_uint256_$dyn_memory_ptr_$bound_to$_t_struct$_LinkedList_$3074_storage_ptr_$",
+                        "typeString": "function (struct LinkedListLib.LinkedList storage pointer) view returns (uint256[] memory)"
+                      }
+                    },
+                    "id": 2692,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1619:24:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
+                      "typeString": "uint256[] memory"
+                    }
+                  },
+                  "functionReturnParameters": 2688,
+                  "id": 2693,
+                  "nodeType": "Return",
+                  "src": "1612:31:16"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 2695,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "toReturnValue",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2684,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2683,
+                  "name": "self",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2695,
+                  "src": "1550:20:16",
+                  "stateVariable": false,
+                  "storageLocation": "storage",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                    "typeString": "struct UrlLib.UrlList"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 2682,
+                    "name": "UrlList",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 2597,
+                    "src": "1550:7:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                      "typeString": "struct UrlLib.UrlList"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1549:22:16"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 2688,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2687,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2695,
+                  "src": "1592:9:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
+                    "typeString": "uint256[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 2685,
+                      "name": "uint256",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "1592:7:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 2686,
+                    "length": null,
+                    "nodeType": "ArrayTypeName",
+                    "src": "1592:9:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                      "typeString": "uint256[]"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1591:11:16"
+            },
+            "scope": 2696,
+            "src": "1527:123:16",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 2697,
+        "src": "173:1479:16"
+      }
+    ],
+    "src": "0:1652:16"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/libs/UrlLib.sol",
+    "exportedSymbols": {
+      "UrlLib": [
+        2696
+      ]
+    },
+    "id": 2697,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 2567,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:16"
+      },
+      {
+        "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/node_modules/ethereum-libraries-linked-list/contracts/LinkedListLib.sol",
+        "file": "../../node_modules/ethereum-libraries-linked-list/contracts/LinkedListLib.sol",
+        "id": 2568,
+        "nodeType": "ImportDirective",
+        "scope": 2697,
+        "sourceUnit": 3550,
+        "src": "26:87:16",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/libs/LinkedList/LinkedListAdvancedExtensionLib.sol",
+        "file": "./LinkedList/LinkedListAdvancedExtensionLib.sol",
+        "id": 2569,
+        "nodeType": "ImportDirective",
+        "scope": 2697,
+        "sourceUnit": 1233,
+        "src": "114:57:16",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "library",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 2696,
+        "linearizedBaseContracts": [
+          2696
+        ],
+        "name": "UrlLib",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "id": 2572,
+            "libraryName": {
+              "contractScope": null,
+              "id": 2570,
+              "name": "UrlLib",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 2696,
+              "src": "200:6:16",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_UrlLib_$2696",
+                "typeString": "library UrlLib"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "194:32:16",
+            "typeName": {
+              "contractScope": null,
+              "id": 2571,
+              "name": "UrlLib.UrlList",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 2597,
+              "src": "211:14:16",
+              "typeDescriptions": {
+                "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                "typeString": "struct UrlLib.UrlList"
+              }
+            }
+          },
+          {
+            "id": 2575,
+            "libraryName": {
+              "contractScope": null,
+              "id": 2573,
+              "name": "LinkedListLib",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 3549,
+              "src": "237:13:16",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_LinkedListLib_$3549",
+                "typeString": "library LinkedListLib"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "231:49:16",
+            "typeName": {
+              "contractScope": null,
+              "id": 2574,
+              "name": "LinkedListLib.LinkedList",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 3074,
+              "src": "255:24:16",
+              "typeDescriptions": {
+                "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                "typeString": "struct LinkedListLib.LinkedList"
+              }
+            }
+          },
+          {
+            "id": 2578,
+            "libraryName": {
+              "contractScope": null,
+              "id": 2576,
+              "name": "LinkedListAdvancedExtensionLib",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1232,
+              "src": "291:30:16",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_LinkedListAdvancedExtensionLib_$1232",
+                "typeString": "library LinkedListAdvancedExtensionLib"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "285:66:16",
+            "typeName": {
+              "contractScope": null,
+              "id": 2577,
+              "name": "LinkedListLib.LinkedList",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 3074,
+              "src": "326:24:16",
+              "typeDescriptions": {
+                "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                "typeString": "struct LinkedListLib.LinkedList"
+              }
+            }
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 2584,
+            "name": "UrlAdded",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 2583,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2580,
+                  "indexed": false,
+                  "name": "key",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2584,
+                  "src": "372:11:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 2579,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "372:7:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2582,
+                  "indexed": false,
+                  "name": "url",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2584,
+                  "src": "385:10:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 2581,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "385:6:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "371:25:16"
+            },
+            "src": "357:40:16"
+          },
+          {
+            "canonicalName": "UrlLib.UrlList",
+            "id": 2597,
+            "members": [
+              {
+                "constant": false,
+                "id": 2586,
+                "name": "keys",
+                "nodeType": "VariableDeclaration",
+                "scope": 2597,
+                "src": "741:29:16",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                  "typeString": "struct LinkedListLib.LinkedList"
+                },
+                "typeName": {
+                  "contractScope": null,
+                  "id": 2585,
+                  "name": "LinkedListLib.LinkedList",
+                  "nodeType": "UserDefinedTypeName",
+                  "referencedDeclaration": 3074,
+                  "src": "741:24:16",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                    "typeString": "struct LinkedListLib.LinkedList"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2590,
+                "name": "urls",
+                "nodeType": "VariableDeclaration",
+                "scope": 2597,
+                "src": "821:32:16",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_mapping$_t_uint256_$_t_string_storage_$",
+                  "typeString": "mapping(uint256 => string)"
+                },
+                "typeName": {
+                  "id": 2589,
+                  "keyType": {
+                    "id": 2587,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "830:7:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "nodeType": "Mapping",
+                  "src": "821:27:16",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_mapping$_t_uint256_$_t_string_storage_$",
+                    "typeString": "mapping(uint256 => string)"
+                  },
+                  "valueType": {
+                    "id": 2588,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "841:6:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2594,
+                "name": "keyMap",
+                "nodeType": "VariableDeclaration",
+                "scope": 2597,
+                "src": "863:34:16",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_mapping$_t_string_memory_$_t_uint256_$",
+                  "typeString": "mapping(string => uint256)"
+                },
+                "typeName": {
+                  "id": 2593,
+                  "keyType": {
+                    "id": 2591,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "872:6:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "nodeType": "Mapping",
+                  "src": "863:27:16",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_mapping$_t_string_memory_$_t_uint256_$",
+                    "typeString": "mapping(string => uint256)"
+                  },
+                  "valueType": {
+                    "id": 2592,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "882:7:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 2596,
+                "name": "keyCount",
+                "nodeType": "VariableDeclaration",
+                "scope": 2597,
+                "src": "907:16:16",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 2595,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "907:7:16",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "UrlList",
+            "nodeType": "StructDefinition",
+            "scope": 2696,
+            "src": "716:214:16",
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 2643,
+              "nodeType": "Block",
+              "src": "993:206:16",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 2607,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "UnaryOperation",
+                    "operator": "++",
+                    "prefix": false,
+                    "src": "1003:15:16",
+                    "subExpression": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 2604,
+                        "name": "self",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 2599,
+                        "src": "1003:4:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                          "typeString": "struct UrlLib.UrlList storage pointer"
+                        }
+                      },
+                      "id": 2606,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "memberName": "keyCount",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 2596,
+                      "src": "1003:13:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 2608,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1003:15:16"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 2614,
+                          "name": "self",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 2599,
+                          "src": "1043:4:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                            "typeString": "struct UrlLib.UrlList storage pointer"
+                          }
+                        },
+                        "id": 2615,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "keyCount",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 2596,
+                        "src": "1043:13:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "66616c7365",
+                        "id": 2616,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "bool",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "1058:5:16",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        },
+                        "value": "false"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 2609,
+                          "name": "self",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 2599,
+                          "src": "1028:4:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                            "typeString": "struct UrlLib.UrlList storage pointer"
+                          }
+                        },
+                        "id": 2612,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "keys",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 2586,
+                        "src": "1028:9:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_LinkedList_$3074_storage",
+                          "typeString": "struct LinkedListLib.LinkedList storage ref"
+                        }
+                      },
+                      "id": 2613,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "push",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 3517,
+                      "src": "1028:14:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_LinkedList_$3074_storage_ptr_$_t_uint256_$_t_bool_$returns$__$bound_to$_t_struct$_LinkedList_$3074_storage_ptr_$",
+                        "typeString": "function (struct LinkedListLib.LinkedList storage pointer,uint256,bool)"
+                      }
+                    },
+                    "id": 2617,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1028:36:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 2618,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1028:36:16"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 2626,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "baseExpression": {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 2619,
+                          "name": "self",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 2599,
+                          "src": "1074:4:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                            "typeString": "struct UrlLib.UrlList storage pointer"
+                          }
+                        },
+                        "id": 2623,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "urls",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 2590,
+                        "src": "1074:9:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_uint256_$_t_string_storage_$",
+                          "typeString": "mapping(uint256 => string storage ref)"
+                        }
+                      },
+                      "id": 2624,
+                      "indexExpression": {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 2621,
+                          "name": "self",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 2599,
+                          "src": "1084:4:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                            "typeString": "struct UrlLib.UrlList storage pointer"
+                          }
+                        },
+                        "id": 2622,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "keyCount",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 2596,
+                        "src": "1084:13:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "nodeType": "IndexAccess",
+                      "src": "1074:24:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_string_storage",
+                        "typeString": "string storage ref"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 2625,
+                      "name": "_url",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 2601,
+                      "src": "1101:4:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_string_memory_ptr",
+                        "typeString": "string memory"
+                      }
+                    },
+                    "src": "1074:31:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage",
+                      "typeString": "string storage ref"
+                    }
+                  },
+                  "id": 2627,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1074:31:16"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 2635,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "baseExpression": {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 2628,
+                          "name": "self",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 2599,
+                          "src": "1115:4:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                            "typeString": "struct UrlLib.UrlList storage pointer"
+                          }
+                        },
+                        "id": 2631,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "keyMap",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 2594,
+                        "src": "1115:11:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_string_memory_$_t_uint256_$",
+                          "typeString": "mapping(string memory => uint256)"
+                        }
+                      },
+                      "id": 2632,
+                      "indexExpression": {
+                        "argumentTypes": null,
+                        "id": 2630,
+                        "name": "_url",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 2601,
+                        "src": "1127:4:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "nodeType": "IndexAccess",
+                      "src": "1115:17:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 2633,
+                        "name": "self",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 2599,
+                        "src": "1135:4:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                          "typeString": "struct UrlLib.UrlList storage pointer"
+                        }
+                      },
+                      "id": 2634,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "keyCount",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 2596,
+                      "src": "1135:13:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "1115:33:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 2636,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1115:33:16"
+                },
+                {
+                  "eventCall": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 2638,
+                          "name": "self",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 2599,
+                          "src": "1172:4:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                            "typeString": "struct UrlLib.UrlList storage pointer"
+                          }
+                        },
+                        "id": 2639,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "keyCount",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 2596,
+                        "src": "1172:13:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 2640,
+                        "name": "_url",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 2601,
+                        "src": "1187:4:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      ],
+                      "id": 2637,
+                      "name": "UrlAdded",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 2584,
+                      "src": "1163:8:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_event_nonpayable$_t_uint256_$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (uint256,string memory)"
+                      }
+                    },
+                    "id": 2641,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1163:29:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 2642,
+                  "nodeType": "EmitStatement",
+                  "src": "1158:34:16"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 2644,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "add",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2602,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2599,
+                  "name": "self",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2644,
+                  "src": "949:20:16",
+                  "stateVariable": false,
+                  "storageLocation": "storage",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                    "typeString": "struct UrlLib.UrlList"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 2598,
+                    "name": "UrlList",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 2597,
+                    "src": "949:7:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                      "typeString": "struct UrlLib.UrlList"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2601,
+                  "name": "_url",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2644,
+                  "src": "971:11:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 2600,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "971:6:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "948:35:16"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 2603,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "993:0:16"
+            },
+            "scope": 2696,
+            "src": "936:263:16",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 2665,
+              "nodeType": "Block",
+              "src": "1284:101:16",
+              "statements": [
+                {
+                  "condition": {
+                    "argumentTypes": null,
+                    "commonType": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    },
+                    "id": 2658,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "argumentTypes": null,
+                      "baseExpression": {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 2653,
+                          "name": "self",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 2646,
+                          "src": "1297:4:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                            "typeString": "struct UrlLib.UrlList storage pointer"
+                          }
+                        },
+                        "id": 2654,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "keyMap",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 2594,
+                        "src": "1297:11:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_string_memory_$_t_uint256_$",
+                          "typeString": "mapping(string memory => uint256)"
+                        }
+                      },
+                      "id": 2656,
+                      "indexExpression": {
+                        "argumentTypes": null,
+                        "id": 2655,
+                        "name": "_url",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 2648,
+                        "src": "1309:4:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "nodeType": "IndexAccess",
+                      "src": "1297:17:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "==",
+                    "rightExpression": {
+                      "argumentTypes": null,
+                      "hexValue": "30",
+                      "id": 2657,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "number",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "1318:1:16",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_rational_0_by_1",
+                        "typeString": "int_const 0"
+                      },
+                      "value": "0"
+                    },
+                    "src": "1297:22:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "falseBody": null,
+                  "id": 2662,
+                  "nodeType": "IfStatement",
+                  "src": "1294:64:16",
+                  "trueBody": {
+                    "id": 2661,
+                    "nodeType": "Block",
+                    "src": "1321:37:16",
+                    "statements": [
+                      {
+                        "expression": {
+                          "argumentTypes": null,
+                          "hexValue": "66616c7365",
+                          "id": 2659,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "bool",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "1342:5:16",
+                          "subdenomination": null,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bool",
+                            "typeString": "bool"
+                          },
+                          "value": "false"
+                        },
+                        "functionReturnParameters": 2652,
+                        "id": 2660,
+                        "nodeType": "Return",
+                        "src": "1335:12:16"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "hexValue": "74727565",
+                    "id": 2663,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "bool",
+                    "lValueRequested": false,
+                    "nodeType": "Literal",
+                    "src": "1374:4:16",
+                    "subdenomination": null,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    },
+                    "value": "true"
+                  },
+                  "functionReturnParameters": 2652,
+                  "id": 2664,
+                  "nodeType": "Return",
+                  "src": "1367:11:16"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 2666,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "hasUrl",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2649,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2646,
+                  "name": "self",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2666,
+                  "src": "1221:20:16",
+                  "stateVariable": false,
+                  "storageLocation": "storage",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                    "typeString": "struct UrlLib.UrlList"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 2645,
+                    "name": "UrlList",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 2597,
+                    "src": "1221:7:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                      "typeString": "struct UrlLib.UrlList"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2648,
+                  "name": "_url",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2666,
+                  "src": "1243:11:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 2647,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1243:6:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1220:35:16"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 2652,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2651,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2666,
+                  "src": "1278:4:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 2650,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1278:4:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1277:6:16"
+            },
+            "scope": 2696,
+            "src": "1205:180:16",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 2680,
+              "nodeType": "Block",
+              "src": "1482:39:16",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "baseExpression": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 2675,
+                        "name": "self",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 2668,
+                        "src": "1499:4:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                          "typeString": "struct UrlLib.UrlList storage pointer"
+                        }
+                      },
+                      "id": 2676,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "urls",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 2590,
+                      "src": "1499:9:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_mapping$_t_uint256_$_t_string_storage_$",
+                        "typeString": "mapping(uint256 => string storage ref)"
+                      }
+                    },
+                    "id": 2678,
+                    "indexExpression": {
+                      "argumentTypes": null,
+                      "id": 2677,
+                      "name": "_key",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 2670,
+                      "src": "1509:4:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "isConstant": false,
+                    "isLValue": true,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "IndexAccess",
+                    "src": "1499:15:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage",
+                      "typeString": "string storage ref"
+                    }
+                  },
+                  "functionReturnParameters": 2674,
+                  "id": 2679,
+                  "nodeType": "Return",
+                  "src": "1492:22:16"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 2681,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getUrl",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2671,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2668,
+                  "name": "self",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2681,
+                  "src": "1407:20:16",
+                  "stateVariable": false,
+                  "storageLocation": "storage",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                    "typeString": "struct UrlLib.UrlList"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 2667,
+                    "name": "UrlList",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 2597,
+                    "src": "1407:7:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                      "typeString": "struct UrlLib.UrlList"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 2670,
+                  "name": "_key",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2681,
+                  "src": "1429:12:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 2669,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1429:7:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1406:36:16"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 2674,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2673,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2681,
+                  "src": "1466:6:16",
+                  "stateVariable": false,
+                  "storageLocation": "storage",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 2672,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1466:6:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1465:16:16"
+            },
+            "scope": 2696,
+            "src": "1391:130:16",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 2694,
+              "nodeType": "Block",
+              "src": "1602:48:16",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 2689,
+                          "name": "self",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 2683,
+                          "src": "1619:4:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                            "typeString": "struct UrlLib.UrlList storage pointer"
+                          }
+                        },
+                        "id": 2690,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "keys",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 2586,
+                        "src": "1619:9:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_LinkedList_$3074_storage",
+                          "typeString": "struct LinkedListLib.LinkedList storage ref"
+                        }
+                      },
+                      "id": 2691,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "getKeysArray",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 1182,
+                      "src": "1619:22:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_delegatecall_view$_t_struct$_LinkedList_$3074_storage_ptr_$returns$_t_array$_t_uint256_$dyn_memory_ptr_$bound_to$_t_struct$_LinkedList_$3074_storage_ptr_$",
+                        "typeString": "function (struct LinkedListLib.LinkedList storage pointer) view returns (uint256[] memory)"
+                      }
+                    },
+                    "id": 2692,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1619:24:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
+                      "typeString": "uint256[] memory"
+                    }
+                  },
+                  "functionReturnParameters": 2688,
+                  "id": 2693,
+                  "nodeType": "Return",
+                  "src": "1612:31:16"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 2695,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "toReturnValue",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2684,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2683,
+                  "name": "self",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2695,
+                  "src": "1550:20:16",
+                  "stateVariable": false,
+                  "storageLocation": "storage",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                    "typeString": "struct UrlLib.UrlList"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 2682,
+                    "name": "UrlList",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 2597,
+                    "src": "1550:7:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_UrlList_$2597_storage_ptr",
+                      "typeString": "struct UrlLib.UrlList"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1549:22:16"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 2688,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2687,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2695,
+                  "src": "1592:9:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
+                    "typeString": "uint256[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 2685,
+                      "name": "uint256",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "1592:7:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 2686,
+                    "length": null,
+                    "nodeType": "ArrayTypeName",
+                    "src": "1592:9:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                      "typeString": "uint256[]"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1591:11:16"
+            },
+            "scope": 2696,
+            "src": "1527:123:16",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 2697,
+        "src": "173:1479:16"
+      }
+    ],
+    "src": "0:1652:16"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+  },
+  "networks": {
+    "3": {
+      "events": {
+        "0xcc565ba580681aee2dd844656806e54ac4515b2a1f9b4ce302230d9d0305dec6": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "key",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "url",
+              "type": "string"
+            }
+          ],
+          "name": "UrlAdded",
+          "type": "event"
+        }
+      },
+      "links": {
+        "LinkedListAdvancedExtensionLib": "0xd7f84f8dde55e3aefe41242211c5876e273583db"
+      },
+      "address": "0x10fb09094635914df3a7cb613170e5c9b83b7faf",
+      "transactionHash": "0x3563618ec16f61fc84c710c43f3e365ff1709829f24af10904a42ffb224634f1"
+    }
+  },
+  "schemaVersion": "2.0.1",
+  "updatedAt": "2019-01-05T22:31:31.064Z"
+}

@@ -1,0 +1,2806 @@
+{
+  "contractName": "LinkedListAdvancedExtensionLib",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "LinkedListLib.LinkedList storage"
+        }
+      ],
+      "name": "getKeysArray",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "self",
+          "type": "LinkedListLib.LinkedList storage"
+        }
+      ],
+      "name": "getKeysAddressArray",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x610574610030600b82828239805160001a6073146000811461002057610022565bfe5b5030600052607381538281f30073000000000000000000000000000000000000000030146080604052600436106100495763ffffffff60e060020a6000350416631bca78ab811461004e5780632fc5efe6146100a9575b600080fd5b6100596004356100b4565b60408051602080825283518183015283519192839290830191858101910280838360005b8381101561009557818101518382015260200161007d565b505050509050019250505060405180910390f35b6100596004356101bf565b6060806100bf610531565b8373__LinkedListLib_________________________637bfa62fb90916040518263ffffffff1660e060020a0281526004018082815260200191505060206040518083038186803b15801561011357600080fd5b505af4158015610127573d6000803e3d6000fd5b505050506040513d602081101561013d57600080fd5b5051604080518281526020808402820101909152908015610168578160200160208202803883390190505b509150610174846102e5565b90505b610187818563ffffffff61030616565b156101b8576101958161051f565b8261019f83610523565b815181106101a957fe5b60209081029091010152610177565b5092915050565b6060806101ca610531565b8373__LinkedListLib_________________________637bfa62fb90916040518263ffffffff1660e060020a0281526004018082815260200191505060206040518083038186803b15801561021e57600080fd5b505af4158015610232573d6000803e3d6000fd5b505050506040513d602081101561024857600080fd5b5051604080518281526020808402820101909152908015610273578160200160208202803883390190505b50915061027f846102e5565b90505b610292818563ffffffff61030616565b156101b8576102a86102a38261051f565b61052e565b826102b283610523565b815181106102bc57fe5b73ffffffffffffffffffffffffffffffffffffffff909216602092830290910190910152610282565b6102ed610531565b5050604080518082019091526000808252602082015290565b60008060008373__LinkedListExtensionLib________________63ddf223b9909187600001516040518363ffffffff1660e060020a0281526004018083815260200182815260200192505050604080518083038186803b15801561036a57600080fd5b505af415801561037e573d6000803e3d6000fd5b505050506040513d604081101561039457600080fd5b50805160209091015190925090508115806104495750604080517fcd9495f90000000000000000000000000000000000000000000000000000000081526004810186905260248101839052905173__LinkedListExtensionLib________________9163cd9495f9916044808301926020929190829003018186803b15801561041c57600080fd5b505af4158015610430573d6000803e3d6000fd5b505050506040513d602081101561044657600080fd5b50515b156104575760009250610517565b604080517ff593633c0000000000000000000000000000000000000000000000000000000081526004810186905260248101839052905173__LinkedListLib_________________________9163f593633c916044808301926020929190829003018186803b1580156104c957600080fd5b505af41580156104dd573d6000803e3d6000fd5b505050506040513d60208110156104f357600080fd5b5051156105125760208501805160019081019091528186529250610517565b600092505b505092915050565b5190565b602001516000190190565b90565b6040805180820190915260008082526020820152905600a165627a7a723058204737491283e4fae345836345724f5defb072723835897a37b731aaed1f544c230029",
+  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600436106100495763ffffffff60e060020a6000350416631bca78ab811461004e5780632fc5efe6146100a9575b600080fd5b6100596004356100b4565b60408051602080825283518183015283519192839290830191858101910280838360005b8381101561009557818101518382015260200161007d565b505050509050019250505060405180910390f35b6100596004356101bf565b6060806100bf610531565b8373__LinkedListLib_________________________637bfa62fb90916040518263ffffffff1660e060020a0281526004018082815260200191505060206040518083038186803b15801561011357600080fd5b505af4158015610127573d6000803e3d6000fd5b505050506040513d602081101561013d57600080fd5b5051604080518281526020808402820101909152908015610168578160200160208202803883390190505b509150610174846102e5565b90505b610187818563ffffffff61030616565b156101b8576101958161051f565b8261019f83610523565b815181106101a957fe5b60209081029091010152610177565b5092915050565b6060806101ca610531565b8373__LinkedListLib_________________________637bfa62fb90916040518263ffffffff1660e060020a0281526004018082815260200191505060206040518083038186803b15801561021e57600080fd5b505af4158015610232573d6000803e3d6000fd5b505050506040513d602081101561024857600080fd5b5051604080518281526020808402820101909152908015610273578160200160208202803883390190505b50915061027f846102e5565b90505b610292818563ffffffff61030616565b156101b8576102a86102a38261051f565b61052e565b826102b283610523565b815181106102bc57fe5b73ffffffffffffffffffffffffffffffffffffffff909216602092830290910190910152610282565b6102ed610531565b5050604080518082019091526000808252602082015290565b60008060008373__LinkedListExtensionLib________________63ddf223b9909187600001516040518363ffffffff1660e060020a0281526004018083815260200182815260200192505050604080518083038186803b15801561036a57600080fd5b505af415801561037e573d6000803e3d6000fd5b505050506040513d604081101561039457600080fd5b50805160209091015190925090508115806104495750604080517fcd9495f90000000000000000000000000000000000000000000000000000000081526004810186905260248101839052905173__LinkedListExtensionLib________________9163cd9495f9916044808301926020929190829003018186803b15801561041c57600080fd5b505af4158015610430573d6000803e3d6000fd5b505050506040513d602081101561044657600080fd5b50515b156104575760009250610517565b604080517ff593633c0000000000000000000000000000000000000000000000000000000081526004810186905260248101839052905173__LinkedListLib_________________________9163f593633c916044808301926020929190829003018186803b1580156104c957600080fd5b505af41580156104dd573d6000803e3d6000fd5b505050506040513d60208110156104f357600080fd5b5051156105125760208501805160019081019091528186529250610517565b600092505b505092915050565b5190565b602001516000190190565b90565b6040805180820190915260008082526020820152905600a165627a7a723058204737491283e4fae345836345724f5defb072723835897a37b731aaed1f544c230029",
+  "sourceMap": "503:1082:6:-;;132:2:-1;166:7;155:9;146:7;137:37;252:7;246:14;243:1;238:23;232:4;229:33;270:1;265:20;;;;222:63;;265:20;274:9;222:63;;298:9;295:1;288:20;328:4;319:7;311:22;352:7;343;336:24",
+  "deployedSourceMap": "503:1082:6:-;;;;;;;;;;;;-1:-1:-1;;;503:1082:6;;;;;;;;;;;;;;;;;;770:394;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:100:-1;33:3;30:1;27:10;8:100;;;90:11;;;84:18;71:11;;;64:39;52:2;45:10;8:100;;;12:14;770:394:6;;;;;;;;;;;;;;;;;1170:413;;;;;;770:394;863:9;891:20;952:46;;:::i;:::-;928:4;:11;;;;:13;;;;;-1:-1:-1;;;928:13:6;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;928:13:6;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;928:13:6;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;928:13:6;914:28;;;;;;928:13;914:28;;;;;;;;;;;;;;;;;29:2:-1;21:6;17:15;117:4;105:10;97:6;88:34;136:17;;-1:-1;914:28:6;;891:51;;1001:18;:4;:16;:18::i;:::-;952:67;;1038:99;1044:22;:8;1061:4;1044:22;:16;:22;:::i;:::-;1038:99;;;1111:15;:8;:13;:15::i;:::-;1082:3;1086:21;:8;:19;:21::i;:::-;1082:26;;;;;;;;;;;;;;;;:44;1038:99;;;-1:-1:-1;1154:3:6;770:394;-1:-1:-1;;770:394:6:o;1170:413::-;1270:9;1298:20;1359:46;;:::i;:::-;1335:4;:11;;;;:13;;;;;-1:-1:-1;;;1335:13:6;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1335:13:6;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;1335:13:6;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;1335:13:6;1321:28;;;;;;1335:13;1321:28;;;;;;;;;;;;;;;;;29:2:-1;21:6;17:15;117:4;105:10;97:6;88:34;136:17;;-1:-1;1321:28:6;;1298:51;;1408:18;:4;:16;:18::i;:::-;1359:67;;1445:111;1451:22;:8;1468:4;1451:22;:16;:22;:::i;:::-;1445:111;;;1518:27;:15;:8;:13;:15::i;:::-;:25;:27::i;:::-;1489:3;1493:21;:8;:19;:21::i;:::-;1489:26;;;;;;;;:56;;;;:26;;;;;;;;;;:56;1445:111;;647:194:7;739:30;;:::i;:::-;-1:-1:-1;;795:39:7;;;;;;;;;-1:-1:-1;795:39:7;;;;;;;;647:194::o;2077:498:8:-;2214:4;2239:18;2259:16;2279:4;:20;;;;2300:4;:12;;;2279:34;;;;;-1:-1:-1;;;2279:34:8;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;2279:34:8;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;2279:34:8;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;2279:34:8;;;;;;;;;-1:-1:-1;2279:34:8;-1:-1:-1;2327:14:8;;;:39;;-1:-1:-1;2345:21:8;;;;;;;;;;;;;;;;;;;;:11;;;;:21;;;;;;;;;;;;;;:11;:21;;;5:2:-1;;;;30:1;27;20:12;5:2;2345:21:8;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;2345:21:8;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;2345:21:8;2327:39;2324:81;;;2389:5;2382:12;;;;2324:81;2418:25;;;;;;;;;;;;;;;;;;;;:15;;;;:25;;;;;;;;;;;;;;:15;:25;;;5:2:-1;;;;30:1;27;20:12;5:2;2418:25:8;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;2418:25:8;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;2418:25:8;2415:131;;;2459:12;;;:14;;;;;;;;;2487:23;;;2459:14;-1:-1:-1;2524:11:8;;2415:131;2563:5;2556:12;;2077:498;;;;;;;:::o;1931:140::-;2052:12;;1931:140::o;1780:145::-;1904:12;;;-1:-1:-1;;1904:14:8;;1780:145::o;53:110:15:-;147:8;53:110::o;503:1082:6:-;;;;;;;;;;-1:-1:-1;503:1082:6;;;;;;;;:::o",
+  "source": "pragma solidity ^0.4.24;\n\nimport \"../../../node_modules/ethereum-libraries-linked-list/contracts/LinkedListLib.sol\";\n\nimport \"./LinkedListIteratorLib.sol\";\nimport \"./LinkedListExtensionLib.sol\";\nimport \"../Uint256Utils.sol\";\n\n/**\n    We need and ExtensionLib and an AdvancedExtensionLib because the IteratorLib builds upon the ExtensionLib and the AdvancedExtension needs the IteratorLib. Moving this function into ExtensionLib would lead to a cyclic dependency between ExtensionLib and IteratorLib.\n*/\nlibrary LinkedListAdvancedExtensionLib {\n    using LinkedListLib for LinkedListLib.LinkedList;\n    using LinkedListExtensionLib for LinkedListLib.LinkedList;\n    using LinkedListIteratorLib for LinkedListIteratorLib.Iterator;\n    using Uint256Utils for uint256;\n\n    function getKeysArray(LinkedListLib.LinkedList storage self)\n    public\n    view\n    returns(uint256[] memory) {\n        uint256[] memory res = new uint256[](self.sizeOf());\n        LinkedListIteratorLib.Iterator memory iterator = self.getIterator();\n        \n        while(iterator.hasNext(self)) {\n            res[iterator.getCounter()] = iterator.next();\n        }\n\n        return res;\n    }\n\n    function getKeysAddressArray(LinkedListLib.LinkedList storage self)\n    public\n    view\n    returns(address[] memory) {\n        address[] memory res = new address[](self.sizeOf());\n        LinkedListIteratorLib.Iterator memory iterator = self.getIterator();\n        \n        while(iterator.hasNext(self)) {\n            res[iterator.getCounter()] = iterator.next().toAddress();\n        }\n\n        return res;\n    }\n}",
+  "sourcePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/libs/LinkedList/LinkedListAdvancedExtensionLib.sol",
+  "ast": {
+    "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/libs/LinkedList/LinkedListAdvancedExtensionLib.sol",
+    "exportedSymbols": {
+      "LinkedListAdvancedExtensionLib": [
+        1232
+      ]
+    },
+    "id": 1233,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1119,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:6"
+      },
+      {
+        "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/node_modules/ethereum-libraries-linked-list/contracts/LinkedListLib.sol",
+        "file": "../../../node_modules/ethereum-libraries-linked-list/contracts/LinkedListLib.sol",
+        "id": 1120,
+        "nodeType": "ImportDirective",
+        "scope": 1233,
+        "sourceUnit": 3550,
+        "src": "26:90:6",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/libs/LinkedList/LinkedListIteratorLib.sol",
+        "file": "./LinkedListIteratorLib.sol",
+        "id": 1121,
+        "nodeType": "ImportDirective",
+        "scope": 1233,
+        "sourceUnit": 1449,
+        "src": "118:37:6",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/libs/LinkedList/LinkedListExtensionLib.sol",
+        "file": "./LinkedListExtensionLib.sol",
+        "id": 1122,
+        "nodeType": "ImportDirective",
+        "scope": 1233,
+        "sourceUnit": 1302,
+        "src": "156:38:6",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/libs/Uint256Utils.sol",
+        "file": "../Uint256Utils.sol",
+        "id": 1123,
+        "nodeType": "ImportDirective",
+        "scope": 1233,
+        "sourceUnit": 2566,
+        "src": "195:29:6",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "library",
+        "documentation": "We need and ExtensionLib and an AdvancedExtensionLib because the IteratorLib builds upon the ExtensionLib and the AdvancedExtension needs the IteratorLib. Moving this function into ExtensionLib would lead to a cyclic dependency between ExtensionLib and IteratorLib.",
+        "fullyImplemented": true,
+        "id": 1232,
+        "linearizedBaseContracts": [
+          1232
+        ],
+        "name": "LinkedListAdvancedExtensionLib",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "id": 1126,
+            "libraryName": {
+              "contractScope": null,
+              "id": 1124,
+              "name": "LinkedListLib",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 3549,
+              "src": "554:13:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_LinkedListLib_$3549",
+                "typeString": "library LinkedListLib"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "548:49:6",
+            "typeName": {
+              "contractScope": null,
+              "id": 1125,
+              "name": "LinkedListLib.LinkedList",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 3074,
+              "src": "572:24:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                "typeString": "struct LinkedListLib.LinkedList"
+              }
+            }
+          },
+          {
+            "id": 1129,
+            "libraryName": {
+              "contractScope": null,
+              "id": 1127,
+              "name": "LinkedListExtensionLib",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1301,
+              "src": "608:22:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_LinkedListExtensionLib_$1301",
+                "typeString": "library LinkedListExtensionLib"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "602:58:6",
+            "typeName": {
+              "contractScope": null,
+              "id": 1128,
+              "name": "LinkedListLib.LinkedList",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 3074,
+              "src": "635:24:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                "typeString": "struct LinkedListLib.LinkedList"
+              }
+            }
+          },
+          {
+            "id": 1132,
+            "libraryName": {
+              "contractScope": null,
+              "id": 1130,
+              "name": "LinkedListIteratorLib",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1448,
+              "src": "671:21:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_LinkedListIteratorLib_$1448",
+                "typeString": "library LinkedListIteratorLib"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "665:63:6",
+            "typeName": {
+              "contractScope": null,
+              "id": 1131,
+              "name": "LinkedListIteratorLib.Iterator",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1316,
+              "src": "697:30:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_struct$_Iterator_$1316_storage_ptr",
+                "typeString": "struct LinkedListIteratorLib.Iterator"
+              }
+            }
+          },
+          {
+            "id": 1135,
+            "libraryName": {
+              "contractScope": null,
+              "id": 1133,
+              "name": "Uint256Utils",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 2565,
+              "src": "739:12:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Uint256Utils_$2565",
+                "typeString": "library Uint256Utils"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "733:31:6",
+            "typeName": {
+              "id": 1134,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "756:7:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            }
+          },
+          {
+            "body": {
+              "id": 1181,
+              "nodeType": "Block",
+              "src": "881:283:6",
+              "statements": [
+                {
+                  "assignments": [
+                    1146
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 1146,
+                      "name": "res",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 1182,
+                      "src": "891:20:6",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
+                        "typeString": "uint256[]"
+                      },
+                      "typeName": {
+                        "baseType": {
+                          "id": 1144,
+                          "name": "uint256",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "891:7:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "id": 1145,
+                        "length": null,
+                        "nodeType": "ArrayTypeName",
+                        "src": "891:9:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                          "typeString": "uint256[]"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 1154,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "arguments": [],
+                        "expression": {
+                          "argumentTypes": [],
+                          "expression": {
+                            "argumentTypes": null,
+                            "id": 1150,
+                            "name": "self",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1137,
+                            "src": "928:4:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                              "typeString": "struct LinkedListLib.LinkedList storage pointer"
+                            }
+                          },
+                          "id": 1151,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberName": "sizeOf",
+                          "nodeType": "MemberAccess",
+                          "referencedDeclaration": 3196,
+                          "src": "928:11:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_function_delegatecall_view$_t_struct$_LinkedList_$3074_storage_ptr_$returns$_t_uint256_$bound_to$_t_struct$_LinkedList_$3074_storage_ptr_$",
+                            "typeString": "function (struct LinkedListLib.LinkedList storage pointer) view returns (uint256)"
+                          }
+                        },
+                        "id": 1152,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "functionCall",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "928:13:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "id": 1149,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "nodeType": "NewExpression",
+                      "src": "914:13:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_objectcreation_pure$_t_uint256_$returns$_t_array$_t_uint256_$dyn_memory_$",
+                        "typeString": "function (uint256) pure returns (uint256[] memory)"
+                      },
+                      "typeName": {
+                        "baseType": {
+                          "id": 1147,
+                          "name": "uint256",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "918:7:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "id": 1148,
+                        "length": null,
+                        "nodeType": "ArrayTypeName",
+                        "src": "918:9:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                          "typeString": "uint256[]"
+                        }
+                      }
+                    },
+                    "id": 1153,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "914:28:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$dyn_memory",
+                      "typeString": "uint256[] memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "891:51:6"
+                },
+                {
+                  "assignments": [
+                    1158
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 1158,
+                      "name": "iterator",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 1182,
+                      "src": "952:46:6",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                        "typeString": "struct LinkedListIteratorLib.Iterator"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 1157,
+                        "name": "LinkedListIteratorLib.Iterator",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 1316,
+                        "src": "952:30:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Iterator_$1316_storage_ptr",
+                          "typeString": "struct LinkedListIteratorLib.Iterator"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 1162,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 1159,
+                        "name": "self",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1137,
+                        "src": "1001:4:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                          "typeString": "struct LinkedListLib.LinkedList storage pointer"
+                        }
+                      },
+                      "id": 1160,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "getIterator",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 1268,
+                      "src": "1001:16:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$_t_struct$_LinkedList_$3074_storage_ptr_$returns$_t_struct$_Iterator_$1316_memory_ptr_$bound_to$_t_struct$_LinkedList_$3074_storage_ptr_$",
+                        "typeString": "function (struct LinkedListLib.LinkedList storage pointer) pure returns (struct LinkedListIteratorLib.Iterator memory)"
+                      }
+                    },
+                    "id": 1161,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1001:18:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                      "typeString": "struct LinkedListIteratorLib.Iterator memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "952:67:6"
+                },
+                {
+                  "body": {
+                    "id": 1177,
+                    "nodeType": "Block",
+                    "src": "1068:69:6",
+                    "statements": [
+                      {
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 1175,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftHandSide": {
+                            "argumentTypes": null,
+                            "baseExpression": {
+                              "argumentTypes": null,
+                              "id": 1167,
+                              "name": "res",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 1146,
+                              "src": "1082:3:6",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
+                                "typeString": "uint256[] memory"
+                              }
+                            },
+                            "id": 1171,
+                            "indexExpression": {
+                              "argumentTypes": null,
+                              "arguments": [],
+                              "expression": {
+                                "argumentTypes": [],
+                                "expression": {
+                                  "argumentTypes": null,
+                                  "id": 1168,
+                                  "name": "iterator",
+                                  "nodeType": "Identifier",
+                                  "overloadedDeclarations": [],
+                                  "referencedDeclaration": 1158,
+                                  "src": "1086:8:6",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                                    "typeString": "struct LinkedListIteratorLib.Iterator memory"
+                                  }
+                                },
+                                "id": 1169,
+                                "isConstant": false,
+                                "isLValue": true,
+                                "isPure": false,
+                                "lValueRequested": false,
+                                "memberName": "getCounter",
+                                "nodeType": "MemberAccess",
+                                "referencedDeclaration": 1384,
+                                "src": "1086:19:6",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_function_internal_pure$_t_struct$_Iterator_$1316_memory_ptr_$returns$_t_uint256_$bound_to$_t_struct$_Iterator_$1316_memory_ptr_$",
+                                  "typeString": "function (struct LinkedListIteratorLib.Iterator memory) pure returns (uint256)"
+                                }
+                              },
+                              "id": 1170,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "kind": "functionCall",
+                              "lValueRequested": false,
+                              "names": [],
+                              "nodeType": "FunctionCall",
+                              "src": "1086:21:6",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_uint256",
+                                "typeString": "uint256"
+                              }
+                            },
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": true,
+                            "nodeType": "IndexAccess",
+                            "src": "1082:26:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "nodeType": "Assignment",
+                          "operator": "=",
+                          "rightHandSide": {
+                            "argumentTypes": null,
+                            "arguments": [],
+                            "expression": {
+                              "argumentTypes": [],
+                              "expression": {
+                                "argumentTypes": null,
+                                "id": 1172,
+                                "name": "iterator",
+                                "nodeType": "Identifier",
+                                "overloadedDeclarations": [],
+                                "referencedDeclaration": 1158,
+                                "src": "1111:8:6",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                                  "typeString": "struct LinkedListIteratorLib.Iterator memory"
+                                }
+                              },
+                              "id": 1173,
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "memberName": "next",
+                              "nodeType": "MemberAccess",
+                              "referencedDeclaration": 1395,
+                              "src": "1111:13:6",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_function_internal_pure$_t_struct$_Iterator_$1316_memory_ptr_$returns$_t_uint256_$bound_to$_t_struct$_Iterator_$1316_memory_ptr_$",
+                                "typeString": "function (struct LinkedListIteratorLib.Iterator memory) pure returns (uint256)"
+                              }
+                            },
+                            "id": 1174,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "kind": "functionCall",
+                            "lValueRequested": false,
+                            "names": [],
+                            "nodeType": "FunctionCall",
+                            "src": "1111:15:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "src": "1082:44:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "id": 1176,
+                        "nodeType": "ExpressionStatement",
+                        "src": "1082:44:6"
+                      }
+                    ]
+                  },
+                  "condition": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 1165,
+                        "name": "self",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1137,
+                        "src": "1061:4:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                          "typeString": "struct LinkedListLib.LinkedList storage pointer"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                          "typeString": "struct LinkedListLib.LinkedList storage pointer"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 1163,
+                        "name": "iterator",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1158,
+                        "src": "1044:8:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                          "typeString": "struct LinkedListIteratorLib.Iterator memory"
+                        }
+                      },
+                      "id": 1164,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "hasNext",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 1447,
+                      "src": "1044:16:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_view$_t_struct$_Iterator_$1316_memory_ptr_$_t_struct$_LinkedList_$3074_storage_ptr_$returns$_t_bool_$bound_to$_t_struct$_Iterator_$1316_memory_ptr_$",
+                        "typeString": "function (struct LinkedListIteratorLib.Iterator memory,struct LinkedListLib.LinkedList storage pointer) view returns (bool)"
+                      }
+                    },
+                    "id": 1166,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1044:22:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 1178,
+                  "nodeType": "WhileStatement",
+                  "src": "1038:99:6"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1179,
+                    "name": "res",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 1146,
+                    "src": "1154:3:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
+                      "typeString": "uint256[] memory"
+                    }
+                  },
+                  "functionReturnParameters": 1142,
+                  "id": 1180,
+                  "nodeType": "Return",
+                  "src": "1147:10:6"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1182,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getKeysArray",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1138,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1137,
+                  "name": "self",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1182,
+                  "src": "792:37:6",
+                  "stateVariable": false,
+                  "storageLocation": "storage",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                    "typeString": "struct LinkedListLib.LinkedList"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 1136,
+                    "name": "LinkedListLib.LinkedList",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 3074,
+                    "src": "792:24:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                      "typeString": "struct LinkedListLib.LinkedList"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "791:39:6"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1142,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1141,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1182,
+                  "src": "863:9:6",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
+                    "typeString": "uint256[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 1139,
+                      "name": "uint256",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "863:7:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 1140,
+                    "length": null,
+                    "nodeType": "ArrayTypeName",
+                    "src": "863:9:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                      "typeString": "uint256[]"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "862:18:6"
+            },
+            "scope": 1232,
+            "src": "770:394:6",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1230,
+              "nodeType": "Block",
+              "src": "1288:295:6",
+              "statements": [
+                {
+                  "assignments": [
+                    1193
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 1193,
+                      "name": "res",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 1231,
+                      "src": "1298:20:6",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
+                        "typeString": "address[]"
+                      },
+                      "typeName": {
+                        "baseType": {
+                          "id": 1191,
+                          "name": "address",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "1298:7:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "id": 1192,
+                        "length": null,
+                        "nodeType": "ArrayTypeName",
+                        "src": "1298:9:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                          "typeString": "address[]"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 1201,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "arguments": [],
+                        "expression": {
+                          "argumentTypes": [],
+                          "expression": {
+                            "argumentTypes": null,
+                            "id": 1197,
+                            "name": "self",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1184,
+                            "src": "1335:4:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                              "typeString": "struct LinkedListLib.LinkedList storage pointer"
+                            }
+                          },
+                          "id": 1198,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberName": "sizeOf",
+                          "nodeType": "MemberAccess",
+                          "referencedDeclaration": 3196,
+                          "src": "1335:11:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_function_delegatecall_view$_t_struct$_LinkedList_$3074_storage_ptr_$returns$_t_uint256_$bound_to$_t_struct$_LinkedList_$3074_storage_ptr_$",
+                            "typeString": "function (struct LinkedListLib.LinkedList storage pointer) view returns (uint256)"
+                          }
+                        },
+                        "id": 1199,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "functionCall",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "1335:13:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "id": 1196,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "nodeType": "NewExpression",
+                      "src": "1321:13:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_objectcreation_pure$_t_uint256_$returns$_t_array$_t_address_$dyn_memory_$",
+                        "typeString": "function (uint256) pure returns (address[] memory)"
+                      },
+                      "typeName": {
+                        "baseType": {
+                          "id": 1194,
+                          "name": "address",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "1325:7:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "id": 1195,
+                        "length": null,
+                        "nodeType": "ArrayTypeName",
+                        "src": "1325:9:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                          "typeString": "address[]"
+                        }
+                      }
+                    },
+                    "id": 1200,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1321:28:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_address_$dyn_memory",
+                      "typeString": "address[] memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "1298:51:6"
+                },
+                {
+                  "assignments": [
+                    1205
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 1205,
+                      "name": "iterator",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 1231,
+                      "src": "1359:46:6",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                        "typeString": "struct LinkedListIteratorLib.Iterator"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 1204,
+                        "name": "LinkedListIteratorLib.Iterator",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 1316,
+                        "src": "1359:30:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Iterator_$1316_storage_ptr",
+                          "typeString": "struct LinkedListIteratorLib.Iterator"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 1209,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 1206,
+                        "name": "self",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1184,
+                        "src": "1408:4:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                          "typeString": "struct LinkedListLib.LinkedList storage pointer"
+                        }
+                      },
+                      "id": 1207,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "getIterator",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 1268,
+                      "src": "1408:16:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$_t_struct$_LinkedList_$3074_storage_ptr_$returns$_t_struct$_Iterator_$1316_memory_ptr_$bound_to$_t_struct$_LinkedList_$3074_storage_ptr_$",
+                        "typeString": "function (struct LinkedListLib.LinkedList storage pointer) pure returns (struct LinkedListIteratorLib.Iterator memory)"
+                      }
+                    },
+                    "id": 1208,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1408:18:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                      "typeString": "struct LinkedListIteratorLib.Iterator memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "1359:67:6"
+                },
+                {
+                  "body": {
+                    "id": 1226,
+                    "nodeType": "Block",
+                    "src": "1475:81:6",
+                    "statements": [
+                      {
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 1224,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftHandSide": {
+                            "argumentTypes": null,
+                            "baseExpression": {
+                              "argumentTypes": null,
+                              "id": 1214,
+                              "name": "res",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 1193,
+                              "src": "1489:3:6",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
+                                "typeString": "address[] memory"
+                              }
+                            },
+                            "id": 1218,
+                            "indexExpression": {
+                              "argumentTypes": null,
+                              "arguments": [],
+                              "expression": {
+                                "argumentTypes": [],
+                                "expression": {
+                                  "argumentTypes": null,
+                                  "id": 1215,
+                                  "name": "iterator",
+                                  "nodeType": "Identifier",
+                                  "overloadedDeclarations": [],
+                                  "referencedDeclaration": 1205,
+                                  "src": "1493:8:6",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                                    "typeString": "struct LinkedListIteratorLib.Iterator memory"
+                                  }
+                                },
+                                "id": 1216,
+                                "isConstant": false,
+                                "isLValue": true,
+                                "isPure": false,
+                                "lValueRequested": false,
+                                "memberName": "getCounter",
+                                "nodeType": "MemberAccess",
+                                "referencedDeclaration": 1384,
+                                "src": "1493:19:6",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_function_internal_pure$_t_struct$_Iterator_$1316_memory_ptr_$returns$_t_uint256_$bound_to$_t_struct$_Iterator_$1316_memory_ptr_$",
+                                  "typeString": "function (struct LinkedListIteratorLib.Iterator memory) pure returns (uint256)"
+                                }
+                              },
+                              "id": 1217,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "kind": "functionCall",
+                              "lValueRequested": false,
+                              "names": [],
+                              "nodeType": "FunctionCall",
+                              "src": "1493:21:6",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_uint256",
+                                "typeString": "uint256"
+                              }
+                            },
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": true,
+                            "nodeType": "IndexAccess",
+                            "src": "1489:26:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "nodeType": "Assignment",
+                          "operator": "=",
+                          "rightHandSide": {
+                            "argumentTypes": null,
+                            "arguments": [],
+                            "expression": {
+                              "argumentTypes": [],
+                              "expression": {
+                                "argumentTypes": null,
+                                "arguments": [],
+                                "expression": {
+                                  "argumentTypes": [],
+                                  "expression": {
+                                    "argumentTypes": null,
+                                    "id": 1219,
+                                    "name": "iterator",
+                                    "nodeType": "Identifier",
+                                    "overloadedDeclarations": [],
+                                    "referencedDeclaration": 1205,
+                                    "src": "1518:8:6",
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                                      "typeString": "struct LinkedListIteratorLib.Iterator memory"
+                                    }
+                                  },
+                                  "id": 1220,
+                                  "isConstant": false,
+                                  "isLValue": true,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "memberName": "next",
+                                  "nodeType": "MemberAccess",
+                                  "referencedDeclaration": 1395,
+                                  "src": "1518:13:6",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_function_internal_pure$_t_struct$_Iterator_$1316_memory_ptr_$returns$_t_uint256_$bound_to$_t_struct$_Iterator_$1316_memory_ptr_$",
+                                    "typeString": "function (struct LinkedListIteratorLib.Iterator memory) pure returns (uint256)"
+                                  }
+                                },
+                                "id": 1221,
+                                "isConstant": false,
+                                "isLValue": false,
+                                "isPure": false,
+                                "kind": "functionCall",
+                                "lValueRequested": false,
+                                "names": [],
+                                "nodeType": "FunctionCall",
+                                "src": "1518:15:6",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                }
+                              },
+                              "id": 1222,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "memberName": "toAddress",
+                              "nodeType": "MemberAccess",
+                              "referencedDeclaration": 2564,
+                              "src": "1518:25:6",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_function_internal_pure$_t_uint256_$returns$_t_address_$bound_to$_t_uint256_$",
+                                "typeString": "function (uint256) pure returns (address)"
+                              }
+                            },
+                            "id": 1223,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "kind": "functionCall",
+                            "lValueRequested": false,
+                            "names": [],
+                            "nodeType": "FunctionCall",
+                            "src": "1518:27:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "src": "1489:56:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "id": 1225,
+                        "nodeType": "ExpressionStatement",
+                        "src": "1489:56:6"
+                      }
+                    ]
+                  },
+                  "condition": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 1212,
+                        "name": "self",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1184,
+                        "src": "1468:4:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                          "typeString": "struct LinkedListLib.LinkedList storage pointer"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                          "typeString": "struct LinkedListLib.LinkedList storage pointer"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 1210,
+                        "name": "iterator",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1205,
+                        "src": "1451:8:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                          "typeString": "struct LinkedListIteratorLib.Iterator memory"
+                        }
+                      },
+                      "id": 1211,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "hasNext",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 1447,
+                      "src": "1451:16:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_view$_t_struct$_Iterator_$1316_memory_ptr_$_t_struct$_LinkedList_$3074_storage_ptr_$returns$_t_bool_$bound_to$_t_struct$_Iterator_$1316_memory_ptr_$",
+                        "typeString": "function (struct LinkedListIteratorLib.Iterator memory,struct LinkedListLib.LinkedList storage pointer) view returns (bool)"
+                      }
+                    },
+                    "id": 1213,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1451:22:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 1227,
+                  "nodeType": "WhileStatement",
+                  "src": "1445:111:6"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1228,
+                    "name": "res",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 1193,
+                    "src": "1573:3:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
+                      "typeString": "address[] memory"
+                    }
+                  },
+                  "functionReturnParameters": 1189,
+                  "id": 1229,
+                  "nodeType": "Return",
+                  "src": "1566:10:6"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1231,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getKeysAddressArray",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1185,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1184,
+                  "name": "self",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1231,
+                  "src": "1199:37:6",
+                  "stateVariable": false,
+                  "storageLocation": "storage",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                    "typeString": "struct LinkedListLib.LinkedList"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 1183,
+                    "name": "LinkedListLib.LinkedList",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 3074,
+                    "src": "1199:24:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                      "typeString": "struct LinkedListLib.LinkedList"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1198:39:6"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1189,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1188,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1231,
+                  "src": "1270:9:6",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
+                    "typeString": "address[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 1186,
+                      "name": "address",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "1270:7:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "id": 1187,
+                    "length": null,
+                    "nodeType": "ArrayTypeName",
+                    "src": "1270:9:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                      "typeString": "address[]"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1269:18:6"
+            },
+            "scope": 1232,
+            "src": "1170:413:6",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 1233,
+        "src": "503:1082:6"
+      }
+    ],
+    "src": "0:1585:6"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/libs/LinkedList/LinkedListAdvancedExtensionLib.sol",
+    "exportedSymbols": {
+      "LinkedListAdvancedExtensionLib": [
+        1232
+      ]
+    },
+    "id": 1233,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1119,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:6"
+      },
+      {
+        "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/node_modules/ethereum-libraries-linked-list/contracts/LinkedListLib.sol",
+        "file": "../../../node_modules/ethereum-libraries-linked-list/contracts/LinkedListLib.sol",
+        "id": 1120,
+        "nodeType": "ImportDirective",
+        "scope": 1233,
+        "sourceUnit": 3550,
+        "src": "26:90:6",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/libs/LinkedList/LinkedListIteratorLib.sol",
+        "file": "./LinkedListIteratorLib.sol",
+        "id": 1121,
+        "nodeType": "ImportDirective",
+        "scope": 1233,
+        "sourceUnit": 1449,
+        "src": "118:37:6",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/libs/LinkedList/LinkedListExtensionLib.sol",
+        "file": "./LinkedListExtensionLib.sol",
+        "id": 1122,
+        "nodeType": "ImportDirective",
+        "scope": 1233,
+        "sourceUnit": 1302,
+        "src": "156:38:6",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/libs/Uint256Utils.sol",
+        "file": "../Uint256Utils.sol",
+        "id": 1123,
+        "nodeType": "ImportDirective",
+        "scope": 1233,
+        "sourceUnit": 2566,
+        "src": "195:29:6",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "library",
+        "documentation": "We need and ExtensionLib and an AdvancedExtensionLib because the IteratorLib builds upon the ExtensionLib and the AdvancedExtension needs the IteratorLib. Moving this function into ExtensionLib would lead to a cyclic dependency between ExtensionLib and IteratorLib.",
+        "fullyImplemented": true,
+        "id": 1232,
+        "linearizedBaseContracts": [
+          1232
+        ],
+        "name": "LinkedListAdvancedExtensionLib",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "id": 1126,
+            "libraryName": {
+              "contractScope": null,
+              "id": 1124,
+              "name": "LinkedListLib",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 3549,
+              "src": "554:13:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_LinkedListLib_$3549",
+                "typeString": "library LinkedListLib"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "548:49:6",
+            "typeName": {
+              "contractScope": null,
+              "id": 1125,
+              "name": "LinkedListLib.LinkedList",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 3074,
+              "src": "572:24:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                "typeString": "struct LinkedListLib.LinkedList"
+              }
+            }
+          },
+          {
+            "id": 1129,
+            "libraryName": {
+              "contractScope": null,
+              "id": 1127,
+              "name": "LinkedListExtensionLib",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1301,
+              "src": "608:22:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_LinkedListExtensionLib_$1301",
+                "typeString": "library LinkedListExtensionLib"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "602:58:6",
+            "typeName": {
+              "contractScope": null,
+              "id": 1128,
+              "name": "LinkedListLib.LinkedList",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 3074,
+              "src": "635:24:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                "typeString": "struct LinkedListLib.LinkedList"
+              }
+            }
+          },
+          {
+            "id": 1132,
+            "libraryName": {
+              "contractScope": null,
+              "id": 1130,
+              "name": "LinkedListIteratorLib",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1448,
+              "src": "671:21:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_LinkedListIteratorLib_$1448",
+                "typeString": "library LinkedListIteratorLib"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "665:63:6",
+            "typeName": {
+              "contractScope": null,
+              "id": 1131,
+              "name": "LinkedListIteratorLib.Iterator",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1316,
+              "src": "697:30:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_struct$_Iterator_$1316_storage_ptr",
+                "typeString": "struct LinkedListIteratorLib.Iterator"
+              }
+            }
+          },
+          {
+            "id": 1135,
+            "libraryName": {
+              "contractScope": null,
+              "id": 1133,
+              "name": "Uint256Utils",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 2565,
+              "src": "739:12:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Uint256Utils_$2565",
+                "typeString": "library Uint256Utils"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "733:31:6",
+            "typeName": {
+              "id": 1134,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "756:7:6",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            }
+          },
+          {
+            "body": {
+              "id": 1181,
+              "nodeType": "Block",
+              "src": "881:283:6",
+              "statements": [
+                {
+                  "assignments": [
+                    1146
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 1146,
+                      "name": "res",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 1182,
+                      "src": "891:20:6",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
+                        "typeString": "uint256[]"
+                      },
+                      "typeName": {
+                        "baseType": {
+                          "id": 1144,
+                          "name": "uint256",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "891:7:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "id": 1145,
+                        "length": null,
+                        "nodeType": "ArrayTypeName",
+                        "src": "891:9:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                          "typeString": "uint256[]"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 1154,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "arguments": [],
+                        "expression": {
+                          "argumentTypes": [],
+                          "expression": {
+                            "argumentTypes": null,
+                            "id": 1150,
+                            "name": "self",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1137,
+                            "src": "928:4:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                              "typeString": "struct LinkedListLib.LinkedList storage pointer"
+                            }
+                          },
+                          "id": 1151,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberName": "sizeOf",
+                          "nodeType": "MemberAccess",
+                          "referencedDeclaration": 3196,
+                          "src": "928:11:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_function_delegatecall_view$_t_struct$_LinkedList_$3074_storage_ptr_$returns$_t_uint256_$bound_to$_t_struct$_LinkedList_$3074_storage_ptr_$",
+                            "typeString": "function (struct LinkedListLib.LinkedList storage pointer) view returns (uint256)"
+                          }
+                        },
+                        "id": 1152,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "functionCall",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "928:13:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "id": 1149,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "nodeType": "NewExpression",
+                      "src": "914:13:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_objectcreation_pure$_t_uint256_$returns$_t_array$_t_uint256_$dyn_memory_$",
+                        "typeString": "function (uint256) pure returns (uint256[] memory)"
+                      },
+                      "typeName": {
+                        "baseType": {
+                          "id": 1147,
+                          "name": "uint256",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "918:7:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "id": 1148,
+                        "length": null,
+                        "nodeType": "ArrayTypeName",
+                        "src": "918:9:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                          "typeString": "uint256[]"
+                        }
+                      }
+                    },
+                    "id": 1153,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "914:28:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$dyn_memory",
+                      "typeString": "uint256[] memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "891:51:6"
+                },
+                {
+                  "assignments": [
+                    1158
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 1158,
+                      "name": "iterator",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 1182,
+                      "src": "952:46:6",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                        "typeString": "struct LinkedListIteratorLib.Iterator"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 1157,
+                        "name": "LinkedListIteratorLib.Iterator",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 1316,
+                        "src": "952:30:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Iterator_$1316_storage_ptr",
+                          "typeString": "struct LinkedListIteratorLib.Iterator"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 1162,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 1159,
+                        "name": "self",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1137,
+                        "src": "1001:4:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                          "typeString": "struct LinkedListLib.LinkedList storage pointer"
+                        }
+                      },
+                      "id": 1160,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "getIterator",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 1268,
+                      "src": "1001:16:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$_t_struct$_LinkedList_$3074_storage_ptr_$returns$_t_struct$_Iterator_$1316_memory_ptr_$bound_to$_t_struct$_LinkedList_$3074_storage_ptr_$",
+                        "typeString": "function (struct LinkedListLib.LinkedList storage pointer) pure returns (struct LinkedListIteratorLib.Iterator memory)"
+                      }
+                    },
+                    "id": 1161,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1001:18:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                      "typeString": "struct LinkedListIteratorLib.Iterator memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "952:67:6"
+                },
+                {
+                  "body": {
+                    "id": 1177,
+                    "nodeType": "Block",
+                    "src": "1068:69:6",
+                    "statements": [
+                      {
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 1175,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftHandSide": {
+                            "argumentTypes": null,
+                            "baseExpression": {
+                              "argumentTypes": null,
+                              "id": 1167,
+                              "name": "res",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 1146,
+                              "src": "1082:3:6",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
+                                "typeString": "uint256[] memory"
+                              }
+                            },
+                            "id": 1171,
+                            "indexExpression": {
+                              "argumentTypes": null,
+                              "arguments": [],
+                              "expression": {
+                                "argumentTypes": [],
+                                "expression": {
+                                  "argumentTypes": null,
+                                  "id": 1168,
+                                  "name": "iterator",
+                                  "nodeType": "Identifier",
+                                  "overloadedDeclarations": [],
+                                  "referencedDeclaration": 1158,
+                                  "src": "1086:8:6",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                                    "typeString": "struct LinkedListIteratorLib.Iterator memory"
+                                  }
+                                },
+                                "id": 1169,
+                                "isConstant": false,
+                                "isLValue": true,
+                                "isPure": false,
+                                "lValueRequested": false,
+                                "memberName": "getCounter",
+                                "nodeType": "MemberAccess",
+                                "referencedDeclaration": 1384,
+                                "src": "1086:19:6",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_function_internal_pure$_t_struct$_Iterator_$1316_memory_ptr_$returns$_t_uint256_$bound_to$_t_struct$_Iterator_$1316_memory_ptr_$",
+                                  "typeString": "function (struct LinkedListIteratorLib.Iterator memory) pure returns (uint256)"
+                                }
+                              },
+                              "id": 1170,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "kind": "functionCall",
+                              "lValueRequested": false,
+                              "names": [],
+                              "nodeType": "FunctionCall",
+                              "src": "1086:21:6",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_uint256",
+                                "typeString": "uint256"
+                              }
+                            },
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": true,
+                            "nodeType": "IndexAccess",
+                            "src": "1082:26:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "nodeType": "Assignment",
+                          "operator": "=",
+                          "rightHandSide": {
+                            "argumentTypes": null,
+                            "arguments": [],
+                            "expression": {
+                              "argumentTypes": [],
+                              "expression": {
+                                "argumentTypes": null,
+                                "id": 1172,
+                                "name": "iterator",
+                                "nodeType": "Identifier",
+                                "overloadedDeclarations": [],
+                                "referencedDeclaration": 1158,
+                                "src": "1111:8:6",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                                  "typeString": "struct LinkedListIteratorLib.Iterator memory"
+                                }
+                              },
+                              "id": 1173,
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "memberName": "next",
+                              "nodeType": "MemberAccess",
+                              "referencedDeclaration": 1395,
+                              "src": "1111:13:6",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_function_internal_pure$_t_struct$_Iterator_$1316_memory_ptr_$returns$_t_uint256_$bound_to$_t_struct$_Iterator_$1316_memory_ptr_$",
+                                "typeString": "function (struct LinkedListIteratorLib.Iterator memory) pure returns (uint256)"
+                              }
+                            },
+                            "id": 1174,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "kind": "functionCall",
+                            "lValueRequested": false,
+                            "names": [],
+                            "nodeType": "FunctionCall",
+                            "src": "1111:15:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "src": "1082:44:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "id": 1176,
+                        "nodeType": "ExpressionStatement",
+                        "src": "1082:44:6"
+                      }
+                    ]
+                  },
+                  "condition": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 1165,
+                        "name": "self",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1137,
+                        "src": "1061:4:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                          "typeString": "struct LinkedListLib.LinkedList storage pointer"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                          "typeString": "struct LinkedListLib.LinkedList storage pointer"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 1163,
+                        "name": "iterator",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1158,
+                        "src": "1044:8:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                          "typeString": "struct LinkedListIteratorLib.Iterator memory"
+                        }
+                      },
+                      "id": 1164,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "hasNext",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 1447,
+                      "src": "1044:16:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_view$_t_struct$_Iterator_$1316_memory_ptr_$_t_struct$_LinkedList_$3074_storage_ptr_$returns$_t_bool_$bound_to$_t_struct$_Iterator_$1316_memory_ptr_$",
+                        "typeString": "function (struct LinkedListIteratorLib.Iterator memory,struct LinkedListLib.LinkedList storage pointer) view returns (bool)"
+                      }
+                    },
+                    "id": 1166,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1044:22:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 1178,
+                  "nodeType": "WhileStatement",
+                  "src": "1038:99:6"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1179,
+                    "name": "res",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 1146,
+                    "src": "1154:3:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
+                      "typeString": "uint256[] memory"
+                    }
+                  },
+                  "functionReturnParameters": 1142,
+                  "id": 1180,
+                  "nodeType": "Return",
+                  "src": "1147:10:6"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1182,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getKeysArray",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1138,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1137,
+                  "name": "self",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1182,
+                  "src": "792:37:6",
+                  "stateVariable": false,
+                  "storageLocation": "storage",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                    "typeString": "struct LinkedListLib.LinkedList"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 1136,
+                    "name": "LinkedListLib.LinkedList",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 3074,
+                    "src": "792:24:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                      "typeString": "struct LinkedListLib.LinkedList"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "791:39:6"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1142,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1141,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1182,
+                  "src": "863:9:6",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
+                    "typeString": "uint256[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 1139,
+                      "name": "uint256",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "863:7:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 1140,
+                    "length": null,
+                    "nodeType": "ArrayTypeName",
+                    "src": "863:9:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                      "typeString": "uint256[]"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "862:18:6"
+            },
+            "scope": 1232,
+            "src": "770:394:6",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1230,
+              "nodeType": "Block",
+              "src": "1288:295:6",
+              "statements": [
+                {
+                  "assignments": [
+                    1193
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 1193,
+                      "name": "res",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 1231,
+                      "src": "1298:20:6",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
+                        "typeString": "address[]"
+                      },
+                      "typeName": {
+                        "baseType": {
+                          "id": 1191,
+                          "name": "address",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "1298:7:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "id": 1192,
+                        "length": null,
+                        "nodeType": "ArrayTypeName",
+                        "src": "1298:9:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                          "typeString": "address[]"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 1201,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "arguments": [],
+                        "expression": {
+                          "argumentTypes": [],
+                          "expression": {
+                            "argumentTypes": null,
+                            "id": 1197,
+                            "name": "self",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1184,
+                            "src": "1335:4:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                              "typeString": "struct LinkedListLib.LinkedList storage pointer"
+                            }
+                          },
+                          "id": 1198,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberName": "sizeOf",
+                          "nodeType": "MemberAccess",
+                          "referencedDeclaration": 3196,
+                          "src": "1335:11:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_function_delegatecall_view$_t_struct$_LinkedList_$3074_storage_ptr_$returns$_t_uint256_$bound_to$_t_struct$_LinkedList_$3074_storage_ptr_$",
+                            "typeString": "function (struct LinkedListLib.LinkedList storage pointer) view returns (uint256)"
+                          }
+                        },
+                        "id": 1199,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "functionCall",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "1335:13:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "id": 1196,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "nodeType": "NewExpression",
+                      "src": "1321:13:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_objectcreation_pure$_t_uint256_$returns$_t_array$_t_address_$dyn_memory_$",
+                        "typeString": "function (uint256) pure returns (address[] memory)"
+                      },
+                      "typeName": {
+                        "baseType": {
+                          "id": 1194,
+                          "name": "address",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "1325:7:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "id": 1195,
+                        "length": null,
+                        "nodeType": "ArrayTypeName",
+                        "src": "1325:9:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                          "typeString": "address[]"
+                        }
+                      }
+                    },
+                    "id": 1200,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1321:28:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_address_$dyn_memory",
+                      "typeString": "address[] memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "1298:51:6"
+                },
+                {
+                  "assignments": [
+                    1205
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 1205,
+                      "name": "iterator",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 1231,
+                      "src": "1359:46:6",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                        "typeString": "struct LinkedListIteratorLib.Iterator"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 1204,
+                        "name": "LinkedListIteratorLib.Iterator",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 1316,
+                        "src": "1359:30:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Iterator_$1316_storage_ptr",
+                          "typeString": "struct LinkedListIteratorLib.Iterator"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 1209,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 1206,
+                        "name": "self",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1184,
+                        "src": "1408:4:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                          "typeString": "struct LinkedListLib.LinkedList storage pointer"
+                        }
+                      },
+                      "id": 1207,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "getIterator",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 1268,
+                      "src": "1408:16:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$_t_struct$_LinkedList_$3074_storage_ptr_$returns$_t_struct$_Iterator_$1316_memory_ptr_$bound_to$_t_struct$_LinkedList_$3074_storage_ptr_$",
+                        "typeString": "function (struct LinkedListLib.LinkedList storage pointer) pure returns (struct LinkedListIteratorLib.Iterator memory)"
+                      }
+                    },
+                    "id": 1208,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1408:18:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                      "typeString": "struct LinkedListIteratorLib.Iterator memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "1359:67:6"
+                },
+                {
+                  "body": {
+                    "id": 1226,
+                    "nodeType": "Block",
+                    "src": "1475:81:6",
+                    "statements": [
+                      {
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 1224,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftHandSide": {
+                            "argumentTypes": null,
+                            "baseExpression": {
+                              "argumentTypes": null,
+                              "id": 1214,
+                              "name": "res",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 1193,
+                              "src": "1489:3:6",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
+                                "typeString": "address[] memory"
+                              }
+                            },
+                            "id": 1218,
+                            "indexExpression": {
+                              "argumentTypes": null,
+                              "arguments": [],
+                              "expression": {
+                                "argumentTypes": [],
+                                "expression": {
+                                  "argumentTypes": null,
+                                  "id": 1215,
+                                  "name": "iterator",
+                                  "nodeType": "Identifier",
+                                  "overloadedDeclarations": [],
+                                  "referencedDeclaration": 1205,
+                                  "src": "1493:8:6",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                                    "typeString": "struct LinkedListIteratorLib.Iterator memory"
+                                  }
+                                },
+                                "id": 1216,
+                                "isConstant": false,
+                                "isLValue": true,
+                                "isPure": false,
+                                "lValueRequested": false,
+                                "memberName": "getCounter",
+                                "nodeType": "MemberAccess",
+                                "referencedDeclaration": 1384,
+                                "src": "1493:19:6",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_function_internal_pure$_t_struct$_Iterator_$1316_memory_ptr_$returns$_t_uint256_$bound_to$_t_struct$_Iterator_$1316_memory_ptr_$",
+                                  "typeString": "function (struct LinkedListIteratorLib.Iterator memory) pure returns (uint256)"
+                                }
+                              },
+                              "id": 1217,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "kind": "functionCall",
+                              "lValueRequested": false,
+                              "names": [],
+                              "nodeType": "FunctionCall",
+                              "src": "1493:21:6",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_uint256",
+                                "typeString": "uint256"
+                              }
+                            },
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": true,
+                            "nodeType": "IndexAccess",
+                            "src": "1489:26:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "nodeType": "Assignment",
+                          "operator": "=",
+                          "rightHandSide": {
+                            "argumentTypes": null,
+                            "arguments": [],
+                            "expression": {
+                              "argumentTypes": [],
+                              "expression": {
+                                "argumentTypes": null,
+                                "arguments": [],
+                                "expression": {
+                                  "argumentTypes": [],
+                                  "expression": {
+                                    "argumentTypes": null,
+                                    "id": 1219,
+                                    "name": "iterator",
+                                    "nodeType": "Identifier",
+                                    "overloadedDeclarations": [],
+                                    "referencedDeclaration": 1205,
+                                    "src": "1518:8:6",
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                                      "typeString": "struct LinkedListIteratorLib.Iterator memory"
+                                    }
+                                  },
+                                  "id": 1220,
+                                  "isConstant": false,
+                                  "isLValue": true,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "memberName": "next",
+                                  "nodeType": "MemberAccess",
+                                  "referencedDeclaration": 1395,
+                                  "src": "1518:13:6",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_function_internal_pure$_t_struct$_Iterator_$1316_memory_ptr_$returns$_t_uint256_$bound_to$_t_struct$_Iterator_$1316_memory_ptr_$",
+                                    "typeString": "function (struct LinkedListIteratorLib.Iterator memory) pure returns (uint256)"
+                                  }
+                                },
+                                "id": 1221,
+                                "isConstant": false,
+                                "isLValue": false,
+                                "isPure": false,
+                                "kind": "functionCall",
+                                "lValueRequested": false,
+                                "names": [],
+                                "nodeType": "FunctionCall",
+                                "src": "1518:15:6",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                }
+                              },
+                              "id": 1222,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "memberName": "toAddress",
+                              "nodeType": "MemberAccess",
+                              "referencedDeclaration": 2564,
+                              "src": "1518:25:6",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_function_internal_pure$_t_uint256_$returns$_t_address_$bound_to$_t_uint256_$",
+                                "typeString": "function (uint256) pure returns (address)"
+                              }
+                            },
+                            "id": 1223,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "kind": "functionCall",
+                            "lValueRequested": false,
+                            "names": [],
+                            "nodeType": "FunctionCall",
+                            "src": "1518:27:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "src": "1489:56:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "id": 1225,
+                        "nodeType": "ExpressionStatement",
+                        "src": "1489:56:6"
+                      }
+                    ]
+                  },
+                  "condition": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 1212,
+                        "name": "self",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1184,
+                        "src": "1468:4:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                          "typeString": "struct LinkedListLib.LinkedList storage pointer"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                          "typeString": "struct LinkedListLib.LinkedList storage pointer"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 1210,
+                        "name": "iterator",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1205,
+                        "src": "1451:8:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                          "typeString": "struct LinkedListIteratorLib.Iterator memory"
+                        }
+                      },
+                      "id": 1211,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "hasNext",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 1447,
+                      "src": "1451:16:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_view$_t_struct$_Iterator_$1316_memory_ptr_$_t_struct$_LinkedList_$3074_storage_ptr_$returns$_t_bool_$bound_to$_t_struct$_Iterator_$1316_memory_ptr_$",
+                        "typeString": "function (struct LinkedListIteratorLib.Iterator memory,struct LinkedListLib.LinkedList storage pointer) view returns (bool)"
+                      }
+                    },
+                    "id": 1213,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1451:22:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 1227,
+                  "nodeType": "WhileStatement",
+                  "src": "1445:111:6"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1228,
+                    "name": "res",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 1193,
+                    "src": "1573:3:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
+                      "typeString": "address[] memory"
+                    }
+                  },
+                  "functionReturnParameters": 1189,
+                  "id": 1229,
+                  "nodeType": "Return",
+                  "src": "1566:10:6"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1231,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getKeysAddressArray",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1185,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1184,
+                  "name": "self",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1231,
+                  "src": "1199:37:6",
+                  "stateVariable": false,
+                  "storageLocation": "storage",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                    "typeString": "struct LinkedListLib.LinkedList"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 1183,
+                    "name": "LinkedListLib.LinkedList",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 3074,
+                    "src": "1199:24:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                      "typeString": "struct LinkedListLib.LinkedList"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1198:39:6"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1189,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1188,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1231,
+                  "src": "1270:9:6",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
+                    "typeString": "address[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 1186,
+                      "name": "address",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "1270:7:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "id": 1187,
+                    "length": null,
+                    "nodeType": "ArrayTypeName",
+                    "src": "1270:9:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                      "typeString": "address[]"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1269:18:6"
+            },
+            "scope": 1232,
+            "src": "1170:413:6",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 1233,
+        "src": "503:1082:6"
+      }
+    ],
+    "src": "0:1585:6"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+  },
+  "networks": {
+    "3": {
+      "events": {},
+      "links": {
+        "LinkedListLib": "0x544e3fd8a5f0ca9ee58da47d45a34651b3dca627",
+        "LinkedListExtensionLib": "0x435a2c97c75c2e9feeba9c2e2fd97ce9d57a820b"
+      },
+      "address": "0xd7f84f8dde55e3aefe41242211c5876e273583db",
+      "transactionHash": "0x1a01693b33af8ddc7267ba5ae4144f73acdf0366d512176603c76bbe204096b1"
+    }
+  },
+  "schemaVersion": "2.0.1",
+  "updatedAt": "2019-01-05T22:31:31.068Z"
+}
