@@ -4,9 +4,9 @@ import { Label, Icon } from 'semantic-ui-react';
 
 const colors = [
     'green',
-    'orange',
-    'yellow',
     'olive',
+    'yellow',
+    'orange',
     'teal',
     'blue',
     'violet',
