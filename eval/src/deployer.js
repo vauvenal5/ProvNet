@@ -4,7 +4,8 @@ import {
     flatMap, 
     catchError,
     filter,
-    reduce} from "rxjs/operators";
+    reduce,
+    last} from "rxjs/operators";
 import * as Rp from "request-promise";
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from "fs";
 import Network from "./network";
@@ -138,8 +139,8 @@ export default class Deployer {
     deployUniversity(name, count) {
         return this.deployNodeWithChildren(name, "Inst", count).pipe(
             flatMap(uni => this.deployChildrenForNodes(uni.children, "Group", count).pipe(
-                reduce((count, inst) => count++, 1),
-                map(insts => uni)
+                last(node => true),
+                map(node => uni)
             ))
         );
     }

@@ -10,7 +10,7 @@ const rp = require("request-promise");
 program
     .version("1.0.0")
     .option("-s, --scenario <scenario> ", "Run scenario.")
-    .option("-c, --contract <contract> ", "Contract address.", "0xdc3044110b5aa207b5f30adce7b4398851fa0f8f")
+    .option("-c, --contract <contract> ", "Contract address.", "0x2ab5dfedb4096fb91706c40d0397fb10f979fc6d")
     .option("-t, --target <target> ", "Target URI.", "https://find.this.com/resource1")
     .option("-d, --deploy <network>", "Deploys evaluation network.")
     .option("-r, --reset <network>", "Resets the specified network.")
@@ -55,18 +55,37 @@ if(program.deploy) {
                 network.tu.children.push(network.infosys);
                 network.infosys.children.push(network.dsg);
                 linker.linkNetwork(network.tu, 1).subscribe(
-                    link => {},
+                    link => {
+                        let linkAdded = link.events.LinkAdded;
+                        if(linkAdded === undefined) {
+                            console.log(link);
+                        }
+                        linkAdded.map(event => {
+                            let out = {
+                                event: event.event,
+                                from: event.address,
+                                to: event.returnValues.to,
+                                tag: event.returnValues.tag,
+                            }
+                            console.log(out);
+                        });
+                    },
                     err => console.log(err),
-                    () => console.log("All deployed!")
+                    () => {
+                        console.log("All deployed!");
+                    }
                 );
             }
         );
     });
 }
 
-let target = encodeURIComponent(program.target);
+if(program.scenario === "search") {
+    let target = encodeURIComponent(program.target);
+    let links = encodeURIComponent(JSON.stringify(["trusted"]));
 
-// let requestObs = Rx.from(rp("http://localhost:3001/contracts/"+program.contract+"/search?target="+target));
-// requestObs.subscribe((res) => {
-//     console.log(JSON.parse(res));
-// });
+    let requestObs = Rx.from(rp("http://localhost:3001/contracts/"+program.contract+"/search?target="+target+"&links="+links));
+    requestObs.subscribe((res) => {
+        console.log(JSON.parse(res));
+    });
+}

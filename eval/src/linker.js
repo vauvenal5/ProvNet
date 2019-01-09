@@ -44,7 +44,6 @@ export default class Linker {
                     return false;
                 }
 
-                console.log("Linking: " + node.address + " => "+ child.address);
                 return true;//do not filter; link does not exist;
             }),
             flatMap(child => Rx.from(

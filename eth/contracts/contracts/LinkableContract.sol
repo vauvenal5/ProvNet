@@ -13,6 +13,8 @@ contract LinkableContract is UserAccessControl {
     using StringUtils for string;
     using TagLib for TagLib.TagList;
 
+    event LinkAdded(address indexed to, uint256 tag);
+
     struct ReservedTags {
         uint8 trusted;
         uint8 known;
@@ -101,6 +103,7 @@ contract LinkableContract is UserAccessControl {
         if(linked.isRoleOpen(getLinkType(tags.linkback))) {
             linked.addHardLink(this, tags.linkback);
         }
+        emit LinkAdded(_contract, _type);
     }
 
     /**
@@ -112,6 +115,7 @@ contract LinkableContract is UserAccessControl {
     validLinkType(_type) 
     onlyRoleOrOpenRole(linkTypes.getTag(_type).title) {
         links.addLink(_contract, _type);
+        emit LinkAdded(_contract, _type);
     }
 
     function getLinkList()
