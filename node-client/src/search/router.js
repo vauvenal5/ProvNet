@@ -5,11 +5,12 @@ import Path from "../path";
 const router = express.Router({mergeParams: true});
 
 router.route("/").get((req, res) => {
-    let searched = [];
-    let results = [];
-    controller.bfs(searched, req.params[Path.getContractVar()].toLowerCase(), req.query.target).subscribe(value => {
-        console.log(value);
-        results.push(value);
+    let searched = {};
+    let results = {};
+    let links = JSON.parse(req.query.links);
+    controller.bfs(searched, req.params[Path.getContractVar()].toLowerCase(), req.query.target, links).subscribe(value => {
+        console.log("BFS found: "+value);
+        results[value] = searched[value];
     }, err => console.log(err), () => res.json({searched, results}));
 });
 
