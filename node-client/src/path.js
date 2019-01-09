@@ -40,11 +40,31 @@ export default class Path {
         return this.addPath("/deploy");
     }
 
+    addUsers() {
+        return this.addPath("/users");
+    }
+
+    addUserVar() {
+        return this.addPath("/:"+ Path.getUserVar());
+    }
+
+    addVar(name) {
+        return this.addPath("/:"+name);
+    }
+
     static create() {
         return new Path();
     }
 
     static getContractVar() {
         return "contract";
+    }
+
+    static getUserVar() {
+        return "user";
+    }
+
+    static getLinkVar() {
+        return "link";
     }
 }

@@ -2,7 +2,9 @@ import * as Rx from "rxjs";
 import { 
     flatMap, 
     switchAll,
-    reduce } from "rxjs/operators";
+    reduce, 
+    concatMap,
+    map} from "rxjs/operators";
 import Link from "../models/Link";
 import web3Provider from "../web3Provider";
 
@@ -30,3 +32,14 @@ controller.loadLinksObservable = (address) => Rx.of(address).pipe(
     web3Provider.simpleProvenanceContractOperator(),
     flatMap(web3Contract => observables.linksLoadObservable(web3Contract))
 );
+
+controller.addLinkSubject = new Rx.Subject();
+controller.addLink = (contract, link, tag, cb) => controller.addLinkSubject.next({contract, link, tag, cb});
+controller.addLinkSubject.pipe(
+    concatMap(({contract, link, tag, cb}) => Rx.of(contract).pipe(
+        web3Provider.simpleProvenanceContractOperator(),
+        map(web3Contract => web3Contract.methods.addLink(link, tag)),
+        web3Provider.estimateAndSendOperator(),
+        map(resp => ({resp, cb}))
+    ))
+).subscribe(({resp, cb}) => cb(resp));
