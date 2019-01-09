@@ -22,8 +22,8 @@ module.exports = function(deployer, network, accounts) {
         svidenov.addLink(infoSys, 2);
         svidenov.addLink(dsg, 2);
     
-        // inst1.inst.addProvenance("https://find.this.com/resource1", "some prov");
-        // inst1.groups[2].addProvenance("https://find.this.com/resource1", "some more prov");
+        dsg.addProvenance("https://find.this.com/resource1", "some prov");
+        infoSys.addProvenance("https://find.this.com/resource1", "some more prov");
         // inst1.groups[4].addProvenance("https://find.this.com/resource1", "and even more prov");
     
         utils.printContractAddresses();

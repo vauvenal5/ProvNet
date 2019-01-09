@@ -20,6 +20,8 @@ contract SimpleProvenanceContract is LinkableContract {
 
     constructor(string _title) public {
         title = _title;
+        //open linkback per default
+        setRoleOpen(getLinkType(tags.linkback));
     }
 
     /**

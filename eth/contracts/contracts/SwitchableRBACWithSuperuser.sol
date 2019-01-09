@@ -38,4 +38,8 @@ contract SwitchableRBACWithSuperuser is Superuser {
     function isOwner(address _address) public view returns(bool) {
         return owner == _address;
     }
+
+    function isRoleOpen(string _role) public view returns(bool) {
+        return openRoles[_role];
+    }
 }

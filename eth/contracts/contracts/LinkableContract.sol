@@ -17,9 +17,10 @@ contract LinkableContract is UserAccessControl {
         uint8 trusted;
         uint8 known;
         uint8 pingback;
+        uint8 linkback;
     }
 
-    ReservedTags tags = ReservedTags(1,2,3);
+    ReservedTags internal tags = ReservedTags(1,2,3,4);
 
     ProvLinkListLib.LinkList private links;
     TagLib.TagList private linkTypes;
@@ -31,6 +32,7 @@ contract LinkableContract is UserAccessControl {
         linkTypes.addTag(tags.trusted, "trusted");
         linkTypes.addTag(tags.known, "known");
         linkTypes.addTag(tags.pingback, "pingback");
+        linkTypes.addTag(tags.linkback, "linkback");
     }
 
     modifier notReserved(uint256 _type) {
@@ -91,6 +93,21 @@ contract LinkableContract is UserAccessControl {
 
     //admin basically first enables new list by creating new role :)
     function addLink(address _contract, uint256 _type) 
+    public 
+    validLinkType(_type) 
+    onlyRoleOrOpenRole(linkTypes.getTag(_type).title) {
+        links.addLink(_contract, _type);
+        LinkableContract linked = LinkableContract(_contract);
+        if(linked.isRoleOpen(getLinkType(tags.linkback))) {
+            linked.addHardLink(this, tags.linkback);
+        }
+    }
+
+    /**
+        This function has alos the purpose to allow future proof linking.
+        If the contracts change a lot in future iterations this is a way to link contracts even if they are not linkable any more by addLink standards.
+     */
+    function addHardLink(address _contract, uint256 _type) 
     public 
     validLinkType(_type) 
     onlyRoleOrOpenRole(linkTypes.getTag(_type).title) {

@@ -30,15 +30,17 @@ library ProvLinkListLib {
         _;
     }
 
-    modifier linkDoesNotExist(LinkList storage self, address index) {
-        require(!self.keys.nodeExists(index.toUint256()), "Link allready exists!");
-        _;
-    }
+    // modifier linkDoesNotExist(LinkList storage self, address index) {
+    //     require(!self.keys.nodeExists(index.toUint256()), "Link allready exists!");
+    //     _;
+    // }
 
     //todo-sv: read up on function modifiers in libraries; are there any security risks? will the access control in the contract function like expected?
-    function addLink(LinkList storage self, address _contract, uint256 _type) internal 
-    linkDoesNotExist(self, _contract) {
-        self.keys.push(_contract.toUint256(), false);
+    function addLink(LinkList storage self, address _contract, uint256 _type) internal {
+    //linkDoesNotExist(self, _contract) {
+        if(!self.keys.nodeExists(_contract.toUint256())) {
+            self.keys.push(_contract.toUint256(), false);
+        }
         
         ProvLinkLib.Link storage link = self.links[_contract];
         link.provenanceContract = _contract;
