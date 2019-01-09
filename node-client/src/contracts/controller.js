@@ -39,18 +39,15 @@ controller.deploySubject.pipe(
             web3Provider.getWeb3().eth.net.getId()
         ).pipe(
             map(id => SimpleProvenanceContract.binary[id]),
-            filter(data => data !== undefined),//todo-sv: this filter does not work!! it stops execution!
-            map(data => web3Contract.deploy({data: data, arguments: [title]})),//todo-sv: try with from
-            flatMap(prepared => Rx.from(prepared.estimateGas()).pipe(
-                flatMap(gas => Rx.from(
-                    prepared.send({from: web3Provider.getAddress(), gas: 5000000, gasPrice: 31})
-                ).pipe(
-                    catchError(err => {
-                        console.log(err);
-                        return Rx.of({error: err.toString()});
-                    })
-                ))
-            ))
+            flatMap(data => {
+                if(data === undefined) {
+                    return Rx.throwError("No binary found for network!");
+                }
+
+                return Rx.of(data);
+            }),
+            map(data => web3Contract.deploy({data: data, arguments: [title]})),
+            web3Provider.estimateAndSendOperator(),
         )),
         map(contract => ({title, cb, contract}))
     ))

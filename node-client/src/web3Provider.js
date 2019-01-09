@@ -50,9 +50,19 @@ class Web3Provider {
     }
 
     estimateAndSendOperator = () => flatMap(func => Rx.from(func.estimateGas({from: this.getAddress()})).pipe(
+        map(gas => {
+            console.log("Estimated gas: " + gas);
+            gas = parseInt(parseInt(gas)*1.1);
+            console.log("Sent gas: " + gas);
+            return gas;
+        }),
         flatMap(gas => Rx.from(
             func.send({from: this.getAddress(), gas: gas, gasPrice: 31})
         ).pipe(
+            map(resp => {
+                console.log("Used gas: " + resp.gasUsed);
+                return resp;
+            }),
             catchError(err => {
                 console.log(err);
                 return Rx.of({error: err.toString()});
