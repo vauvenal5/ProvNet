@@ -12,48 +12,76 @@ import {
     max,
     min,
     first} from "rxjs/operators";
-import * as Rp from "request-promise";
-import { existsSync, readFileSync, writeFileSync, mkdirSync } from "fs";
-import Network from "./network";
-import Contract from "./contract";
-import PersistableHelper from "./PersistableHelper";
 
-export default class CostCounter extends PersistableHelper {
-    constructor(network, persist) {
-        super(network, persist, "cost");
+export default class CostCounter {
+    constructor(groupFunc) {
 
-        let countOperator = (obs) => Rx.zip(
+        let minOperation = (obs, minMap) => obs.pipe(
+            map(e => minMap(e)),
+            min()
+        );
+
+        let maxOperation = (obs, maxMap) => obs.pipe(
+            map(e => maxMap(e)),
+            max()
+        );
+
+        let sumOperator = (obs, sumMap) => obs.pipe(
+            map(e => sumMap(e)),
+            reduce((sum, cost) => sum + cost, 0)
+        )
+
+        let nameOperator = (obs) => obs.pipe(
+            map(event => event.event),
+            first(event => true)
+        );
+
+        let countOperator = (obs, groupFunc) => Rx.zip(
+            nameOperator(obs).pipe(
+                map(op => op+"-Stats")
+            ),
             obs.pipe(
-                map(event => event.contract.length),
+                map(event => groupFunc(event)),
                 first(size => size > 0)
             ),
             obs.pipe(count()),
-            obs.pipe(reduce((accumulated, event) => accumulated + event.cost, 0)),
-            obs.pipe(
-                map(event => event.cost),
-                max()
-            ),
-            obs.pipe(
-                map(event => event.cost),
-                min()
-            ),
-            (size, count, sum, max, min) => ({size, count, sum, max, min})
-        ).subscribe(res => console.log(res));
+            minOperation(obs, e => e.cost),
+            maxOperation(obs, e => e.cost),
+            sumOperator(obs, e => e.cost),
+            (event, size, count, min, max, sum) => ({event, size, count, min, max, sum})
+        );
 
-        this.contractSubject = new Rx.Subject();
-        this.contractSubject.pipe(
-            map(event => this.saveToLog(event)),
-            groupBy(event => event.contract.length)
-        ).subscribe(obs => countOperator(obs));
+        let totalOperator = (obs) => Rx.zip(
+            nameOperator(obs).pipe(
+                map(op => op+"-Total")
+            ),
+            Rx.zip(
+                minOperation(obs, e => e.size),
+                maxOperation(obs, e => e.size),
+                (min, max) => min+"-"+max
+            ),
+            sumOperator(obs, e => e.count),
+            minOperation(obs, e => e.min),
+            maxOperation(obs, e => e.max),
+            sumOperator(obs, e => e.sum),
+            (event, size, count, min, max, sum) => ({event, size, count, min, max, sum})
+        );
 
-        this.userSubject = new Rx.Subject();
-        this.userSubject.pipe(
-            groupBy(event => event.role.length)
-        ).subscribe(obs => countOperator(obs));
+        this.subject = new Rx.Subject().pipe(
+            groupBy(event => groupFunc(event)),
+            flatMap(obs => countOperator(obs, groupFunc))
+        );
+
+        this.subject.subscribe(res => console.log(res));
+
+        totalOperator(this.subject).subscribe(total => console.log(total));
     }
 
-    saveToLog(event) {
-        //this.getNetworkedTopic()[log].push(event);
-        return event;
+    next(event) {
+        this.subject.next(event);
+    }
+
+    complete() {
+        this.subject.complete();
     }
 }

@@ -1,7 +1,8 @@
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from "fs";
+import CostCounter from "./CostCounter";
 
 export default class PersistableHelper {
-    constructor(network, persist, topic) {
+    constructor(network, persist, topic, costGroupFunc, getKeyFunc) {
         this.config = {
             topic: topic,
             dir: "./config",
@@ -10,6 +11,8 @@ export default class PersistableHelper {
         };
         this.config.path = this.config.dir + "/" + topic + ".json";
         this.network = network;
+        this.costCounter = new CostCounter(costGroupFunc);
+        this.getEventKey = getKeyFunc;
         
         this[topic] = {};
         
@@ -26,8 +29,15 @@ export default class PersistableHelper {
         }
     }
 
+    addEvent(out) {
+        console.log(out);
+        this.getNetworkedTopic()[this.getEventKey(out)] = out;
+        this.persist();
+        this.costCounter.next(out);
+    }
+
     getNetworkedTopic() {
-        return this[this.config.topic][network];
+        return this[this.config.topic][this.network];
     }
 
     resetNetwork() {

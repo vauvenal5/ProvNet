@@ -3,15 +3,37 @@ import { flatMap, filter, map, switchAll, reduce } from "rxjs/operators";
 import * as Rp from "request-promise";
 import Network from "./network";
 import Contract from "./contract";
+import PersistableHelper from "./PersistableHelper";
+import CostCounter from "./CostCounter";
 
-export default class Linker {
+export default class Linker extends PersistableHelper {
+    constructor(network, persist) {
+        super(network, persist, "links", e => e.tag, e => this.createEventKey(e.from, e.to, e.tag));
+    }
+
+    createEventKey(from, to, tag) {
+        return from + "=>" + to + ":" + tag;
+    }
+
+    addEvent(event, gasUsed, from, to) {
+        let out = {
+            event: event.event,
+            from: from,
+            fromAddress: event.address.toLowerCase(),
+            to: to,
+            toAddress: event.returnValues.to.toLowerCase(),
+            tag: event.returnValues.tag,
+            cost: gasUsed
+        };
+        super.addEvent(out);
+    }
 
     getLinks(node) {
         return Rx.from(
             Rp.get("http://localhost:3001/contracts/"+node.address+"/links", {json: true})
         ).pipe(
             switchAll(),
-            map(link => link.address),
+            map(link => link.address.toLowerCase()),
             reduce((links, link)=> {
                 links.push(link); 
                 return links;
@@ -40,7 +62,8 @@ export default class Linker {
         return Rx.of(child).pipe(
             filter(child => {
                 if(links.includes(child.address)) {
-                    console.log("Skipping link: "+node.address+" => "+child.address);
+                    console.log("Skipping link: "+node.title+" => "+child.title);
+                    this.costCounter.next(this.getNetworkedTopic()[this.createEventKey(node.title,child.title,tag)]);
                     return false;
                 }
 
@@ -53,6 +76,8 @@ export default class Linker {
                     },
                     json: true
                 })
+            ).pipe(
+                map(receipt => ({receipt, from: node.title, to: child.title}))
             ))
         );
     }

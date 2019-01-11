@@ -11,43 +11,19 @@ import { existsSync, readFileSync, writeFileSync, mkdirSync } from "fs";
 import Network from "./network";
 import Contract from "./contract";
 import CostCounter from "./CostCounter";
+import PersistableHelper from "./PersistableHelper";
 
-export default class Deployer {
-    constructor(network, persist, costCounter) {
-        this.config = {};
-        this.config.dir = "./config";
-        this.config.path = this.config.dir + "/contracts.json";
-        this.config.persist = persist;
-        this.network = network;
-        
-        this.contracts = {};
-        this.costCounter = new CostCounter(network, persist);
-        
-        if(!existsSync(this.config.dir)) {
-            mkdirSync(this.config.dir);
-        }
-
-        if(existsSync(this.config.path)) {
-            this.contracts = JSON.parse(readFileSync(this.config.path), "utf8");
-        }
-
-        if(this.contracts[this.network] === undefined) {
-            this.resetNetwork();
-        }
-
-        this.costCounter = costCounter;
-    }
-
-    resetNetwork() {
-        this.contracts[this.network] = {};
+export default class Deployer extends PersistableHelper {
+    constructor(network, persist) {
+        super(network, persist, "contracts", e => e.contract.length, e => e.contract);
     }
 
     isContractDeployed(title) {
-        return this.contracts[this.network][title] !== undefined;
+        return this.getNetworkedTopic()[title] !== undefined;
     }
 
     getAddress(title) {
-        return this.contracts[this.network][title];
+        return this.getNetworkedTopic()[title].address;
     }
 
     getAddressArray() {
@@ -56,20 +32,6 @@ export default class Deployer {
             contracts.push(this.contracts[this.network][contract]);
         }
         return contracts;
-    }
-
-    persist() {
-        if(this.config.persist) {
-            writeFileSync(
-                this.config.path, 
-                JSON.stringify(this.contracts, null, 4), 
-                "utf8"
-            );
-        }
-    }
-
-    setAddress(title, address) {
-        return this.contracts[this.network][title] = address;
     }
 
     getChildNodePrefix(name, childName) {
@@ -81,6 +43,7 @@ export default class Deployer {
             flatMap(title => {
                 if(this.isContractDeployed(title)) {
                     console.log("Skipping: "+title);
+                    this.costCounter.next(this.contracts[this.network][title]);
                     return Rx.of(new Contract(title, this.getAddress(title)));
                 }
 
@@ -93,9 +56,7 @@ export default class Deployer {
                     })
                 ).pipe(
                     map(contract => {
-                        let add = contract.contractAddress;
-                        this.setAddress(title, add);
-                        this.persist();
+                        let add = contract.contractAddress.toLowerCase();
 
                         let out = {
                             event: "ContractDeployed",
@@ -103,8 +64,8 @@ export default class Deployer {
                             address: add,
                             cost: contract.gasUsed
                         }
-                        console.log(out);
-                        this.costCounter.contractSubject.next(out);
+
+                        this.addEvent(out);
 
                         return new Contract(title, add);
                     })
