@@ -10,9 +10,10 @@ import * as Rp from "request-promise";
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from "fs";
 import Network from "./network";
 import Contract from "./contract";
+import CostCounter from "./CostCounter";
 
 export default class Deployer {
-    constructor(network, persist) {
+    constructor(network, persist, costCounter) {
         this.config = {};
         this.config.dir = "./config";
         this.config.path = this.config.dir + "/contracts.json";
@@ -20,6 +21,7 @@ export default class Deployer {
         this.network = network;
         
         this.contracts = {};
+        this.costCounter = new CostCounter(network, persist);
         
         if(!existsSync(this.config.dir)) {
             mkdirSync(this.config.dir);
@@ -32,6 +34,8 @@ export default class Deployer {
         if(this.contracts[this.network] === undefined) {
             this.resetNetwork();
         }
+
+        this.costCounter = costCounter;
     }
 
     resetNetwork() {
@@ -89,9 +93,18 @@ export default class Deployer {
                     })
                 ).pipe(
                     map(contract => {
-                        let add = contract.options.address;
+                        let add = contract.contractAddress;
                         this.setAddress(title, add);
                         this.persist();
+
+                        let out = {
+                            event: "ContractDeployed",
+                            contract: title,
+                            address: add,
+                            cost: contract.gasUsed
+                        }
+                        console.log(out);
+                        this.costCounter.contractSubject.next(out);
 
                         return new Contract(title, add);
                     })
