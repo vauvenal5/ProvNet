@@ -35,7 +35,7 @@ router.route(Path.create().addDeploy().getPath()).put((req, res) => {
         if(contract.error) {
             res.status(500);
         }
-        res.json(contract)
+        res.json(contract);
     });
 });
 

@@ -1,6 +1,6 @@
 import Web3 from "web3";
 import * as Rx from "rxjs";
-import { map, flatMap, catchError } from "rxjs/operators";
+import { map, flatMap, catchError, first } from "rxjs/operators";
 const fs = require('fs');
 
 import SimpleProvenanceContract from "ProvNet/build/contracts/SimpleProvenanceContract";
@@ -56,9 +56,13 @@ class Web3Provider {
             console.log("Sent gas: " + gas);
             return gas;
         }),
-        flatMap(gas => Rx.from(
-            func.send({from: this.getAddress(), gas: gas, gasPrice: 31})
+        // flatMap(gas => Rx.from(
+        //     func.send({from: this.getAddress(), gas: gas, gasPrice: 31})
+        // ).pipe(
+        flatMap(gas => Rx.fromEvent(
+            func.send({from: this.getAddress(), gas: gas, gasPrice: 31}), "receipt"
         ).pipe(
+            first(resp => true),
             map(resp => {
                 console.log("Used gas: " + resp.gasUsed);
                 return resp;

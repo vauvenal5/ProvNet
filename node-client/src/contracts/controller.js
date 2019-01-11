@@ -52,6 +52,6 @@ controller.deploySubject.pipe(
         map(contract => ({title, cb, contract}))
     ))
 ).subscribe(({title, cb, contract}) => {
-    console.log(title + ": " + contract.options.address);
+    console.log(title + ": " + contract.contractAddress);
     cb(contract);
 });
