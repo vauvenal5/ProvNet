@@ -17,7 +17,7 @@ const selectContractEpic = (action$) => action$.pipe(
 
         return of(
             modelActions.onContractLoad(action.address),
-            push("/contracts/"+action.address)
+            push("/ProvNet/contracts/"+action.address)//todo-sv: this url string should not be all over the place =_=
         );
     }),
 );

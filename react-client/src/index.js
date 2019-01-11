@@ -30,8 +30,8 @@ ReactDOM.render(
     <Provider store={store}>
         <ConnectedRouter history={history}>
             <Switch>
-                <Route path="/contracts/:contract" component={App}/>
-                <Route path="/" component={App}/>
+                <Route path="/ProvNet/contracts/:contract" component={App}/>
+                <Route path="/ProvNet/" component={App}/>
             </Switch>
         </ConnectedRouter>
         {/* <App /> */}

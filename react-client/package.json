@@ -2,6 +2,7 @@
   "name": "react-client",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://vauvenal5.github.io/ProvNet/",
   "dependencies": {
     "ProvNet": "file:../eth",
     "connected-react-router": "^6.0.0",
@@ -24,11 +25,14 @@
     "start": "BROWSER='openDevBrowser.js' react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
     "enzyme": "^3.6.0",
     "enzyme-adapter-react-16": "^1.5.0",
+    "gh-pages": "^2.0.1",
     "linklocal": "^2.8.2"
   },
   "browserslist": [

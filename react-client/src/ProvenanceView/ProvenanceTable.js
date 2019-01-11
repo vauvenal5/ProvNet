@@ -59,7 +59,7 @@ export const mapDispatchToProps = (dispatch) => {
     return {
         onShowProv: (address, uri, editModel) => {
             let encUri = encodeURIComponent(uri);
-            dispatch(push("/contracts/"+address+"?target="+encUri));
+            dispatch(push("/ProvNet/contracts/"+address+"?target="+encUri));
             dispatch(actions.onProvRecordsShow(address, uri, EditModel.isSuccess(editModel)));
         }
     }

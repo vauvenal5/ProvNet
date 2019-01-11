@@ -43,13 +43,14 @@ export const deployContractEpic = (action$, state$) => action$.pipe(
                     undefined, 
                     //todo-sv: add some check if binary exists for this network
                     {data: SimpleProvenanceContract.binary[id]}
-                )
+                ),
+                args: [action.payload]
             })
         );
     }),
-    flatMap(({account, web3Instance}) => {
+    flatMap(({account, web3Instance, args}) => {
         return from(
-            web3Instance.deploy().send({from: account})
+            web3Instance.deploy({arguments: args}).send({from: account})
         ).pipe(
             map(res => actions.onDeployContractSuccess({
                 address: res.options.address
