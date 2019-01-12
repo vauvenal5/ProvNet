@@ -24,11 +24,22 @@ controller.loadContractObservable = (address) => Rx.of(address).pipe(
     )),
 );
 
-controller.pushProvenance = (address, url, prov) => Rx.of(address).pipe(
-    web3Provider.simpleProvenanceContractOperator(),
-    map(web3Contract => web3Contract.methods.putProvenanceRecord(url, prov)),
-    web3Provider.estimateAndSendOperator()
-);
+// controller.pushProvenance = (address, url, prov) => Rx.of(address).pipe(
+//     web3Provider.simpleProvenanceContractOperator(),
+//     map(web3Contract => web3Contract.methods.putProvenanceRecord(url, prov)),
+//     web3Provider.estimateAndSendOperator()
+// );
+
+controller.provenanceSubject = new Rx.Subject();
+controller.pushProvenance = (address, url, prov, cb) => controller.provenanceSubject.next({address, url, prov, cb});
+controller.provenanceSubject.pipe(
+    concatMap(({address, url, prov, cb}) => Rx.of(address).pipe(
+        web3Provider.simpleProvenanceContractOperator(),
+        map(web3Contract => web3Contract.methods.putProvenanceRecord(url, prov)),
+        web3Provider.estimateAndSendOperator(),
+        map(resp => ({resp, cb}))
+    ))
+).subscribe(({resp, cb}) => cb(resp));
 
 controller.deploySubject = new Rx.Subject();
 controller.deployContract = (title, cb) => controller.deploySubject.next({title, cb});

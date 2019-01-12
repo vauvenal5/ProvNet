@@ -14,7 +14,7 @@ const readline = require('readline');
 program
     .version("1.0.0")
     .option("-s, --scenario <scenario> ", "Run scenario.")
-    .option("-c, --contract <contract> ", "Contract address.", "0xdcabb02d80e27f809910a01ca8d2f98230e158a9")
+    .option("-c, --contract <contract> ", "Contract address.", "0x5cf6b447635a366b6c3d232fad35930a1c5edf72")
     .option("-t, --target <target> ", "Target URI.", "https://find.this.com/resource1");
     //.option("-d, --deploy <network>", "Deploys evaluation network.")
     //.option("-r, --reset <network>", "Resets the specified network.")
@@ -103,14 +103,15 @@ program.command("provcost").description("Evaluate the cost to store provenance d
 
     //console.log(options.parent.contract);
 
-    let provWriter = new ProvWriter()
-    let lineNr = 40;
+    let provWriter = new ProvWriter();
+    let lineNr = 0;
         
     rl.on('line', (line) => {
-        if(lineNr<50) {
+        if(lineNr<10) {
             lineNr++;
-            provWriter.test(options.parent.contract, line, lineNr);
-            //console.log(`Line from file: ${line}`);
+            let bytes = Buffer.byteLength(line, 'utf8');
+            //provWriter.test(options.parent.contract, line, 17);
+            console.log("Bytecount: "+bytes);
         }
     });
 });

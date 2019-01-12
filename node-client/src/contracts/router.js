@@ -45,8 +45,7 @@ router.route(Path.create().addContractVar().getPath()).put((req, res) => {
     if(typeof prov !== String) {
         prov = JSON.stringify(prov);
     }
-    controller.pushProvenance(req.params[Path.getContractVar()], req.body.url, prov)
-    .subscribe(data => {
+    controller.pushProvenance(req.params[Path.getContractVar()], req.body.url, prov, (data) => {
         if(data.error) {
             res.status(500);
         }
