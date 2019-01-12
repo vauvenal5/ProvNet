@@ -71,7 +71,11 @@ class Web3Provider {
                 console.log(err);
                 return Rx.of({error: err.toString()});
             })
-        ))
+        )),
+        catchError(err => {
+            console.log(err);
+            return Rx.of({error: err.toString()});
+        })
     ));
 }
 

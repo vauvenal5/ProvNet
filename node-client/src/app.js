@@ -4,7 +4,7 @@ import contracts from "./contracts";
 
 export const app = express();
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
 
 app.use("/contracts", contracts.router);
 

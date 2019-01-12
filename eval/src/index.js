@@ -4,15 +4,17 @@ var Deployer = require("./deployer").default;
 var UserControl = require("./userControl").default;
 var Linker = require("./linker").default;
 var CostCounter = require("./CostCounter").default;
+var ProvWriter = require("./ProvWriter").default;
 var program = require("commander");
 const Rx = require("rxjs");
 const rp = require("request-promise");
 var fs = require("fs");
+const readline = require('readline');
 
 program
     .version("1.0.0")
     .option("-s, --scenario <scenario> ", "Run scenario.")
-    .option("-c, --contract <contract> ", "Contract address.", "0x2ab5dfedb4096fb91706c40d0397fb10f979fc6d")
+    .option("-c, --contract <contract> ", "Contract address.", "0xdcabb02d80e27f809910a01ca8d2f98230e158a9")
     .option("-t, --target <target> ", "Target URI.", "https://find.this.com/resource1");
     //.option("-d, --deploy <network>", "Deploys evaluation network.")
     //.option("-r, --reset <network>", "Resets the specified network.")
@@ -89,6 +91,27 @@ program.command("deploy <network>").description("Deploys evaluation network.")
                 );
             }
         );
+    });
+});
+
+program.command("provcost").description("Evaluate the cost to store provenance data.")
+.action((options) => {
+    const rl = readline.createInterface({
+        input: fs.createReadStream('./config/ProvNet.git2prov.n'),
+        crlfDelay: Infinity
+    });
+
+    //console.log(options.parent.contract);
+
+    let provWriter = new ProvWriter()
+    let lineNr = 40;
+        
+    rl.on('line', (line) => {
+        if(lineNr<50) {
+            lineNr++;
+            provWriter.test(options.parent.contract, line, lineNr);
+            //console.log(`Line from file: ${line}`);
+        }
     });
 });
 
