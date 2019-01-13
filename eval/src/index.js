@@ -95,7 +95,8 @@ program.command("deploy <network>").description("Deploys evaluation network.")
 });
 
 program.command("provcost").description("Evaluate the cost to store provenance data.")
-.option("-s, --size <size>", "Byte size to use.", 100)
+.option("-s, --size <size>", "Byte size to use.", 128)
+.option("-p, --provUrl <urlPart>", "UrlPart will be appended to prov url.", "eval001")
 .action((options) => {
     const rl = readline.createInterface({
         input: fs.createReadStream('./config/ProvNet.git2prov.n'),
@@ -104,7 +105,7 @@ program.command("provcost").description("Evaluate the cost to store provenance d
 
     //console.log(options.parent.contract);
 
-    let provWriter = new ProvWriter();
+    let provWriter = new ProvWriter(options.provUrl);
     let lineNr = 1;
     let found = false;
 
@@ -118,17 +119,41 @@ program.command("provcost").description("Evaluate the cost to store provenance d
         let bytes = Buffer.byteLength(line, 'utf8');
         let size = parseInt(options.size);
 
+        let latexOut = "";
+        let printRes = (res) => {
+            let out = {
+                size: size,
+                times: res.times,
+                cost: res.receipt.gasUsed
+            };
+            console.log(out);
+            latexOut = latexOut + "("+parseInt(out.size)*parseInt(out.times)+","+out.cost+")\n";
+        };
+
         if(bytes == size){
             console.log("LineNr: "+lineNr+" Bytecount: " + bytes);
             found = true;
             rl.close();
-            provWriter.measureProv(options.parent.contract, line).subscribe(res => {
-                let out = {
-                    size: size,
-                    times: res.times,
-                    cost: res.receipt.gasUsed
-                };
-                console.log(out);
+
+            provWriter.saveProv(options.parent.contract, line).subscribe(receipt => {
+                console.log("Initial transaction:");
+                printRes({times: 1, receipt});
+                latexOut = "";
+                console.log("Big transactions:")
+                provWriter.measureProv(options.parent.contract, line).subscribe(
+                    res => printRes(res), 
+                    err => console.log(err), 
+                    () => {
+                        console.log(latexOut);
+                        latexOut = "";
+                        console.log("Many transactions:")
+                        provWriter.measureProvIot(options.parent.contract, line).subscribe(
+                            res => printRes(res),
+                            err => console.log(err),
+                            () => console.log(latexOut)
+                        )
+                    }
+                );
             });
         }
     });
