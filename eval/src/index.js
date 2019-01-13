@@ -13,8 +13,8 @@ const readline = require('readline');
 
 program
     .version("1.0.0")
-    .option("-s, --scenario <scenario> ", "Run scenario.")
-    .option("-c, --contract <contract> ", "Contract address.", "0x5cf6b447635a366b6c3d232fad35930a1c5edf72")
+    //.option("-s, --scenario <scenario> ", "Run scenario.")
+    .option("-c, --contract <contract> ", "Contract address.", "0xdcabb02d80e27f809910a01ca8d2f98230e158a9")
     .option("-t, --target <target> ", "Target URI.", "https://find.this.com/resource1");
     //.option("-d, --deploy <network>", "Deploys evaluation network.")
     //.option("-r, --reset <network>", "Resets the specified network.")
@@ -95,6 +95,7 @@ program.command("deploy <network>").description("Deploys evaluation network.")
 });
 
 program.command("provcost").description("Evaluate the cost to store provenance data.")
+.option("-s, --size <size>", "Byte size to use.", 100)
 .action((options) => {
     const rl = readline.createInterface({
         input: fs.createReadStream('./config/ProvNet.git2prov.n'),
@@ -104,14 +105,31 @@ program.command("provcost").description("Evaluate the cost to store provenance d
     //console.log(options.parent.contract);
 
     let provWriter = new ProvWriter();
-    let lineNr = 0;
-        
+    let lineNr = 1;
+    let found = false;
+
+    //entity(result:file-eth-test-SwitchableRBACWithSuperuser-test-js_commit-229761e586590a3bb6b646928941bdac6b1360ab)    
     rl.on('line', (line) => {
-        if(lineNr<10) {
-            lineNr++;
-            let bytes = Buffer.byteLength(line, 'utf8');
-            //provWriter.test(options.parent.contract, line, 17);
-            console.log("Bytecount: "+bytes);
+        if(found) {
+            return;
+        }
+
+        lineNr++;
+        let bytes = Buffer.byteLength(line, 'utf8');
+        let size = parseInt(options.size);
+
+        if(bytes == size){
+            console.log("LineNr: "+lineNr+" Bytecount: " + bytes);
+            found = true;
+            rl.close();
+            provWriter.measureProv(options.parent.contract, line).subscribe(res => {
+                let out = {
+                    size: size,
+                    times: res.times,
+                    cost: res.receipt.gasUsed
+                };
+                console.log(out);
+            });
         }
     });
 });
