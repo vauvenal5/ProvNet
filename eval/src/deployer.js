@@ -110,9 +110,9 @@ export default class Deployer extends PersistableHelper {
         );
     }
 
-    deployUniversity(name, count) {
-        return this.deployNodeWithChildren(name, "Inst", count).pipe(
-            flatMap(uni => this.deployChildrenForNodes(uni.children, "Group", count).pipe(
+    deployUniversity(name, inst, groups) {
+        return this.deployNodeWithChildren(name, "Inst", inst).pipe(
+            flatMap(uni => this.deployChildrenForNodes(uni.children, "Group", groups).pipe(
                 last(node => true),
                 map(node => uni)
             ))
@@ -121,10 +121,18 @@ export default class Deployer extends PersistableHelper {
 
     deployDefault() {
         return Rx.zip(
+            this.deployContract("Proj-Cloud"),
             this.deployContract("DSG"),
-            this.deployNodeWithChildren("InfoSys", "Group", 8),
-            this.deployUniversity("TU", 9),
-            //this.deployUniversity("UniX", 10),
+            this.deployNodeWithChildren("InfoSys", "Group", 1),
+            this.deployNodeWithChildren("InstX", "Group", 2),
+            this.deployContract("TU"),
+            this.deployUniversity("UniY", 2, 2),
+            this.deployContract("Search16"),
+            this.deployUniversity("UniX", 2, 6),
+            this.deployContract("Search32"),
+            this.deployContract("Search64"),
+            this.deployContract("Search128"),
+            this.deployContract("Search256"),
             //this.deployUniversity("UniY", 10),
             //(dsg, infosys, tu, unix, uniy) => ({dsg, infosys, tu, unix, uniy})
             (dsg, infosys, tu) => new Network(dsg, infosys, tu)

@@ -57,12 +57,18 @@ controller.deploySubject.pipe(
 
                 return Rx.of(data);
             }),
-            map(data => web3Contract.deploy({data: data, arguments: [title]})),
+            map(data => web3Contract.deploy({data: data})),
             web3Provider.estimateAndSendOperator(),
+        )),
+        flatMap(contract => Rx.of(contract.contractAddress).pipe(
+            web3Provider.simpleProvenanceContractOperator(),
+            map(web3Contract => web3Contract.methods.setTitle(title)),
+            web3Provider.estimateAndSendOperator(),
+            map(res => contract)
         )),
         map(contract => ({title, cb, contract}))
     ))
 ).subscribe(({title, cb, contract}) => {
     console.log(title + ": " + contract.contractAddress);
-    cb(contract);
+    cb(contract);//todo-sv: log also title costs
 });
