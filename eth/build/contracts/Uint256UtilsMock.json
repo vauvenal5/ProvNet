@@ -21,24 +21,24 @@
       "type": "function"
     }
   ],
-  "bytecode": "0x608060405234801561001057600080fd5b5060bf8061001f6000396000f300608060405260043610603e5763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663a3908e1b81146043575b600080fd5b348015604e57600080fd5b5060586004356081565b6040805173ffffffffffffffffffffffffffffffffffffffff9092168252519081900360200190f35b6000608a826090565b92915050565b905600a165627a7a723058203de65a185b6f109be70e96334dc9d68fde17b7cf32559445934b9f4ea3a210ee0029",
-  "deployedBytecode": "0x608060405260043610603e5763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663a3908e1b81146043575b600080fd5b348015604e57600080fd5b5060586004356081565b6040805173ffffffffffffffffffffffffffffffffffffffff9092168252519081900360200190f35b6000608a826090565b92915050565b905600a165627a7a723058203de65a185b6f109be70e96334dc9d68fde17b7cf32559445934b9f4ea3a210ee0029",
+  "bytecode": "0x6080604052348015600f57600080fd5b5060998061001e6000396000f30060806040526004361060255763ffffffff60e060020a600035041663a3908e1b8114602a575b600080fd5b348015603557600080fd5b50603f600435605b565b60408051600160a060020a039092168252519081900360200190f35b6000606482606a565b92915050565b905600a165627a7a72305820bc4915473f1c3f05bb4d43e6f27b84f7db861e28999657e8a3609ab0948c8f380029",
+  "deployedBytecode": "0x60806040526004361060255763ffffffff60e060020a600035041663a3908e1b8114602a575b600080fd5b348015603557600080fd5b50603f600435605b565b60408051600160a060020a039092168252519081900360200190f35b6000606482606a565b92915050565b905600a165627a7a72305820bc4915473f1c3f05bb4d43e6f27b84f7db861e28999657e8a3609ab0948c8f380029",
   "sourceMap": "62:168:22:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;62:168:22;;;;;;;",
-  "deployedSourceMap": "62:168:22:-;;;;;;;;;;;;;;;;;;;;;;;131:97;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;131:97:22;;;;;;;;;;;;;;;;;;;;;;;;;181:7;207:14;:2;:12;:14::i;:::-;200:21;131:97;-1:-1:-1;;131:97:22:o;53:110:15:-;147:8;53:110::o",
+  "deployedSourceMap": "62:168:22:-;;;;;;;;;-1:-1:-1;;;62:168:22;;;;;;;;;;;;;131:97;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;131:97:22;;;;;;;;;-1:-1:-1;;;;;131:97:22;;;;;;;;;;;;;;;181:7;207:14;:2;:12;:14::i;:::-;200:21;131:97;-1:-1:-1;;131:97:22:o;53:110:15:-;147:8;53:110::o",
   "source": "pragma solidity ^0.4.24;\n\nimport \"../libs/Uint256Utils.sol\";\n\ncontract Uint256UtilsMock {\n    using Uint256Utils for uint256;\n\n    function convert(uint256 _a) public pure returns (address) {\n        return _a.toAddress();\n    }\n}",
-  "sourcePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/mocks/Uint256UtilsMock.sol",
+  "sourcePath": "/home/vauvenal5/repos/github/comp/ProvNet/eth/contracts/mocks/Uint256UtilsMock.sol",
   "ast": {
-    "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/mocks/Uint256UtilsMock.sol",
+    "absolutePath": "/home/vauvenal5/repos/github/comp/ProvNet/eth/contracts/mocks/Uint256UtilsMock.sol",
     "exportedSymbols": {
       "Uint256UtilsMock": [
-        3053
+        3126
       ]
     },
-    "id": 3054,
+    "id": 3127,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 3036,
+        "id": 3109,
         "literals": [
           "solidity",
           "^",
@@ -49,12 +49,12 @@
         "src": "0:24:22"
       },
       {
-        "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/libs/Uint256Utils.sol",
+        "absolutePath": "/home/vauvenal5/repos/github/comp/ProvNet/eth/contracts/libs/Uint256Utils.sol",
         "file": "../libs/Uint256Utils.sol",
-        "id": 3037,
+        "id": 3110,
         "nodeType": "ImportDirective",
-        "scope": 3054,
-        "sourceUnit": 2566,
+        "scope": 3127,
+        "sourceUnit": 2639,
         "src": "26:34:22",
         "symbolAliases": [],
         "unitAlias": ""
@@ -65,31 +65,31 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 3053,
+        "id": 3126,
         "linearizedBaseContracts": [
-          3053
+          3126
         ],
         "name": "Uint256UtilsMock",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
-            "id": 3040,
+            "id": 3113,
             "libraryName": {
               "contractScope": null,
-              "id": 3038,
+              "id": 3111,
               "name": "Uint256Utils",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2565,
+              "referencedDeclaration": 2638,
               "src": "100:12:22",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Uint256Utils_$2565",
+                "typeIdentifier": "t_contract$_Uint256Utils_$2638",
                 "typeString": "library Uint256Utils"
               }
             },
             "nodeType": "UsingForDirective",
             "src": "94:31:22",
             "typeName": {
-              "id": 3039,
+              "id": 3112,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "117:7:22",
@@ -101,7 +101,7 @@
           },
           {
             "body": {
-              "id": 3051,
+              "id": 3124,
               "nodeType": "Block",
               "src": "190:38:22",
               "statements": [
@@ -113,32 +113,32 @@
                       "argumentTypes": [],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 3047,
+                        "id": 3120,
                         "name": "_a",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3042,
+                        "referencedDeclaration": 3115,
                         "src": "207:2:22",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         }
                       },
-                      "id": 3048,
+                      "id": 3121,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "toAddress",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 2564,
+                      "referencedDeclaration": 2637,
                       "src": "207:12:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_pure$_t_uint256_$returns$_t_address_$bound_to$_t_uint256_$",
                         "typeString": "function (uint256) pure returns (address)"
                       }
                     },
-                    "id": 3049,
+                    "id": 3122,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -152,15 +152,15 @@
                       "typeString": "address"
                     }
                   },
-                  "functionReturnParameters": 3046,
-                  "id": 3050,
+                  "functionReturnParameters": 3119,
+                  "id": 3123,
                   "nodeType": "Return",
                   "src": "200:21:22"
                 }
               ]
             },
             "documentation": null,
-            "id": 3052,
+            "id": 3125,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -168,15 +168,15 @@
             "name": "convert",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 3043,
+              "id": 3116,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3042,
+                  "id": 3115,
                   "name": "_a",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3052,
+                  "scope": 3125,
                   "src": "148:10:22",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -185,7 +185,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3041,
+                    "id": 3114,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "148:7:22",
@@ -202,15 +202,15 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 3046,
+              "id": 3119,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3045,
+                  "id": 3118,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3052,
+                  "scope": 3125,
                   "src": "181:7:22",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -219,7 +219,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3044,
+                    "id": 3117,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "181:7:22",
@@ -234,31 +234,31 @@
               ],
               "src": "180:9:22"
             },
-            "scope": 3053,
+            "scope": 3126,
             "src": "131:97:22",
             "stateMutability": "pure",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 3054,
+        "scope": 3127,
         "src": "62:168:22"
       }
     ],
     "src": "0:230:22"
   },
   "legacyAST": {
-    "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/mocks/Uint256UtilsMock.sol",
+    "absolutePath": "/home/vauvenal5/repos/github/comp/ProvNet/eth/contracts/mocks/Uint256UtilsMock.sol",
     "exportedSymbols": {
       "Uint256UtilsMock": [
-        3053
+        3126
       ]
     },
-    "id": 3054,
+    "id": 3127,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 3036,
+        "id": 3109,
         "literals": [
           "solidity",
           "^",
@@ -269,12 +269,12 @@
         "src": "0:24:22"
       },
       {
-        "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/libs/Uint256Utils.sol",
+        "absolutePath": "/home/vauvenal5/repos/github/comp/ProvNet/eth/contracts/libs/Uint256Utils.sol",
         "file": "../libs/Uint256Utils.sol",
-        "id": 3037,
+        "id": 3110,
         "nodeType": "ImportDirective",
-        "scope": 3054,
-        "sourceUnit": 2566,
+        "scope": 3127,
+        "sourceUnit": 2639,
         "src": "26:34:22",
         "symbolAliases": [],
         "unitAlias": ""
@@ -285,31 +285,31 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 3053,
+        "id": 3126,
         "linearizedBaseContracts": [
-          3053
+          3126
         ],
         "name": "Uint256UtilsMock",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
-            "id": 3040,
+            "id": 3113,
             "libraryName": {
               "contractScope": null,
-              "id": 3038,
+              "id": 3111,
               "name": "Uint256Utils",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2565,
+              "referencedDeclaration": 2638,
               "src": "100:12:22",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Uint256Utils_$2565",
+                "typeIdentifier": "t_contract$_Uint256Utils_$2638",
                 "typeString": "library Uint256Utils"
               }
             },
             "nodeType": "UsingForDirective",
             "src": "94:31:22",
             "typeName": {
-              "id": 3039,
+              "id": 3112,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "117:7:22",
@@ -321,7 +321,7 @@
           },
           {
             "body": {
-              "id": 3051,
+              "id": 3124,
               "nodeType": "Block",
               "src": "190:38:22",
               "statements": [
@@ -333,32 +333,32 @@
                       "argumentTypes": [],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 3047,
+                        "id": 3120,
                         "name": "_a",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3042,
+                        "referencedDeclaration": 3115,
                         "src": "207:2:22",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         }
                       },
-                      "id": 3048,
+                      "id": 3121,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "toAddress",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 2564,
+                      "referencedDeclaration": 2637,
                       "src": "207:12:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_pure$_t_uint256_$returns$_t_address_$bound_to$_t_uint256_$",
                         "typeString": "function (uint256) pure returns (address)"
                       }
                     },
-                    "id": 3049,
+                    "id": 3122,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -372,15 +372,15 @@
                       "typeString": "address"
                     }
                   },
-                  "functionReturnParameters": 3046,
-                  "id": 3050,
+                  "functionReturnParameters": 3119,
+                  "id": 3123,
                   "nodeType": "Return",
                   "src": "200:21:22"
                 }
               ]
             },
             "documentation": null,
-            "id": 3052,
+            "id": 3125,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -388,15 +388,15 @@
             "name": "convert",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 3043,
+              "id": 3116,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3042,
+                  "id": 3115,
                   "name": "_a",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3052,
+                  "scope": 3125,
                   "src": "148:10:22",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -405,7 +405,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3041,
+                    "id": 3114,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "148:7:22",
@@ -422,15 +422,15 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 3046,
+              "id": 3119,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3045,
+                  "id": 3118,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3052,
+                  "scope": 3125,
                   "src": "181:7:22",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -439,7 +439,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3044,
+                    "id": 3117,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "181:7:22",
@@ -454,14 +454,14 @@
               ],
               "src": "180:9:22"
             },
-            "scope": 3053,
+            "scope": 3126,
             "src": "131:97:22",
             "stateMutability": "pure",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 3054,
+        "scope": 3127,
         "src": "62:168:22"
       }
     ],
@@ -472,6 +472,12 @@
     "version": "0.4.24+commit.e67f0147.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "2.0.1",
-  "updatedAt": "2019-01-05T17:47:03.112Z"
+  "schemaVersion": "3.0.1",
+  "updatedAt": "2019-01-14T14:35:46.462Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
 }

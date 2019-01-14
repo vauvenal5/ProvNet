@@ -16,10 +16,9 @@ contract SimpleProvenanceContract is LinkableContract {
 
     string private description;
     string private logoUrl;
-    string private title = "defaultTitle";
+    string private title;
 
-    constructor(string _title) public {
-        title = _title;
+    constructor() public {
         //open linkback per default
         setRoleOpen(getLinkType(tags.linkback));
     }

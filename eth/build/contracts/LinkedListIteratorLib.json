@@ -1,24 +1,24 @@
 {
   "contractName": "LinkedListIteratorLib",
   "abi": [],
-  "bytecode": "0x604c602c600b82828239805160001a60731460008114601c57601e565bfe5b5030600052607381538281f30073000000000000000000000000000000000000000030146080604052600080fd00a165627a7a72305820f1bdfc19e00be1cc88cb777c9533ae6b9832afecf2b3b4b15ac1a155ebc9092f0029",
-  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600080fd00a165627a7a72305820f1bdfc19e00be1cc88cb777c9533ae6b9832afecf2b3b4b15ac1a155ebc9092f0029",
+  "bytecode": "0x604c602c600b82828239805160001a60731460008114601c57601e565bfe5b5030600052607381538281f30073000000000000000000000000000000000000000030146080604052600080fd00a165627a7a723058207bc3f8ba8e8c07c4eace596f2ef0c333c07e6d87562b17e4ece28e4dffc9ebf70029",
+  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600080fd00a165627a7a723058207bc3f8ba8e8c07c4eace596f2ef0c333c07e6d87562b17e4ece28e4dffc9ebf70029",
   "sourceMap": "158:2419:8:-;;132:2:-1;166:7;155:9;146:7;137:37;252:7;246:14;243:1;238:23;232:4;229:33;270:1;265:20;;;;222:63;;265:20;274:9;222:63;;298:9;295:1;288:20;328:4;319:7;311:22;352:7;343;336:24",
   "deployedSourceMap": "158:2419:8:-;;;;;;;;",
   "source": "pragma solidity ^0.4.24;\n\nimport \"../../../node_modules/ethereum-libraries-linked-list/contracts/LinkedListLib.sol\";\n\nimport \"./LinkedListExtensionLib.sol\";\n\nlibrary LinkedListIteratorLib {\n    using LinkedListLib for LinkedListLib.LinkedList;\n    using LinkedListExtensionLib for LinkedListLib.LinkedList;\n\n    //This is how it should look at some point + the getIterator function in LinkedListExtensionLib\n    //see issue https://github.com/ethereum/solidity/issues/1010\n    // struct Iterator {\n    //     uint256 pointer;\n    //     LinkedListLib.LinkedList list;\n    // }\n    //\n    // function getNext(LinkedListIteratorLib.Iterator memory self) \n    // internal \n    // view \n    // returns(bool)\n    //\n    // function next(LinkedListIteratorLib.Iterator storage self) \n    // public  \n    // returns(uint256)\n\n    struct Iterator {\n        //todo-sv: note: it is not possible to reference mappings in memory because memory is differently organised then storage\n        //see: https://ethereum.stackexchange.com/questions/36365/member-x-is-not-available-in-struct-y-memory-outside-of-storage\n        uint256 pointer;\n        uint256 counter;\n    }\n\n    function getNext(LinkedListIteratorLib.Iterator memory self, LinkedListLib.LinkedList storage list) \n    internal \n    view \n    returns(bool, uint256) {        \n        (bool pointerExists, uint256 next) = list.getAdjacentNext(self.pointer);\n\n        if(!pointerExists || list.isHead(next)) {\n            return (false, 0);\n        }\n\n        if(list.nodeExists(next)) {\n            self.pointer = next;\n            return (true, next);\n        }\n\n        return (false, 0);\n    }\n\n    /**\n        This function returns a zero based index of the iterator, showing how many elements have been iterated over.\n    */\n    function getCounter(LinkedListIteratorLib.Iterator memory self)\n    internal\n    pure\n    returns(uint256) {\n        return self.counter-1;\n    }\n\n    function next(LinkedListIteratorLib.Iterator memory self) \n    internal \n    pure \n    returns(uint256) {\n        return self.pointer;\n    }\n\n    function hasNext(LinkedListIteratorLib.Iterator memory self, LinkedListLib.LinkedList storage list) \n    internal \n    view \n    returns(bool) {        \n        (bool pointerExists, uint256 nextNode) = list.getAdjacentNext(self.pointer);\n\n        if(!pointerExists || list.isHead(nextNode)) {\n            return false;\n        }\n\n        if(list.nodeExists(nextNode)) {\n            self.counter++;\n            self.pointer = nextNode;\n            return true;\n        }\n\n        return false;\n    }\n}",
-  "sourcePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/libs/LinkedList/LinkedListIteratorLib.sol",
+  "sourcePath": "/home/vauvenal5/repos/github/comp/ProvNet/eth/contracts/libs/LinkedList/LinkedListIteratorLib.sol",
   "ast": {
-    "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/libs/LinkedList/LinkedListIteratorLib.sol",
+    "absolutePath": "/home/vauvenal5/repos/github/comp/ProvNet/eth/contracts/libs/LinkedList/LinkedListIteratorLib.sol",
     "exportedSymbols": {
       "LinkedListIteratorLib": [
-        1448
+        1535
       ]
     },
-    "id": 1449,
+    "id": 1536,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1303,
+        "id": 1390,
         "literals": [
           "solidity",
           "^",
@@ -29,23 +29,23 @@
         "src": "0:24:8"
       },
       {
-        "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/node_modules/ethereum-libraries-linked-list/contracts/LinkedListLib.sol",
+        "absolutePath": "/home/vauvenal5/repos/github/comp/ProvNet/eth/node_modules/ethereum-libraries-linked-list/contracts/LinkedListLib.sol",
         "file": "../../../node_modules/ethereum-libraries-linked-list/contracts/LinkedListLib.sol",
-        "id": 1304,
+        "id": 1391,
         "nodeType": "ImportDirective",
-        "scope": 1449,
-        "sourceUnit": 3550,
+        "scope": 1536,
+        "sourceUnit": 3623,
         "src": "26:90:8",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/libs/LinkedList/LinkedListExtensionLib.sol",
+        "absolutePath": "/home/vauvenal5/repos/github/comp/ProvNet/eth/contracts/libs/LinkedList/LinkedListExtensionLib.sol",
         "file": "./LinkedListExtensionLib.sol",
-        "id": 1305,
+        "id": 1392,
         "nodeType": "ImportDirective",
-        "scope": 1449,
-        "sourceUnit": 1302,
+        "scope": 1536,
+        "sourceUnit": 1389,
         "src": "118:38:8",
         "symbolAliases": [],
         "unitAlias": ""
@@ -56,24 +56,24 @@
         "contractKind": "library",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 1448,
+        "id": 1535,
         "linearizedBaseContracts": [
-          1448
+          1535
         ],
         "name": "LinkedListIteratorLib",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
-            "id": 1308,
+            "id": 1395,
             "libraryName": {
               "contractScope": null,
-              "id": 1306,
+              "id": 1393,
               "name": "LinkedListLib",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3549,
+              "referencedDeclaration": 3622,
               "src": "200:13:8",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_LinkedListLib_$3549",
+                "typeIdentifier": "t_contract$_LinkedListLib_$3622",
                 "typeString": "library LinkedListLib"
               }
             },
@@ -81,28 +81,28 @@
             "src": "194:49:8",
             "typeName": {
               "contractScope": null,
-              "id": 1307,
+              "id": 1394,
               "name": "LinkedListLib.LinkedList",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3074,
+              "referencedDeclaration": 3147,
               "src": "218:24:8",
               "typeDescriptions": {
-                "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                "typeIdentifier": "t_struct$_LinkedList_$3147_storage_ptr",
                 "typeString": "struct LinkedListLib.LinkedList"
               }
             }
           },
           {
-            "id": 1311,
+            "id": 1398,
             "libraryName": {
               "contractScope": null,
-              "id": 1309,
+              "id": 1396,
               "name": "LinkedListExtensionLib",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1301,
+              "referencedDeclaration": 1388,
               "src": "254:22:8",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_LinkedListExtensionLib_$1301",
+                "typeIdentifier": "t_contract$_LinkedListExtensionLib_$1388",
                 "typeString": "library LinkedListExtensionLib"
               }
             },
@@ -110,27 +110,27 @@
             "src": "248:58:8",
             "typeName": {
               "contractScope": null,
-              "id": 1310,
+              "id": 1397,
               "name": "LinkedListLib.LinkedList",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3074,
+              "referencedDeclaration": 3147,
               "src": "281:24:8",
               "typeDescriptions": {
-                "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                "typeIdentifier": "t_struct$_LinkedList_$3147_storage_ptr",
                 "typeString": "struct LinkedListLib.LinkedList"
               }
             }
           },
           {
             "canonicalName": "LinkedListIteratorLib.Iterator",
-            "id": 1316,
+            "id": 1403,
             "members": [
               {
                 "constant": false,
-                "id": 1313,
+                "id": 1400,
                 "name": "pointer",
                 "nodeType": "VariableDeclaration",
-                "scope": 1316,
+                "scope": 1403,
                 "src": "1108:15:8",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -139,7 +139,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 1312,
+                  "id": 1399,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
                   "src": "1108:7:8",
@@ -153,10 +153,10 @@
               },
               {
                 "constant": false,
-                "id": 1315,
+                "id": 1402,
                 "name": "counter",
                 "nodeType": "VariableDeclaration",
-                "scope": 1316,
+                "scope": 1403,
                 "src": "1133:15:8",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -165,7 +165,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 1314,
+                  "id": 1401,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
                   "src": "1133:7:8",
@@ -180,28 +180,28 @@
             ],
             "name": "Iterator",
             "nodeType": "StructDefinition",
-            "scope": 1448,
+            "scope": 1535,
             "src": "823:332:8",
             "visibility": "public"
           },
           {
             "body": {
-              "id": 1370,
+              "id": 1457,
               "nodeType": "Block",
               "src": "1313:329:8",
               "statements": [
                 {
                   "assignments": [
-                    1328,
-                    1330
+                    1415,
+                    1417
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 1328,
+                      "id": 1415,
                       "name": "pointerExists",
                       "nodeType": "VariableDeclaration",
-                      "scope": 1371,
+                      "scope": 1458,
                       "src": "1332:18:8",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -210,7 +210,7 @@
                         "typeString": "bool"
                       },
                       "typeName": {
-                        "id": 1327,
+                        "id": 1414,
                         "name": "bool",
                         "nodeType": "ElementaryTypeName",
                         "src": "1332:4:8",
@@ -224,10 +224,10 @@
                     },
                     {
                       "constant": false,
-                      "id": 1330,
+                      "id": 1417,
                       "name": "next",
                       "nodeType": "VariableDeclaration",
-                      "scope": 1371,
+                      "scope": 1458,
                       "src": "1352:12:8",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -236,7 +236,7 @@
                         "typeString": "uint256"
                       },
                       "typeName": {
-                        "id": 1329,
+                        "id": 1416,
                         "name": "uint256",
                         "nodeType": "ElementaryTypeName",
                         "src": "1352:7:8",
@@ -249,7 +249,7 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 1336,
+                  "id": 1423,
                   "initialValue": {
                     "argumentTypes": null,
                     "arguments": [
@@ -257,25 +257,25 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 1333,
+                          "id": 1420,
                           "name": "self",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1318,
+                          "referencedDeclaration": 1405,
                           "src": "1389:4:8",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                            "typeIdentifier": "t_struct$_Iterator_$1403_memory_ptr",
                             "typeString": "struct LinkedListIteratorLib.Iterator memory"
                           }
                         },
-                        "id": 1334,
+                        "id": 1421,
                         "isConstant": false,
                         "isLValue": true,
                         "isPure": false,
                         "lValueRequested": false,
                         "memberName": "pointer",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 1313,
+                        "referencedDeclaration": 1400,
                         "src": "1389:12:8",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -292,32 +292,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 1331,
+                        "id": 1418,
                         "name": "list",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1320,
+                        "referencedDeclaration": 1407,
                         "src": "1368:4:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                          "typeIdentifier": "t_struct$_LinkedList_$3147_storage_ptr",
                           "typeString": "struct LinkedListLib.LinkedList storage pointer"
                         }
                       },
-                      "id": 1332,
+                      "id": 1419,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "getAdjacentNext",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1300,
+                      "referencedDeclaration": 1387,
                       "src": "1368:20:8",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_delegatecall_view$_t_struct$_LinkedList_$3074_storage_ptr_$_t_uint256_$returns$_t_bool_$_t_uint256_$bound_to$_t_struct$_LinkedList_$3074_storage_ptr_$",
+                        "typeIdentifier": "t_function_delegatecall_view$_t_struct$_LinkedList_$3147_storage_ptr_$_t_uint256_$returns$_t_bool_$_t_uint256_$bound_to$_t_struct$_LinkedList_$3147_storage_ptr_$",
                         "typeString": "function (struct LinkedListLib.LinkedList storage pointer,uint256) view returns (bool,uint256)"
                       }
                     },
-                    "id": 1335,
+                    "id": 1422,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -341,14 +341,14 @@
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
                     },
-                    "id": 1343,
+                    "id": 1430,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftExpression": {
                       "argumentTypes": null,
-                      "id": 1338,
+                      "id": 1425,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -359,11 +359,11 @@
                       "src": "1416:14:8",
                       "subExpression": {
                         "argumentTypes": null,
-                        "id": 1337,
+                        "id": 1424,
                         "name": "pointerExists",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1328,
+                        "referencedDeclaration": 1415,
                         "src": "1417:13:8",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
@@ -382,11 +382,11 @@
                       "arguments": [
                         {
                           "argumentTypes": null,
-                          "id": 1341,
+                          "id": 1428,
                           "name": "next",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1330,
+                          "referencedDeclaration": 1417,
                           "src": "1446:4:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
@@ -403,32 +403,32 @@
                         ],
                         "expression": {
                           "argumentTypes": null,
-                          "id": 1339,
+                          "id": 1426,
                           "name": "list",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1320,
+                          "referencedDeclaration": 1407,
                           "src": "1434:4:8",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                            "typeIdentifier": "t_struct$_LinkedList_$3147_storage_ptr",
                             "typeString": "struct LinkedListLib.LinkedList storage pointer"
                           }
                         },
-                        "id": 1340,
+                        "id": 1427,
                         "isConstant": false,
                         "isLValue": true,
                         "isPure": false,
                         "lValueRequested": false,
                         "memberName": "isHead",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 1282,
+                        "referencedDeclaration": 1369,
                         "src": "1434:11:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_function_delegatecall_pure$_t_struct$_LinkedList_$3074_storage_ptr_$_t_uint256_$returns$_t_bool_$bound_to$_t_struct$_LinkedList_$3074_storage_ptr_$",
+                          "typeIdentifier": "t_function_delegatecall_pure$_t_struct$_LinkedList_$3147_storage_ptr_$_t_uint256_$returns$_t_bool_$bound_to$_t_struct$_LinkedList_$3147_storage_ptr_$",
                           "typeString": "function (struct LinkedListLib.LinkedList storage pointer,uint256) pure returns (bool)"
                         }
                       },
-                      "id": 1342,
+                      "id": 1429,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -449,11 +449,11 @@
                     }
                   },
                   "falseBody": null,
-                  "id": 1349,
+                  "id": 1436,
                   "nodeType": "IfStatement",
                   "src": "1413:82:8",
                   "trueBody": {
-                    "id": 1348,
+                    "id": 1435,
                     "nodeType": "Block",
                     "src": "1453:42:8",
                     "statements": [
@@ -464,7 +464,7 @@
                             {
                               "argumentTypes": null,
                               "hexValue": "66616c7365",
-                              "id": 1344,
+                              "id": 1431,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": true,
@@ -482,7 +482,7 @@
                             {
                               "argumentTypes": null,
                               "hexValue": "30",
-                              "id": 1345,
+                              "id": 1432,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": true,
@@ -498,7 +498,7 @@
                               "value": "0"
                             }
                           ],
-                          "id": 1346,
+                          "id": 1433,
                           "isConstant": false,
                           "isInlineArray": false,
                           "isLValue": false,
@@ -511,8 +511,8 @@
                             "typeString": "tuple(bool,int_const 0)"
                           }
                         },
-                        "functionReturnParameters": 1326,
-                        "id": 1347,
+                        "functionReturnParameters": 1413,
+                        "id": 1434,
                         "nodeType": "Return",
                         "src": "1467:17:8"
                       }
@@ -525,11 +525,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 1352,
+                        "id": 1439,
                         "name": "next",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1330,
+                        "referencedDeclaration": 1417,
                         "src": "1524:4:8",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -546,32 +546,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 1350,
+                        "id": 1437,
                         "name": "list",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1320,
+                        "referencedDeclaration": 1407,
                         "src": "1508:4:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                          "typeIdentifier": "t_struct$_LinkedList_$3147_storage_ptr",
                           "typeString": "struct LinkedListLib.LinkedList storage pointer"
                         }
                       },
-                      "id": 1351,
+                      "id": 1438,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "nodeExists",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3153,
+                      "referencedDeclaration": 3226,
                       "src": "1508:15:8",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_delegatecall_view$_t_struct$_LinkedList_$3074_storage_ptr_$_t_uint256_$returns$_t_bool_$bound_to$_t_struct$_LinkedList_$3074_storage_ptr_$",
+                        "typeIdentifier": "t_function_delegatecall_view$_t_struct$_LinkedList_$3147_storage_ptr_$_t_uint256_$returns$_t_bool_$bound_to$_t_struct$_LinkedList_$3147_storage_ptr_$",
                         "typeString": "function (struct LinkedListLib.LinkedList storage pointer,uint256) view returns (bool)"
                       }
                     },
-                    "id": 1353,
+                    "id": 1440,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -586,18 +586,18 @@
                     }
                   },
                   "falseBody": null,
-                  "id": 1365,
+                  "id": 1452,
                   "nodeType": "IfStatement",
                   "src": "1505:103:8",
                   "trueBody": {
-                    "id": 1364,
+                    "id": 1451,
                     "nodeType": "Block",
                     "src": "1531:77:8",
                     "statements": [
                       {
                         "expression": {
                           "argumentTypes": null,
-                          "id": 1358,
+                          "id": 1445,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -606,25 +606,25 @@
                             "argumentTypes": null,
                             "expression": {
                               "argumentTypes": null,
-                              "id": 1354,
+                              "id": 1441,
                               "name": "self",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 1318,
+                              "referencedDeclaration": 1405,
                               "src": "1545:4:8",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                                "typeIdentifier": "t_struct$_Iterator_$1403_memory_ptr",
                                 "typeString": "struct LinkedListIteratorLib.Iterator memory"
                               }
                             },
-                            "id": 1356,
+                            "id": 1443,
                             "isConstant": false,
                             "isLValue": true,
                             "isPure": false,
                             "lValueRequested": true,
                             "memberName": "pointer",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 1313,
+                            "referencedDeclaration": 1400,
                             "src": "1545:12:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
@@ -635,11 +635,11 @@
                           "operator": "=",
                           "rightHandSide": {
                             "argumentTypes": null,
-                            "id": 1357,
+                            "id": 1444,
                             "name": "next",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 1330,
+                            "referencedDeclaration": 1417,
                             "src": "1560:4:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
@@ -652,7 +652,7 @@
                             "typeString": "uint256"
                           }
                         },
-                        "id": 1359,
+                        "id": 1446,
                         "nodeType": "ExpressionStatement",
                         "src": "1545:19:8"
                       },
@@ -663,7 +663,7 @@
                             {
                               "argumentTypes": null,
                               "hexValue": "74727565",
-                              "id": 1360,
+                              "id": 1447,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": true,
@@ -680,11 +680,11 @@
                             },
                             {
                               "argumentTypes": null,
-                              "id": 1361,
+                              "id": 1448,
                               "name": "next",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 1330,
+                              "referencedDeclaration": 1417,
                               "src": "1592:4:8",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_uint256",
@@ -692,7 +692,7 @@
                               }
                             }
                           ],
-                          "id": 1362,
+                          "id": 1449,
                           "isConstant": false,
                           "isInlineArray": false,
                           "isLValue": false,
@@ -705,8 +705,8 @@
                             "typeString": "tuple(bool,uint256)"
                           }
                         },
-                        "functionReturnParameters": 1326,
-                        "id": 1363,
+                        "functionReturnParameters": 1413,
+                        "id": 1450,
                         "nodeType": "Return",
                         "src": "1578:19:8"
                       }
@@ -720,7 +720,7 @@
                       {
                         "argumentTypes": null,
                         "hexValue": "66616c7365",
-                        "id": 1366,
+                        "id": 1453,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -738,7 +738,7 @@
                       {
                         "argumentTypes": null,
                         "hexValue": "30",
-                        "id": 1367,
+                        "id": 1454,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -754,7 +754,7 @@
                         "value": "0"
                       }
                     ],
-                    "id": 1368,
+                    "id": 1455,
                     "isConstant": false,
                     "isInlineArray": false,
                     "isLValue": false,
@@ -767,15 +767,15 @@
                       "typeString": "tuple(bool,int_const 0)"
                     }
                   },
-                  "functionReturnParameters": 1326,
-                  "id": 1369,
+                  "functionReturnParameters": 1413,
+                  "id": 1456,
                   "nodeType": "Return",
                   "src": "1618:17:8"
                 }
               ]
             },
             "documentation": null,
-            "id": 1371,
+            "id": 1458,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -783,31 +783,31 @@
             "name": "getNext",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1321,
+              "id": 1408,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1318,
+                  "id": 1405,
                   "name": "self",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1371,
+                  "scope": 1458,
                   "src": "1178:42:8",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                    "typeIdentifier": "t_struct$_Iterator_$1403_memory_ptr",
                     "typeString": "struct LinkedListIteratorLib.Iterator"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1317,
+                    "id": 1404,
                     "name": "LinkedListIteratorLib.Iterator",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 1316,
+                    "referencedDeclaration": 1403,
                     "src": "1178:30:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Iterator_$1316_storage_ptr",
+                      "typeIdentifier": "t_struct$_Iterator_$1403_storage_ptr",
                       "typeString": "struct LinkedListIteratorLib.Iterator"
                     }
                   },
@@ -816,26 +816,26 @@
                 },
                 {
                   "constant": false,
-                  "id": 1320,
+                  "id": 1407,
                   "name": "list",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1371,
+                  "scope": 1458,
                   "src": "1222:37:8",
                   "stateVariable": false,
                   "storageLocation": "storage",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                    "typeIdentifier": "t_struct$_LinkedList_$3147_storage_ptr",
                     "typeString": "struct LinkedListLib.LinkedList"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1319,
+                    "id": 1406,
                     "name": "LinkedListLib.LinkedList",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 3074,
+                    "referencedDeclaration": 3147,
                     "src": "1222:24:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                      "typeIdentifier": "t_struct$_LinkedList_$3147_storage_ptr",
                       "typeString": "struct LinkedListLib.LinkedList"
                     }
                   },
@@ -847,15 +847,15 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 1326,
+              "id": 1413,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1323,
+                  "id": 1410,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1371,
+                  "scope": 1458,
                   "src": "1298:4:8",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -864,7 +864,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 1322,
+                    "id": 1409,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "1298:4:8",
@@ -878,10 +878,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 1325,
+                  "id": 1412,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1371,
+                  "scope": 1458,
                   "src": "1304:7:8",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -890,7 +890,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1324,
+                    "id": 1411,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "1304:7:8",
@@ -905,7 +905,7 @@
               ],
               "src": "1297:15:8"
             },
-            "scope": 1448,
+            "scope": 1535,
             "src": "1161:481:8",
             "stateMutability": "view",
             "superFunction": null,
@@ -913,7 +913,7 @@
           },
           {
             "body": {
-              "id": 1383,
+              "id": 1470,
               "nodeType": "Block",
               "src": "1887:38:8",
               "statements": [
@@ -924,7 +924,7 @@
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     },
-                    "id": 1381,
+                    "id": 1468,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -933,25 +933,25 @@
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-                        "id": 1378,
+                        "id": 1465,
                         "name": "self",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1373,
+                        "referencedDeclaration": 1460,
                         "src": "1904:4:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                          "typeIdentifier": "t_struct$_Iterator_$1403_memory_ptr",
                           "typeString": "struct LinkedListIteratorLib.Iterator memory"
                         }
                       },
-                      "id": 1379,
+                      "id": 1466,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "counter",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1315,
+                      "referencedDeclaration": 1402,
                       "src": "1904:12:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -963,7 +963,7 @@
                     "rightExpression": {
                       "argumentTypes": null,
                       "hexValue": "31",
-                      "id": 1380,
+                      "id": 1467,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -984,15 +984,15 @@
                       "typeString": "uint256"
                     }
                   },
-                  "functionReturnParameters": 1377,
-                  "id": 1382,
+                  "functionReturnParameters": 1464,
+                  "id": 1469,
                   "nodeType": "Return",
                   "src": "1897:21:8"
                 }
               ]
             },
             "documentation": "This function returns a zero based index of the iterator, showing how many elements have been iterated over.",
-            "id": 1384,
+            "id": 1471,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -1000,31 +1000,31 @@
             "name": "getCounter",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1374,
+              "id": 1461,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1373,
+                  "id": 1460,
                   "name": "self",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1384,
+                  "scope": 1471,
                   "src": "1800:42:8",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                    "typeIdentifier": "t_struct$_Iterator_$1403_memory_ptr",
                     "typeString": "struct LinkedListIteratorLib.Iterator"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1372,
+                    "id": 1459,
                     "name": "LinkedListIteratorLib.Iterator",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 1316,
+                    "referencedDeclaration": 1403,
                     "src": "1800:30:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Iterator_$1316_storage_ptr",
+                      "typeIdentifier": "t_struct$_Iterator_$1403_storage_ptr",
                       "typeString": "struct LinkedListIteratorLib.Iterator"
                     }
                   },
@@ -1036,15 +1036,15 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 1377,
+              "id": 1464,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1376,
+                  "id": 1463,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1384,
+                  "scope": 1471,
                   "src": "1878:7:8",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1053,7 +1053,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1375,
+                    "id": 1462,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "1878:7:8",
@@ -1068,7 +1068,7 @@
               ],
               "src": "1877:9:8"
             },
-            "scope": 1448,
+            "scope": 1535,
             "src": "1780:145:8",
             "stateMutability": "pure",
             "superFunction": null,
@@ -1076,7 +1076,7 @@
           },
           {
             "body": {
-              "id": 1394,
+              "id": 1481,
               "nodeType": "Block",
               "src": "2035:36:8",
               "statements": [
@@ -1085,40 +1085,40 @@
                     "argumentTypes": null,
                     "expression": {
                       "argumentTypes": null,
-                      "id": 1391,
+                      "id": 1478,
                       "name": "self",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1386,
+                      "referencedDeclaration": 1473,
                       "src": "2052:4:8",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                        "typeIdentifier": "t_struct$_Iterator_$1403_memory_ptr",
                         "typeString": "struct LinkedListIteratorLib.Iterator memory"
                       }
                     },
-                    "id": 1392,
+                    "id": 1479,
                     "isConstant": false,
                     "isLValue": true,
                     "isPure": false,
                     "lValueRequested": false,
                     "memberName": "pointer",
                     "nodeType": "MemberAccess",
-                    "referencedDeclaration": 1313,
+                    "referencedDeclaration": 1400,
                     "src": "2052:12:8",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
-                  "functionReturnParameters": 1390,
-                  "id": 1393,
+                  "functionReturnParameters": 1477,
+                  "id": 1480,
                   "nodeType": "Return",
                   "src": "2045:19:8"
                 }
               ]
             },
             "documentation": null,
-            "id": 1395,
+            "id": 1482,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -1126,31 +1126,31 @@
             "name": "next",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1387,
+              "id": 1474,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1386,
+                  "id": 1473,
                   "name": "self",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1395,
+                  "scope": 1482,
                   "src": "1945:42:8",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                    "typeIdentifier": "t_struct$_Iterator_$1403_memory_ptr",
                     "typeString": "struct LinkedListIteratorLib.Iterator"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1385,
+                    "id": 1472,
                     "name": "LinkedListIteratorLib.Iterator",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 1316,
+                    "referencedDeclaration": 1403,
                     "src": "1945:30:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Iterator_$1316_storage_ptr",
+                      "typeIdentifier": "t_struct$_Iterator_$1403_storage_ptr",
                       "typeString": "struct LinkedListIteratorLib.Iterator"
                     }
                   },
@@ -1162,15 +1162,15 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 1390,
+              "id": 1477,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1389,
+                  "id": 1476,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1395,
+                  "scope": 1482,
                   "src": "2026:7:8",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1179,7 +1179,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1388,
+                    "id": 1475,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "2026:7:8",
@@ -1194,7 +1194,7 @@
               ],
               "src": "2025:9:8"
             },
-            "scope": 1448,
+            "scope": 1535,
             "src": "1931:140:8",
             "stateMutability": "pure",
             "superFunction": null,
@@ -1202,22 +1202,22 @@
           },
           {
             "body": {
-              "id": 1446,
+              "id": 1533,
               "nodeType": "Block",
               "src": "2220:355:8",
               "statements": [
                 {
                   "assignments": [
-                    1405,
-                    1407
+                    1492,
+                    1494
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 1405,
+                      "id": 1492,
                       "name": "pointerExists",
                       "nodeType": "VariableDeclaration",
-                      "scope": 1447,
+                      "scope": 1534,
                       "src": "2239:18:8",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -1226,7 +1226,7 @@
                         "typeString": "bool"
                       },
                       "typeName": {
-                        "id": 1404,
+                        "id": 1491,
                         "name": "bool",
                         "nodeType": "ElementaryTypeName",
                         "src": "2239:4:8",
@@ -1240,10 +1240,10 @@
                     },
                     {
                       "constant": false,
-                      "id": 1407,
+                      "id": 1494,
                       "name": "nextNode",
                       "nodeType": "VariableDeclaration",
-                      "scope": 1447,
+                      "scope": 1534,
                       "src": "2259:16:8",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -1252,7 +1252,7 @@
                         "typeString": "uint256"
                       },
                       "typeName": {
-                        "id": 1406,
+                        "id": 1493,
                         "name": "uint256",
                         "nodeType": "ElementaryTypeName",
                         "src": "2259:7:8",
@@ -1265,7 +1265,7 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 1413,
+                  "id": 1500,
                   "initialValue": {
                     "argumentTypes": null,
                     "arguments": [
@@ -1273,25 +1273,25 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 1410,
+                          "id": 1497,
                           "name": "self",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1397,
+                          "referencedDeclaration": 1484,
                           "src": "2300:4:8",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                            "typeIdentifier": "t_struct$_Iterator_$1403_memory_ptr",
                             "typeString": "struct LinkedListIteratorLib.Iterator memory"
                           }
                         },
-                        "id": 1411,
+                        "id": 1498,
                         "isConstant": false,
                         "isLValue": true,
                         "isPure": false,
                         "lValueRequested": false,
                         "memberName": "pointer",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 1313,
+                        "referencedDeclaration": 1400,
                         "src": "2300:12:8",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -1308,32 +1308,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 1408,
+                        "id": 1495,
                         "name": "list",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1399,
+                        "referencedDeclaration": 1486,
                         "src": "2279:4:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                          "typeIdentifier": "t_struct$_LinkedList_$3147_storage_ptr",
                           "typeString": "struct LinkedListLib.LinkedList storage pointer"
                         }
                       },
-                      "id": 1409,
+                      "id": 1496,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "getAdjacentNext",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1300,
+                      "referencedDeclaration": 1387,
                       "src": "2279:20:8",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_delegatecall_view$_t_struct$_LinkedList_$3074_storage_ptr_$_t_uint256_$returns$_t_bool_$_t_uint256_$bound_to$_t_struct$_LinkedList_$3074_storage_ptr_$",
+                        "typeIdentifier": "t_function_delegatecall_view$_t_struct$_LinkedList_$3147_storage_ptr_$_t_uint256_$returns$_t_bool_$_t_uint256_$bound_to$_t_struct$_LinkedList_$3147_storage_ptr_$",
                         "typeString": "function (struct LinkedListLib.LinkedList storage pointer,uint256) view returns (bool,uint256)"
                       }
                     },
-                    "id": 1412,
+                    "id": 1499,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1357,14 +1357,14 @@
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
                     },
-                    "id": 1420,
+                    "id": 1507,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftExpression": {
                       "argumentTypes": null,
-                      "id": 1415,
+                      "id": 1502,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1375,11 +1375,11 @@
                       "src": "2327:14:8",
                       "subExpression": {
                         "argumentTypes": null,
-                        "id": 1414,
+                        "id": 1501,
                         "name": "pointerExists",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1405,
+                        "referencedDeclaration": 1492,
                         "src": "2328:13:8",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
@@ -1398,11 +1398,11 @@
                       "arguments": [
                         {
                           "argumentTypes": null,
-                          "id": 1418,
+                          "id": 1505,
                           "name": "nextNode",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1407,
+                          "referencedDeclaration": 1494,
                           "src": "2357:8:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
@@ -1419,32 +1419,32 @@
                         ],
                         "expression": {
                           "argumentTypes": null,
-                          "id": 1416,
+                          "id": 1503,
                           "name": "list",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1399,
+                          "referencedDeclaration": 1486,
                           "src": "2345:4:8",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                            "typeIdentifier": "t_struct$_LinkedList_$3147_storage_ptr",
                             "typeString": "struct LinkedListLib.LinkedList storage pointer"
                           }
                         },
-                        "id": 1417,
+                        "id": 1504,
                         "isConstant": false,
                         "isLValue": true,
                         "isPure": false,
                         "lValueRequested": false,
                         "memberName": "isHead",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 1282,
+                        "referencedDeclaration": 1369,
                         "src": "2345:11:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_function_delegatecall_pure$_t_struct$_LinkedList_$3074_storage_ptr_$_t_uint256_$returns$_t_bool_$bound_to$_t_struct$_LinkedList_$3074_storage_ptr_$",
+                          "typeIdentifier": "t_function_delegatecall_pure$_t_struct$_LinkedList_$3147_storage_ptr_$_t_uint256_$returns$_t_bool_$bound_to$_t_struct$_LinkedList_$3147_storage_ptr_$",
                           "typeString": "function (struct LinkedListLib.LinkedList storage pointer,uint256) pure returns (bool)"
                         }
                       },
-                      "id": 1419,
+                      "id": 1506,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1465,11 +1465,11 @@
                     }
                   },
                   "falseBody": null,
-                  "id": 1424,
+                  "id": 1511,
                   "nodeType": "IfStatement",
                   "src": "2324:81:8",
                   "trueBody": {
-                    "id": 1423,
+                    "id": 1510,
                     "nodeType": "Block",
                     "src": "2368:37:8",
                     "statements": [
@@ -1477,7 +1477,7 @@
                         "expression": {
                           "argumentTypes": null,
                           "hexValue": "66616c7365",
-                          "id": 1421,
+                          "id": 1508,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -1492,8 +1492,8 @@
                           },
                           "value": "false"
                         },
-                        "functionReturnParameters": 1403,
-                        "id": 1422,
+                        "functionReturnParameters": 1490,
+                        "id": 1509,
                         "nodeType": "Return",
                         "src": "2382:12:8"
                       }
@@ -1506,11 +1506,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 1427,
+                        "id": 1514,
                         "name": "nextNode",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1407,
+                        "referencedDeclaration": 1494,
                         "src": "2434:8:8",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -1527,32 +1527,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 1425,
+                        "id": 1512,
                         "name": "list",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1399,
+                        "referencedDeclaration": 1486,
                         "src": "2418:4:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                          "typeIdentifier": "t_struct$_LinkedList_$3147_storage_ptr",
                           "typeString": "struct LinkedListLib.LinkedList storage pointer"
                         }
                       },
-                      "id": 1426,
+                      "id": 1513,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "nodeExists",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3153,
+                      "referencedDeclaration": 3226,
                       "src": "2418:15:8",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_delegatecall_view$_t_struct$_LinkedList_$3074_storage_ptr_$_t_uint256_$returns$_t_bool_$bound_to$_t_struct$_LinkedList_$3074_storage_ptr_$",
+                        "typeIdentifier": "t_function_delegatecall_view$_t_struct$_LinkedList_$3147_storage_ptr_$_t_uint256_$returns$_t_bool_$bound_to$_t_struct$_LinkedList_$3147_storage_ptr_$",
                         "typeString": "function (struct LinkedListLib.LinkedList storage pointer,uint256) view returns (bool)"
                       }
                     },
-                    "id": 1428,
+                    "id": 1515,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1567,18 +1567,18 @@
                     }
                   },
                   "falseBody": null,
-                  "id": 1443,
+                  "id": 1530,
                   "nodeType": "IfStatement",
                   "src": "2415:131:8",
                   "trueBody": {
-                    "id": 1442,
+                    "id": 1529,
                     "nodeType": "Block",
                     "src": "2445:101:8",
                     "statements": [
                       {
                         "expression": {
                           "argumentTypes": null,
-                          "id": 1432,
+                          "id": 1519,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -1591,25 +1591,25 @@
                             "argumentTypes": null,
                             "expression": {
                               "argumentTypes": null,
-                              "id": 1429,
+                              "id": 1516,
                               "name": "self",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 1397,
+                              "referencedDeclaration": 1484,
                               "src": "2459:4:8",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                                "typeIdentifier": "t_struct$_Iterator_$1403_memory_ptr",
                                 "typeString": "struct LinkedListIteratorLib.Iterator memory"
                               }
                             },
-                            "id": 1431,
+                            "id": 1518,
                             "isConstant": false,
                             "isLValue": true,
                             "isPure": false,
                             "lValueRequested": true,
                             "memberName": "counter",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 1315,
+                            "referencedDeclaration": 1402,
                             "src": "2459:12:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
@@ -1621,14 +1621,14 @@
                             "typeString": "uint256"
                           }
                         },
-                        "id": 1433,
+                        "id": 1520,
                         "nodeType": "ExpressionStatement",
                         "src": "2459:14:8"
                       },
                       {
                         "expression": {
                           "argumentTypes": null,
-                          "id": 1438,
+                          "id": 1525,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -1637,25 +1637,25 @@
                             "argumentTypes": null,
                             "expression": {
                               "argumentTypes": null,
-                              "id": 1434,
+                              "id": 1521,
                               "name": "self",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 1397,
+                              "referencedDeclaration": 1484,
                               "src": "2487:4:8",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                                "typeIdentifier": "t_struct$_Iterator_$1403_memory_ptr",
                                 "typeString": "struct LinkedListIteratorLib.Iterator memory"
                               }
                             },
-                            "id": 1436,
+                            "id": 1523,
                             "isConstant": false,
                             "isLValue": true,
                             "isPure": false,
                             "lValueRequested": true,
                             "memberName": "pointer",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 1313,
+                            "referencedDeclaration": 1400,
                             "src": "2487:12:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
@@ -1666,11 +1666,11 @@
                           "operator": "=",
                           "rightHandSide": {
                             "argumentTypes": null,
-                            "id": 1437,
+                            "id": 1524,
                             "name": "nextNode",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 1407,
+                            "referencedDeclaration": 1494,
                             "src": "2502:8:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
@@ -1683,7 +1683,7 @@
                             "typeString": "uint256"
                           }
                         },
-                        "id": 1439,
+                        "id": 1526,
                         "nodeType": "ExpressionStatement",
                         "src": "2487:23:8"
                       },
@@ -1691,7 +1691,7 @@
                         "expression": {
                           "argumentTypes": null,
                           "hexValue": "74727565",
-                          "id": 1440,
+                          "id": 1527,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -1706,8 +1706,8 @@
                           },
                           "value": "true"
                         },
-                        "functionReturnParameters": 1403,
-                        "id": 1441,
+                        "functionReturnParameters": 1490,
+                        "id": 1528,
                         "nodeType": "Return",
                         "src": "2524:11:8"
                       }
@@ -1718,7 +1718,7 @@
                   "expression": {
                     "argumentTypes": null,
                     "hexValue": "66616c7365",
-                    "id": 1444,
+                    "id": 1531,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": true,
@@ -1733,15 +1733,15 @@
                     },
                     "value": "false"
                   },
-                  "functionReturnParameters": 1403,
-                  "id": 1445,
+                  "functionReturnParameters": 1490,
+                  "id": 1532,
                   "nodeType": "Return",
                   "src": "2556:12:8"
                 }
               ]
             },
             "documentation": null,
-            "id": 1447,
+            "id": 1534,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -1749,31 +1749,31 @@
             "name": "hasNext",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1400,
+              "id": 1487,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1397,
+                  "id": 1484,
                   "name": "self",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1447,
+                  "scope": 1534,
                   "src": "2094:42:8",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                    "typeIdentifier": "t_struct$_Iterator_$1403_memory_ptr",
                     "typeString": "struct LinkedListIteratorLib.Iterator"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1396,
+                    "id": 1483,
                     "name": "LinkedListIteratorLib.Iterator",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 1316,
+                    "referencedDeclaration": 1403,
                     "src": "2094:30:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Iterator_$1316_storage_ptr",
+                      "typeIdentifier": "t_struct$_Iterator_$1403_storage_ptr",
                       "typeString": "struct LinkedListIteratorLib.Iterator"
                     }
                   },
@@ -1782,26 +1782,26 @@
                 },
                 {
                   "constant": false,
-                  "id": 1399,
+                  "id": 1486,
                   "name": "list",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1447,
+                  "scope": 1534,
                   "src": "2138:37:8",
                   "stateVariable": false,
                   "storageLocation": "storage",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                    "typeIdentifier": "t_struct$_LinkedList_$3147_storage_ptr",
                     "typeString": "struct LinkedListLib.LinkedList"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1398,
+                    "id": 1485,
                     "name": "LinkedListLib.LinkedList",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 3074,
+                    "referencedDeclaration": 3147,
                     "src": "2138:24:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                      "typeIdentifier": "t_struct$_LinkedList_$3147_storage_ptr",
                       "typeString": "struct LinkedListLib.LinkedList"
                     }
                   },
@@ -1813,15 +1813,15 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 1403,
+              "id": 1490,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1402,
+                  "id": 1489,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1447,
+                  "scope": 1534,
                   "src": "2214:4:8",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1830,7 +1830,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 1401,
+                    "id": 1488,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "2214:4:8",
@@ -1845,31 +1845,31 @@
               ],
               "src": "2213:6:8"
             },
-            "scope": 1448,
+            "scope": 1535,
             "src": "2077:498:8",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "internal"
           }
         ],
-        "scope": 1449,
+        "scope": 1536,
         "src": "158:2419:8"
       }
     ],
     "src": "0:2577:8"
   },
   "legacyAST": {
-    "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/libs/LinkedList/LinkedListIteratorLib.sol",
+    "absolutePath": "/home/vauvenal5/repos/github/comp/ProvNet/eth/contracts/libs/LinkedList/LinkedListIteratorLib.sol",
     "exportedSymbols": {
       "LinkedListIteratorLib": [
-        1448
+        1535
       ]
     },
-    "id": 1449,
+    "id": 1536,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1303,
+        "id": 1390,
         "literals": [
           "solidity",
           "^",
@@ -1880,23 +1880,23 @@
         "src": "0:24:8"
       },
       {
-        "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/node_modules/ethereum-libraries-linked-list/contracts/LinkedListLib.sol",
+        "absolutePath": "/home/vauvenal5/repos/github/comp/ProvNet/eth/node_modules/ethereum-libraries-linked-list/contracts/LinkedListLib.sol",
         "file": "../../../node_modules/ethereum-libraries-linked-list/contracts/LinkedListLib.sol",
-        "id": 1304,
+        "id": 1391,
         "nodeType": "ImportDirective",
-        "scope": 1449,
-        "sourceUnit": 3550,
+        "scope": 1536,
+        "sourceUnit": 3623,
         "src": "26:90:8",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/libs/LinkedList/LinkedListExtensionLib.sol",
+        "absolutePath": "/home/vauvenal5/repos/github/comp/ProvNet/eth/contracts/libs/LinkedList/LinkedListExtensionLib.sol",
         "file": "./LinkedListExtensionLib.sol",
-        "id": 1305,
+        "id": 1392,
         "nodeType": "ImportDirective",
-        "scope": 1449,
-        "sourceUnit": 1302,
+        "scope": 1536,
+        "sourceUnit": 1389,
         "src": "118:38:8",
         "symbolAliases": [],
         "unitAlias": ""
@@ -1907,24 +1907,24 @@
         "contractKind": "library",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 1448,
+        "id": 1535,
         "linearizedBaseContracts": [
-          1448
+          1535
         ],
         "name": "LinkedListIteratorLib",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
-            "id": 1308,
+            "id": 1395,
             "libraryName": {
               "contractScope": null,
-              "id": 1306,
+              "id": 1393,
               "name": "LinkedListLib",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3549,
+              "referencedDeclaration": 3622,
               "src": "200:13:8",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_LinkedListLib_$3549",
+                "typeIdentifier": "t_contract$_LinkedListLib_$3622",
                 "typeString": "library LinkedListLib"
               }
             },
@@ -1932,28 +1932,28 @@
             "src": "194:49:8",
             "typeName": {
               "contractScope": null,
-              "id": 1307,
+              "id": 1394,
               "name": "LinkedListLib.LinkedList",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3074,
+              "referencedDeclaration": 3147,
               "src": "218:24:8",
               "typeDescriptions": {
-                "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                "typeIdentifier": "t_struct$_LinkedList_$3147_storage_ptr",
                 "typeString": "struct LinkedListLib.LinkedList"
               }
             }
           },
           {
-            "id": 1311,
+            "id": 1398,
             "libraryName": {
               "contractScope": null,
-              "id": 1309,
+              "id": 1396,
               "name": "LinkedListExtensionLib",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1301,
+              "referencedDeclaration": 1388,
               "src": "254:22:8",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_LinkedListExtensionLib_$1301",
+                "typeIdentifier": "t_contract$_LinkedListExtensionLib_$1388",
                 "typeString": "library LinkedListExtensionLib"
               }
             },
@@ -1961,27 +1961,27 @@
             "src": "248:58:8",
             "typeName": {
               "contractScope": null,
-              "id": 1310,
+              "id": 1397,
               "name": "LinkedListLib.LinkedList",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3074,
+              "referencedDeclaration": 3147,
               "src": "281:24:8",
               "typeDescriptions": {
-                "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                "typeIdentifier": "t_struct$_LinkedList_$3147_storage_ptr",
                 "typeString": "struct LinkedListLib.LinkedList"
               }
             }
           },
           {
             "canonicalName": "LinkedListIteratorLib.Iterator",
-            "id": 1316,
+            "id": 1403,
             "members": [
               {
                 "constant": false,
-                "id": 1313,
+                "id": 1400,
                 "name": "pointer",
                 "nodeType": "VariableDeclaration",
-                "scope": 1316,
+                "scope": 1403,
                 "src": "1108:15:8",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1990,7 +1990,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 1312,
+                  "id": 1399,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
                   "src": "1108:7:8",
@@ -2004,10 +2004,10 @@
               },
               {
                 "constant": false,
-                "id": 1315,
+                "id": 1402,
                 "name": "counter",
                 "nodeType": "VariableDeclaration",
-                "scope": 1316,
+                "scope": 1403,
                 "src": "1133:15:8",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -2016,7 +2016,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 1314,
+                  "id": 1401,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
                   "src": "1133:7:8",
@@ -2031,28 +2031,28 @@
             ],
             "name": "Iterator",
             "nodeType": "StructDefinition",
-            "scope": 1448,
+            "scope": 1535,
             "src": "823:332:8",
             "visibility": "public"
           },
           {
             "body": {
-              "id": 1370,
+              "id": 1457,
               "nodeType": "Block",
               "src": "1313:329:8",
               "statements": [
                 {
                   "assignments": [
-                    1328,
-                    1330
+                    1415,
+                    1417
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 1328,
+                      "id": 1415,
                       "name": "pointerExists",
                       "nodeType": "VariableDeclaration",
-                      "scope": 1371,
+                      "scope": 1458,
                       "src": "1332:18:8",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -2061,7 +2061,7 @@
                         "typeString": "bool"
                       },
                       "typeName": {
-                        "id": 1327,
+                        "id": 1414,
                         "name": "bool",
                         "nodeType": "ElementaryTypeName",
                         "src": "1332:4:8",
@@ -2075,10 +2075,10 @@
                     },
                     {
                       "constant": false,
-                      "id": 1330,
+                      "id": 1417,
                       "name": "next",
                       "nodeType": "VariableDeclaration",
-                      "scope": 1371,
+                      "scope": 1458,
                       "src": "1352:12:8",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -2087,7 +2087,7 @@
                         "typeString": "uint256"
                       },
                       "typeName": {
-                        "id": 1329,
+                        "id": 1416,
                         "name": "uint256",
                         "nodeType": "ElementaryTypeName",
                         "src": "1352:7:8",
@@ -2100,7 +2100,7 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 1336,
+                  "id": 1423,
                   "initialValue": {
                     "argumentTypes": null,
                     "arguments": [
@@ -2108,25 +2108,25 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 1333,
+                          "id": 1420,
                           "name": "self",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1318,
+                          "referencedDeclaration": 1405,
                           "src": "1389:4:8",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                            "typeIdentifier": "t_struct$_Iterator_$1403_memory_ptr",
                             "typeString": "struct LinkedListIteratorLib.Iterator memory"
                           }
                         },
-                        "id": 1334,
+                        "id": 1421,
                         "isConstant": false,
                         "isLValue": true,
                         "isPure": false,
                         "lValueRequested": false,
                         "memberName": "pointer",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 1313,
+                        "referencedDeclaration": 1400,
                         "src": "1389:12:8",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -2143,32 +2143,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 1331,
+                        "id": 1418,
                         "name": "list",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1320,
+                        "referencedDeclaration": 1407,
                         "src": "1368:4:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                          "typeIdentifier": "t_struct$_LinkedList_$3147_storage_ptr",
                           "typeString": "struct LinkedListLib.LinkedList storage pointer"
                         }
                       },
-                      "id": 1332,
+                      "id": 1419,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "getAdjacentNext",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1300,
+                      "referencedDeclaration": 1387,
                       "src": "1368:20:8",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_delegatecall_view$_t_struct$_LinkedList_$3074_storage_ptr_$_t_uint256_$returns$_t_bool_$_t_uint256_$bound_to$_t_struct$_LinkedList_$3074_storage_ptr_$",
+                        "typeIdentifier": "t_function_delegatecall_view$_t_struct$_LinkedList_$3147_storage_ptr_$_t_uint256_$returns$_t_bool_$_t_uint256_$bound_to$_t_struct$_LinkedList_$3147_storage_ptr_$",
                         "typeString": "function (struct LinkedListLib.LinkedList storage pointer,uint256) view returns (bool,uint256)"
                       }
                     },
-                    "id": 1335,
+                    "id": 1422,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2192,14 +2192,14 @@
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
                     },
-                    "id": 1343,
+                    "id": 1430,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftExpression": {
                       "argumentTypes": null,
-                      "id": 1338,
+                      "id": 1425,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -2210,11 +2210,11 @@
                       "src": "1416:14:8",
                       "subExpression": {
                         "argumentTypes": null,
-                        "id": 1337,
+                        "id": 1424,
                         "name": "pointerExists",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1328,
+                        "referencedDeclaration": 1415,
                         "src": "1417:13:8",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
@@ -2233,11 +2233,11 @@
                       "arguments": [
                         {
                           "argumentTypes": null,
-                          "id": 1341,
+                          "id": 1428,
                           "name": "next",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1330,
+                          "referencedDeclaration": 1417,
                           "src": "1446:4:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
@@ -2254,32 +2254,32 @@
                         ],
                         "expression": {
                           "argumentTypes": null,
-                          "id": 1339,
+                          "id": 1426,
                           "name": "list",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1320,
+                          "referencedDeclaration": 1407,
                           "src": "1434:4:8",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                            "typeIdentifier": "t_struct$_LinkedList_$3147_storage_ptr",
                             "typeString": "struct LinkedListLib.LinkedList storage pointer"
                           }
                         },
-                        "id": 1340,
+                        "id": 1427,
                         "isConstant": false,
                         "isLValue": true,
                         "isPure": false,
                         "lValueRequested": false,
                         "memberName": "isHead",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 1282,
+                        "referencedDeclaration": 1369,
                         "src": "1434:11:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_function_delegatecall_pure$_t_struct$_LinkedList_$3074_storage_ptr_$_t_uint256_$returns$_t_bool_$bound_to$_t_struct$_LinkedList_$3074_storage_ptr_$",
+                          "typeIdentifier": "t_function_delegatecall_pure$_t_struct$_LinkedList_$3147_storage_ptr_$_t_uint256_$returns$_t_bool_$bound_to$_t_struct$_LinkedList_$3147_storage_ptr_$",
                           "typeString": "function (struct LinkedListLib.LinkedList storage pointer,uint256) pure returns (bool)"
                         }
                       },
-                      "id": 1342,
+                      "id": 1429,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -2300,11 +2300,11 @@
                     }
                   },
                   "falseBody": null,
-                  "id": 1349,
+                  "id": 1436,
                   "nodeType": "IfStatement",
                   "src": "1413:82:8",
                   "trueBody": {
-                    "id": 1348,
+                    "id": 1435,
                     "nodeType": "Block",
                     "src": "1453:42:8",
                     "statements": [
@@ -2315,7 +2315,7 @@
                             {
                               "argumentTypes": null,
                               "hexValue": "66616c7365",
-                              "id": 1344,
+                              "id": 1431,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": true,
@@ -2333,7 +2333,7 @@
                             {
                               "argumentTypes": null,
                               "hexValue": "30",
-                              "id": 1345,
+                              "id": 1432,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": true,
@@ -2349,7 +2349,7 @@
                               "value": "0"
                             }
                           ],
-                          "id": 1346,
+                          "id": 1433,
                           "isConstant": false,
                           "isInlineArray": false,
                           "isLValue": false,
@@ -2362,8 +2362,8 @@
                             "typeString": "tuple(bool,int_const 0)"
                           }
                         },
-                        "functionReturnParameters": 1326,
-                        "id": 1347,
+                        "functionReturnParameters": 1413,
+                        "id": 1434,
                         "nodeType": "Return",
                         "src": "1467:17:8"
                       }
@@ -2376,11 +2376,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 1352,
+                        "id": 1439,
                         "name": "next",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1330,
+                        "referencedDeclaration": 1417,
                         "src": "1524:4:8",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -2397,32 +2397,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 1350,
+                        "id": 1437,
                         "name": "list",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1320,
+                        "referencedDeclaration": 1407,
                         "src": "1508:4:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                          "typeIdentifier": "t_struct$_LinkedList_$3147_storage_ptr",
                           "typeString": "struct LinkedListLib.LinkedList storage pointer"
                         }
                       },
-                      "id": 1351,
+                      "id": 1438,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "nodeExists",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3153,
+                      "referencedDeclaration": 3226,
                       "src": "1508:15:8",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_delegatecall_view$_t_struct$_LinkedList_$3074_storage_ptr_$_t_uint256_$returns$_t_bool_$bound_to$_t_struct$_LinkedList_$3074_storage_ptr_$",
+                        "typeIdentifier": "t_function_delegatecall_view$_t_struct$_LinkedList_$3147_storage_ptr_$_t_uint256_$returns$_t_bool_$bound_to$_t_struct$_LinkedList_$3147_storage_ptr_$",
                         "typeString": "function (struct LinkedListLib.LinkedList storage pointer,uint256) view returns (bool)"
                       }
                     },
-                    "id": 1353,
+                    "id": 1440,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2437,18 +2437,18 @@
                     }
                   },
                   "falseBody": null,
-                  "id": 1365,
+                  "id": 1452,
                   "nodeType": "IfStatement",
                   "src": "1505:103:8",
                   "trueBody": {
-                    "id": 1364,
+                    "id": 1451,
                     "nodeType": "Block",
                     "src": "1531:77:8",
                     "statements": [
                       {
                         "expression": {
                           "argumentTypes": null,
-                          "id": 1358,
+                          "id": 1445,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -2457,25 +2457,25 @@
                             "argumentTypes": null,
                             "expression": {
                               "argumentTypes": null,
-                              "id": 1354,
+                              "id": 1441,
                               "name": "self",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 1318,
+                              "referencedDeclaration": 1405,
                               "src": "1545:4:8",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                                "typeIdentifier": "t_struct$_Iterator_$1403_memory_ptr",
                                 "typeString": "struct LinkedListIteratorLib.Iterator memory"
                               }
                             },
-                            "id": 1356,
+                            "id": 1443,
                             "isConstant": false,
                             "isLValue": true,
                             "isPure": false,
                             "lValueRequested": true,
                             "memberName": "pointer",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 1313,
+                            "referencedDeclaration": 1400,
                             "src": "1545:12:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
@@ -2486,11 +2486,11 @@
                           "operator": "=",
                           "rightHandSide": {
                             "argumentTypes": null,
-                            "id": 1357,
+                            "id": 1444,
                             "name": "next",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 1330,
+                            "referencedDeclaration": 1417,
                             "src": "1560:4:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
@@ -2503,7 +2503,7 @@
                             "typeString": "uint256"
                           }
                         },
-                        "id": 1359,
+                        "id": 1446,
                         "nodeType": "ExpressionStatement",
                         "src": "1545:19:8"
                       },
@@ -2514,7 +2514,7 @@
                             {
                               "argumentTypes": null,
                               "hexValue": "74727565",
-                              "id": 1360,
+                              "id": 1447,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": true,
@@ -2531,11 +2531,11 @@
                             },
                             {
                               "argumentTypes": null,
-                              "id": 1361,
+                              "id": 1448,
                               "name": "next",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 1330,
+                              "referencedDeclaration": 1417,
                               "src": "1592:4:8",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_uint256",
@@ -2543,7 +2543,7 @@
                               }
                             }
                           ],
-                          "id": 1362,
+                          "id": 1449,
                           "isConstant": false,
                           "isInlineArray": false,
                           "isLValue": false,
@@ -2556,8 +2556,8 @@
                             "typeString": "tuple(bool,uint256)"
                           }
                         },
-                        "functionReturnParameters": 1326,
-                        "id": 1363,
+                        "functionReturnParameters": 1413,
+                        "id": 1450,
                         "nodeType": "Return",
                         "src": "1578:19:8"
                       }
@@ -2571,7 +2571,7 @@
                       {
                         "argumentTypes": null,
                         "hexValue": "66616c7365",
-                        "id": 1366,
+                        "id": 1453,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -2589,7 +2589,7 @@
                       {
                         "argumentTypes": null,
                         "hexValue": "30",
-                        "id": 1367,
+                        "id": 1454,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -2605,7 +2605,7 @@
                         "value": "0"
                       }
                     ],
-                    "id": 1368,
+                    "id": 1455,
                     "isConstant": false,
                     "isInlineArray": false,
                     "isLValue": false,
@@ -2618,15 +2618,15 @@
                       "typeString": "tuple(bool,int_const 0)"
                     }
                   },
-                  "functionReturnParameters": 1326,
-                  "id": 1369,
+                  "functionReturnParameters": 1413,
+                  "id": 1456,
                   "nodeType": "Return",
                   "src": "1618:17:8"
                 }
               ]
             },
             "documentation": null,
-            "id": 1371,
+            "id": 1458,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -2634,31 +2634,31 @@
             "name": "getNext",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1321,
+              "id": 1408,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1318,
+                  "id": 1405,
                   "name": "self",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1371,
+                  "scope": 1458,
                   "src": "1178:42:8",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                    "typeIdentifier": "t_struct$_Iterator_$1403_memory_ptr",
                     "typeString": "struct LinkedListIteratorLib.Iterator"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1317,
+                    "id": 1404,
                     "name": "LinkedListIteratorLib.Iterator",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 1316,
+                    "referencedDeclaration": 1403,
                     "src": "1178:30:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Iterator_$1316_storage_ptr",
+                      "typeIdentifier": "t_struct$_Iterator_$1403_storage_ptr",
                       "typeString": "struct LinkedListIteratorLib.Iterator"
                     }
                   },
@@ -2667,26 +2667,26 @@
                 },
                 {
                   "constant": false,
-                  "id": 1320,
+                  "id": 1407,
                   "name": "list",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1371,
+                  "scope": 1458,
                   "src": "1222:37:8",
                   "stateVariable": false,
                   "storageLocation": "storage",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                    "typeIdentifier": "t_struct$_LinkedList_$3147_storage_ptr",
                     "typeString": "struct LinkedListLib.LinkedList"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1319,
+                    "id": 1406,
                     "name": "LinkedListLib.LinkedList",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 3074,
+                    "referencedDeclaration": 3147,
                     "src": "1222:24:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                      "typeIdentifier": "t_struct$_LinkedList_$3147_storage_ptr",
                       "typeString": "struct LinkedListLib.LinkedList"
                     }
                   },
@@ -2698,15 +2698,15 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 1326,
+              "id": 1413,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1323,
+                  "id": 1410,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1371,
+                  "scope": 1458,
                   "src": "1298:4:8",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2715,7 +2715,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 1322,
+                    "id": 1409,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "1298:4:8",
@@ -2729,10 +2729,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 1325,
+                  "id": 1412,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1371,
+                  "scope": 1458,
                   "src": "1304:7:8",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2741,7 +2741,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1324,
+                    "id": 1411,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "1304:7:8",
@@ -2756,7 +2756,7 @@
               ],
               "src": "1297:15:8"
             },
-            "scope": 1448,
+            "scope": 1535,
             "src": "1161:481:8",
             "stateMutability": "view",
             "superFunction": null,
@@ -2764,7 +2764,7 @@
           },
           {
             "body": {
-              "id": 1383,
+              "id": 1470,
               "nodeType": "Block",
               "src": "1887:38:8",
               "statements": [
@@ -2775,7 +2775,7 @@
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     },
-                    "id": 1381,
+                    "id": 1468,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2784,25 +2784,25 @@
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-                        "id": 1378,
+                        "id": 1465,
                         "name": "self",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1373,
+                        "referencedDeclaration": 1460,
                         "src": "1904:4:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                          "typeIdentifier": "t_struct$_Iterator_$1403_memory_ptr",
                           "typeString": "struct LinkedListIteratorLib.Iterator memory"
                         }
                       },
-                      "id": 1379,
+                      "id": 1466,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "counter",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1315,
+                      "referencedDeclaration": 1402,
                       "src": "1904:12:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -2814,7 +2814,7 @@
                     "rightExpression": {
                       "argumentTypes": null,
                       "hexValue": "31",
-                      "id": 1380,
+                      "id": 1467,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -2835,15 +2835,15 @@
                       "typeString": "uint256"
                     }
                   },
-                  "functionReturnParameters": 1377,
-                  "id": 1382,
+                  "functionReturnParameters": 1464,
+                  "id": 1469,
                   "nodeType": "Return",
                   "src": "1897:21:8"
                 }
               ]
             },
             "documentation": "This function returns a zero based index of the iterator, showing how many elements have been iterated over.",
-            "id": 1384,
+            "id": 1471,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -2851,31 +2851,31 @@
             "name": "getCounter",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1374,
+              "id": 1461,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1373,
+                  "id": 1460,
                   "name": "self",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1384,
+                  "scope": 1471,
                   "src": "1800:42:8",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                    "typeIdentifier": "t_struct$_Iterator_$1403_memory_ptr",
                     "typeString": "struct LinkedListIteratorLib.Iterator"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1372,
+                    "id": 1459,
                     "name": "LinkedListIteratorLib.Iterator",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 1316,
+                    "referencedDeclaration": 1403,
                     "src": "1800:30:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Iterator_$1316_storage_ptr",
+                      "typeIdentifier": "t_struct$_Iterator_$1403_storage_ptr",
                       "typeString": "struct LinkedListIteratorLib.Iterator"
                     }
                   },
@@ -2887,15 +2887,15 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 1377,
+              "id": 1464,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1376,
+                  "id": 1463,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1384,
+                  "scope": 1471,
                   "src": "1878:7:8",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2904,7 +2904,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1375,
+                    "id": 1462,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "1878:7:8",
@@ -2919,7 +2919,7 @@
               ],
               "src": "1877:9:8"
             },
-            "scope": 1448,
+            "scope": 1535,
             "src": "1780:145:8",
             "stateMutability": "pure",
             "superFunction": null,
@@ -2927,7 +2927,7 @@
           },
           {
             "body": {
-              "id": 1394,
+              "id": 1481,
               "nodeType": "Block",
               "src": "2035:36:8",
               "statements": [
@@ -2936,40 +2936,40 @@
                     "argumentTypes": null,
                     "expression": {
                       "argumentTypes": null,
-                      "id": 1391,
+                      "id": 1478,
                       "name": "self",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1386,
+                      "referencedDeclaration": 1473,
                       "src": "2052:4:8",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                        "typeIdentifier": "t_struct$_Iterator_$1403_memory_ptr",
                         "typeString": "struct LinkedListIteratorLib.Iterator memory"
                       }
                     },
-                    "id": 1392,
+                    "id": 1479,
                     "isConstant": false,
                     "isLValue": true,
                     "isPure": false,
                     "lValueRequested": false,
                     "memberName": "pointer",
                     "nodeType": "MemberAccess",
-                    "referencedDeclaration": 1313,
+                    "referencedDeclaration": 1400,
                     "src": "2052:12:8",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
-                  "functionReturnParameters": 1390,
-                  "id": 1393,
+                  "functionReturnParameters": 1477,
+                  "id": 1480,
                   "nodeType": "Return",
                   "src": "2045:19:8"
                 }
               ]
             },
             "documentation": null,
-            "id": 1395,
+            "id": 1482,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -2977,31 +2977,31 @@
             "name": "next",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1387,
+              "id": 1474,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1386,
+                  "id": 1473,
                   "name": "self",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1395,
+                  "scope": 1482,
                   "src": "1945:42:8",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                    "typeIdentifier": "t_struct$_Iterator_$1403_memory_ptr",
                     "typeString": "struct LinkedListIteratorLib.Iterator"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1385,
+                    "id": 1472,
                     "name": "LinkedListIteratorLib.Iterator",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 1316,
+                    "referencedDeclaration": 1403,
                     "src": "1945:30:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Iterator_$1316_storage_ptr",
+                      "typeIdentifier": "t_struct$_Iterator_$1403_storage_ptr",
                       "typeString": "struct LinkedListIteratorLib.Iterator"
                     }
                   },
@@ -3013,15 +3013,15 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 1390,
+              "id": 1477,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1389,
+                  "id": 1476,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1395,
+                  "scope": 1482,
                   "src": "2026:7:8",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3030,7 +3030,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1388,
+                    "id": 1475,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "2026:7:8",
@@ -3045,7 +3045,7 @@
               ],
               "src": "2025:9:8"
             },
-            "scope": 1448,
+            "scope": 1535,
             "src": "1931:140:8",
             "stateMutability": "pure",
             "superFunction": null,
@@ -3053,22 +3053,22 @@
           },
           {
             "body": {
-              "id": 1446,
+              "id": 1533,
               "nodeType": "Block",
               "src": "2220:355:8",
               "statements": [
                 {
                   "assignments": [
-                    1405,
-                    1407
+                    1492,
+                    1494
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 1405,
+                      "id": 1492,
                       "name": "pointerExists",
                       "nodeType": "VariableDeclaration",
-                      "scope": 1447,
+                      "scope": 1534,
                       "src": "2239:18:8",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -3077,7 +3077,7 @@
                         "typeString": "bool"
                       },
                       "typeName": {
-                        "id": 1404,
+                        "id": 1491,
                         "name": "bool",
                         "nodeType": "ElementaryTypeName",
                         "src": "2239:4:8",
@@ -3091,10 +3091,10 @@
                     },
                     {
                       "constant": false,
-                      "id": 1407,
+                      "id": 1494,
                       "name": "nextNode",
                       "nodeType": "VariableDeclaration",
-                      "scope": 1447,
+                      "scope": 1534,
                       "src": "2259:16:8",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -3103,7 +3103,7 @@
                         "typeString": "uint256"
                       },
                       "typeName": {
-                        "id": 1406,
+                        "id": 1493,
                         "name": "uint256",
                         "nodeType": "ElementaryTypeName",
                         "src": "2259:7:8",
@@ -3116,7 +3116,7 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 1413,
+                  "id": 1500,
                   "initialValue": {
                     "argumentTypes": null,
                     "arguments": [
@@ -3124,25 +3124,25 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 1410,
+                          "id": 1497,
                           "name": "self",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1397,
+                          "referencedDeclaration": 1484,
                           "src": "2300:4:8",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                            "typeIdentifier": "t_struct$_Iterator_$1403_memory_ptr",
                             "typeString": "struct LinkedListIteratorLib.Iterator memory"
                           }
                         },
-                        "id": 1411,
+                        "id": 1498,
                         "isConstant": false,
                         "isLValue": true,
                         "isPure": false,
                         "lValueRequested": false,
                         "memberName": "pointer",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 1313,
+                        "referencedDeclaration": 1400,
                         "src": "2300:12:8",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -3159,32 +3159,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 1408,
+                        "id": 1495,
                         "name": "list",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1399,
+                        "referencedDeclaration": 1486,
                         "src": "2279:4:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                          "typeIdentifier": "t_struct$_LinkedList_$3147_storage_ptr",
                           "typeString": "struct LinkedListLib.LinkedList storage pointer"
                         }
                       },
-                      "id": 1409,
+                      "id": 1496,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "getAdjacentNext",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1300,
+                      "referencedDeclaration": 1387,
                       "src": "2279:20:8",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_delegatecall_view$_t_struct$_LinkedList_$3074_storage_ptr_$_t_uint256_$returns$_t_bool_$_t_uint256_$bound_to$_t_struct$_LinkedList_$3074_storage_ptr_$",
+                        "typeIdentifier": "t_function_delegatecall_view$_t_struct$_LinkedList_$3147_storage_ptr_$_t_uint256_$returns$_t_bool_$_t_uint256_$bound_to$_t_struct$_LinkedList_$3147_storage_ptr_$",
                         "typeString": "function (struct LinkedListLib.LinkedList storage pointer,uint256) view returns (bool,uint256)"
                       }
                     },
-                    "id": 1412,
+                    "id": 1499,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -3208,14 +3208,14 @@
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
                     },
-                    "id": 1420,
+                    "id": 1507,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftExpression": {
                       "argumentTypes": null,
-                      "id": 1415,
+                      "id": 1502,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -3226,11 +3226,11 @@
                       "src": "2327:14:8",
                       "subExpression": {
                         "argumentTypes": null,
-                        "id": 1414,
+                        "id": 1501,
                         "name": "pointerExists",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1405,
+                        "referencedDeclaration": 1492,
                         "src": "2328:13:8",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
@@ -3249,11 +3249,11 @@
                       "arguments": [
                         {
                           "argumentTypes": null,
-                          "id": 1418,
+                          "id": 1505,
                           "name": "nextNode",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1407,
+                          "referencedDeclaration": 1494,
                           "src": "2357:8:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
@@ -3270,32 +3270,32 @@
                         ],
                         "expression": {
                           "argumentTypes": null,
-                          "id": 1416,
+                          "id": 1503,
                           "name": "list",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1399,
+                          "referencedDeclaration": 1486,
                           "src": "2345:4:8",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                            "typeIdentifier": "t_struct$_LinkedList_$3147_storage_ptr",
                             "typeString": "struct LinkedListLib.LinkedList storage pointer"
                           }
                         },
-                        "id": 1417,
+                        "id": 1504,
                         "isConstant": false,
                         "isLValue": true,
                         "isPure": false,
                         "lValueRequested": false,
                         "memberName": "isHead",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 1282,
+                        "referencedDeclaration": 1369,
                         "src": "2345:11:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_function_delegatecall_pure$_t_struct$_LinkedList_$3074_storage_ptr_$_t_uint256_$returns$_t_bool_$bound_to$_t_struct$_LinkedList_$3074_storage_ptr_$",
+                          "typeIdentifier": "t_function_delegatecall_pure$_t_struct$_LinkedList_$3147_storage_ptr_$_t_uint256_$returns$_t_bool_$bound_to$_t_struct$_LinkedList_$3147_storage_ptr_$",
                           "typeString": "function (struct LinkedListLib.LinkedList storage pointer,uint256) pure returns (bool)"
                         }
                       },
-                      "id": 1419,
+                      "id": 1506,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -3316,11 +3316,11 @@
                     }
                   },
                   "falseBody": null,
-                  "id": 1424,
+                  "id": 1511,
                   "nodeType": "IfStatement",
                   "src": "2324:81:8",
                   "trueBody": {
-                    "id": 1423,
+                    "id": 1510,
                     "nodeType": "Block",
                     "src": "2368:37:8",
                     "statements": [
@@ -3328,7 +3328,7 @@
                         "expression": {
                           "argumentTypes": null,
                           "hexValue": "66616c7365",
-                          "id": 1421,
+                          "id": 1508,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -3343,8 +3343,8 @@
                           },
                           "value": "false"
                         },
-                        "functionReturnParameters": 1403,
-                        "id": 1422,
+                        "functionReturnParameters": 1490,
+                        "id": 1509,
                         "nodeType": "Return",
                         "src": "2382:12:8"
                       }
@@ -3357,11 +3357,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 1427,
+                        "id": 1514,
                         "name": "nextNode",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1407,
+                        "referencedDeclaration": 1494,
                         "src": "2434:8:8",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -3378,32 +3378,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 1425,
+                        "id": 1512,
                         "name": "list",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1399,
+                        "referencedDeclaration": 1486,
                         "src": "2418:4:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                          "typeIdentifier": "t_struct$_LinkedList_$3147_storage_ptr",
                           "typeString": "struct LinkedListLib.LinkedList storage pointer"
                         }
                       },
-                      "id": 1426,
+                      "id": 1513,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "nodeExists",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3153,
+                      "referencedDeclaration": 3226,
                       "src": "2418:15:8",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_delegatecall_view$_t_struct$_LinkedList_$3074_storage_ptr_$_t_uint256_$returns$_t_bool_$bound_to$_t_struct$_LinkedList_$3074_storage_ptr_$",
+                        "typeIdentifier": "t_function_delegatecall_view$_t_struct$_LinkedList_$3147_storage_ptr_$_t_uint256_$returns$_t_bool_$bound_to$_t_struct$_LinkedList_$3147_storage_ptr_$",
                         "typeString": "function (struct LinkedListLib.LinkedList storage pointer,uint256) view returns (bool)"
                       }
                     },
-                    "id": 1428,
+                    "id": 1515,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -3418,18 +3418,18 @@
                     }
                   },
                   "falseBody": null,
-                  "id": 1443,
+                  "id": 1530,
                   "nodeType": "IfStatement",
                   "src": "2415:131:8",
                   "trueBody": {
-                    "id": 1442,
+                    "id": 1529,
                     "nodeType": "Block",
                     "src": "2445:101:8",
                     "statements": [
                       {
                         "expression": {
                           "argumentTypes": null,
-                          "id": 1432,
+                          "id": 1519,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -3442,25 +3442,25 @@
                             "argumentTypes": null,
                             "expression": {
                               "argumentTypes": null,
-                              "id": 1429,
+                              "id": 1516,
                               "name": "self",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 1397,
+                              "referencedDeclaration": 1484,
                               "src": "2459:4:8",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                                "typeIdentifier": "t_struct$_Iterator_$1403_memory_ptr",
                                 "typeString": "struct LinkedListIteratorLib.Iterator memory"
                               }
                             },
-                            "id": 1431,
+                            "id": 1518,
                             "isConstant": false,
                             "isLValue": true,
                             "isPure": false,
                             "lValueRequested": true,
                             "memberName": "counter",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 1315,
+                            "referencedDeclaration": 1402,
                             "src": "2459:12:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
@@ -3472,14 +3472,14 @@
                             "typeString": "uint256"
                           }
                         },
-                        "id": 1433,
+                        "id": 1520,
                         "nodeType": "ExpressionStatement",
                         "src": "2459:14:8"
                       },
                       {
                         "expression": {
                           "argumentTypes": null,
-                          "id": 1438,
+                          "id": 1525,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -3488,25 +3488,25 @@
                             "argumentTypes": null,
                             "expression": {
                               "argumentTypes": null,
-                              "id": 1434,
+                              "id": 1521,
                               "name": "self",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 1397,
+                              "referencedDeclaration": 1484,
                               "src": "2487:4:8",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                                "typeIdentifier": "t_struct$_Iterator_$1403_memory_ptr",
                                 "typeString": "struct LinkedListIteratorLib.Iterator memory"
                               }
                             },
-                            "id": 1436,
+                            "id": 1523,
                             "isConstant": false,
                             "isLValue": true,
                             "isPure": false,
                             "lValueRequested": true,
                             "memberName": "pointer",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 1313,
+                            "referencedDeclaration": 1400,
                             "src": "2487:12:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
@@ -3517,11 +3517,11 @@
                           "operator": "=",
                           "rightHandSide": {
                             "argumentTypes": null,
-                            "id": 1437,
+                            "id": 1524,
                             "name": "nextNode",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 1407,
+                            "referencedDeclaration": 1494,
                             "src": "2502:8:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
@@ -3534,7 +3534,7 @@
                             "typeString": "uint256"
                           }
                         },
-                        "id": 1439,
+                        "id": 1526,
                         "nodeType": "ExpressionStatement",
                         "src": "2487:23:8"
                       },
@@ -3542,7 +3542,7 @@
                         "expression": {
                           "argumentTypes": null,
                           "hexValue": "74727565",
-                          "id": 1440,
+                          "id": 1527,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -3557,8 +3557,8 @@
                           },
                           "value": "true"
                         },
-                        "functionReturnParameters": 1403,
-                        "id": 1441,
+                        "functionReturnParameters": 1490,
+                        "id": 1528,
                         "nodeType": "Return",
                         "src": "2524:11:8"
                       }
@@ -3569,7 +3569,7 @@
                   "expression": {
                     "argumentTypes": null,
                     "hexValue": "66616c7365",
-                    "id": 1444,
+                    "id": 1531,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": true,
@@ -3584,15 +3584,15 @@
                     },
                     "value": "false"
                   },
-                  "functionReturnParameters": 1403,
-                  "id": 1445,
+                  "functionReturnParameters": 1490,
+                  "id": 1532,
                   "nodeType": "Return",
                   "src": "2556:12:8"
                 }
               ]
             },
             "documentation": null,
-            "id": 1447,
+            "id": 1534,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -3600,31 +3600,31 @@
             "name": "hasNext",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1400,
+              "id": 1487,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1397,
+                  "id": 1484,
                   "name": "self",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1447,
+                  "scope": 1534,
                   "src": "2094:42:8",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_Iterator_$1316_memory_ptr",
+                    "typeIdentifier": "t_struct$_Iterator_$1403_memory_ptr",
                     "typeString": "struct LinkedListIteratorLib.Iterator"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1396,
+                    "id": 1483,
                     "name": "LinkedListIteratorLib.Iterator",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 1316,
+                    "referencedDeclaration": 1403,
                     "src": "2094:30:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Iterator_$1316_storage_ptr",
+                      "typeIdentifier": "t_struct$_Iterator_$1403_storage_ptr",
                       "typeString": "struct LinkedListIteratorLib.Iterator"
                     }
                   },
@@ -3633,26 +3633,26 @@
                 },
                 {
                   "constant": false,
-                  "id": 1399,
+                  "id": 1486,
                   "name": "list",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1447,
+                  "scope": 1534,
                   "src": "2138:37:8",
                   "stateVariable": false,
                   "storageLocation": "storage",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                    "typeIdentifier": "t_struct$_LinkedList_$3147_storage_ptr",
                     "typeString": "struct LinkedListLib.LinkedList"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1398,
+                    "id": 1485,
                     "name": "LinkedListLib.LinkedList",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 3074,
+                    "referencedDeclaration": 3147,
                     "src": "2138:24:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_LinkedList_$3074_storage_ptr",
+                      "typeIdentifier": "t_struct$_LinkedList_$3147_storage_ptr",
                       "typeString": "struct LinkedListLib.LinkedList"
                     }
                   },
@@ -3664,15 +3664,15 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 1403,
+              "id": 1490,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1402,
+                  "id": 1489,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1447,
+                  "scope": 1534,
                   "src": "2214:4:8",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3681,7 +3681,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 1401,
+                    "id": 1488,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "2214:4:8",
@@ -3696,14 +3696,14 @@
               ],
               "src": "2213:6:8"
             },
-            "scope": 1448,
+            "scope": 1535,
             "src": "2077:498:8",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "internal"
           }
         ],
-        "scope": 1449,
+        "scope": 1536,
         "src": "158:2419:8"
       }
     ],
@@ -3714,6 +3714,12 @@
     "version": "0.4.24+commit.e67f0147.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "2.0.1",
-  "updatedAt": "2019-01-05T17:47:03.078Z"
+  "schemaVersion": "3.0.1",
+  "updatedAt": "2019-01-14T14:35:46.447Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
 }

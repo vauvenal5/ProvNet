@@ -22,13 +22,14 @@ module.exports = {
     ropsten: {
       provider: () => new HDWalletProvider(process.env.MNEMONIC, "https://ropsten.infura.io/v3/" + process.env.INFURA_API_KEY),
       network_id: 3,
-      gas: 5000000,
+      gas: 2000000,
       gasPrice: 31
     },
     ui: {
       host: "127.0.0.1",
       port: 8545,
       network_id: "*",
+      gas: 2000000
     },
     eval: {
       host: "127.0.0.1",
@@ -43,10 +44,15 @@ module.exports = {
   //     gasPrice: 0x01      // <-- Use this low gas price
   //   },
   },
+  compilers: {
+    solc: {
+        version: "0.4.24"
+    }
+},
   solc: {
     optimizer: {
         enabled: true,
-        runs: 200
+        runs: 1
     }
   },
   build: function(options, callback) {

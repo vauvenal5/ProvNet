@@ -12,6 +12,11 @@ class ContractUtils {
         this.instance = instance;
     }
 
+    setTitle(title) {
+        this.deployer.then(() => this.instance.setTitle(title));
+        return this;
+    }
+
     setDescription(desc) {
         this.deployer.then(() => this.instance.setDescription(desc));
         return this;

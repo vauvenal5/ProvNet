@@ -18,11 +18,11 @@ class DeployerUtils {
         let contract = new ContractUtils(this.deployer, title);
         this.contracts.push(contract);
       
-        this.deployer.deploy(this.abis.SimpleProvenanceContract, title).then((instance) => {
+        this.deployer.deploy(this.abis.SimpleProvenanceContract, {gas: 5300000}).then((instance) => {
             contract.setInstance(instance);
         });
 
-        contract.setDescription(description)
+        contract.setTitle(title).setDescription(description)
         .setLogoUrl(logoUrl)
         .addUser(accounts[0], "trusted")
         .addUser(accounts[0], "known")

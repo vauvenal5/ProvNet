@@ -21,24 +21,24 @@
       "type": "function"
     }
   ],
-  "bytecode": "0x608060405234801561001057600080fd5b5060ea8061001f6000396000f300608060405260043610603e5763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663def2489b81146043575b600080fd5b348015604e57600080fd5b50606e73ffffffffffffffffffffffffffffffffffffffff600435166080565b60408051918252519081900360200190f35b6000609f8273ffffffffffffffffffffffffffffffffffffffff1660a5565b92915050565b73ffffffffffffffffffffffffffffffffffffffff16905600a165627a7a72305820bc1f8352d24fec0f69a4fc0a7f076c9744d9e79d5a23d359dd2a4e638c8b658c0029",
-  "deployedBytecode": "0x608060405260043610603e5763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663def2489b81146043575b600080fd5b348015604e57600080fd5b50606e73ffffffffffffffffffffffffffffffffffffffff600435166080565b60408051918252519081900360200190f35b6000609f8273ffffffffffffffffffffffffffffffffffffffff1660a5565b92915050565b73ffffffffffffffffffffffffffffffffffffffff16905600a165627a7a72305820bc1f8352d24fec0f69a4fc0a7f076c9744d9e79d5a23d359dd2a4e638c8b658c0029",
+  "bytecode": "0x608060405234801561001057600080fd5b5060aa8061001f6000396000f30060806040526004361060255763ffffffff60e060020a600035041663def2489b8114602a575b600080fd5b348015603557600080fd5b506048600160a060020a0360043516605a565b60408051918252519081900360200190f35b6000606c82600160a060020a03166072565b92915050565b600160a060020a0316905600a165627a7a72305820ca8d5d7dc3020fce104f8e57af8f56859af6fbe72ac4546bb929eb63bf44533d0029",
+  "deployedBytecode": "0x60806040526004361060255763ffffffff60e060020a600035041663def2489b8114602a575b600080fd5b348015603557600080fd5b506048600160a060020a0360043516605a565b60408051918252519081900360200190f35b6000606c82600160a060020a03166072565b92915050565b600160a060020a0316905600a165627a7a72305820ca8d5d7dc3020fce104f8e57af8f56859af6fbe72ac4546bb929eb63bf44533d0029",
   "sourceMap": "62:168:17:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;62:168:17;;;;;;;",
-  "deployedSourceMap": "62:168:17:-;;;;;;;;;;;;;;;;;;;;;;;131:97;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;131:97:17;;;;;;;;;;;;;;;;;;;;;;;;181:7;207:14;:2;:12;;;:14::i;:::-;200:21;131:97;-1:-1:-1;;131:97:17:o;53:110:5:-;139:17;;;53:110::o",
+  "deployedSourceMap": "62:168:17:-;;;;;;;;;-1:-1:-1;;;62:168:17;;;;;;;;;;;;;131:97;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;131:97:17;-1:-1:-1;;;;;131:97:17;;;;;;;;;;;;;;;;;;;;;;181:7;207:14;:2;-1:-1:-1;;;;;207:12:17;;:14::i;:::-;200:21;131:97;-1:-1:-1;;131:97:17:o;53:110:5:-;-1:-1:-1;;;;;139:17:5;;53:110::o",
   "source": "pragma solidity ^0.4.24;\n\nimport \"../libs/AddressUtils.sol\";\n\ncontract AddressUtilsMock {\n    using AddressUtils for address;\n\n    function convert(address _a) public pure returns (uint256) {\n        return _a.toUint256();\n    }\n}",
-  "sourcePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/mocks/AddressUtilsMock.sol",
+  "sourcePath": "/home/vauvenal5/repos/github/comp/ProvNet/eth/contracts/mocks/AddressUtilsMock.sol",
   "ast": {
-    "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/mocks/AddressUtilsMock.sol",
+    "absolutePath": "/home/vauvenal5/repos/github/comp/ProvNet/eth/contracts/mocks/AddressUtilsMock.sol",
     "exportedSymbols": {
       "AddressUtilsMock": [
-        2715
+        2788
       ]
     },
-    "id": 2716,
+    "id": 2789,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 2698,
+        "id": 2771,
         "literals": [
           "solidity",
           "^",
@@ -49,12 +49,12 @@
         "src": "0:24:17"
       },
       {
-        "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/libs/AddressUtils.sol",
+        "absolutePath": "/home/vauvenal5/repos/github/comp/ProvNet/eth/contracts/libs/AddressUtils.sol",
         "file": "../libs/AddressUtils.sol",
-        "id": 2699,
+        "id": 2772,
         "nodeType": "ImportDirective",
-        "scope": 2716,
-        "sourceUnit": 1118,
+        "scope": 2789,
+        "sourceUnit": 1205,
         "src": "26:34:17",
         "symbolAliases": [],
         "unitAlias": ""
@@ -65,31 +65,31 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 2715,
+        "id": 2788,
         "linearizedBaseContracts": [
-          2715
+          2788
         ],
         "name": "AddressUtilsMock",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
-            "id": 2702,
+            "id": 2775,
             "libraryName": {
               "contractScope": null,
-              "id": 2700,
+              "id": 2773,
               "name": "AddressUtils",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1117,
+              "referencedDeclaration": 1204,
               "src": "100:12:17",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_AddressUtils_$1117",
+                "typeIdentifier": "t_contract$_AddressUtils_$1204",
                 "typeString": "library AddressUtils"
               }
             },
             "nodeType": "UsingForDirective",
             "src": "94:31:17",
             "typeName": {
-              "id": 2701,
+              "id": 2774,
               "name": "address",
               "nodeType": "ElementaryTypeName",
               "src": "117:7:17",
@@ -101,7 +101,7 @@
           },
           {
             "body": {
-              "id": 2713,
+              "id": 2786,
               "nodeType": "Block",
               "src": "190:38:17",
               "statements": [
@@ -113,32 +113,32 @@
                       "argumentTypes": [],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 2709,
+                        "id": 2782,
                         "name": "_a",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2704,
+                        "referencedDeclaration": 2777,
                         "src": "207:2:17",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
                         }
                       },
-                      "id": 2710,
+                      "id": 2783,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "toUint256",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1116,
+                      "referencedDeclaration": 1203,
                       "src": "207:12:17",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_pure$_t_address_$returns$_t_uint256_$bound_to$_t_address_$",
                         "typeString": "function (address) pure returns (uint256)"
                       }
                     },
-                    "id": 2711,
+                    "id": 2784,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -152,15 +152,15 @@
                       "typeString": "uint256"
                     }
                   },
-                  "functionReturnParameters": 2708,
-                  "id": 2712,
+                  "functionReturnParameters": 2781,
+                  "id": 2785,
                   "nodeType": "Return",
                   "src": "200:21:17"
                 }
               ]
             },
             "documentation": null,
-            "id": 2714,
+            "id": 2787,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -168,15 +168,15 @@
             "name": "convert",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 2705,
+              "id": 2778,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2704,
+                  "id": 2777,
                   "name": "_a",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2714,
+                  "scope": 2787,
                   "src": "148:10:17",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -185,7 +185,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 2703,
+                    "id": 2776,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "148:7:17",
@@ -202,15 +202,15 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 2708,
+              "id": 2781,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2707,
+                  "id": 2780,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2714,
+                  "scope": 2787,
                   "src": "181:7:17",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -219,7 +219,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 2706,
+                    "id": 2779,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "181:7:17",
@@ -234,31 +234,31 @@
               ],
               "src": "180:9:17"
             },
-            "scope": 2715,
+            "scope": 2788,
             "src": "131:97:17",
             "stateMutability": "pure",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 2716,
+        "scope": 2789,
         "src": "62:168:17"
       }
     ],
     "src": "0:230:17"
   },
   "legacyAST": {
-    "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/mocks/AddressUtilsMock.sol",
+    "absolutePath": "/home/vauvenal5/repos/github/comp/ProvNet/eth/contracts/mocks/AddressUtilsMock.sol",
     "exportedSymbols": {
       "AddressUtilsMock": [
-        2715
+        2788
       ]
     },
-    "id": 2716,
+    "id": 2789,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 2698,
+        "id": 2771,
         "literals": [
           "solidity",
           "^",
@@ -269,12 +269,12 @@
         "src": "0:24:17"
       },
       {
-        "absolutePath": "/home/vauvenal5/repos/github/ProvNet/eth/contracts/libs/AddressUtils.sol",
+        "absolutePath": "/home/vauvenal5/repos/github/comp/ProvNet/eth/contracts/libs/AddressUtils.sol",
         "file": "../libs/AddressUtils.sol",
-        "id": 2699,
+        "id": 2772,
         "nodeType": "ImportDirective",
-        "scope": 2716,
-        "sourceUnit": 1118,
+        "scope": 2789,
+        "sourceUnit": 1205,
         "src": "26:34:17",
         "symbolAliases": [],
         "unitAlias": ""
@@ -285,31 +285,31 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 2715,
+        "id": 2788,
         "linearizedBaseContracts": [
-          2715
+          2788
         ],
         "name": "AddressUtilsMock",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
-            "id": 2702,
+            "id": 2775,
             "libraryName": {
               "contractScope": null,
-              "id": 2700,
+              "id": 2773,
               "name": "AddressUtils",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1117,
+              "referencedDeclaration": 1204,
               "src": "100:12:17",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_AddressUtils_$1117",
+                "typeIdentifier": "t_contract$_AddressUtils_$1204",
                 "typeString": "library AddressUtils"
               }
             },
             "nodeType": "UsingForDirective",
             "src": "94:31:17",
             "typeName": {
-              "id": 2701,
+              "id": 2774,
               "name": "address",
               "nodeType": "ElementaryTypeName",
               "src": "117:7:17",
@@ -321,7 +321,7 @@
           },
           {
             "body": {
-              "id": 2713,
+              "id": 2786,
               "nodeType": "Block",
               "src": "190:38:17",
               "statements": [
@@ -333,32 +333,32 @@
                       "argumentTypes": [],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 2709,
+                        "id": 2782,
                         "name": "_a",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2704,
+                        "referencedDeclaration": 2777,
                         "src": "207:2:17",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
                         }
                       },
-                      "id": 2710,
+                      "id": 2783,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "toUint256",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1116,
+                      "referencedDeclaration": 1203,
                       "src": "207:12:17",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_pure$_t_address_$returns$_t_uint256_$bound_to$_t_address_$",
                         "typeString": "function (address) pure returns (uint256)"
                       }
                     },
-                    "id": 2711,
+                    "id": 2784,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -372,15 +372,15 @@
                       "typeString": "uint256"
                     }
                   },
-                  "functionReturnParameters": 2708,
-                  "id": 2712,
+                  "functionReturnParameters": 2781,
+                  "id": 2785,
                   "nodeType": "Return",
                   "src": "200:21:17"
                 }
               ]
             },
             "documentation": null,
-            "id": 2714,
+            "id": 2787,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -388,15 +388,15 @@
             "name": "convert",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 2705,
+              "id": 2778,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2704,
+                  "id": 2777,
                   "name": "_a",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2714,
+                  "scope": 2787,
                   "src": "148:10:17",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -405,7 +405,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 2703,
+                    "id": 2776,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "148:7:17",
@@ -422,15 +422,15 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 2708,
+              "id": 2781,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2707,
+                  "id": 2780,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2714,
+                  "scope": 2787,
                   "src": "181:7:17",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -439,7 +439,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 2706,
+                    "id": 2779,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "181:7:17",
@@ -454,14 +454,14 @@
               ],
               "src": "180:9:17"
             },
-            "scope": 2715,
+            "scope": 2788,
             "src": "131:97:17",
             "stateMutability": "pure",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 2716,
+        "scope": 2789,
         "src": "62:168:17"
       }
     ],
@@ -472,6 +472,12 @@
     "version": "0.4.24+commit.e67f0147.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "2.0.1",
-  "updatedAt": "2019-01-05T17:47:03.097Z"
+  "schemaVersion": "3.0.1",
+  "updatedAt": "2019-01-14T14:35:46.460Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
 }
