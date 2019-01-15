@@ -67,11 +67,8 @@ program.command("deploy <network>").description("Deploys evaluation network.")
                 }
             },
             err => console.log(err),
-            () => {
-                network.tu.children.push(network.infosys);
-                network.infosys.children.push(network.dsg);
-                
-                linker.linkNetwork(network.tu, 1).subscribe(
+            () => {                
+                linker.linkNetwork(network.searches.search256, 1).subscribe(
                     link => {
                         let linkAdded = link.receipt.events.LinkAdded;
                         if(linkAdded === undefined) {

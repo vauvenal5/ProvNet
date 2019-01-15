@@ -26,6 +26,7 @@ export default class PersistableHelper {
 
         if(this[topic][this.network] === undefined) {
             this.resetNetwork();
+            this.persist();
         }
     }
 

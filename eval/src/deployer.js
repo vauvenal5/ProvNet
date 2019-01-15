@@ -5,13 +5,16 @@ import {
     catchError,
     filter,
     reduce,
-    last} from "rxjs/operators";
+    last,
+    retry,
+    delay} from "rxjs/operators";
 import * as Rp from "request-promise";
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from "fs";
 import Network from "./network";
 import Contract from "./contract";
 import CostCounter from "./CostCounter";
 import PersistableHelper from "./PersistableHelper";
+import restHelper from "./RestHelper";
 
 export default class Deployer extends PersistableHelper {
     constructor(network, persist) {
@@ -47,14 +50,9 @@ export default class Deployer extends PersistableHelper {
                     return Rx.of(new Contract(title, this.getAddress(title)));
                 }
 
-                return Rx.from(
-                    Rp.put("http://localhost:3001/contracts/deploy", {
-                        body: {
-                            title: title
-                        },
-                        json: true
-                    })
-                ).pipe(
+                return restHelper.postAndPull("http://localhost:3001/contracts/deploy", "http://localhost:3001/contracts/deploy/"+title, {
+                    title: title
+                }).pipe(
                     map(contract => {
                         let add = contract.contractAddress.toLowerCase();
 
@@ -66,9 +64,9 @@ export default class Deployer extends PersistableHelper {
                         }
 
                         this.addEvent(out);
-
+                        
                         return new Contract(title, add);
-                    })
+                    }),
                 );
             })
         );
@@ -119,6 +117,17 @@ export default class Deployer extends PersistableHelper {
         );
     }
 
+    deploySearch(count) {
+        return Rx.zip(
+            this.deployContract("Search"+count),
+            this.deployUniversity("Uni"+count, 2, (count/4)-2),
+            (search, uni) => {
+                search.children.push(uni);
+                return search;
+            }
+        )
+    }
+
     deployDefault() {
         return Rx.zip(
             this.deployContract("Proj-Cloud"),
@@ -126,16 +135,25 @@ export default class Deployer extends PersistableHelper {
             this.deployNodeWithChildren("InfoSys", "Group", 1),
             this.deployNodeWithChildren("InstX", "Group", 2),
             this.deployContract("TU"),
-            this.deployUniversity("UniY", 2, 2),
-            this.deployContract("Search16"),
-            this.deployUniversity("UniX", 2, 6),
-            this.deployContract("Search32"),
-            this.deployContract("Search64"),
-            this.deployContract("Search128"),
-            this.deployContract("Search256"),
-            //this.deployUniversity("UniY", 10),
-            //(dsg, infosys, tu, unix, uniy) => ({dsg, infosys, tu, unix, uniy})
-            (dsg, infosys, tu) => new Network(dsg, infosys, tu)
+            this.deploySearch(16),
+            this.deploySearch(32),
+            this.deploySearch(64),
+            this.deploySearch(128),
+            this.deploySearch(256),
+            (proj, dsg, infosys, instx, tu, search16, search32,
+                search64, search128, search256) => {
+                    search256.children.push(search128);
+                    search128.children.push(search64);
+                    search64.children.push(search32);
+                    search32.children.push(search16);
+                    search16.children.push(tu);
+                    tu.children.push(instx);
+                    tu.children.push(infosys);
+                    infosys.children.push(dsg);
+                    dsg.children.push(proj);
+
+                    return new Network(proj, dsg, infosys, instx, tu, search16, search32, search64, search128, search256);
+            }
         )
     }
 }

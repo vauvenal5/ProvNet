@@ -1,5 +1,5 @@
 import express from "express";
-import {controller} from "./controller";
+import controller from "./controller";
 import links from "../links";
 import details from "../details";
 import types from "../types";
@@ -22,8 +22,10 @@ router.route(Path.create().addContractVar().getPath()).get((req, res) => {
     .subscribe(data => res.json(data));
 });
 
-router.route(Path.create().addDeploy().getPath()).put((req, res) => {
-    if(req.body.title === undefined) {
+router.route(Path.create().addDeploy().getPath()).post((req, res) => {
+    let title = req.body.title;
+    
+    if(title === undefined) {
         res.status(500);
         res.json({msg: "Title required!"});
         return;
@@ -31,12 +33,32 @@ router.route(Path.create().addDeploy().getPath()).put((req, res) => {
 
     console.log("Requesting deployment for: " +  req.body.title);
 
-    controller.deployContract(req.body.title, contract => {
-        if(contract.error) {
-            res.status(500);
-        }
-        res.json(contract);
-    });
+    if(controller.isDeploying(title)) {
+        console.log("Already deploying: " +  req.body.title);
+        res.json("Already deploying "+ req.body.title);
+        return;
+    }
+
+    controller.deployContract(req.body.title);
+
+    res.json("Deploying "+ req.body.title);
+});
+
+router.route(Path.create().addDeploy().addVar("title").getPath()).get((req, res) => {
+    if(req.params.title === undefined) {
+        res.status(500);
+        res.json({msg: "Title required!"});
+        return;
+    }
+
+    //console.log("Checking deployment for: " +  req.params.title);
+
+    let contract = controller.checkDeploymentState(req.params.title);
+
+    if(contract === undefined || contract.error) {
+        res.status(500);
+    }
+    res.json(contract);
 });
 
 router.route(Path.create().addContractVar().getPath()).put((req, res) => {

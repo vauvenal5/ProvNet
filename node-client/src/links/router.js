@@ -9,18 +9,33 @@ router.route("/").get((req, res) => {
     .subscribe(data => res.json(data));
 });
 
-router.route(Path.create().addVar("link").getPath()).put((req, res) => {
+router.route(Path.create().addVar("link").getPath()).post((req, res) => {
     let contract = req.params[Path.getContractVar()];
     let link = req.params.link;
     let tag = req.body.tag;
 
-    controller.addLink(contract, link, tag, (data) => {
-        if(data.error) {
-            res.status(500);
-        }
+    if(controller.isDeploying({contract, link, tag})) {
+        res.json("Already linking!");
+        return
+    }
 
-        res.json(data);
-    })
+    controller.addLink(contract, link, tag);
+
+    res.json("Linking...");
+});
+
+router.route(Path.create().addVar("link").addVar("tag").getPath()).get((req, res) => {
+    let contract = req.params[Path.getContractVar()];
+    let link = req.params.link;
+    let tag = req.params.tag;
+
+    let data = controller.checkDeploymentState({contract, link, tag});
+
+    if(data === undefined || data.error) {
+        res.status(500);
+    }
+
+    res.json(data);
 });
 
 export default router;

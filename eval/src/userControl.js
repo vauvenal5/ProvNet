@@ -3,6 +3,7 @@ import { flatMap, filter, map } from "rxjs/operators";
 import * as Rp from "request-promise";
 import PersistableHelper from "./PersistableHelper";
 import CostCounter from "./CostCounter";
+import restHelper from "./RestHelper";
 
 export default class UserControl extends PersistableHelper {
     constructor(network, persist) {
@@ -52,20 +53,17 @@ export default class UserControl extends PersistableHelper {
 
     checkRights(contracts, user, expectedLinks, expectedSpecials) {
         return Rx.from(contracts).pipe(
-            flatMap(contract => Rx.from(
-                Rp.get("http://localhost:3001/contracts/"+contract.address+"/users/"+user, {json: true})
-            ).pipe(
+            flatMap(contract => restHelper.get("http://localhost:3001/contracts/"+contract.address+"/users/"+user).pipe(
                 flatMap(user => Rx.merge(
                     this.checkExpectedRoles(user, contract, "links", expectedLinks),
                     this.checkExpectedRoles(user, contract, "specials", expectedSpecials),
                 )),
-                flatMap(tag => Rx.from(
-                    Rp.put("http://localhost:3001/contracts/"+contract.address+"/users/"+user, {
-                        body: {
-                            tag: tag
-                        },
-                        json: true
-                    })
+                flatMap(tag => restHelper.postAndPull(
+                    "http://localhost:3001/contracts/"+contract.address+"/users/"+user,
+                    "http://localhost:3001/contracts/"+contract.address+"/users/"+user+"/"+tag,
+                    {
+                        tag: tag
+                    }
                 )),
                 map(receipt => ({contract: contract.contract, receipt}))
             ))

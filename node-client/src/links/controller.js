@@ -7,6 +7,7 @@ import {
     map} from "rxjs/operators";
 import Link from "../models/Link";
 import web3Provider from "../web3Provider";
+import CachingController from "../ChachingController";
 
 export const observables = {};
 observables.linksLoadObservable = (web3Contract) => Rx.from(
@@ -27,19 +28,28 @@ observables.linksLoadObservable = (web3Contract) => Rx.from(
     }, [])
 );
 
-export const controller = {};
-controller.loadLinksObservable = (address) => Rx.of(address).pipe(
-    web3Provider.simpleProvenanceContractOperator(),
-    flatMap(web3Contract => observables.linksLoadObservable(web3Contract))
-);
+class Controller extends CachingController{
+    constructor() {
+        super(({contract, link, tag}) => contract + "=>" + link + ":" + tag);
+        
+        this.addLinkSubject = new Rx.Subject();
+        this.addLinkSubject.pipe(
+            map(linkReq => this.deploying(linkReq)),
+            concatMap(({contract, link, tag}) => Rx.of(contract).pipe(
+                web3Provider.simpleProvenanceContractOperator(),
+                map(web3Contract => web3Contract.methods.addLink(link, tag)),
+                web3Provider.estimateAndSendOperator(),
+                map(resp => ({resp, linkReq: {contract, link, tag}}))
+            ))
+        ).subscribe(({resp, linkReq}) => this.deployed(linkReq, resp));
+    }
 
-controller.addLinkSubject = new Rx.Subject();
-controller.addLink = (contract, link, tag, cb) => controller.addLinkSubject.next({contract, link, tag, cb});
-controller.addLinkSubject.pipe(
-    concatMap(({contract, link, tag, cb}) => Rx.of(contract).pipe(
+    loadLinksObservable = (address) => Rx.of(address).pipe(
         web3Provider.simpleProvenanceContractOperator(),
-        map(web3Contract => web3Contract.methods.addLink(link, tag)),
-        web3Provider.estimateAndSendOperator(),
-        map(resp => ({resp, cb}))
-    ))
-).subscribe(({resp, cb}) => cb(resp));
+        flatMap(web3Contract => observables.linksLoadObservable(web3Contract))
+    );
+
+    addLink = (contract, link, tag) => this.addLinkSubject.next({contract, link, tag});
+}
+
+export const controller = new Controller();

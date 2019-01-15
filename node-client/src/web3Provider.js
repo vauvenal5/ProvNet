@@ -1,13 +1,13 @@
 import Web3 from "web3";
 import * as Rx from "rxjs";
-import { map, flatMap, catchError, first } from "rxjs/operators";
+import { map, flatMap, catchError, first, delay } from "rxjs/operators";
 const fs = require('fs');
 
 import SimpleProvenanceContract from "ProvNet/build/contracts/SimpleProvenanceContract";
 
 class Web3Provider {
     constructor(url) {
-        this.web3 = new Web3(new Web3.providers.HttpProvider(url));
+        this.web3 = new Web3(new Web3.providers.HttpProvider(url, 36000000));
         let keysPath = "./.keys";
         let accountPath = keysPath + "/account.json"
         if(!fs.existsSync(keysPath)) {
@@ -52,15 +52,16 @@ class Web3Provider {
     estimateAndSendOperator = () => flatMap(func => Rx.from(func.estimateGas({from: this.getAddress()})).pipe(
         map(gas => {
             console.log("Estimated gas: " + gas);
-            gas = parseInt(parseInt(gas)*1.1);
+            gas = parseInt(parseInt(gas)*1.025);
             console.log("Sent gas: " + gas);
             return gas;
         }),
+        delay(1000),//this delay is only to give infura node time to sync(?); trying to avoid: Returned error: known transaction:...
         // flatMap(gas => Rx.from(
         //     func.send({from: this.getAddress(), gas: gas, gasPrice: 31})
         // ).pipe(
         flatMap(gas => Rx.fromEvent(
-            func.send({from: this.getAddress(), gas: gas, gasPrice: 31}), "receipt"
+            func.send({from: this.getAddress(), gas: gas, gasPrice: 11000000000}), "receipt"
         ).pipe(
             first(resp => true),
             map(resp => {

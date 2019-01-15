@@ -5,6 +5,7 @@ import Network from "./network";
 import Contract from "./contract";
 import PersistableHelper from "./PersistableHelper";
 import CostCounter from "./CostCounter";
+import restHelper from "./RestHelper";
 
 export default class Linker extends PersistableHelper {
     constructor(network, persist) {
@@ -29,9 +30,7 @@ export default class Linker extends PersistableHelper {
     }
 
     getLinks(node) {
-        return Rx.from(
-            Rp.get("http://localhost:3001/contracts/"+node.address+"/links", {json: true})
-        ).pipe(
+        return restHelper.get("http://localhost:3001/contracts/"+node.address+"/links").pipe(
             switchAll(),
             map(link => link.address.toLowerCase()),
             reduce((links, link)=> {
@@ -69,13 +68,12 @@ export default class Linker extends PersistableHelper {
 
                 return true;//do not filter; link does not exist;
             }),
-            flatMap(child => Rx.from(
-                Rp.put("http://localhost:3001/contracts/"+node.address+"/links/"+child.address, {
-                    body: {
-                        tag: tag
-                    },
-                    json: true
-                })
+            flatMap(child => restHelper.postAndPull(
+                "http://localhost:3001/contracts/"+node.address+"/links/"+child.address, 
+                "http://localhost:3001/contracts/"+node.address+"/links/"+child.address+"/"+tag, 
+                {
+                    tag: tag
+                }
             ).pipe(
                 map(receipt => ({receipt, from: node.title, to: child.title}))
             ))
