@@ -1,6 +1,7 @@
 import express from "express";
 import {controller} from "./controller";
 import Path from "../path";
+import routerUtils from "../RouterUtils";
 
 const router = express.Router({mergeParams: true});
 
@@ -29,13 +30,7 @@ router.route(Path.create().addVar("link").addVar("tag").getPath()).get((req, res
     let link = req.params.link;
     let tag = req.params.tag;
 
-    let data = controller.checkDeploymentState({contract, link, tag});
-
-    if(data === undefined || data.error) {
-        res.status(500);
-    }
-
-    res.json(data);
+    routerUtils.checkCachedAndSend(res, controller, {contract, link, tag});
 });
 
 export default router;

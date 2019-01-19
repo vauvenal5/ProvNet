@@ -17,8 +17,9 @@ import PersistableHelper from "./PersistableHelper";
 import restHelper from "./RestHelper";
 
 export default class Deployer extends PersistableHelper {
-    constructor(network, persist) {
+    constructor(network, persist, skipSearch) {
         super(network, persist, "contracts", e => e.contract.length, e => e.contract);
+        this.skipSearch = skipSearch;
     }
 
     isContractDeployed(title) {
@@ -118,6 +119,10 @@ export default class Deployer extends PersistableHelper {
     }
 
     deploySearch(count) {
+        if(this.skipSearch) {
+            return this.deployContract("Search"+count);
+        }
+
         return Rx.zip(
             this.deployContract("Search"+count),
             this.deployUniversity("Uni"+count, 2, (count/4)-2),

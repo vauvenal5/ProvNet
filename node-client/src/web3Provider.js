@@ -6,30 +6,47 @@ const fs = require('fs');
 import SimpleProvenanceContract from "ProvNet/build/contracts/SimpleProvenanceContract";
 
 class Web3Provider {
-    constructor(url) {
-        this.web3 = new Web3(new Web3.providers.HttpProvider(url, 36000000));
+    constructor(network, url) {
         let keysPath = "./.keys";
-        let accountPath = keysPath + "/account.json"
+        let configPath = keysPath + "/config." + network + ".json";
         if(!fs.existsSync(keysPath)) {
             fs.mkdirSync(keysPath);
         }
-
-        this.web3.eth.accounts.wallet.create();
+        
+        let config = {};
         let account;
 
-        if(!fs.existsSync(accountPath)) {
-            account = this.web3.eth.accounts.create();
-        } else {
-            account = JSON.parse(fs.readFileSync(accountPath, "utf8"));
-            account = this.web3.eth.accounts.privateKeyToAccount(account.privateKey);
+        //load config
+        if(fs.existsSync(configPath)) {
+            
+            config = JSON.parse(fs.readFileSync(configPath, "utf8"));
+        }
+        
+        if(config.url === undefined) {
+            config.url = url;
         }
 
-        console.log(account);
-        fs.writeFileSync(accountPath, JSON.stringify({
+        this.web3 = new Web3(new Web3.providers.HttpProvider(config.url, 36000000));
+        this.web3.eth.accounts.wallet.create();
+
+        //load or create account
+        if(config.account === undefined) {
+            account = this.web3.eth.accounts.create();
+        } else {
+            account = this.web3.eth.accounts.privateKeyToAccount(config.account.privateKey);
+        }
+
+        config.account = {
             address: account.address,
             privateKey: account.privateKey
-        }, null, 4), "utf8");
-        this.account = account;
+        };
+
+        console.log("Node client will be using:");
+        console.log(config);
+        //update config
+        fs.writeFileSync(configPath, JSON.stringify(config, null, 4), "utf8");
+        
+        this.config = config;
         this.web3.eth.accounts.wallet.add(account);
     }
 
@@ -46,7 +63,7 @@ class Web3Provider {
     }
 
     getAddress() {
-        return this.account.address;
+        return this.config.account.address;
     }
 
     estimateAndSendOperator = () => flatMap(func => Rx.from(func.estimateGas({from: this.getAddress()})).pipe(
@@ -80,5 +97,5 @@ class Web3Provider {
     ));
 }
 
-const web3Provider = new Web3Provider(process.env.URL);
+const web3Provider = new Web3Provider(process.env.network, process.env.URL);
 export default web3Provider;

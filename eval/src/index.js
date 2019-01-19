@@ -26,24 +26,29 @@ program.command("reset <network>").description("Resets the specified network.")
     let deployer = new Deployer(network, true);
     let userControl = new UserControl(network, true);
     let linker = new Linker(network, true);
+    let provWriter = new ProvWriter("", 0, network, true);
     deployer.resetNetwork();
     deployer.persist();
     userControl.resetNetwork();
     userControl.persist();
     linker.resetNetwork();
     linker.persist();
+    provWriter.resetNetwork();
+    provWriter.persist();
 });
 
 program.command("deploy <network>").description("Deploys evaluation network.")
 .option("-o, --only", "Deploy only contracts.", false)
+.option("-s, --skipSearch", "Deploy only shallow search contracts.", false)
 .option("-p, --persist", "Persists changes to config.", false)
-.option("-k, --keyPath [path]", "Path to node client key file.", "../node-client/.keys/account.json")
+.option("-k, --keyPath [path]", "Path to node client key file.", "../node-client/.keys")
 .action((network, options) => {
-    let deployer = new Deployer(network, options.persist);
+    let deployer = new Deployer(network, options.persist, options.skipSearch);
     let userControl = new UserControl(network, options.persist);
     let linker = new Linker(network, options.persist);
     
-    let account = JSON.parse(fs.readFileSync(options.keyPath));
+    let path = options.keyPath + "/config." + network + ".json"; 
+    let account = JSON.parse(fs.readFileSync(path)).account;
 
     deployer.deployDefault().subscribe(network => {        
         if(options.only) {
@@ -91,10 +96,11 @@ program.command("deploy <network>").description("Deploys evaluation network.")
     });
 });
 
-program.command("provcost").description("Evaluate the cost to store provenance data.")
+program.command("provcost <network>").description("Evaluate the cost to store provenance data.")
 .option("-s, --size <size>", "Byte size to use.", 128)
-.option("-p, --provUrl <urlPart>", "UrlPart will be appended to prov url.", "eval001")
-.action((options) => {
+.option("-u, --urlPart <urlPart>", "UrlPart will be appended to prov url.", "eval001")
+.option("-p, --persist", "Persists changes to config.", false)
+.action((network, options) => {
     const rl = readline.createInterface({
         input: fs.createReadStream('./config/ProvNet.git2prov.n'),
         crlfDelay: Infinity
@@ -102,7 +108,7 @@ program.command("provcost").description("Evaluate the cost to store provenance d
 
     //console.log(options.parent.contract);
 
-    let provWriter = new ProvWriter(options.provUrl);
+    let provWriter = new ProvWriter(options.urlPart, parseInt(options.size), network, options.persist);
     let lineNr = 1;
     let found = false;
 
@@ -118,13 +124,14 @@ program.command("provcost").description("Evaluate the cost to store provenance d
 
         let latexOut = "";
         let printRes = (res) => {
-            let out = {
-                size: size,
-                times: res.times,
-                cost: res.receipt.gasUsed
-            };
-            console.log(out);
-            latexOut = latexOut + "("+parseInt(out.size)*parseInt(out.times)+","+out.cost+")\n";
+            // let out = {
+            //     size: size,
+            //     times: res.times,
+            //     cost: res.gasUsed
+            // };
+            console.log(res);
+            //latexOut = latexOut + "("+parseInt(out.size)*parseInt(out.times)+","+out.cost+")\n";
+            latexOut = latexOut + "("+res.size+","+res.cost+")\n";
         };
 
         if(bytes == size){
@@ -132,9 +139,9 @@ program.command("provcost").description("Evaluate the cost to store provenance d
             found = true;
             rl.close();
 
-            provWriter.saveProv(options.parent.contract, line).subscribe(receipt => {
-                console.log("Initial transaction:");
-                printRes({times: 1, receipt});
+            console.log("Initial transaction:");
+            provWriter.saveProv(options.parent.contract, line, 127).subscribe(receipt => {
+                printRes(receipt);
                 latexOut = "";
                 console.log("Big transactions:")
                 provWriter.measureProv(options.parent.contract, line).subscribe(
@@ -147,7 +154,10 @@ program.command("provcost").description("Evaluate the cost to store provenance d
                         provWriter.measureProvIot(options.parent.contract, line).subscribe(
                             res => printRes(res),
                             err => console.log(err),
-                            () => console.log(latexOut)
+                            () => {
+                                console.log(latexOut);
+                                provWriter.costCounter.complete();
+                            }
                         )
                     }
                 );

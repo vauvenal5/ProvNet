@@ -17,18 +17,27 @@ import CachingController from "../ChachingController";
 class Controller extends CachingController {
 
     constructor() {
-        super();
+        super(id => {
+            if(typeof id === "string") {
+                return id;
+            }
+
+            let {uuid} = id;
+
+            return uuid;
+        });
         this.provenanceSubject = new Rx.Subject();
         this.deploySubject = new Rx.Subject();
 
         this.provenanceSubject.pipe(
-            concatMap(({address, url, prov, cb}) => Rx.of(address).pipe(
+            map(provReq => this.deploying(provReq)),
+            concatMap(({address, url, prov, uuid}) => Rx.of(address).pipe(
                 web3Provider.simpleProvenanceContractOperator(),
                 map(web3Contract => web3Contract.methods.putProvenanceRecord(url, prov)),
                 web3Provider.estimateAndSendOperator(),
-                map(resp => ({resp, cb}))
+                map(resp => ({resp, provReq: {address, url, prov, uuid}}))
             ))
-        ).subscribe(({resp, cb}) => cb(resp));
+        ).subscribe(({resp, provReq}) => this.deployed(provReq, resp));
 
         this.deploySubject.pipe(
             map(title => this.deploying(title)),
@@ -81,8 +90,8 @@ class Controller extends CachingController {
     // );
 
     
-    pushProvenance(address, url, prov, cb) { 
-        this.provenanceSubject.next({address, url, prov, cb});
+    pushProvenance(address, url, prov, uuid) { 
+        this.provenanceSubject.next({address, url, prov, uuid});
     }
     
     deployContract(title) {

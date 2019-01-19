@@ -32,6 +32,10 @@ export default class PersistableHelper {
 
     addEvent(out) {
         console.log(out);
+        this.addEventNoLog(out);
+    }
+
+    addEventNoLog(out) {
         this.getNetworkedTopic()[this.getEventKey(out)] = out;
         this.persist();
         this.costCounter.next(out);

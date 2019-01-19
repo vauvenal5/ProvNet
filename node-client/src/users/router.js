@@ -7,6 +7,7 @@ import Path from "../path";
 import search from "../search";
 import * as Rx from "rxjs";
 import web3Provider from "../web3Provider";
+import routerUtils from "../RouterUtils";
 
 const router = express.Router({mergeParams: true});
 
@@ -39,12 +40,7 @@ router.route(Path.create().addVar("user").addVar("tag").getPath()).get((req, res
     let user = req.params["user"];
     let tag = req.params.tag;
 
-    let data = controller.checkDeploymentState({contract, user, tag});
-    
-    if(data === undefined || data.error) {
-        res.status(500);
-    }
-    res.json(data);
+    routerUtils.checkCachedAndSend(res, controller, {contract, user, tag});
 });
 
 

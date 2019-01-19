@@ -8,7 +8,10 @@ import search from "../search";
 import users from "../users";
 import * as Rx from "rxjs";
 import web3Provider from "../web3Provider";
+import routerUtils from "../RouterUtils";
 
+const uuidv1 = require("uuid/v1");
+const uuidv4 = require("uuid/v4");
 const router = express.Router();
 
 router.use(Path.create().addContractVar().addDetails().getPath(), details.router);
@@ -51,28 +54,24 @@ router.route(Path.create().addDeploy().addVar("title").getPath()).get((req, res)
         return;
     }
 
-    //console.log("Checking deployment for: " +  req.params.title);
-
-    let contract = controller.checkDeploymentState(req.params.title);
-
-    if(contract === undefined || contract.error) {
-        res.status(500);
-    }
-    res.json(contract);
+    routerUtils.checkCachedAndSend(res, controller, req.params.title);
 });
 
-router.route(Path.create().addContractVar().getPath()).put((req, res) => {
-    console.log(req.body);
+router.route(Path.create().addContractVar().getPath()).post((req, res) => {
     let prov = req.body.prov;
     if(typeof prov !== String) {
         prov = JSON.stringify(prov);
     }
-    controller.pushProvenance(req.params[Path.getContractVar()], req.body.url, prov, (data) => {
-        if(data.error) {
-            res.status(500);
-        }
-        res.json(data);
-    });
+
+    let uuid = uuidv1();
+
+    controller.pushProvenance(req.params[Path.getContractVar()], req.body.url, prov, uuid);
+
+    res.json({uuid});
+});
+
+router.route(Path.create().addContractVar().addVar("uuid").getPath()).get((req, res) => {
+    routerUtils.checkCachedAndSend(res, controller, {uuid: req.params.uuid});
 });
 
 export default router;
