@@ -118,9 +118,13 @@ program.command("provcost <network>").description("Evaluate the cost to store pr
             return;
         }
 
+        let size = parseInt(options.size);
+        if(size == 64) {
+            line = "5f16f4c7f149ac4f9510d9cf8cf384038ad348b3bcdc01915f95de12df9d1b02";
+        }
+
         lineNr++;
         let bytes = Buffer.byteLength(line, 'utf8');
-        let size = parseInt(options.size);
 
         let latexOut = "";
         let printRes = (res) => {

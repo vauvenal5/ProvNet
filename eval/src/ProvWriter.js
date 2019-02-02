@@ -6,7 +6,7 @@ import PersistableHelper from "./PersistableHelper";
 
 export default class ProvWriter extends PersistableHelper {
     constructor(provUrl, size, network, persist) {
-        super(network, persist, "provcost", e => e.size, e => this.getKey(e.size,e.nr))
+        super(network, persist, "provcost."+size, e => e.size, e => this.getKey(e.size,e.nr))
         this.provUrl = provUrl;
         this.size = size;
         this.nrs = {};
