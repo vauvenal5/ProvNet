@@ -207,7 +207,7 @@ program.command("search [scenario]").description("Evaluate the cost to store pro
         case "4-3":
             target = "http://thesis.eval/scenario4";
             weights = ["trusted", "known"];
-            contract = "0x55526b860d8fc67bef7440e236c02231acb12d90";
+            contract = "0x75735b7a532108ea0760ba4b4841d399e16f1fd7";
             break;
         case "5-1":
             target = "http://thesis.eval/scenario5";
@@ -222,7 +222,7 @@ program.command("search [scenario]").description("Evaluate the cost to store pro
         case "5-3":
             target = "http://thesis.eval/scenario5";
             weights = ["trusted", "linkback"];
-            contract = "0x55526b860d8fc67bef7440e236c02231acb12d90";
+            contract = "0x78Af41B30Bd48d94965A8fc3fA563FE2950fD638";
             break;
         default:
             target = options.target;
@@ -256,7 +256,7 @@ program.command("timecost <size>").description("Evaluate the cost to store prove
         err => console.log(err),
         () => {
             cost.complete();
-            console.log("Total runtime client: " + Date.now()-start);
+            console.log("Total runtime client: " + (Date.now()-start));
         }
     )
 });
