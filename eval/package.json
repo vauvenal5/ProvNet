@@ -4,7 +4,7 @@
   "description": "Master thesis evaluation project.",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "node --inspect=9230 src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

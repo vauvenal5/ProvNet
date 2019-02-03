@@ -37,6 +37,7 @@ class Controller extends CachingController{
             map(linkReq => this.deploying(linkReq)),
             concatMap(({contract, link, tag}) => Rx.of(contract).pipe(
                 web3Provider.simpleProvenanceContractOperator(),
+                map(web3Contract => {console.log("linking: "+contract+"=>"+link+":"+tag); return web3Contract}),
                 map(web3Contract => web3Contract.methods.addLink(link, tag)),
                 web3Provider.estimateAndSendOperator(),
                 map(resp => ({resp, linkReq: {contract, link, tag}}))

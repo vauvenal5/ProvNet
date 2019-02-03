@@ -13,7 +13,11 @@ export default class Linker extends PersistableHelper {
     }
 
     createEventKey(from, to, tag) {
-        return from + "=>" + to + ":" + tag;
+        return from + "=>" + this.createLinkTagKey(to, tag);
+    }
+
+    createLinkTagKey(link, tag) {
+        return link + ":" + tag;
     }
 
     addEvent(event, gasUsed, from, to) {
@@ -32,7 +36,9 @@ export default class Linker extends PersistableHelper {
     getLinks(node) {
         return restHelper.get("http://localhost:3001/contracts/"+node.address+"/links").pipe(
             switchAll(),
-            map(link => link.address.toLowerCase()),
+            flatMap(link => Rx.from(link.tags).pipe(
+                map(tag => this.createLinkTagKey(link.address.toLowerCase(), tag))
+            )),
             reduce((links, link)=> {
                 links.push(link); 
                 return links;
@@ -40,12 +46,12 @@ export default class Linker extends PersistableHelper {
         );
     }
 
-    linkNetwork(node = new Contract("empty", "0"), tag) {
+    linkNetwork(node = new Contract("empty", "0")) {
         return this.getLinks(node).pipe(
             flatMap(links => Rx.from(node.children).pipe(
                 flatMap(child => Rx.merge(
-                    this.linkChild(node, child, links, tag),
-                    this.linkNetwork(child, tag)
+                    this.doubleLinkTrusted(node, child, links),
+                    this.linkNetwork(child)
                 ))
             ))
         )
@@ -53,19 +59,32 @@ export default class Linker extends PersistableHelper {
 
     linkNode(node = new Contract("empty", "0"), child, tag) {
         return this.getLinks(node).pipe(
-            flatMap(links => this.linkChild(node, child, links, tag))
+            flatMap(links => this.link(node, child, links, tag))
         )
     }
 
-    linkChild(node, child, links, tag) {
+    doubleLinkTrusted(node, child, links) {
+        return Rx.merge(
+            this.link(node, child, links, child.tag),
+            Rx.of(child.tag).pipe(
+                filter(tag => tag == 1),
+                flatMap(tag => this.getLinks(child).pipe(
+                    flatMap(childLinks => this.link(child, node, childLinks, tag))
+                ))
+            )
+        );
+    }
+
+    link(node, child, links, tag) {
         return Rx.of(child).pipe(
             filter(child => {
-                if(links.includes(child.address)) {
+                //console.log(child);
+                if(links.includes(this.createLinkTagKey(child.address.toLowerCase(), tag))) {
                     console.log("Skipping link: "+node.title+" => "+child.title);
                     this.costCounter.next(this.getNetworkedTopic()[this.createEventKey(node.title,child.title,tag)]);
                     return false;
                 }
-
+                
                 return true;//do not filter; link does not exist;
             }),
             flatMap(child => restHelper.postAndPull(

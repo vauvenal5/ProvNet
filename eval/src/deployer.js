@@ -69,7 +69,24 @@ export default class Deployer extends PersistableHelper {
                         return new Contract(title, add);
                     }),
                 );
-            })
+            }),
+            flatMap(contract => restHelper.get("http://localhost:3001/contracts/"+contract.address+"/details/title").pipe(
+                flatMap((currentTitle) => {
+                    if(currentTitle == title) {
+                        console.log("Title correct: "+title+" for "+contract.address);
+                        return Rx.of(title);
+                    }
+                    console.log("Setting title: "+title+" for "+contract.address);
+                    return restHelper.postAndPull(
+                        "http://localhost:3001/contracts/"+contract.address+"/details/title",
+                        "http://localhost:3001/contracts/"+contract.address+"/details/"+title, 
+                        {
+                            title: title
+                        }
+                    );
+                }),
+                map(() => contract)
+            ))    
         );
     }
 
@@ -127,6 +144,7 @@ export default class Deployer extends PersistableHelper {
             this.deployContract("Search"+count),
             this.deployUniversity("Uni"+count, 2, (count/4)-2),
             (search, uni) => {
+                uni.tag = 2;
                 search.children.push(uni);
                 return search;
             }
@@ -147,6 +165,12 @@ export default class Deployer extends PersistableHelper {
             this.deploySearch(256),
             (proj, dsg, infosys, instx, tu, search16, search32,
                 search64, search128, search256) => {
+                    search256.tag = 2;
+                    search128.tag = 2;
+                    search64.tag = 2;
+                    search32.tag = 2;
+                    search16.tag = 2;
+                    tu.tag = 2;
                     search256.children.push(search128);
                     search128.children.push(search64);
                     search64.children.push(search32);

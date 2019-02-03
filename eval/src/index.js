@@ -6,6 +6,7 @@ var Linker = require("./linker").default;
 var CostCounter = require("./CostCounter").default;
 var ProvWriter = require("./ProvWriter").default;
 var program = require("commander");
+var ScenarioHelper = require("./ScenarioHelper").default;
 const Rx = require("rxjs");
 const rp = require("request-promise");
 var fs = require("fs");
@@ -14,8 +15,7 @@ const readline = require('readline');
 program
     .version("1.0.0")
     //.option("-s, --scenario <scenario> ", "Run scenario.")
-    .option("-c, --contract <contract> ", "Contract address.", "0xdcabb02d80e27f809910a01ca8d2f98230e158a9")
-    .option("-t, --target <target> ", "Target URI.", "https://find.this.com/resource1");
+    .option("-c, --contract <contract> ", "Contract address.", "0xdcabb02d80e27f809910a01ca8d2f98230e158a9");
     //.option("-d, --deploy <network>", "Deploys evaluation network.")
     //.option("-r, --reset <network>", "Resets the specified network.")
     //.option("-p, --persist", "Only with -d or -r: Persists changes to config.", false)
@@ -170,14 +170,95 @@ program.command("provcost <network>").description("Evaluate the cost to store pr
     });
 });
 
-program.parse(process.argv);
+program.command("search [scenario]").description("Evaluate the cost to store provenance data.")
+.option("-t, --target <target> ", "Target URI.", "https://github.com/vauvenal5/ProvNet-eval001")
+.option("-w, --weights <weights> ", "Weights to consider in search.", "trusted")
+.action((scenario, options) => {
+    let target;
+    let weights;
+    let contract;
 
-if(program.scenario === "search") {
-    let target = encodeURIComponent(program.target);
-    let links = encodeURIComponent(JSON.stringify(["trusted"]));
+    switch (scenario) {
+        case "1":
+            target = "http://thesis.eval/scenario1";
+            weights = ["trusted"];
+            contract = "0x55526b860d8fc67bef7440e236c02231acb12d90";
+            break;
+        case "2":
+            target = "http://thesis.eval/scenario2";
+            weights = ["trusted", "known"];
+            contract = "0x55526b860d8fc67bef7440e236c02231acb12d90";
+            break;
+        case "3":
+            target = "http://thesis.eval/scenario3";
+            weights = ["trusted"];
+            contract = "0x55526b860d8fc67bef7440e236c02231acb12d90";
+            break;
+        case "4-1":
+            target = "http://thesis.eval/scenario4";
+            weights = ["trusted"];
+            contract = "0x55526b860d8fc67bef7440e236c02231acb12d90";
+            break;
+        case "4-2":
+            target = "http://thesis.eval/scenario4";
+            weights = ["trusted"];
+            contract = "0x75735b7a532108ea0760ba4b4841d399e16f1fd7";
+            break;
+        case "4-3":
+            target = "http://thesis.eval/scenario4";
+            weights = ["trusted", "known"];
+            contract = "0x55526b860d8fc67bef7440e236c02231acb12d90";
+            break;
+        case "5-1":
+            target = "http://thesis.eval/scenario5";
+            weights = ["trusted"];
+            contract = "0x55526b860d8fc67bef7440e236c02231acb12d90";
+            break;
+        case "5-2":
+            target = "http://thesis.eval/scenario5";
+            weights = ["trusted"];
+            contract = "0x78Af41B30Bd48d94965A8fc3fA563FE2950fD638";
+            break;
+        case "5-3":
+            target = "http://thesis.eval/scenario5";
+            weights = ["trusted", "linkback"];
+            contract = "0x55526b860d8fc67bef7440e236c02231acb12d90";
+            break;
+        default:
+            target = options.target;
+            weights = options.weights.split(",");
+            contract = options.parent.contract;
+            break;
+    }
 
-    let requestObs = Rx.from(rp("http://localhost:3001/contracts/"+program.contract+"/search?target="+target+"&links="+links));
+    target = encodeURIComponent(target);
+    weights = encodeURIComponent(JSON.stringify(weights));
+
+    let request = "http://localhost:3001/contracts/"+contract+"/search?target="+target+"&links="+weights;
+    let requestObs = Rx.from(rp(request));
+    
     requestObs.subscribe((res) => {
-        console.log(JSON.parse(res));
+        let out = JSON.parse(res);
+        out = {request, ...out};
+        console.log(JSON.stringify(out, undefined, 4));
     });
-}
+});
+
+program.command("timecost <size>").description("Evaluate the cost to store provenance data.")
+.option("-t, --target <target> ", "Target URI.", "https://github.com/vauvenal5/ProvNet-eval001")
+.option("-w, --weights <weights> ", "Weights to consider in search.", "trusted")
+.action((size, options) => {
+    let cost = new CostCounter(e => e.size);
+    let helper = new ScenarioHelper();
+    let start = Date.now();
+    helper.measure(size).subscribe(
+        event => cost.next(event),
+        err => console.log(err),
+        () => {
+            cost.complete();
+            console.log("Total runtime client: " + Date.now()-start);
+        }
+    )
+});
+
+program.parse(process.argv);

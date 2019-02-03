@@ -11,6 +11,12 @@
             "port": 9229
         },
         {
+            "type": "node",
+            "request": "attach",
+            "name": "Attach to eval script",
+            "port": 9230
+        },
+        {
             "type": "chrome",
             "request": "attach",
             "port": 9222,
