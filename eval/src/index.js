@@ -231,27 +231,31 @@ program.command("search [scenario]").description("Evaluate the cost to store pro
             break;
     }
 
-    target = encodeURIComponent(target);
-    weights = encodeURIComponent(JSON.stringify(weights));
+    // target = encodeURIComponent(target);
+    // weights = encodeURIComponent(JSON.stringify(weights));
 
-    let request = "http://localhost:3001/contracts/"+contract+"/search?target="+target+"&links="+weights;
-    let requestObs = Rx.from(rp(request));
+    let helper = new ScenarioHelper();
+    helper.runScenario("http://localhost:3001/contracts/"+contract+"/search", target, weights);
+
+    // let request = "http://localhost:3001/contracts/"+contract+"/search?target="+target+"&links="+weights;
+    // let requestObs = Rx.from(rp(request));
     
-    requestObs.subscribe((res) => {
-        let out = JSON.parse(res);
-        out = {request, ...out};
-        console.log(JSON.stringify(out, undefined, 4));
-    });
+    // requestObs.subscribe((res) => {
+    //     let out = JSON.parse(res);
+    //     out = {request, ...out};
+    //     console.log(JSON.stringify(out, undefined, 4));
+    // });
 });
 
 program.command("timecost <size>").description("Evaluate the cost to store provenance data.")
+.option("-r, --repeat <times> ", "How often to repeat search in measurement.", 100)
 .option("-t, --target <target> ", "Target URI.", "https://github.com/vauvenal5/ProvNet-eval001")
 .option("-w, --weights <weights> ", "Weights to consider in search.", "trusted")
 .action((size, options) => {
     let cost = new CostCounter(e => e.size);
     let helper = new ScenarioHelper();
     let start = Date.now();
-    helper.measure(size).subscribe(
+    helper.measure(size, options.repeat).subscribe(
         event => cost.next(event),
         err => console.log(err),
         () => {

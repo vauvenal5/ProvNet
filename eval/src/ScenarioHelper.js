@@ -12,16 +12,37 @@ export default class ScenarioHelper {
         this.addressMap["32"] = "0x1747bae0546a80818e974eb81e99c7846099dd12";
         this.addressMap["16"] = "0x330c2646ea6be38625ce3b15957738820b31370a";
 
-        this.target = encodeURIComponent("http://thesis.eval/scenario1");
-        this.weights = encodeURIComponent(JSON.stringify(["trusted", "known"]));
+        // this.target = encodeURIComponent("http://thesis.eval/scenario1");
+        // this.weights = encodeURIComponent(JSON.stringify(["trusted", "known"]));
+        this.target = "http://thesis.eval/scenario1";
+        this.weights = ["trusted", "known"];
+    }
+
+    runScenario(url, target, weights) {
+        let body = {
+            target,
+            links: weights
+        };
+        restHelper.postWithPullRetry(url, (resp) => url+"/"+resp.uuid, body).subscribe(res => {
+            //let out = JSON.parse(res);
+            let out = {request: { url, body }, ...res};
+            console.log(JSON.stringify(out, undefined, 4));
+        });
     }
     
-    measure(size) {
+    measure(size, times) {
         return Rx.of(size).pipe(
             concatMap(size => Rx.of(this.addressMap[size], Rx.queueScheduler).pipe(
-                repeat(100),
+                repeat(times),
                 concatMap(address => Rx.from(
-                    restHelper.get("http://localhost:3001/contracts/"+address+"/search?target="+this.target+"&links="+this.weights)
+                    restHelper.postWithPullRetry(
+                        "http://localhost:3001/contracts/"+address+"/search",
+                        (resp) => "http://localhost:3001/contracts/"+address+"/search/"+resp.uuid, {
+                            target: this.target,
+                            links: this.weights
+                        }
+                    )
+                    //restHelper.get("http://localhost:3001/contracts/"+address+"/search?target="+this.target+"&links="+this.weights)
                 ).pipe(
                     map(res => ({size, cost: res.results.time}))
                 ))
