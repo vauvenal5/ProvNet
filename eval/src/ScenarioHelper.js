@@ -44,7 +44,7 @@ export default class ScenarioHelper {
                     )
                     //restHelper.get("http://localhost:3001/contracts/"+address+"/search?target="+this.target+"&links="+this.weights)
                 ).pipe(
-                    map(res => ({size, cost: res.results.time}))
+                    map(res => ({event: size, size: res.searched.count, cost: res.results.time}))
                 ))
             ))
         );
