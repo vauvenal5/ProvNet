@@ -6,6 +6,7 @@ export default class ScenarioHelper {
 
     constructor() {
         this.addressMap = {};
+        this.addressMap["512"] = "0xd0f807c079140e064185239b1cf440c6d5c292f7";
         this.addressMap["256"] = "0x239249e1bb5859cb5214555e06dfb08260ee64ae";
         this.addressMap["128"] = "0x82a6f0217348ce9af9ea6d7d54aa41ddda06de3e";
         this.addressMap["64"] = "0x7487d90e1faff5c569ae99b1453adceaabd87c8a";
