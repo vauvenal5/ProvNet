@@ -73,7 +73,7 @@ program.command("deploy <network>").description("Deploys evaluation network.")
             },
             err => console.log(err),
             () => {                
-                linker.linkNetwork(network.searches.search512, 1).subscribe(
+                linker.linkNetwork(network.searches.search1024, 1).subscribe(
                     link => {
                         let linkAdded = link.receipt.events.LinkAdded;
                         if(linkAdded === undefined) {

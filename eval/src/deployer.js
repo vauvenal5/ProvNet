@@ -164,8 +164,10 @@ export default class Deployer extends PersistableHelper {
             this.deploySearch(128),
             this.deploySearch(256),
             this.deploySearch(512),
+            this.deploySearch(1024),
             (proj, dsg, infosys, instx, tu, search16, search32,
-                search64, search128, search256, search512) => {
+                search64, search128, search256, search512, search1024) => {
+                    search1024.tag = 2;
                     search512.tag = 2;
                     search256.tag = 2;
                     search128.tag = 2;
@@ -173,6 +175,7 @@ export default class Deployer extends PersistableHelper {
                     search32.tag = 2;
                     search16.tag = 2;
                     tu.tag = 2;
+                    //search1024.children.push(search512);
                     //search512.children.push(search256);
                     search256.children.push(search128);
                     search128.children.push(search64);
@@ -184,7 +187,8 @@ export default class Deployer extends PersistableHelper {
                     infosys.children.push(dsg);
                     dsg.children.push(proj);
 
-                    return new Network(proj, dsg, infosys, instx, tu, search16, search32, search64, search128, search256, search512);
+                    return new Network(proj, dsg, infosys, instx, tu, 
+                        search16, search32, search64, search128, search256, search512, search1024);
             }
         )
     }

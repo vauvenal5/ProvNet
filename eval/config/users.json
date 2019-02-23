@@ -12288,6 +12288,342 @@
             "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
             "role": "editor",
             "cost": 51457
+        },
+        "Uni1024-Inst0-Group18:trusted": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group18",
+            "address": "0x31085a2324701dc6389a5a329df04a3def1322fc",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "trusted",
+            "cost": 105123
+        },
+        "Uni1024-Inst0-Group18:known": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group18",
+            "address": "0x31085a2324701dc6389a5a329df04a3def1322fc",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "known",
+            "cost": 51393
+        },
+        "Uni1024-Inst0-Group18:editor": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group18",
+            "address": "0x31085a2324701dc6389a5a329df04a3def1322fc",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "editor",
+            "cost": 51457
+        },
+        "Uni1024-Inst0-Group17:trusted": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group17",
+            "address": "0x5bd6d9ecd3f1c7d6f19bfa04762ebfb34b082725",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "trusted",
+            "cost": 105123
+        },
+        "Uni1024-Inst0-Group17:known": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group17",
+            "address": "0x5bd6d9ecd3f1c7d6f19bfa04762ebfb34b082725",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "known",
+            "cost": 51393
+        },
+        "Uni1024-Inst0-Group17:editor": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group17",
+            "address": "0x5bd6d9ecd3f1c7d6f19bfa04762ebfb34b082725",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "editor",
+            "cost": 51457
+        },
+        "Uni1024-Inst0-Group16:trusted": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group16",
+            "address": "0x85ec7490085b863bc55c20eb12ae3f871720a416",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "trusted",
+            "cost": 105123
+        },
+        "Uni1024-Inst0-Group16:known": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group16",
+            "address": "0x85ec7490085b863bc55c20eb12ae3f871720a416",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "known",
+            "cost": 51393
+        },
+        "Uni1024-Inst0-Group16:editor": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group16",
+            "address": "0x85ec7490085b863bc55c20eb12ae3f871720a416",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "editor",
+            "cost": 51457
+        },
+        "Uni1024-Inst0-Group15:trusted": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group15",
+            "address": "0x6e68394f41fd4f8860e0c82a0b300526fd504403",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "trusted",
+            "cost": 105123
+        },
+        "Uni1024-Inst0-Group15:known": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group15",
+            "address": "0x6e68394f41fd4f8860e0c82a0b300526fd504403",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "known",
+            "cost": 51393
+        },
+        "Uni1024-Inst0-Group15:editor": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group15",
+            "address": "0x6e68394f41fd4f8860e0c82a0b300526fd504403",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "editor",
+            "cost": 51457
+        },
+        "Uni1024-Inst0-Group14:trusted": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group14",
+            "address": "0xd810b03ca9b65f618118739021f85dccd1505207",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "trusted",
+            "cost": 105123
+        },
+        "Uni1024-Inst0-Group14:known": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group14",
+            "address": "0xd810b03ca9b65f618118739021f85dccd1505207",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "known",
+            "cost": 51393
+        },
+        "Uni1024-Inst0-Group14:editor": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group14",
+            "address": "0xd810b03ca9b65f618118739021f85dccd1505207",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "editor",
+            "cost": 51457
+        },
+        "Uni1024-Inst0-Group13:trusted": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group13",
+            "address": "0x6b85e8210a35375845672902718413c1c01324b8",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "trusted",
+            "cost": 105123
+        },
+        "Uni1024-Inst0-Group13:editor": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group13",
+            "address": "0x6b85e8210a35375845672902718413c1c01324b8",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "editor",
+            "cost": 51457
+        },
+        "Uni1024-Inst0-Group13:known": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group13",
+            "address": "0x6b85e8210a35375845672902718413c1c01324b8",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "known",
+            "cost": 51393
+        },
+        "Uni1024-Inst0-Group12:trusted": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group12",
+            "address": "0xc25ae1808922c8bfec238b205779d01d85948692",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "trusted",
+            "cost": 105123
+        },
+        "Uni1024-Inst0-Group12:known": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group12",
+            "address": "0xc25ae1808922c8bfec238b205779d01d85948692",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "known",
+            "cost": 51393
+        },
+        "Uni1024-Inst0-Group12:editor": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group12",
+            "address": "0xc25ae1808922c8bfec238b205779d01d85948692",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "editor",
+            "cost": 51457
+        },
+        "Uni1024-Inst0-Group10:trusted": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group10",
+            "address": "0xb5e7a43b4b900461c3c1dbc40e890a9de4fbd7cd",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "trusted",
+            "cost": 105123
+        },
+        "Uni1024-Inst0-Group10:known": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group10",
+            "address": "0xb5e7a43b4b900461c3c1dbc40e890a9de4fbd7cd",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "known",
+            "cost": 51393
+        },
+        "Uni1024-Inst0-Group10:editor": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group10",
+            "address": "0xb5e7a43b4b900461c3c1dbc40e890a9de4fbd7cd",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "editor",
+            "cost": 51457
+        },
+        "Uni1024-Inst0-Group9:trusted": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group9",
+            "address": "0xe505e42e9007719ed24e5b9630ff74ed09361bcc",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "trusted",
+            "cost": 105123
+        },
+        "Uni1024-Inst0-Group9:known": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group9",
+            "address": "0xe505e42e9007719ed24e5b9630ff74ed09361bcc",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "known",
+            "cost": 51393
+        },
+        "Uni1024-Inst0-Group9:editor": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group9",
+            "address": "0xe505e42e9007719ed24e5b9630ff74ed09361bcc",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "editor",
+            "cost": 51457
+        },
+        "Uni1024-Inst0-Group8:trusted": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group8",
+            "address": "0x56b667036f28d0279fd9804facb6b4c9748c1fd8",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "trusted",
+            "cost": 105123
+        },
+        "Uni1024-Inst0-Group8:known": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group8",
+            "address": "0x56b667036f28d0279fd9804facb6b4c9748c1fd8",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "known",
+            "cost": 51393
+        },
+        "Uni1024-Inst0-Group8:editor": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group8",
+            "address": "0x56b667036f28d0279fd9804facb6b4c9748c1fd8",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "editor",
+            "cost": 51457
+        },
+        "Uni1024-Inst0-Group7:trusted": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group7",
+            "address": "0xc0b6a2e8f89bc524ca566f21bd24d7e488115971",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "trusted",
+            "cost": 105123
+        },
+        "Uni1024-Inst0-Group7:known": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group7",
+            "address": "0xc0b6a2e8f89bc524ca566f21bd24d7e488115971",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "known",
+            "cost": 51393
+        },
+        "Uni1024-Inst0-Group7:editor": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group7",
+            "address": "0xc0b6a2e8f89bc524ca566f21bd24d7e488115971",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "editor",
+            "cost": 51457
+        },
+        "Uni1024-Inst0-Group6:trusted": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group6",
+            "address": "0xa90485844852a3e17b36f090fa1a6d947afa3566",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "trusted",
+            "cost": 105123
+        },
+        "Uni1024-Inst0-Group6:known": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group6",
+            "address": "0xa90485844852a3e17b36f090fa1a6d947afa3566",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "known",
+            "cost": 51393
+        },
+        "Uni1024-Inst0-Group6:editor": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group6",
+            "address": "0xa90485844852a3e17b36f090fa1a6d947afa3566",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "editor",
+            "cost": 51457
+        },
+        "Uni1024-Inst0-Group5:trusted": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group5",
+            "address": "0xea1c79dbce2df7cac261d91502ef3058e368da9a",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "trusted",
+            "cost": 105123
+        },
+        "Uni1024-Inst0-Group5:known": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group5",
+            "address": "0xea1c79dbce2df7cac261d91502ef3058e368da9a",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "known",
+            "cost": 51393
+        },
+        "Uni1024-Inst0-Group5:editor": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group5",
+            "address": "0xea1c79dbce2df7cac261d91502ef3058e368da9a",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "editor",
+            "cost": 51457
+        },
+        "Uni1024-Inst0-Group4:trusted": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group4",
+            "address": "0xf54cb4847c948f69eb3c9962179d3ae899b769cd",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "trusted",
+            "cost": 105123
+        },
+        "Uni1024-Inst0-Group4:editor": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group4",
+            "address": "0xf54cb4847c948f69eb3c9962179d3ae899b769cd",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "editor",
+            "cost": 51457
+        },
+        "Uni1024-Inst0-Group4:known": {
+            "event": "RoleAdded",
+            "contract": "Uni1024-Inst0-Group4",
+            "address": "0xf54cb4847c948f69eb3c9962179d3ae899b769cd",
+            "user": "0x7ad12dc2595797f6fc595d4df49f67b960fb22e5",
+            "role": "known",
+            "cost": 51393
         }
     }
 }
